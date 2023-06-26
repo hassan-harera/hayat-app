@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         theme: lightThem,
         darkTheme: darkThem,
         themeMode: ThemeMode.light,
-        home: LoginScreen(),
+        home: startWidget,
     );
   }
 }
