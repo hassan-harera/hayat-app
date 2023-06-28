@@ -3,12 +3,10 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
-import 'package:hayat_eg/modules/StartApp/login/Login.dart';
-import 'package:hayat_eg/shared/component/constans.dart';
+import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../shared/Utils/Utils.dart';
-import '../outh.dart';
+import '../oauth.dart';
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key? key, required User user})

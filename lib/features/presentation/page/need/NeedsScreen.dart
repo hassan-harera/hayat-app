@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/component/component.dart';
-import '../../../../shared/component/constans.dart';
+import '../../../../shared/component/constants.dart';
 import '../notification/notificationScreen.dart';
 
 class NeedsScreen extends StatelessWidget {

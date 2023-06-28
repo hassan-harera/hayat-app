@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/modules/StartApp/login/Login.dart';
-import 'package:hayat_eg/modules/StartApp/registerScreen/RegisterCubit/registerState.dart';
-import '../../../../layout/HayatLayout/hayat-egLayout.dart';
-import '../../../../shared/component/component.dart';
-import '../../../../shared/component/constans.dart';
+import 'package:hayat_eg/features/presentation/page/login/Login.dart';
+import 'package:hayat_eg/features/presentation/page/signup/RegisterCubit/registerState.dart';
+import 'package:hayat_eg/shared/component/component.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 import '../RegisterCubit/rigistrCubit.dart';
 import '../phoneNumber/phoneNumberScreen.dart';
 

@@ -1,13 +1,10 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/features/presentation/page/signup/RegisterCubit/registerState.dart';
+import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/modules/StartApp/registerScreen/RegisterCubit/registerState.dart';
-
-import '../../../../shared/network/endPoints/endPint.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super((RegisterInitialState()));

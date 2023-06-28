@@ -1,15 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/features/presentation/page/login/Login.dart';
+import 'package:hayat_eg/features/presentation/page/on_boarding/on_bording_layout.dart';
+import 'package:hayat_eg/features/presentation/page/splash/Splash_view.dart';
 
-import '../../../../modules/StartApp/Splash/Splash_view.dart';
-import '../../../../modules/StartApp/login/Login.dart';
-import '../../../../modules/StartApp/on_bording/onBordingLayout.dart';
-import '../../../../outhFolder/google/outh.dart';
-import '../../../../outhFolder/google/userIngo/userInfo.dart';
-import '../../../../shared/component/constans.dart';
+import '../../../../shared/component/constants.dart';
 import '../../../../shared/network/local/Cash_helper/cash_helper.dart';
-import 'editProfil.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -153,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () {
                         Cash_helper.removeData(key: 'token').then((value) {
                           if (value) {
-                            myNavigateAndFinish(context, splashView());
+                            myNavigateAndFinish(context, SplashScreen());
                           }
                         });
                       }),

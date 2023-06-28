@@ -1,10 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/modules/StartApp/registerScreen/forgetPasswordFolder/ForgetPasswordCubit/ForgetPasswordCubit.dart';
-import 'package:hayat_eg/modules/StartApp/registerScreen/forgetPasswordFolder/ForgetPasswordCubit/forgetPasswordState.dart';
+import 'package:hayat_eg/features/presentation/page/signup/forgetPasswordFolder/ForgetPasswordCubit/ForgetPasswordCubit.dart';
+import 'package:hayat_eg/features/presentation/page/signup/forgetPasswordFolder/ForgetPasswordCubit/forgetPasswordState.dart';
 import 'package:hayat_eg/shared/component/component.dart';
-import '../../../../../shared/component/constans.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 import '../RestPassword/RestPassword.dart';
 
 class IdentityVerificationScreen extends StatefulWidget {

@@ -1,12 +1,7 @@
-import 'package:hayat_eg/models/food/foodCategory.dart';
-
-import 'package:hayat_eg/models/food/foodCategory.dart';
-
-import 'package:hayat_eg/models/food/foodCategory.dart';
-
-import '../../../helper/helper.dart';
-import '../../../models/food/food_unit.dart';
-import '../../../shared/network/endPoints/endPint.dart';
+import 'package:hayat_eg/features/data/model/food/foodCategory.dart';
+import 'package:hayat_eg/features/data/model/food/food_unit.dart';
+import 'package:hayat_eg/helper/helper.dart';
+import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 
 class FoodServices {
   Future<List<FoodUnit>> getFoodUnits() async {

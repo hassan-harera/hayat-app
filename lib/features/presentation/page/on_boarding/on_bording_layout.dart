@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
+import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../../../shared/component/constans.dart';
-import '../../../shared/network/local/Cash_helper/cash_helper.dart';
-import 'onBoradingScreen1.dart';
-import 'onBoardingScreen2.dart';
-import 'onBoardingSceen3.dart';
-import 'onBoradingScreen4.dart';
+import 'on_boarding_screen_1.dart';
+import 'on_boarding_screen_2.dart';
+import 'on_boarding_screen_3.dart';
+import 'on_boarding_screen_4.dart';
 import '../login/Login.dart';
 
 class BoardingData {

@@ -5,8 +5,8 @@ import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../shared/component/component.dart';
-import '../../shared/component/constans.dart';
-import '../HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
+import '../../shared/component/constants.dart';
+import '../HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../HayatLayout/LayOutCubit/LayoutState.dart';
 
 class BookCategoryScreen extends StatefulWidget {

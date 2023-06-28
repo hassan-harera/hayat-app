@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hayat_eg/shared/component/constans.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 
 class OnBoardingScreen3 extends StatelessWidget {
   const OnBoardingScreen3({super.key});

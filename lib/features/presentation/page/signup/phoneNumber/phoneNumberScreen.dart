@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/modules/StartApp/login/Login.dart';
 
 import '../../../../shared/component/component.dart';
-import '../../../../shared/component/constans.dart';
+import '../../../../shared/component/constants.dart';
 import '../RegisterCubit/registerState.dart';
 import '../RegisterCubit/rigistrCubit.dart';
 import '../phoneVerification/phoneVervicationScreen.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
-import 'package:hayat_eg/modules/StartApp/on_bording/onBordingLayout.dart';
+import 'package:hayat_eg/modules/StartApp/on_bording/on_bording_layout.dart';
 import 'package:hayat_eg/shared/BlocObserver.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/DioHelper.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';

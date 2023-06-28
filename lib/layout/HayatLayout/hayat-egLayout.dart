@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 
-import '../../shared/component/constans.dart';
+import '../../shared/component/constants.dart';
 import '../../features/presentation/page/notification/notificationScreen.dart';
 import '../Search/SearchScreen.dart';
-import 'LayOutCubit/HayatLaoutCubit.dart';
+import 'LayOutCubit/HayatLayoutCubit.dart';
 import 'LayOutCubit/LayoutState.dart';
 
 class HayatLayoutScreen extends StatelessWidget {

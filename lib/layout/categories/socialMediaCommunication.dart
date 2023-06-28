@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/presentation/page/donation/donations_screen.dart';
 
 import '../../features/data/model/donation/medicine/postMedicineServices.dart';
-import '../../shared/component/constans.dart';
+import '../../shared/component/constants.dart';
 
 class SocialMediaCommunication extends StatelessWidget {
   SocialMediaCommunication(

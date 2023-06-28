@@ -1,3 +1,5 @@
+import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
+
 class MedicineDonationRequest {
   String? title;
   String? description;
@@ -25,10 +27,6 @@ class MedicineDonationRequest {
       this.communicationMethod,
       this.description,
       this.title,
-      this.bookTitle,
-      this.foodUnitId,
-      this.foodCategoryId,
-      this.foodExpirationDate,
       this.telegramLink});
 
   MedicineDonationRequest.fromJson(Map<String, dynamic> json) {
@@ -37,10 +35,6 @@ class MedicineDonationRequest {
     communicationMethod = json['communication_method'];
     description = json['description'];
     title = json['title'];
-    bookTitle = json['book_title'];
-    foodUnitId = json['food_unit_id'];
-    foodCategoryId = json['food_category_id'];
-    foodExpirationDate = json['food_expiration_date'];
     telegramLink = json['telegram_link'];
   }
 
@@ -51,10 +45,6 @@ class MedicineDonationRequest {
     data['communication_method'] = this.communicationMethod;
     data['description'] = this.description;
     data['title'] = this.title;
-    data['book_title'] = this.bookTitle;
-    data['food_unit_id'] = this.foodUnitId;
-    data['food_category_id'] = this.foodCategoryId;
-    data['food_expiration_date'] = this.foodExpirationDate;
     data['telegram_link'] = this.telegramLink;
     return data;
   }

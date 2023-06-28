@@ -11,8 +11,8 @@ import '../../../../../services/getRequest/medicine/medicine-search.dart';
 import '../../../../data/model/donation/medicine/medicine-api-get.dart';
 import '../../../../../shared/Utils/Utils.dart';
 import '../../../../../shared/component/component.dart';
-import '../../../../../shared/component/constans.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
+import '../../../../../shared/component/constants.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 
 class MedicineCategoryScreen extends StatefulWidget {

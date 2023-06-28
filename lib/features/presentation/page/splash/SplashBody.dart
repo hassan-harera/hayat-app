@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../on_bording/onBordingLayout.dart';
+import '../on_bording/on_bording_layout.dart';
 
 class splashBody extends StatefulWidget {
   @override

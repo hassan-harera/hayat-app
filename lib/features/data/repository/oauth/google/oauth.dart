@@ -3,11 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
-import 'package:hayat_eg/modules/StartApp/login/Login.dart';
-import 'package:hayat_eg/modules/StartApp/on_bording/onBordingLayout.dart';
-
-import 'package:hayat_eg/outhFolder/google/userIngo/userInfo.dart';
+import 'package:hayat_eg/features/data/repository/oauth/google/userIngo/userInfo.dart';
 
 class AuthenticationTest {
   static Future<FirebaseApp> initializeFirebase({

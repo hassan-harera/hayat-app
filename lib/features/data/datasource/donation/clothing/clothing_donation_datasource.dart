@@ -2,6 +2,7 @@ import 'package:hayat_eg/features/data/model/clothing/clothesCategory.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothesSize.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothesType.dart';
 import 'package:hayat_eg/helper/helper.dart';
+import 'package:hayat_eg/models/medicineModel.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 
 class ClothesServices {

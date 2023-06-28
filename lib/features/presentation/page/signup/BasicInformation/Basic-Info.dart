@@ -1,8 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 
-import '../../../../shared/component/constans.dart';
+import '../../../../shared/component/constants.dart';
 import '../../login/Login.dart';
 import '../RegisterCubit/registerState.dart';
 import '../RegisterCubit/rigistrCubit.dart';

@@ -8,9 +8,9 @@ import 'package:hayat_eg/modules/StartApp/registerScreen/Register/register.dart'
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../layout/HayatLayout/hayat-egLayout.dart';
 import '../../../outhFolder/google/GoogleSignInButton.dart';
-import '../../../outhFolder/google/outh.dart';
+import '../../../outhFolder/google/oauth.dart';
 import '../../../shared/component/component.dart';
-import '../../../shared/component/constans.dart';
+import '../../../shared/component/constants.dart';
 import '../registerScreen/forgetPasswordFolder/forgetPassword/ForgetPassword.dart';
 import 'LoginCubit/LoginCubit.dart';
 import 'LoginCubit/LoginStates.dart';
