@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/layout/Notification/notificationScreen.dart';
 import 'package:hayat_eg/shared/component/component.dart';
-import '../../../shared/component/constans.dart';
-import '../../Notification/notificationScreen.dart';
+import 'package:hayat_eg/shared/component/constans.dart';
 
-class DonationScreen extends StatefulWidget {
-  DonationScreen({@required this.donationList, @required this.donationBuilder});
+class BookDonationScreen extends StatefulWidget {
+  BookDonationScreen(
+      {@required this.donationList, @required this.donationBuilder});
 
   List<itemBuilder>? donationList = [];
   itemBuilder? donationBuilder;
 
   @override
-  State<DonationScreen> createState() => _DonationScreenState();
+  State<BookDonationScreen> createState() => _BookDonationScreenState();
 }
 
-class _DonationScreenState extends State<DonationScreen> {
+class _BookDonationScreenState extends State<BookDonationScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

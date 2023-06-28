@@ -1,23 +1,38 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
+import 'package:get/get.dart';
+import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
+import 'package:hayat_eg/features/data/repository/donation/book_donation.dart';
+import 'package:hayat_eg/features/presentation/page/city_search.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_screen.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
+import 'package:hayat_eg/shared/component/constans.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../shared/component/component.dart';
-import '../../shared/component/constans.dart';
-import '../HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
-import '../HayatLayout/LayOutCubit/LayoutState.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
+import '../../../../../shared/component/component.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
+import 'package:flutter/material.dart';
 
-class BookCategoryScreen extends StatefulWidget {
+class BookDonationFormScreen extends StatefulWidget {
   @override
-  State<BookCategoryScreen> createState() => _BookCategoryScreenState();
+  State<BookDonationFormScreen> createState() => _BookDonationFormScreenState();
 }
 
-class _BookCategoryScreenState extends State<BookCategoryScreen> {
+class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   final formKey = GlobalKey<FormState>();
+
+  var titleController = TextEditingController();
   var descriptionController = TextEditingController();
+  var bookTitleController = TextEditingController();
+  var bookSubTitleController = TextEditingController();
+  late String communicationMethod;
+  late Long cityId;
+
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+  BookDonationRepository _bookDonationRepository = sl();
   Uint8List? _file;
 
   _selectImage(BuildContext context) async {
@@ -95,7 +110,7 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
             child: Scaffold(
                 appBar: AppBar(
                   title: const Text(
-                    'Book Category ',
+                    'Book Title',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
@@ -152,6 +167,7 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                 myStaticTextFormField(
                                   width: size.width - 160,
                                   hint: 'Title',
+                                  controller: titleController,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'please add Title';
@@ -171,7 +187,8 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                   return 'please add Book Category';
                                 }
                               },
-                              hint: 'Book Category',
+                              hint: 'Book Title',
+                              controller: bookTitleController,
                             ),
                             const SizedBox(
                               height: 15,
@@ -213,7 +230,7 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                     onChanged: (value) {
                                       layoutCubit.communicationTool = value;
                                       layoutCubit.changRadioValue();
-                                      //   setState(() {});
+                                      communicationMethod = 'CHAT';
                                     }),
                                 const Text(
                                   'chat',
@@ -229,7 +246,7 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                     onChanged: (value) {
                                       layoutCubit.communicationTool = value;
                                       layoutCubit.changRadioValue();
-                                      //  setState(() {});
+                                      communicationMethod = 'PHONE';
                                     }),
                                 const Text(
                                   'Phone',
@@ -245,7 +262,7 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                     onChanged: (value) {
                                       layoutCubit.communicationTool = value;
                                       layoutCubit.changRadioValue();
-                                      //   setState(() {});
+                                      communicationMethod = 'CHAT_AND_PHONE';
                                     }),
                                 const Text(
                                   'Phone-chat',
@@ -261,9 +278,7 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
                                     formKey.currentState!.save();
-
-                                    myNavigator(
-                                        context, const HayatLayoutScreen());
+                                    onSubmit();
                                   } else {
                                     setState(() {});
                                     autoValidateMode = AutovalidateMode.always;
@@ -281,5 +296,48 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
         },
       ),
     );
+  }
+
+  void onSubmit() {
+    final request = BookDonationRequest(
+      title: titleController.text,
+      description: descriptionController.text,
+      bookTitle: bookTitleController.text,
+      bookSubTitle: bookSubTitleController.text,
+      communicationMethod: communicationMethod,
+      cityId: 1,
+    );
+
+    final response = _bookDonationRepository.create(request);
+    response.onError((error, stackTrace) {});
+
+    response.then(
+        (value) => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BookDonationScreen(),
+                ),
+              )
+            }, onError: (error, stackTrace) {
+      stackTrace.printError();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(error.toString()),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    });
   }
 }

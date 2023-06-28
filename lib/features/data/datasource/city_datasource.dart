@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exceptions.dart';
 import '../../../core/error/api_error.dart';
-import '../model/city.dart';
+import '../model/city/city.dart';
 
 class CityDataSource {
   final String apiUrl = 'http://146.190.206.136:8080/api/v1/cities';

@@ -1,5 +1,5 @@
 import '../datasource/city_datasource.dart';
-import '../model/city.dart';
+import '../model/city/city.dart';
 
 class CityRepository {
   final CityDataSource cityDataSource;

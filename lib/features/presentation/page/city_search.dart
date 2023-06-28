@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../data/model/city.dart';
+import '../../data/model/city/city.dart';
 import '../../data/repository/CityRepository.dart';
 
 final sl = GetIt.instance;
@@ -39,12 +39,11 @@ class _SearchScreenState extends State<SearchScreen> {
         itemCount: _results?.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text(_results?[index].englishName ?? ''),
-            onTap: () {
-              _results?[index].id;
-              Navigator.pop(context, _results?[index]);
-            }
-          );
+              title: Text(_results?[index].englishName ?? ''),
+              onTap: () {
+                _results?[index].id;
+                Navigator.pop(context, _results?[index]);
+              });
         },
       ),
     );
