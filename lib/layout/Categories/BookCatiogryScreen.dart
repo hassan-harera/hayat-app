@@ -16,10 +16,9 @@ class BookCategoryScreen extends StatefulWidget {
 
 class _BookCategoryScreenState extends State<BookCategoryScreen> {
   final formKey = GlobalKey<FormState>();
-  var descriptionController = TextEditingController();
-  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+  var descriptionController=TextEditingController();
+  AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
   Uint8List? _file;
-
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
     return showDialog(
@@ -77,6 +76,8 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -89,7 +90,7 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
           final size = MediaQuery.of(context).size;
 
           return GestureDetector(
-            onTap: () {
+            onTap: (){
               FocusScope.of(context).unfocus();
             },
             child: Scaffold(
@@ -133,15 +134,12 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                                 padding: EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
+                                                        BorderRadius.circular(10),
                                                     image: DecorationImage(
-                                                      image:
-                                                          MemoryImage(_file!),
+                                                      image: MemoryImage(_file!),
                                                       fit: BoxFit.fill,
-                                                      alignment:
-                                                          FractionalOffset
-                                                              .topCenter,
+                                                      alignment: FractionalOffset
+                                                          .topCenter,
                                                     )),
                                               ),
                                             ),
@@ -160,8 +158,7 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                 ),
                               ],
                             ),
-                            myDescriptionTextFormField(
-                                controller: descriptionController),
+                            myDescriptionTextFormField(controller: descriptionController),
                             const SizedBox(
                               height: 15,
                             ),
@@ -262,11 +259,14 @@ class _BookCategoryScreenState extends State<BookCategoryScreen> {
                                   if (formKey.currentState!.validate()) {
                                     formKey.currentState!.save();
 
-                                    myNavigator(
-                                        context, const HayatLayoutScreen());
-                                  } else {
-                                    setState(() {});
-                                    autoValidateMode = AutovalidateMode.always;
+
+                                    myNavigator(context,
+                                        const HayatLayoutScreen());
+                                  }else{
+                                    setState(() {
+
+                                    });
+                                    autoValidateMode=AutovalidateMode.always;
                                   }
                                   //
                                 },

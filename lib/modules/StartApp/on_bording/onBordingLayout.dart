@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../shared/component/constans.dart';
 import '../../../shared/network/local/Cash_helper/cash_helper.dart';
-import '../../AboutUs/onBoradingScreen1.dart';
-import '../../AboutUs/onBoardingScreen2.dart';
-import '../../AboutUs/onBoardingSceen3.dart';
-import '../../AboutUs/onBoradingScreen4.dart';
+import 'onBoradingScreen1.dart';
+import 'onBoardingScreen2.dart';
+import 'onBoardingSceen3.dart';
+import 'onBoradingScreen4.dart';
 import '../login/Login.dart';
 
 class BoardingData {

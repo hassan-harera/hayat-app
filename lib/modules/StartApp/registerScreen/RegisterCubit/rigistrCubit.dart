@@ -17,7 +17,6 @@ class RegisterCubit extends Cubit<RegisterState> {
   bool obscure2 = true;
   void changeObscure1() {
     obscure1 = !obscure1;
-
     suffixIcon =
         obscure1 ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(RegisterChangeObscureState());
@@ -51,7 +50,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }) async {
     emit(RegisterLoadingState());
     http.Response response = await http.post(
-        Uri.parse('http://64.225.6.213:8080/api/v1/auth/signup'),
+        Uri.parse('$baseUrl/api/v1/auth/signup'),
         body: jsonEncode({
           "mobile": mobile,
           "first_name": firstName,
@@ -86,7 +85,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }) async {
     // emit(SetPhoneLoadingState());
     http.Response response = await http.post(
-        Uri.parse('$baseUrl/v1/otp/request?mobile=$mobile'),
+        Uri.parse('$baseUrl/api/v1/otp/request?mobile=$mobile'),
         body: jsonEncode({
           "mobile": mobile,
 
@@ -119,7 +118,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     // emit(OtpVerificationLoadingState());
     http.Response response = await http.post(
         Uri.parse(
-            'http://64.225.6.213:8080/api/v1/otp/validate?mobile=$mobile&otp=$otp'),
+            '$baseUrl/api/v1/otp/validate?mobile=$mobile&otp=$otp'),
         body: jsonEncode({
           "mobile": mobile,
           "otp": otp,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/modules/StartApp/registerScreen/RegisterCubit/registerState.dart';
@@ -52,28 +53,21 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
   }) async {
     emit(ForgetPasswordLoadingState());
     http.Response response = await http.post(
-        Uri.parse('http://64.225.6.213:8080/api/v1/auth/password-reset'),
+        Uri.parse('$baseUrl/api/v1/auth/password-reset'),
         body: jsonEncode({
           "mobile": mobile,
-          "password": newPassword,
+          "new_password": newPassword,
           "otp": otp
         }),
         headers: {
           'Content-Type': 'application/json',
         }
     );
+      if (response.body.isNotEmpty) {
+        json.decode(response.body);
+      }
+    emit(ForgetPasswordSuccessState());
 
-      var body = json.decode(response.body);
-
-    if (body['status'] == 'UNSUPPORTED_MEDIA_TYPE' ||
-        body['status'] == 'BAD_REQUEST' ||
-        body['status'] == 'CONFLICT'
-
-    ) {
-      emit(ForgetPasswordErrorState(body['message']));
-    } else if(body==null) {
-      emit(ForgetPasswordSuccessState());
-    }
   }
 
 
@@ -83,7 +77,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
   }) async {
     // emit(SetPhoneLoadingState());
     http.Response response = await http.post(
-        Uri.parse('http://64.225.6.213:8080/api/v1/otp/request?mobile=$mobile'),
+        Uri.parse('$baseUrl/api/v1/otp/request?mobile=$mobile'),
         body: jsonEncode({
           "mobile": mobile,
 
@@ -92,31 +86,61 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
           'Content-Type': 'application/json',
         }
     );
-    if(response.body.isNotEmpty) {
+    if (response.body.isNotEmpty) {
       json.decode(response.body);
     }
     emit(SetPhoneSuccessState());
-    // if (responseBode['status'] == 'UNSUPPORTED_MEDIA_TYPE' ||
-    //     responseBode['status'] == 'BAD_REQUEST' ||
-    //     responseBode['status'] == 'CONFLICT'
-    //
-    // ) {
-    //   emit(SetPhoneErrorState(responseBode['message']));
-    // } else {
-    //   emit(SetPhoneSuccessState());
-    // }
+
   }
 
 
-  void sendMobileAndOTPNumber({
+  // void sendMobileAndOTPNumber({
+  //   required String mobile,
+  //   required String otp,
+  //
+  // }) async {
+  //   // emit(OtpVerificationLoadingState());
+  //   http.Response response = await http.post(
+  //       Uri.parse(
+  //           '$baseUrl/api/v1/otp/validate?mobile=$mobile&otp=$otp'),
+  //       body: jsonEncode({
+  //         "mobile": mobile,
+  //         "otp": otp,
+  //
+  //       }),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       }
+  //   );
+  //   // var responseBode = json.decode(response.body);
+  //   if (response.body.isNotEmpty) {
+  //     json.decode(response.body);
+  //   }
+  //   emit(OtpVerificationSuccessState());
+  //     // if (responseBode['status'] == 'UNSUPPORTED_MEDIA_TYPE' ||
+  //     //     responseBode['status'] == 'BAD_REQUEST' ||
+  //     //     responseBode['status'] == 'CONFLICT'
+  //     // ) {
+  //     //   emit(OtpVerificationErrorState(responseBode['message']));
+  //     // }
+  //     // else if (responseBode == null) {
+  //     //   emit(OtpVerificationSuccessState());
+  //     // }
+  //     // else {
+  //     //   emit(OtpVerificationSuccessState());
+  //     // }
+  //   }
+
+
+  void oTPVerificationRegister({
     required String mobile,
     required String otp,
 
   }) async {
-    // emit(OtpVerificationLoadingState());
+
     http.Response response = await http.post(
         Uri.parse(
-            'http://64.225.6.213:8080/api/v1/otp/validate?mobile=$mobile&otp=$otp'),
+            '$baseUrl/api/v1/otp/validate?mobile=$mobile&otp=$otp'),
         body: jsonEncode({
           "mobile": mobile,
           "otp": otp,
@@ -131,19 +155,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
       json.decode(response.body);
     }
     emit(OtpVerificationSuccessState());
-      // if (responseBode['status'] == 'UNSUPPORTED_MEDIA_TYPE' ||
-      //     responseBode['status'] == 'BAD_REQUEST' ||
-      //     responseBode['status'] == 'CONFLICT'
-      // ) {
-      //   emit(OtpVerificationErrorState(responseBode['message']));
-      // }
-      // else if (responseBode == null) {
-      //   emit(OtpVerificationSuccessState());
-      // }
-      // else {
-      //   emit(OtpVerificationSuccessState());
-      // }
-    }
   }
 
 
+}

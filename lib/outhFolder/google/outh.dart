@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
+import 'package:hayat_eg/modules/StartApp/login/Login.dart';
+import 'package:hayat_eg/modules/StartApp/on_bording/onBordingLayout.dart';
 
 import 'package:hayat_eg/outhFolder/google/userIngo/userInfo.dart';
 
@@ -20,9 +22,9 @@ class AuthenticationTest {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>HayatLayoutScreen()
-        ),
-      );
+          builder: (context) =>UserInfoScreen(
+        user: user,
+      )));
     }
 
     return firebaseApp;

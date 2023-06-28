@@ -39,7 +39,7 @@ class _IdentityVerificationScreenState
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordStates>(
         listener: (context, state) {
           if (state is OtpVerificationSuccessState) {
-            myNavigateAndFinish(
+            myNavigator(
                 context,
                 resetPasswordScreen(
                   phoneNum: widget.phoneNumber,
@@ -156,7 +156,7 @@ class _IdentityVerificationScreenState
                               text: 'Verify',
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
-                                  forgetPasswordCubit.sendMobileAndOTPNumber(
+                                  forgetPasswordCubit.oTPVerificationRegister(
                                       mobile: widget.phoneNumber,
                                       otp: verificationController.text);
                                   formKey.currentState!.save();

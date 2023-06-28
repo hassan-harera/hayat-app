@@ -27,7 +27,7 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
       child: BlocConsumer<RegisterCubit,RegisterState>(
         listener: (context, state) {
           if(state is PhoneVerificationRegisterSuccessState){
-            myNavigateAndFinish(context, PhoneVerificationScreen(mobilController: phoneController.text,lastNameController: lastNameController,firstNameController: firstNameController,));
+            myNavigator(context, PhoneVerificationScreen(mobilController: phoneController.text,lastNameController: lastNameController,firstNameController: firstNameController,));
 
           }
           // else if (state is SetPhoneErrorState){

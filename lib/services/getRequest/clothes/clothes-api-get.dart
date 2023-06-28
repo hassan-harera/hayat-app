@@ -5,8 +5,8 @@ import '../../../helper/helper.dart';
 import '../../../models/Clothes/clothesCategory.dart';
 import '../../../models/Clothes/clothesSize.dart';
 import '../../../models/Clothes/clothesType.dart';
-import '../../../models/medicineModel.dart';
-import '../../../models/medicine_unit.dart';
+import '../../../models/Medicine/medicineModel.dart';
+import '../../../models/Medicine/medicine_unit.dart';
 
 class ClothesServices {
 

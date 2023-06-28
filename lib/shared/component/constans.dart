@@ -471,8 +471,8 @@ Widget itemCategory(BuildContext context)
     }
 
 
-    class itemBuilder extends StatelessWidget {
-       itemBuilder({required this.categoryName,required this.file,required this.description,required this.date}) ;
+    class ItemBuilder extends StatelessWidget {
+       ItemBuilder({super.key, required this.categoryName,required this.file,required this.description,required this.date}) ;
       final  String ? categoryName;
        late final   Uint8List?  file;
       final  String ? description;

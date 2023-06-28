@@ -6,7 +6,7 @@ import 'package:hayat_eg/layout/Categories/socialMediaCommunication.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:intl/intl.dart';
-import '../../models/medicine_unit.dart';
+import '../../models/Medicine/medicine_unit.dart';
 import '../../services/getRequest/medicine/medicine-search.dart';
 import '../../services/getRequest/medicine/medicine-api-get.dart';
 import '../../shared/Utils/Utils.dart';

@@ -1,18 +1,18 @@
+import 'dart:math';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/shared/component/component.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../../../shared/component/constans.dart';
-
 
 import '../ForgetPasswordCubit/ForgetPasswordCubit.dart';
 import '../ForgetPasswordCubit/forgetPasswordState.dart';
 import '../IdentityVerification/IdentityVerification.dart';
 
-
 class forgetPasswordScreen extends StatefulWidget {
   const forgetPasswordScreen({super.key});
-
 
   @override
   State<forgetPasswordScreen> createState() => _forgetPasswordScreenState();
@@ -21,26 +21,42 @@ class forgetPasswordScreen extends StatefulWidget {
 class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
   var formKey = GlobalKey<FormState>();
   var phoneController = TextEditingController();
-  AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
+  double progressNum = 0;
+  int progressNumber() {
+    var random = Random();
+    var randomNumber = random.nextInt(100);
+    print(randomNumber);
+    return randomNumber;
+  }
 
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ForgetPasswordCubit(),
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordStates>(
         listener: (context, state) {
-          if(state is SetPhoneSuccessState){
-            myNavigateAndFinish(context, IdentityVerificationScreen( phoneNumber: phoneController.text,));
+          if (state is SetPhoneSuccessState) {
+            myNavigator(
+                context,
+                IdentityVerificationScreen(
+                  phoneNumber: phoneController.text,
+                ));
+          } else if (state is SetPhoneErrorState) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      content: Text(
+                        state.errorMessage,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.red,
+                    ));
           }
-          // else if (state is SetPhoneErrorState){
-          //   showDialog(context: context, builder: (context) => AlertDialog(
-          //     content: Text(state.errorMessage,style: const TextStyle(color: Colors.white),),
-          //     backgroundColor: Colors.red,
-          //   ));
-          // }
         },
         builder: (context, state) {
-          ForgetPasswordCubit forgetPasswordCubit =ForgetPasswordCubit.get(context);
+          ForgetPasswordCubit forgetPasswordCubit =
+              ForgetPasswordCubit.get(context);
           return GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -67,8 +83,8 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
                                 alignment: AlignmentDirectional.bottomCenter,
                                 children: [
                                   Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.only(start: 35),
+                                    padding: const EdgeInsetsDirectional.only(
+                                        start: 35),
                                     child: Image.asset(
                                       'assets/lock.png',
                                       scale: 1.7,
@@ -123,10 +139,10 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
                             children: [
                               myStaticTextFormField(
                                 validator: (value) {
-                                  if (value!.length>11){
+                                  if (value!.length > 11) {
                                     return 'your password is  long';
-                                  }
-                                 else if (value.isEmpty || value.length != 11) {
+                                  } else if (value.isEmpty ||
+                                      value.length != 11) {
                                     return ' your password is too short';
                                   }
                                 },
@@ -134,7 +150,6 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
                                 hint: '01xx-xxx-xxxx',
                                 keyboardType: TextInputType.number,
                                 prefixIcon: Icons.phone,
-
                               ),
                               const SizedBox(
                                 height: 50,
@@ -145,21 +160,34 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
                                     text: 'Next',
                                     onTap: () {
                                       if (formKey.currentState!.validate()) {
-
-                                        forgetPasswordCubit.sendMobileNumber(mobile: phoneController.text);
+                                        forgetPasswordCubit.sendMobileNumber(
+                                            mobile: phoneController.text);
                                         formKey.currentState!.save();
                                       } else {
-                                        setState(() {
-
-                                        });
-
+                                        setState(() {});
                                         autoValidateMode =
                                             AutovalidateMode.always;
                                       }
                                     },
                                     radius: 30),
-                                fallback: (context) =>
-                                    const Center(child: CircularProgressIndicator()),
+                                fallback: (context) => Center(
+                                  child: CircularPercentIndicator(
+                                    animation: true,
+                                    animationDuration: 1000,
+                                    radius: 25,
+                                    backgroundColor: Colors.amber.shade200,
+                                    percent: .99,
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    center: Text(
+                                      '${progressNumber()}',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.amber),
+                                    ),
+                                    progressColor: Colors.amber,
+                                    lineWidth: 5,
+                                  ),
+                                ),
                               ),
                             ],
                           ),

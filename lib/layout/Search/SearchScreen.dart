@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:hayat_eg/models/medicine_unit.dart';
 
-import '../../models/medicineModel.dart';
+import 'package:hayat_eg/models/Medicine/medicine_unit.dart';
+
+import '../../models/Medicine/medicineModel.dart';
 import '../../services/getRequest/medicine/medicine-search.dart';
 import '../../services/getRequest/medicine/medicine-api-get.dart';
 import '../../styles/colors.dart';
