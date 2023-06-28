@@ -24,8 +24,6 @@ class HayatLayoutScreen extends StatelessWidget {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             floatingActionButton: Container(
-
-
               padding: const EdgeInsets.all(15.0),
               decoration: const BoxDecoration(
                 color: Colors.transparent,
@@ -207,12 +205,9 @@ class HayatLayoutScreen extends StatelessWidget {
               ),
             ),
             body: layoutCubit.screens[layoutCubit.currentIndex],
-
           );
         },
       ),
     );
   }
 }
-
-

@@ -12,15 +12,15 @@ class PostMedicine {
 
   PostMedicine(
       {this.quantity,
-        this.cityId,
-        this.communicationMethod,
-        this.description,
-        this.title,
-        this.bookTitle,
-        this.foodUnitId,
-        this.foodCategoryId,
-        this.foodExpirationDate,
-        this.telegramLink});
+      this.cityId,
+      this.communicationMethod,
+      this.description,
+      this.title,
+      this.bookTitle,
+      this.foodUnitId,
+      this.foodCategoryId,
+      this.foodExpirationDate,
+      this.telegramLink});
 
   PostMedicine.fromJson(Map<String, dynamic> json) {
     quantity = json['quantity'];

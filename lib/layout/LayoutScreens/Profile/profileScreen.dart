@@ -18,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isSigningIn = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

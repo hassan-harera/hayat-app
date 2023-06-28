@@ -10,19 +10,22 @@ import '../RegisterCubit/rigistrCubit.dart';
 
 class setPasswordScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
-  AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
   setPasswordScreen(
-      {super.key, required this.mobilController,
+      {super.key,
+      required this.mobilController,
       required this.firstNameController,
       required this.lastNameController,
       required this.otp});
+
   final String mobilController;
   final String firstNameController;
   final String lastNameController;
   final String otp;
   var set1PasswordController = TextEditingController();
   var set2PasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,9 +49,9 @@ class setPasswordScreen extends StatelessWidget {
         builder: (context, state) {
           RegisterCubit registerCubit = RegisterCubit.get(context);
           return AbsorbPointer(
-            absorbing: state is RegisterLoadingState ? true :false,
+            absorbing: state is RegisterLoadingState ? true : false,
             child: GestureDetector(
-              onTap: (){
+              onTap: () {
                 FocusScope.of(context).unfocus();
               },
               child: Scaffold(
@@ -122,27 +125,26 @@ class setPasswordScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                myStaticTextFormField(validator: (String? value) {
-                                  if (value!.isEmpty) {
-                                    return ' password is too short';
-                                  }
-                                },
+                                myStaticTextFormField(
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return ' password is too short';
+                                      }
+                                    },
                                     hint: '**********',
                                     keyboardType: TextInputType.visiblePassword,
                                     prefixIcon: CupertinoIcons.lock_open,
                                     controller: set1PasswordController,
-                                    obscure:  registerCubit.obscure1,
+                                    obscure: registerCubit.obscure1,
                                     suffixColor: registerCubit.obscure2
-                                        ?  Colors.amber
-                                        :  Colors.grey ,
+                                        ? Colors.amber
+                                        : Colors.grey,
                                     suffixIcon: registerCubit.obscure1
-                                        ?  Icons.visibility
-                                        :  Icons.visibility_off,
-                                    suffixFunction:(){
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    suffixFunction: () {
                                       registerCubit.changeObscure1();
-                                    }
-
-                                ),
+                                    }),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -156,36 +158,34 @@ class setPasswordScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                myStaticTextFormField(validator: (String? value) {
-                                  if (value!.isEmpty) {
-                                    return ' password is too short';
-                                  }
-                                },
+                                myStaticTextFormField(
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return ' password is too short';
+                                      }
+                                    },
                                     hint: '**********',
                                     keyboardType: TextInputType.visiblePassword,
                                     prefixIcon: CupertinoIcons.lock,
                                     controller: set2PasswordController,
-                                    obscure:  registerCubit.obscure2,
+                                    obscure: registerCubit.obscure2,
                                     suffixColor: registerCubit.obscure2
-                                        ?  Colors.amber
-                                        :  Colors.grey ,
+                                        ? Colors.amber
+                                        : Colors.grey,
                                     suffixIcon: registerCubit.obscure2
-                                        ?  Icons.visibility
-                                        :  Icons.visibility_off,
-                                    suffixFunction:(){
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    suffixFunction: () {
                                       registerCubit.changeObscure2();
-                                    }
-
-                                ),
+                                    }),
                               ],
                             ),
                           ),
                           const SizedBox(
                             height: 50,
                           ),
-
                           ConditionalBuilder(
-                            condition:state is! RegisterLoadingState,
+                            condition: state is! RegisterLoadingState,
                             builder: (context) => myButton(
                                 text: 'Sign Up',
                                 onTap: () {
@@ -207,11 +207,9 @@ class setPasswordScreen extends StatelessWidget {
                                   }
                                 },
                                 radius: 30),
-                            fallback: (context) =>
-                            const Center(child: CircularProgressIndicator()),
+                            fallback: (context) => const Center(
+                                child: CircularProgressIndicator()),
                           ),
-
-
                         ],
                       ),
                     ),

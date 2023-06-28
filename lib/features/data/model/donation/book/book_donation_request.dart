@@ -13,19 +13,20 @@ class BookDonationRequest {
   String? bookPublicationYear;
   String? bookLanguage;
 
-  BookDonationRequest({required this.title,
-    this.description,
-    required this.communicationMethod,
-    required this.cityId,
-    this.telegramLink,
-    this.whatsappLink,
-    this.quantity,
-    this.bookTitle,
-    this.bookSubTitle,
-    this.bookAuthor,
-    this.bookPublisher,
-    this.bookPublicationYear,
-    this.bookLanguage});
+  BookDonationRequest(
+      {required this.title,
+      this.description,
+      required this.communicationMethod,
+      required this.cityId,
+      this.telegramLink,
+      this.whatsappLink,
+      this.quantity,
+      this.bookTitle,
+      this.bookSubTitle,
+      this.bookAuthor,
+      this.bookPublisher,
+      this.bookPublicationYear,
+      this.bookLanguage});
 
   BookDonationRequest fromJson(Map<String, dynamic> json) {
     return BookDonationRequest(
@@ -41,8 +42,7 @@ class BookDonationRequest {
         bookAuthor: json['book_author'] as String,
         bookPublisher: json['book_publisher'] as String,
         bookPublicationYear: json['book_publication_year'] as String,
-        bookLanguage: json['book_language'] as String
-    );
+        bookLanguage: json['book_language'] as String);
   }
 
   Map<String, dynamic> toJson() {

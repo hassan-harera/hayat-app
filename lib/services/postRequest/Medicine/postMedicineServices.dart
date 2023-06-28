@@ -1,20 +1,18 @@
-
 import '../../../helper/helper.dart';
 import '../../../models/Medicine/postMedicine.dart';
 
-
 class PostMedicineDonation {
   Future<PostMedicine> postMedicineDonation({
-required int? quantity,
-required int? cityId,
-required String? communicationMethod,
-required String? description,
-required String? title,
-required String? bookTitle,
-required int? foodUnitId,
-required int? foodCategoryId,
-required String? foodExpirationDate,
-required String? telegramLink,
+    required int? quantity,
+    required int? cityId,
+    required String? communicationMethod,
+    required String? description,
+    required String? title,
+    required String? bookTitle,
+    required int? foodUnitId,
+    required int? foodCategoryId,
+    required String? foodExpirationDate,
+    required String? telegramLink,
     required String? token,
   }) async {
     Map<String, dynamic> data = await Api().post(
@@ -30,7 +28,6 @@ required String? telegramLink,
         'food_category_id': foodCategoryId,
         'food_expiration_date': foodExpirationDate,
         'telegram_link': telegramLink,
-
       },
       token: token,
     );

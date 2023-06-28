@@ -9,8 +9,6 @@ import 'package:hayat_eg/modules/StartApp/on_bording/onBordingLayout.dart';
 
 import 'package:hayat_eg/outhFolder/google/userIngo/userInfo.dart';
 
-
-
 class AuthenticationTest {
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,
@@ -20,15 +18,15 @@ class AuthenticationTest {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>UserInfoScreen(
-        user: user,
-      )));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => UserInfoScreen(
+                user: user,
+              )));
     }
 
     return firebaseApp;
   }
+
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
@@ -36,11 +34,11 @@ class AuthenticationTest {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     final GoogleSignInAccount? googleSignInAccount =
-    await googleSignIn.signIn();
+        await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+          await googleSignInAccount.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
@@ -49,22 +47,20 @@ class AuthenticationTest {
 
       try {
         final UserCredential userCredential =
-        await auth.signInWithCredential(credential);
+            await auth.signInWithCredential(credential);
 
         user = userCredential.user;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
             AuthenticationTest.customSnackBar(
-              content:
-              'The account already exists with a different credential',
+              content: 'The account already exists with a different credential',
             ),
           );
         } else if (e.code == 'invalid-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
             AuthenticationTest.customSnackBar(
-              content:
-              'Error occurred while accessing credentials. Try again.',
+              content: 'Error occurred while accessing credentials. Try again.',
             ),
           );
         }
@@ -96,6 +92,7 @@ class AuthenticationTest {
       );
     }
   }
+
   static SnackBar customSnackBar({required String content}) {
     return SnackBar(
       backgroundColor: Colors.black,
@@ -105,7 +102,4 @@ class AuthenticationTest {
       ),
     );
   }
-
-
 }
-

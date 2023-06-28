@@ -22,6 +22,7 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
   var formKey = GlobalKey<FormState>();
   var phoneController = TextEditingController();
   double progressNum = 0;
+
   int progressNumber() {
     var random = Random();
     var randomNumber = random.nextInt(100);
@@ -30,6 +31,7 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
   }
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -26,7 +26,8 @@ class MedicineDonation {
       communicationMethod: json['communication_method'] as String,
       cityId: json['city_id'] as int,
       quantity: json['quantity'] as int,
-      expirationDate: DateTime.parse(json['medicine_expiration_date'] as String),
+      expirationDate:
+          DateTime.parse(json['medicine_expiration_date'] as String),
       medicineUnitId: json['medicine_unit_id'] as int,
       medicineId: json['medicine_id'] as int,
     );

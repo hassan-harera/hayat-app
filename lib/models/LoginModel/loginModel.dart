@@ -1,25 +1,31 @@
-class LoginModel{
- late  String status;
- late String timestamp ;
- late String message ;
- late String debugMessage ;
- late String displayMessage ;
- late String code ;
- late String subErrors ;
- late String token ;
- // userData? data;
+class LoginModel {
+  late String status;
+  late String timestamp;
 
-LoginModel.fromJason(Map<String,dynamic> json){
- status=json['status'];
- timestamp=json['timestamp'];
- message=json['message'];
- debugMessage=json['debugMessage'];
- displayMessage=json['displayMessage'];
- code=json['code'];
- subErrors=json['subErrors'];
- //data= json['data'] !=null ? userData.fromJason(json['data']):null;
+  late String message;
 
-}
+  late String debugMessage;
+
+  late String displayMessage;
+
+  late String code;
+
+  late String subErrors;
+
+  late String token;
+
+  // userData? data;
+
+  LoginModel.fromJason(Map<String, dynamic> json) {
+    status = json['status'];
+    timestamp = json['timestamp'];
+    message = json['message'];
+    debugMessage = json['debugMessage'];
+    displayMessage = json['displayMessage'];
+    code = json['code'];
+    subErrors = json['subErrors'];
+    //data= json['data'] !=null ? userData.fromJason(json['data']):null;
+  }
 }
 // class userData
 // {

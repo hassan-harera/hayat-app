@@ -1,5 +1,3 @@
-
-
 class MedicineUnit {
   final int id;
   final bool active;

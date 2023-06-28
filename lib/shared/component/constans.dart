@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../layout/LayoutScreens/ItemScreen/ItemScreen.dart';
 
-
 void myNavigator(context, widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
+
 void myNavigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => widget),
       (route) => false,
     );
+
 myButton(
-        {
-        double width = double.infinity,
+        {double width = double.infinity,
         double height = 50,
         required String text,
         required Function onTap,
@@ -24,7 +24,6 @@ myButton(
     Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
-
         borderRadius: BorderRadius.circular(radius),
         color: color,
       ),
@@ -40,8 +39,7 @@ myButton(
               letterSpacing: 3,
               color: Colors.white,
               fontWeight: FontWeight.bold,
-               fontSize: 18
-          ),
+              fontSize: 18),
         ),
       ),
     );
@@ -100,19 +98,16 @@ Widget backIcon(context) => Padding(
       ),
     );
 
-
-
 Widget categoryProvider({
   required String image,
   required String text,
   double imageWidth = 120,
   double imageHeight = 140,
-  double width =140 ,
+  double width = 140,
   Color? imageColor,
 }) =>
     Container(
       width: width,
-
       decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.circular(10),
         color: Color(0xff20ADDC),
@@ -166,8 +161,6 @@ Widget categoryProvider({
 //     );
 //   }
 // }
-
-
 
 Widget myCard() => Stack(
       clipBehavior: Clip.none,
@@ -228,7 +221,7 @@ Widget myCard() => Stack(
 class sizeConfig {
   static double? screenWidth;
   static double? screenHeight;
-  static double ?defaultSize;
+  static double? defaultSize;
   static Orientation? orientation;
 
   void init(BuildContext context) {
@@ -266,7 +259,6 @@ Widget HayatLogo({
       ],
     );
 
-
 class mycustomCliper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -291,25 +283,21 @@ class mycustomCliper extends CustomClipper<Path> {
   }
 }
 
- SnackBar mySnackBar({required String content}) {
-return SnackBar(
-backgroundColor: Colors.black,
-content: Text(
-content,
-style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
-),
-);
+SnackBar mySnackBar({required String content}) {
+  return SnackBar(
+    backgroundColor: Colors.black,
+    content: Text(
+      content,
+      style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
+    ),
+  );
 }
 
 Widget defaultTextFormField({
   TextEditingController? controller,
   TextInputType? keyboardType = TextInputType.text,
-
   String? hint,
-
   bool obscure = false,
-
-
   Function? onsubmitted,
   Function? suffixFunction,
   required String? Function(String?)? validator,
@@ -323,15 +311,11 @@ Widget defaultTextFormField({
     Padding(
       padding: EdgeInsetsDirectional.only(bottom: 10),
       child: TextFormField(
-
         controller: controller,
-        style: const TextStyle(
-
-        ),
+        style: const TextStyle(),
         keyboardType: keyboardType,
         validator: validator,
         obscureText: obscure,
-
         onFieldSubmitted: (value) {
           onsubmitted!();
         },
@@ -343,15 +327,14 @@ Widget defaultTextFormField({
           ),
           suffixIcon: suffixIcon != null
               ? IconButton(
-              onPressed: () {
-                suffixFunction!();
-              },
-              icon: Icon(
-                suffixIcon,
-                color: suffixColor,
-              ))
+                  onPressed: () {
+                    suffixFunction!();
+                  },
+                  icon: Icon(
+                    suffixIcon,
+                    color: suffixColor,
+                  ))
               : null,
-
           hintText: hint,
           filled: true,
           enabledBorder: OutlineInputBorder(
@@ -376,226 +359,223 @@ Widget defaultTextFormField({
       ),
     );
 
-
-Widget itemCategory(BuildContext context)
-    {
-    final  size = MediaQuery.of(context).size;
-     return GestureDetector(
-       onTap: (){
-         myNavigator(context, ItemScreen(titleName: 'k'));
-       },
-       child: Container(
-         height: 155,
-         child: Row(
-           mainAxisAlignment: MainAxisAlignment.start,
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: [
-             Container(
-               height: 155,
-               width: size.width /3,
-               decoration: BoxDecoration(
-                   color: Color(0xffE3EAF2),
-                   border: Border.all(
-                     color: Color(0xffE3EAF2),
-                   ),
-                   borderRadius: BorderRadius.circular(20)),
-               child: Icon(
-                 Icons.image_outlined,
-                 color: Colors.black,
-                 size: 40,
-               ),
-             ),
-             SizedBox(
-               width: size.width / 20,
-             ),
-             Expanded(
-               child: SizedBox(
-
-                 child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   mainAxisSize: MainAxisSize.max,
-                   children: [
-                     Text(
-                       'Category Name',
-                       style: TextStyle(
-                         fontWeight: FontWeight.bold,
-                         fontSize: 22,
-                       ),
-                     ),
-                     SizedBox(
-                       width: size.height / 25,
-                     ),
-                     Text(
-                       'Mohamed Ahmed',
-                       style: TextStyle(
-                         color: Colors.grey,
-                         fontSize: 16,
-                       ),
-                     ),
-                     SizedBox(
-                       width: size.height / 25,
-                     ),
-                     Text(
-                       'Description food  food Donation Description food  food Donation Description food  food Donation',
-                       maxLines: 2,
-                       style: TextStyle(
-                         overflow: TextOverflow.ellipsis,
-                         fontSize: 18,
-                       ),
-                     ),
-                     Spacer(),
-                     Row(
-                       children: [
-                         Container(
-                           decoration: BoxDecoration(
-                             color: Color(0xffE3EAF2),
-                             border: Border.all(color: Color(0xff20ADDC)),
-                             borderRadius: BorderRadius.circular(20),
-                           ),
-                           height: size.height / 20,
-                           width: size.width / 3,
-                         ),
-                         Spacer(),
-                         Text('2 days lift'),
-                       ],
-                     ),
-                   ],
-                 ),
-               ),
-             ),
-
-           ],
-         ),
-       ),
-     );
-    }
-
-
-    class ItemBuilder extends StatelessWidget {
-       ItemBuilder({super.key, required this.categoryName,required this.file,required this.description,required this.date}) ;
-      final  String ? categoryName;
-       late final   Uint8List?  file;
-      final  String ? description;
-      final  String ? date;
-      @override
-      Widget build(BuildContext context) {
-        final  size = MediaQuery.of(context).size;
-
-        return GestureDetector(
-          onTap: (){
-            myNavigator(context, ItemScreen(titleName: categoryName));
-          },
-          child: Container(
-height: 155,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 155,
-                  width: size.width / 3,
-                  decoration: BoxDecoration(
-                      color: Color(0xffE3EAF2),
-                      border: Border.all(
-                        color: Color(0xffE3EAF2),
-                      ),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: file == null
-                      ? Image.asset(
-                    'assets/add-image.png',
-                    width: 100,
-                    height: 100,
-                  )
-                      : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: AspectRatio(
-                        aspectRatio: 478 / 451,
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: MemoryImage(file!),
-                                fit: BoxFit.fill,
-                                alignment: FractionalOffset
-                                    .topCenter,
-                              )),
-                        ),
-                      ),
-                    ),
-                  ),
+Widget itemCategory(BuildContext context) {
+  final size = MediaQuery.of(context).size;
+  return GestureDetector(
+    onTap: () {
+      myNavigator(context, ItemScreen(titleName: 'k'));
+    },
+    child: Container(
+      height: 155,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 155,
+            width: size.width / 3,
+            decoration: BoxDecoration(
+                color: Color(0xffE3EAF2),
+                border: Border.all(
+                  color: Color(0xffE3EAF2),
                 ),
-                SizedBox(
-                  width: size.width / 20,
-                ),
-                Expanded(
-                  child: SizedBox(
-
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          categoryName!,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                          ),
-                        ),
-                        SizedBox(
-                          width: size.height / 25,
-                        ),
-                        Text(
-                          'Mohamed Ahmed',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(
-                          width: size.height / 25,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            '$description ',
-                            maxLines: 2,
-                            style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffE3EAF2),
-                                border: Border.all(color: Color(0xff20ADDC)),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              height: size.height / 20,
-                              width: size.width / 3,
-                            ),
-                            Spacer(),
-                            Text('$date'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-              ],
+                borderRadius: BorderRadius.circular(20)),
+            child: Icon(
+              Icons.image_outlined,
+              color: Colors.black,
+              size: 40,
             ),
           ),
-        );
-      }
-    }
+          SizedBox(
+            width: size.width / 20,
+          ),
+          Expanded(
+            child: SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    'Category Name',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                  SizedBox(
+                    width: size.height / 25,
+                  ),
+                  Text(
+                    'Mohamed Ahmed',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(
+                    width: size.height / 25,
+                  ),
+                  Text(
+                    'Description food  food Donation Description food  food Donation Description food  food Donation',
+                    maxLines: 2,
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color(0xffE3EAF2),
+                          border: Border.all(color: Color(0xff20ADDC)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        height: size.height / 20,
+                        width: size.width / 3,
+                      ),
+                      Spacer(),
+                      Text('2 days lift'),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
+class ItemBuilder extends StatelessWidget {
+  ItemBuilder(
+      {super.key,
+      required this.categoryName,
+      required this.file,
+      required this.description,
+      required this.date});
+
+  final String? categoryName;
+  late final Uint8List? file;
+  final String? description;
+  final String? date;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return GestureDetector(
+      onTap: () {
+        myNavigator(context, ItemScreen(titleName: categoryName));
+      },
+      child: Container(
+        height: 155,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 155,
+              width: size.width / 3,
+              decoration: BoxDecoration(
+                  color: Color(0xffE3EAF2),
+                  border: Border.all(
+                    color: Color(0xffE3EAF2),
+                  ),
+                  borderRadius: BorderRadius.circular(20)),
+              child: file == null
+                  ? Image.asset(
+                      'assets/add-image.png',
+                      width: 100,
+                      height: 100,
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: AspectRatio(
+                          aspectRatio: 478 / 451,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: MemoryImage(file!),
+                                  fit: BoxFit.fill,
+                                  alignment: FractionalOffset.topCenter,
+                                )),
+                          ),
+                        ),
+                      ),
+                    ),
+            ),
+            SizedBox(
+              width: size.width / 20,
+            ),
+            Expanded(
+              child: SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      categoryName!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.height / 25,
+                    ),
+                    Text(
+                      'Mohamed Ahmed',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.height / 25,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Text(
+                        '$description ',
+                        maxLines: 2,
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xffE3EAF2),
+                            border: Border.all(color: Color(0xff20ADDC)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          height: size.height / 20,
+                          width: size.width / 3,
+                        ),
+                        Spacer(),
+                        Text('$date'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

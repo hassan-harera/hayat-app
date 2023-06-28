@@ -23,16 +23,18 @@ class UserInfoScreen extends StatefulWidget {
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
   late User _user;
+
   Route _routeToSignInScreen() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const HayatLayoutScreen(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const HayatLayoutScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = const Offset(-1.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
 
         var tween =
-        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),
@@ -102,13 +104,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 
-
-
   @override
   void initState() {
     _user = widget._user;
-    print(_user.getIdToken()) ;
-    print('#############################################################################################') ;
+    print(_user.getIdToken());
+    print(
+        '#############################################################################################');
     super.initState();
   }
 
@@ -294,7 +295,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 }
-
 
 //
 // class UserInfoScreen extends StatefulWidget {

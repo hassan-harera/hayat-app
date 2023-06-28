@@ -26,9 +26,9 @@ class FoodCategoryScreen extends StatefulWidget {
 
 class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
   var formKey = GlobalKey<FormState>();
-AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   var titleController = TextEditingController();
-int? categoryId;
+  int? categoryId;
   var descriptionController = TextEditingController();
 
   var categoryController = TextEditingController();
@@ -40,7 +40,7 @@ int? categoryId;
   var timeController = TextEditingController();
 
   String? sItem;
-  Uint8List ? myFile;
+  Uint8List? myFile;
 
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
@@ -98,8 +98,10 @@ int? categoryId;
       },
     );
   }
+
   final FirebaseMessaging fcm = FirebaseMessaging.instance;
-  String ?deviceToken;
+  String? deviceToken;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -119,7 +121,7 @@ int? categoryId;
         builder: (context, state) {
           LayoutCubit layoutCubit = LayoutCubit.get(context);
           return GestureDetector(
-            onTap: (){
+            onTap: () {
               FocusScope.of(context).unfocus();
             },
             child: Scaffold(
@@ -148,62 +150,61 @@ int? categoryId;
                                   onTap: () => _selectImage(context),
                                   child: myFile == null
                                       ? Image.asset(
-                                    'assets/add-image.png',
-                                    width: 100,
-                                    height: 100,
-                                  )
+                                          'assets/add-image.png',
+                                          width: 100,
+                                          height: 100,
+                                        )
                                       : Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      width: 100,
-                                      height: 100,
-                                      child: AspectRatio(
-                                        aspectRatio: 478 / 451,
-                                        child: Container(
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(10),
-                                              image: DecorationImage(
-                                                image: MemoryImage(myFile!),
-                                                fit: BoxFit.fill,
-                                                alignment: FractionalOffset
-                                                    .topCenter,
-                                              )),
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: 100,
+                                            height: 100,
+                                            child: AspectRatio(
+                                              aspectRatio: 478 / 451,
+                                              child: Container(
+                                                padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    image: DecorationImage(
+                                                      image:
+                                                          MemoryImage(myFile!),
+                                                      fit: BoxFit.fill,
+                                                      alignment:
+                                                          FractionalOffset
+                                                              .topCenter,
+                                                    )),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
                                 ),
                                 // const Spacer(),
                                 Expanded(
                                     child: myStaticTextFormField(
-                                      controller: titleController,
-                                      validator: (value){
-                                        if(value!.isEmpty){
-                                          return 'please inter title';
-                                        }
-                                      },
-
+                                  controller: titleController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'please inter title';
+                                    }
+                                  },
                                   hint: 'Title',
                                 )),
                               ],
                             ),
                             myDescriptionTextFormField(
-                              controller: descriptionController
-                            ),
+                                controller: descriptionController),
                             const SizedBox(
                               height: 15,
                             ),
                             SizedBox(
                                 width: double.infinity,
                                 child: FutureBuilder<List<FoodCategory>>(
-                                  future:
-                                  FoodServices().getFoodCategory(),
+                                  future: FoodServices().getFoodCategory(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      List<FoodCategory> data =
-                                      snapshot.data!;
+                                      List<FoodCategory> data = snapshot.data!;
                                       sItem = jsonEncode(
                                           data[0].englishName.toString());
                                       return DropdownButtonFormField(
@@ -215,53 +216,40 @@ int? categoryId;
                                         ),
                                         value: sItem.toString(),
                                         items: data
-                                            .map((item) =>
-                                            DropdownMenuItem(
+                                            .map((item) => DropdownMenuItem(
                                                 value: jsonEncode(item
                                                     .englishName
                                                     .toString()),
                                                 child: Text(
-                                                  jsonEncode(item
-                                                      .englishName
+                                                  jsonEncode(item.englishName
                                                       .toString()),
                                                 )))
                                             .toList(),
                                         onChanged: (item) {
-
                                           sItem = item;
 
-                                          categoryId=data[0].id;
+                                          categoryId = data[0].id;
                                         },
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled: true,
-                                            constraints:
-                                            const BoxConstraints(
+                                            constraints: const BoxConstraints(
                                                 maxHeight: 60),
                                             border: OutlineInputBorder(
                                               borderRadius:
-                                              BorderRadius.circular(
-                                                  10),
-                                              borderSide:
-                                              const BorderSide(
-                                                  color:
-                                                  Colors.amber),
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.amber),
                                             ),
-                                            enabledBorder:
-                                            OutlineInputBorder(
-                                                borderSide:
-                                                const BorderSide(
-                                                    color: Colors
-                                                        .white),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    color: Colors.white),
                                                 borderRadius:
-                                                BorderRadius
-                                                    .circular(
-                                                    10))),
+                                                    BorderRadius.circular(10))),
                                       );
                                     } else {
                                       return const Center(
-                                          child:
-                                          CircularProgressIndicator());
+                                          child: CircularProgressIndicator());
                                     }
                                   },
                                 )),
@@ -285,12 +273,11 @@ int? categoryId;
                                         SizedBox(
                                           width: size.width - 230,
                                           child: myStaticTextFormField(
-                                            validator: (value){
-                                              if(value!.isEmpty){
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
                                                 return 'please inter title';
                                               }
                                             },
-
                                             hint: 'food name ',
                                           ),
                                         ),
@@ -312,9 +299,10 @@ int? categoryId;
                                           height: 15,
                                         ),
                                         SizedBox(
-                                          width: 190,
-                                          child:ExprirationDate(controller: dateController,)
-                                        ),
+                                            width: 190,
+                                            child: ExprirationDate(
+                                              controller: dateController,
+                                            )),
                                       ],
                                     ),
                                   ],
@@ -332,12 +320,11 @@ int? categoryId;
                                       child: myStaticTextFormField(
                                         keyboardType: TextInputType.number,
                                         hint: 'Amount',
-                                        validator: (value){
-                                          if(value!.isEmpty){
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
                                             return 'please inter title';
                                           }
                                         },
-
                                       ),
                                     ),
                                     const SizedBox(
@@ -346,18 +333,16 @@ int? categoryId;
                                     SizedBox(
                                         width: 190,
                                         child: FutureBuilder<List<FoodUnit>>(
-                                          future:
-                                              FoodServices().getFoodUnits(),
+                                          future: FoodServices().getFoodUnits(),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               List<FoodUnit> data =
                                                   snapshot.data!;
-                                              sItem = jsonEncode(
-                                                  data[0].englishName.toString());
+                                              sItem = jsonEncode(data[0]
+                                                  .englishName
+                                                  .toString());
                                               return DropdownButtonFormField(
-
                                                 hint: const Text('Unit'),
-
                                                 iconEnabledColor: Colors.amber,
                                                 icon: const Icon(
                                                   Icons.keyboard_arrow_down,
@@ -367,9 +352,9 @@ int? categoryId;
                                                 items: data
                                                     .map((item) =>
                                                         DropdownMenuItem(
-                                                            value: jsonEncode(item
-                                                                .englishName
-                                                                .toString()),
+                                                            value: jsonEncode(
+                                                                item.englishName
+                                                                    .toString()),
                                                             child: Text(
                                                               jsonEncode(item
                                                                   .englishName
@@ -382,7 +367,6 @@ int? categoryId;
                                                 decoration: InputDecoration(
                                                     fillColor: Colors.white,
                                                     focusColor: Colors.amber,
-
                                                     filled: true,
                                                     constraints:
                                                         const BoxConstraints(
@@ -400,8 +384,9 @@ int? categoryId;
                                                         OutlineInputBorder(
                                                             borderSide:
                                                                 const BorderSide(
-                                                                    color: Colors
-                                                                        .white),
+                                                                    color:
+                                                                        Colors
+                                                                            .white),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -483,28 +468,48 @@ int? categoryId;
                                 text: 'Next',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
-                                    CreateMedicineDonation().postMedicineDonation(
-                                        communication_method:
-                                        layoutCubit.communicationTool.toString(),
-                                        quantity: quantityController.text,
-                                        city_id: 'city_id',
-                                        description: descriptionController.text,
-                                        state: 'state',
-                                        title: titleController.text,
-                                        medicine_unit_id: sItem.toString(),
-                                        medicine_id: 'medicine_id',
-                                        medicine_expiration_date:
-                                            dateController.text,
-                                        token: 'deviceToken');
-                                    myNavigator(context,
-                                         SocialMediaCommunication(file: myFile,date:dateController.text ,categoryName: layoutCubit.titleList[2],title: titleController.text, quantity: 1, cityId: 1, communicationMethod: layoutCubit.communicationTool.toString(), description: descriptionController.text, bookTitle: 'bookTitle', foodUnitId: 2, foodCategoryId: categoryId, foodExpirationDate: dateController.text));
+                                    CreateMedicineDonation()
+                                        .postMedicineDonation(
+                                            communication_method: layoutCubit
+                                                .communicationTool
+                                                .toString(),
+                                            quantity: quantityController.text,
+                                            city_id: 'city_id',
+                                            description:
+                                                descriptionController.text,
+                                            state: 'state',
+                                            title: titleController.text,
+                                            medicine_unit_id: sItem.toString(),
+                                            medicine_id: 'medicine_id',
+                                            medicine_expiration_date:
+                                                dateController.text,
+                                            token: 'deviceToken');
+                                    myNavigator(
+                                        context,
+                                        SocialMediaCommunication(
+                                            file: myFile,
+                                            date: dateController.text,
+                                            categoryName:
+                                                layoutCubit.titleList[2],
+                                            title: titleController.text,
+                                            quantity: 1,
+                                            cityId: 1,
+                                            communicationMethod: layoutCubit
+                                                .communicationTool
+                                                .toString(),
+                                            description:
+                                                descriptionController.text,
+                                            bookTitle: 'bookTitle',
+                                            foodUnitId: 2,
+                                            foodCategoryId: categoryId,
+                                            foodExpirationDate:
+                                                dateController.text));
                                     formKey.currentState!.save();
-                                  }else{
+                                  } else {
                                     setState(() {
-                                      autoValidateMode=AutovalidateMode.always;
-
+                                      autoValidateMode =
+                                          AutovalidateMode.always;
                                     });
-
                                   }
                                   //
                                 },

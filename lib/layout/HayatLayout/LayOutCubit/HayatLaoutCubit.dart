@@ -19,6 +19,7 @@ import 'LayoutState.dart';
 
 class LayoutCubit extends Cubit<LayoutStates> {
   LayoutCubit() : super(LayoutInitialState());
+
   static LayoutCubit get(context) => BlocProvider.of(context);
   var timeController = TextEditingController();
   var dateController = TextEditingController();
@@ -28,27 +29,27 @@ class LayoutCubit extends Cubit<LayoutStates> {
     'mg',
   ];
 
-  var key=GlobalKey();
+  var key = GlobalKey();
   String? selectedItem = 'kg';
-  Uint8List ?imageFile;
+  Uint8List? imageFile;
+
   Future imageFromGallery(BuildContext context) async {
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    imageFile= image as Uint8List? ;
+    imageFile = image as Uint8List?;
 
- emit(LayoutChoiceImageFromGalleryState ());
+    emit(LayoutChoiceImageFromGalleryState());
     Navigator.pop(context);
   }
 
   Future imageFromCamera(BuildContext context) async {
     var image = await ImagePicker().pickImage(source: ImageSource.camera);
 
-    imageFile=image.toString() as Uint8List?;
-    emit(LayoutChoiceImageFromCameraState ());
-    Navigator.pop(key.currentContext??context);
-
+    imageFile = image.toString() as Uint8List?;
+    emit(LayoutChoiceImageFromCameraState());
+    Navigator.pop(key.currentContext ?? context);
   }
 
- Future showOption(BuildContext context) {
+  Future showOption(BuildContext context) {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -90,12 +91,12 @@ class LayoutCubit extends Cubit<LayoutStates> {
   List<Widget> screens = [
     const HomeScreen(),
     DonationScreen(),
-
     NeedsScreen(),
     ProfileScreen(),
   ];
 
   int currentIndex = 0;
+
   void changIndex(int index) {
     currentIndex = index;
     emit(LayoutChangeModeState());
@@ -127,6 +128,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
   }
 
   late HomeModel homeModel;
+
   void getHomeData() {
     emit(LayoutLoadingState());
     DioHelper.getData(

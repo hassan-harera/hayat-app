@@ -63,8 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1068683024031',
     projectId: 'hayat-53db2',
     storageBucket: 'hayat-53db2.appspot.com',
-    androidClientId: '1068683024031-am5v4mttfvg075v6kpqjtf798alte0q3.apps.googleusercontent.com',
-    iosClientId: '1068683024031-lmf53foklhv0od81v2qan9psgh2k29ot.apps.googleusercontent.com',
+    androidClientId:
+        '1068683024031-am5v4mttfvg075v6kpqjtf798alte0q3.apps.googleusercontent.com',
+    iosClientId:
+        '1068683024031-lmf53foklhv0od81v2qan9psgh2k29ot.apps.googleusercontent.com',
     iosBundleId: 'com.example.untitled2',
   );
 }

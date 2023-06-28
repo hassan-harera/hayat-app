@@ -4,6 +4,7 @@ import '../../shared/component/constans.dart';
 
 class OnBoardingScreen4 extends StatelessWidget {
   const OnBoardingScreen4({super.key});
+
   @override
   Widget build(BuildContext context) {
     sizeConfig().init(context);
@@ -44,44 +45,28 @@ class OnBoardingScreen4 extends StatelessWidget {
                   children: const [
                     Text('We try to improve access to vital ',
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('medicines for those in need.',
                         style: TextStyle(
-                          fontSize: 20,
-                            fontWeight: FontWeight.w600
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('As a member of our team, you',
                         style: TextStyle(
-                          fontSize: 20,
-                            fontWeight: FontWeight.w600
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('will be making a direct and',
                         style: TextStyle(
-                          fontSize: 20,
-                            fontWeight: FontWeight.w600
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('meaningful impact on the lives of',
                         style: TextStyle(
-                          fontSize: 20,
-                            fontWeight: FontWeight.w600
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('people who may not have access',
                         style: TextStyle(
-                          fontSize: 20,
-                            fontWeight: FontWeight.w600
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('to the medicines they require to',
                         style: TextStyle(
-                          fontSize: 20,
-                            fontWeight: FontWeight.w600
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('maintain their health .',
                         style: TextStyle(
-                          fontSize: 20,
-                            fontWeight: FontWeight.w600
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                   ],
                 ),
               ],

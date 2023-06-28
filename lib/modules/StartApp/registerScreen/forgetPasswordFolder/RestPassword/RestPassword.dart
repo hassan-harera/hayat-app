@@ -1,6 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/shared/component/component.dart';
@@ -12,9 +11,9 @@ import '../../RegisterCubit/rigistrCubit.dart';
 import '../ForgetPasswordCubit/ForgetPasswordCubit.dart';
 import '../ForgetPasswordCubit/forgetPasswordState.dart';
 
-
 class resetPasswordScreen extends StatefulWidget {
   resetPasswordScreen({required this.phoneNum, required this.otp});
+
   final String phoneNum;
   final String otp;
 
@@ -38,18 +37,23 @@ class _resetPasswordScreenState extends State<resetPasswordScreen> {
       create: (context) => ForgetPasswordCubit(),
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordStates>(
         listener: (context, state) {
-          if(state is ForgetPasswordSuccessState){
-            myNavigateAndFinish(context,LoginScreen());
-          }
-          else if (state is ForgetPasswordErrorState){
-            showDialog(context: context, builder: (context) => AlertDialog(
-              content: Text(state.errorMessage,style: const TextStyle(color: Colors.white),),
-              backgroundColor: Colors.red,
-            ));
+          if (state is ForgetPasswordSuccessState) {
+            myNavigateAndFinish(context, LoginScreen());
+          } else if (state is ForgetPasswordErrorState) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      content: Text(
+                        state.errorMessage,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.red,
+                    ));
           }
         },
         builder: (context, state) {
-         ForgetPasswordCubit forgetPasswordCubit =ForgetPasswordCubit.get(context);
+          ForgetPasswordCubit forgetPasswordCubit =
+              ForgetPasswordCubit.get(context);
           return Scaffold(
             appBar: AppBar(
               leading: backIcon(context),
@@ -122,28 +126,25 @@ class _resetPasswordScreenState extends State<resetPasswordScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             myStaticTextFormField(
-
-
                                 validator: (String? value) {
                                   if (value!.isEmpty || value.length < 6) {
                                     return ' password is too short';
                                   }
                                 },
-                                controller:reset1PasswordController ,
+                                controller: reset1PasswordController,
                                 keyboardType: TextInputType.visiblePassword,
                                 prefixIcon: Icons.lock_outline,
                                 hint: '**********',
-                                obscure:forgetPasswordCubit.obscure1  ,
-                                suffixIcon:  forgetPasswordCubit.obscure1
-                                    ?
-                                (Icons.visibility_off):(Icons.visibility),
+                                obscure: forgetPasswordCubit.obscure1,
+                                suffixIcon: forgetPasswordCubit.obscure1
+                                    ? (Icons.visibility_off)
+                                    : (Icons.visibility),
                                 suffixFunction: () {
                                   forgetPasswordCubit.changeObscure1();
                                 },
                                 suffixColor: forgetPasswordCubit.obscure1
                                     ? Colors.grey
                                     : Colors.amber),
-
                             const SizedBox(
                               height: 10,
                             ),
@@ -161,26 +162,25 @@ class _resetPasswordScreenState extends State<resetPasswordScreen> {
                                 validator: (String? value) {
                                   if (value!.isEmpty || value.length < 6) {
                                     return ' password is too short';
-                                  }else if(reset1PasswordController.text!=reset2PasswordController.text){
+                                  } else if (reset1PasswordController.text !=
+                                      reset2PasswordController.text) {
                                     return 'Password is different';
-
                                   }
                                 },
                                 controller: reset2PasswordController,
-                                obscure:forgetPasswordCubit.obscure2 ,
+                                obscure: forgetPasswordCubit.obscure2,
                                 keyboardType: TextInputType.visiblePassword,
                                 prefixIcon: Icons.lock_outline,
                                 hint: '**********',
                                 suffixIcon: forgetPasswordCubit.obscure2
-                                    ?
-                                     (Icons.visibility_off):(Icons.visibility),
+                                    ? (Icons.visibility_off)
+                                    : (Icons.visibility),
                                 suffixFunction: () {
                                   forgetPasswordCubit.changeObscure2();
                                 },
                                 suffixColor: forgetPasswordCubit.obscure2
                                     ? Colors.grey
                                     : Colors.amber),
-
                           ],
                         ),
                       ),
@@ -196,12 +196,13 @@ class _resetPasswordScreenState extends State<resetPasswordScreen> {
                               print(widget.phoneNum);
                               print(reset2PasswordController.text);
                               if (formKey.currentState!.validate()) {
-                                forgetPasswordCubit.forgetPasswordWithApi(mobile:widget.phoneNum , newPassword: reset2PasswordController.text,otp: widget.otp );
+                                forgetPasswordCubit.forgetPasswordWithApi(
+                                    mobile: widget.phoneNum,
+                                    newPassword: reset2PasswordController.text,
+                                    otp: widget.otp);
                                 formKey.currentState!.save();
                               } else {
-                                setState(() {
-
-                                });
+                                setState(() {});
                                 autoValidateMode = AutovalidateMode.always;
                               }
                             },

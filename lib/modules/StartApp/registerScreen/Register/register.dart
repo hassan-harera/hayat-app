@@ -16,13 +16,14 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
-  AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+
   // var mobilController = TextEditingController();
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
+
   // var passwordController = TextEditingController();
   // var repeatPasswordController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         builder: (context, state) {
           RegisterCubit registerCubit = RegisterCubit.get(context);
           return GestureDetector(
-            onTap: (){
+            onTap: () {
               FocusScope.of(context).unfocus();
             },
             child: Scaffold(
@@ -108,15 +109,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       SizedBox(
                                         height: size.height / 80,
                                       ),
-
                                       SizedBox(
                                         height: size.height / 80,
                                       ),
-
                                       SizedBox(
                                         height: size.height / 80,
                                       ),
-
                                       SizedBox(
                                         height: size.height / 80,
                                       ),
@@ -130,12 +128,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   .validate()) {
                                                 formKey.currentState!.save();
 
-
-
-                                                myNavigator(context, PhoneScreen(firstNameController: firstNameController.text,lastNameController: lastNameController.text,));
-
-                                              }else{
-                                                autoValidateMode=AutovalidateMode.always;
+                                                myNavigator(
+                                                    context,
+                                                    PhoneScreen(
+                                                      firstNameController:
+                                                          firstNameController
+                                                              .text,
+                                                      lastNameController:
+                                                          lastNameController
+                                                              .text,
+                                                    ));
+                                              } else {
+                                                autoValidateMode =
+                                                    AutovalidateMode.always;
                                               }
                                             },
                                             radius: 30),

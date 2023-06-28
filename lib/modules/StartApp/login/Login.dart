@@ -27,13 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
   var passwordController = TextEditingController();
   final FirebaseMessaging fcm = FirebaseMessaging.instance;
   String? deviceToken;
-  double progressNum=0;
+  double progressNum = 0;
+
   int progressNumber() {
     var random = Random();
-    var randomNumber = random.nextInt(41) +40;
+    var randomNumber = random.nextInt(41) + 40;
     print(randomNumber);
-    return randomNumber ;
-
+    return randomNumber;
   }
 
   @override
@@ -41,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     fcm.getToken().then((token) {
       deviceToken = token;
       print('the device token is :$token');
-
     });
   }
 
@@ -133,8 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       prefixIcon: (Icons.email_outlined),
                                       controller: subjectController,
                                       hint: 'Example@gmail.com',
-                                      keyboardType:
-                                          TextInputType.emailAddress,
+                                      keyboardType: TextInputType.emailAddress,
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return " Email Address is Required";
@@ -170,8 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       },
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         defaultTextBottom(
                                             text: 'Forget Password?',
@@ -216,35 +213,46 @@ class _LoginScreenState extends State<LoginScreen> {
                                       children: [
                                         //new one
                                         FutureBuilder(
-                                             future: AuthenticationTest
-                                                 .initializeFirebase(
-                                                     context: context),
-                                             builder: (context, snapshot) {
-                                               if (snapshot.hasError) {
-                                                 return const Text(
-                                                     'Error initializing Firebase');
-                                               } else if (snapshot.connectionState == ConnectionState.done) {
-                                                 return Expanded(child: GoogleSignInButton());
-                                               }
-                                               return Padding(
-                                                 padding:  EdgeInsetsDirectional.only(start: size.width/8,end: size.width/8 ),
-                                                 child: CircularPercentIndicator(
-                                                   animation: true,
-                                                   animationDuration: 1000,
-                                                   radius: 25,
-                                                   backgroundColor: Colors.amber.shade200,
-                                                   percent: .99,
-                                                   circularStrokeCap: CircularStrokeCap.round,
-                                                   center:  Text('${progressNumber()}',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.amber),),
-
-
-                                                   progressColor: Colors.amber,
-                                                   lineWidth: 5,
-
-                                                 ),
-                                               );
-                                             },
-                                           ),
+                                          future: AuthenticationTest
+                                              .initializeFirebase(
+                                                  context: context),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasError) {
+                                              return const Text(
+                                                  'Error initializing Firebase');
+                                            } else if (snapshot
+                                                    .connectionState ==
+                                                ConnectionState.done) {
+                                              return Expanded(
+                                                  child: GoogleSignInButton());
+                                            }
+                                            return Padding(
+                                              padding:
+                                                  EdgeInsetsDirectional.only(
+                                                      start: size.width / 8,
+                                                      end: size.width / 8),
+                                              child: CircularPercentIndicator(
+                                                animation: true,
+                                                animationDuration: 1000,
+                                                radius: 25,
+                                                backgroundColor:
+                                                    Colors.amber.shade200,
+                                                percent: .99,
+                                                circularStrokeCap:
+                                                    CircularStrokeCap.round,
+                                                center: Text(
+                                                  '${progressNumber()}',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.amber),
+                                                ),
+                                                progressColor: Colors.amber,
+                                                lineWidth: 5,
+                                              ),
+                                            );
+                                          },
+                                        ),
                                         SizedBox(
                                           width: size.width / 80,
                                         ),
@@ -254,12 +262,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                               backgroundColor:
                                                   MaterialStateProperty.all(
                                                       Colors.white),
-                                              shape:
-                                                  MaterialStateProperty.all(
+                                              shape: MaterialStateProperty.all(
                                                 RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          40),
+                                                      BorderRadius.circular(40),
                                                 ),
                                               ),
                                             ),
@@ -272,8 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .center,
+                                                      MainAxisAlignment.center,
                                                   children: <Widget>[
                                                     Image(
                                                       image: AssetImage(
@@ -289,8 +294,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                           'facebook sign in',
                                                           style: TextStyle(
                                                             fontSize: 14,
-                                                            color: Colors
-                                                                .black54,
+                                                            color:
+                                                                Colors.black54,
                                                           ),
                                                         ),
                                                       ),
@@ -315,8 +320,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const Text('Don\'t have an account?'),
                                   defaultTextBottom(
                                       function: () {
-                                        myNavigator(
-                                            context, RegisterScreen());
+                                        myNavigator(context, RegisterScreen());
                                       },
                                       text: 'Sign up'),
                                 ],

@@ -15,8 +15,7 @@ import '../../../shared/network/endPoints/endPint.dart';
 
 class MedicineServices {
   Future<List<MedicineUnit>> getMedicineUnits() async {
-    List<dynamic> data =
-        await Api().get(url: '$baseUrl/api/v1/medicine/units');
+    List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/medicine/units');
     List<MedicineUnit> unitList = [];
     for (int i = 0; i < data.length; i++) {
       unitList.add(
@@ -26,10 +25,8 @@ class MedicineServices {
     return unitList;
   }
 
-
   Future<List<ClothesSize>> getClothesSize() async {
-    List<dynamic> data =
-    await Api().get(url: '$baseUrl/api/v1/clothing/sizes');
+    List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/clothing/sizes');
     List<ClothesSize> clothesSize = [];
     for (int i = 0; i < data.length; i++) {
       clothesSize.add(
@@ -41,7 +38,7 @@ class MedicineServices {
 
   Future<List<ClothesCategory>> getClothesCategory() async {
     List<dynamic> data =
-    await Api().get(url:'$baseUrl/api/v1/clothing/categories');
+        await Api().get(url: '$baseUrl/api/v1/clothing/categories');
     List<ClothesCategory> clothesCategory = [];
     for (int i = 0; i < data.length; i++) {
       clothesCategory.add(
@@ -52,8 +49,7 @@ class MedicineServices {
   }
 
   Future<List<ClothesType>> getClothesType() async {
-    List<dynamic> data =
-    await Api().get(url: '$baseUrl/api/v1/clothing/types');
+    List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/clothing/types');
     List<ClothesType> clothesType = [];
     for (int i = 0; i < data.length; i++) {
       clothesType.add(
@@ -65,7 +61,7 @@ class MedicineServices {
 
   Future<List<MedicineModel>> getListMedicineName() async {
     List<dynamic> data =
-        await Api().get(url:'http://64.225.6.213:8085/api/v1/medicines');
+        await Api().get(url: 'http://64.225.6.213:8085/api/v1/medicines');
     List<MedicineModel> listMedicine = [];
     for (int i = 0; i < data.length; i++) {
       listMedicine.add(MedicineModel.fromJson(data[i]));

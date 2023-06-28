@@ -17,7 +17,6 @@ class basicInformationScreen extends StatelessWidget {
   var lastNameController = TextEditingController();
   var emaileController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -25,14 +24,13 @@ class basicInformationScreen extends StatelessWidget {
       child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {},
         builder: (context, state) {
-          RegisterCubit registertCubit =  RegisterCubit .get(context);
+          RegisterCubit registertCubit = RegisterCubit.get(context);
           return Scaffold(
             appBar: AppBar(
               leading: backIcon(context),
             ),
             body: Center(
               child: SingleChildScrollView(
-
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -112,7 +110,6 @@ class basicInformationScreen extends StatelessWidget {
                                 onFieldSubmitted: (value) {
                                   if (formKey.currentState!.validate()) {
                                     // LoginCubit.get(context).userLogin(email: emailController.text, password: PasswordController.text);
-
                                   }
                                 },
                                 keyboardType: TextInputType.visiblePassword,
@@ -160,7 +157,6 @@ class basicInformationScreen extends StatelessWidget {
                                 onFieldSubmitted: (value) {
                                   if (formKey.currentState!.validate()) {
                                     // LoginCubit.get(context).userLogin(email: emailController.text, password: PasswordController.text);
-
                                   }
                                 },
                                 keyboardType: TextInputType.visiblePassword,
@@ -207,7 +203,6 @@ class basicInformationScreen extends StatelessWidget {
                                 onFieldSubmitted: (value) {
                                   if (formKey.currentState!.validate()) {
                                     // LoginCubit.get(context).userLogin(email: emailController.text, password: PasswordController.text);
-
                                   }
                                 },
                                 keyboardType: TextInputType.emailAddress,
@@ -227,8 +222,7 @@ class basicInformationScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Checkbox(
-
-                                    value:registertCubit.checked ,
+                                    value: registertCubit.checked,
                                     onChanged: (value) {
                                       registertCubit.changeCheckbox(value);
                                     }),
@@ -238,7 +232,6 @@ class basicInformationScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-
                       const SizedBox(
                         height: 50,
                       ),
@@ -248,17 +241,14 @@ class basicInformationScreen extends StatelessWidget {
                             text: 'Verifiay',
                             onTap: () {
                               if ((formKey.currentState!.validate())) {
-                                if((registertCubit.checked==true)){
+                                if ((registertCubit.checked == true)) {
                                   myNavigator(context, LoginScreen());
                                 }
-
-
 
                                 //
                                 // LoginCubit.get(context).userLogin(
                                 //     email: emailController.text,
                                 //     password: PasswordController.text);
-
                               }
                             },
                             radius: 30),

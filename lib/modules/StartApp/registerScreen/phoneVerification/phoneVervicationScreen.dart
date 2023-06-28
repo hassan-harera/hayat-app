@@ -10,9 +10,11 @@ import '../SetPassword/SetPassword.dart';
 
 class PhoneVerificationScreen extends StatelessWidget {
   PhoneVerificationScreen(
-      {super.key, required this.mobilController,
+      {super.key,
+      required this.mobilController,
       required this.firstNameController,
       required this.lastNameController});
+
   final String mobilController;
   final String firstNameController;
   final String lastNameController;
@@ -20,6 +22,7 @@ class PhoneVerificationScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   bool obscure = false;
   var verificationController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -114,23 +117,20 @@ class PhoneVerificationScreen extends StatelessWidget {
                       Form(
                         key: formKey,
                         autovalidateMode: autoValidateMode,
-                        child:myStaticTextFormField(validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return ' Please Enter Code';
-                          } else if (value.length != 6) {
-                            return ' Please Enter Correct code';
-                          }
-                        },
+                        child: myStaticTextFormField(
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return ' Please Enter Code';
+                            } else if (value.length != 6) {
+                              return ' Please Enter Correct code';
+                            }
+                          },
                           prefixIcon: CupertinoIcons.person,
                           hint: '******',
                           controller: verificationController,
                           filled: true,
                           keyboardType: TextInputType.number,
                           obscure: obscure,
-
-
-
-
                         ),
                       ),
                       const SizedBox(

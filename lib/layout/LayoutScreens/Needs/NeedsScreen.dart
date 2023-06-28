@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../shared/component/component.dart';
@@ -13,7 +12,7 @@ class NeedsScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.only(top:10, left: 10,right: 10),
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10),
           child: Column(
             children: [
               Row(
@@ -31,8 +30,7 @@ class NeedsScreen extends StatelessWidget {
                           hintColor: Color(0xff848B94),
                           backGroundColor: Color(0xffCED9E9),
                           borderColor: Color(0xffCED9E9),
-                          height: 50
-                      )),
+                          height: 50)),
                   SizedBox(
                     width: size.width / 40,
                   ),
@@ -48,16 +46,20 @@ class NeedsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
-              Expanded(child: ListView.builder(
-                padding: EdgeInsets.all(0),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => Padding(
-                    padding:  EdgeInsets.only(bottom: size.height / 30,),
-                    child: itemCategory(context),
-                  ), itemCount: 60)),
-
-
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                  child: ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: size.height / 30,
+                            ),
+                            child: itemCategory(context),
+                          ),
+                      itemCount: 60)),
             ],
           ),
         ),

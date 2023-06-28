@@ -15,7 +15,6 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
 
   static ForgetPasswordCubit get(context) => BlocProvider.of(context);
 
-
   IconData suffixIcon = Icons.visibility_outlined;
   bool obscure1 = true;
   bool obscure2 = true;
@@ -24,17 +23,16 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
     obscure1 = !obscure1;
 
     suffixIcon =
-    obscure1 ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+        obscure1 ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(ForgetPasswordChangeObscureState());
   }
 
   void changeObscure2() {
     obscure2 = !obscure2;
     suffixIcon =
-    obscure2 ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+        obscure2 ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(ForgetPasswordChangeObscureState());
   }
-
 
   bool checked = false;
 
@@ -48,51 +46,38 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
     required String mobile,
     required String newPassword,
     required String otp,
-
-
   }) async {
     emit(ForgetPasswordLoadingState());
     http.Response response = await http.post(
         Uri.parse('$baseUrl/api/v1/auth/password-reset'),
-        body: jsonEncode({
-          "mobile": mobile,
-          "new_password": newPassword,
-          "otp": otp
-        }),
+        body: jsonEncode(
+            {"mobile": mobile, "new_password": newPassword, "otp": otp}),
         headers: {
           'Content-Type': 'application/json',
-        }
-    );
-      if (response.body.isNotEmpty) {
-        json.decode(response.body);
-      }
+        });
+    if (response.body.isNotEmpty) {
+      json.decode(response.body);
+    }
     emit(ForgetPasswordSuccessState());
-
   }
-
 
   void sendMobileNumber({
     required String mobile,
-
   }) async {
     // emit(SetPhoneLoadingState());
-    http.Response response = await http.post(
-        Uri.parse('$baseUrl/api/v1/otp/request?mobile=$mobile'),
-        body: jsonEncode({
-          "mobile": mobile,
-
-        }),
-        headers: {
+    http.Response response =
+        await http.post(Uri.parse('$baseUrl/api/v1/otp/request?mobile=$mobile'),
+            body: jsonEncode({
+              "mobile": mobile,
+            }),
+            headers: {
           'Content-Type': 'application/json',
-        }
-    );
+        });
     if (response.body.isNotEmpty) {
       json.decode(response.body);
     }
     emit(SetPhoneSuccessState());
-
   }
-
 
   // void sendMobileAndOTPNumber({
   //   required String mobile,
@@ -131,31 +116,23 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
   //     // }
   //   }
 
-
   void oTPVerificationRegister({
     required String mobile,
     required String otp,
-
   }) async {
-
-    http.Response response = await http.post(
-        Uri.parse(
-            '$baseUrl/api/v1/otp/validate?mobile=$mobile&otp=$otp'),
-        body: jsonEncode({
-          "mobile": mobile,
-          "otp": otp,
-
-        }),
-        headers: {
+    http.Response response = await http
+        .post(Uri.parse('$baseUrl/api/v1/otp/validate?mobile=$mobile&otp=$otp'),
+            body: jsonEncode({
+              "mobile": mobile,
+              "otp": otp,
+            }),
+            headers: {
           'Content-Type': 'application/json',
-        }
-    );
+        });
     // var responseBode = json.decode(response.body);
     if (response.body.isNotEmpty) {
       json.decode(response.body);
     }
     emit(OtpVerificationSuccessState());
   }
-
-
 }

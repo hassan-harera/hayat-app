@@ -51,6 +51,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   Widget startWidget;
+
   MyApp({
     required this.startWidget,
   });
@@ -58,11 +59,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: lightThem,
-        darkTheme: darkThem,
-        themeMode: ThemeMode.light,
-        home: LoginScreen(),
+      debugShowCheckedModeBanner: false,
+      theme: lightThem,
+      darkTheme: darkThem,
+      themeMode: ThemeMode.light,
+      home: LoginScreen(),
     );
   }
 }

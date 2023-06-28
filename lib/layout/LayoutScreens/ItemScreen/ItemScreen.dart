@@ -8,25 +8,30 @@ class ItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         actions: [
-          IconButton(onPressed: () {
-            showDialog(context: context, builder: (context) =>
-                AlertDialog(
-                  content: BarcodeWidget(
-                    data: titleName!,
-                    barcode: Barcode.qrCode(),
-                    color: Colors.black,
-                    width: 250,
-                    height: 250,),
-                  backgroundColor: Colors.grey[50],
-                ));
-          }, icon: const Icon(Icons.qr_code, color: Colors.black,)),
+          IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          content: BarcodeWidget(
+                            data: titleName!,
+                            barcode: Barcode.qrCode(),
+                            color: Colors.black,
+                            width: 250,
+                            height: 250,
+                          ),
+                          backgroundColor: Colors.grey[50],
+                        ));
+              },
+              icon: const Icon(
+                Icons.qr_code,
+                color: Colors.black,
+              )),
         ],
         title: Text('$titleName'),
       ),
@@ -41,7 +46,7 @@ class ItemScreen extends StatelessWidget {
                   height: size.height / 4,
                   width: size.width / 1.2,
                   decoration: BoxDecoration(
-                      color: Color.fromRGBO( 4, 108, 109, 1),
+                      color: Color.fromRGBO(4, 108, 109, 1),
                       border: Border.all(
                         color: const Color(0xffE3EAF2),
                       ),
@@ -115,7 +120,7 @@ class ItemScreen extends StatelessWidget {
                     Text(
                       'Medicine Category : ',
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),
                     Text('        '),
                   ],
@@ -128,7 +133,7 @@ class ItemScreen extends StatelessWidget {
                     Text(
                       'Amount : ',
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),
                     Text('        '),
                   ],
@@ -141,7 +146,7 @@ class ItemScreen extends StatelessWidget {
                     Text(
                       'Need Data : ',
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),
                     Text('         '),
                   ],
@@ -154,7 +159,7 @@ class ItemScreen extends StatelessWidget {
                     Text(
                       'Need Expiration Date : ',
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),
                     Text('        '),
                   ],

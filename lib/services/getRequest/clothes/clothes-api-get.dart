@@ -1,4 +1,3 @@
-
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 
 import '../../../helper/helper.dart';
@@ -9,12 +8,8 @@ import '../../../models/Medicine/medicineModel.dart';
 import '../../../models/Medicine/medicine_unit.dart';
 
 class ClothesServices {
-
-
-
   Future<List<ClothesSize>> getClothesSize() async {
-    List<dynamic> data =
-    await Api().get(url: '$baseUrl/api/v1/clothing/sizes');
+    List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/clothing/sizes');
     List<ClothesSize> clothesSize = [];
     for (int i = 0; i < data.length; i++) {
       clothesSize.add(
@@ -26,7 +21,7 @@ class ClothesServices {
 
   Future<List<ClothesCategory>> getClothesCategory() async {
     List<dynamic> data =
-    await Api().get(url:'$baseUrl/api/v1/clothing/categories');
+        await Api().get(url: '$baseUrl/api/v1/clothing/categories');
     List<ClothesCategory> clothesCategory = [];
     for (int i = 0; i < data.length; i++) {
       clothesCategory.add(
@@ -37,8 +32,7 @@ class ClothesServices {
   }
 
   Future<List<ClothesType>> getClothesType() async {
-    List<dynamic> data =
-    await Api().get(url: '$baseUrl/api/v1/clothing/types');
+    List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/clothing/types');
     List<ClothesType> clothesType = [];
     for (int i = 0; i < data.length; i++) {
       clothesType.add(
@@ -49,8 +43,7 @@ class ClothesServices {
   }
 
   Future<List<MedicineModel>> getListMedicineName() async {
-    List<dynamic> data =
-    await Api().get(url:'$baseUrl/api/v1/medicines');
+    List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/medicines');
     List<MedicineModel> listMedicine = [];
     for (int i = 0; i < data.length; i++) {
       listMedicine.add(MedicineModel.fromJson(data[i]));

@@ -1,4 +1,3 @@
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,12 +20,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LayoutCubit(),
-      child: BlocConsumer<LayoutCubit , LayoutStates>(
-        listener: (context, state) {
-
-        },
+      child: BlocConsumer<LayoutCubit, LayoutStates>(
+        listener: (context, state) {},
         builder: (context, state) {
-          final size=MediaQuery.of(context).size;
+          final size = MediaQuery.of(context).size;
           LayoutCubit layoutCubit = LayoutCubit.get(context);
           return Scaffold(
             appBar: AppBar(
@@ -34,14 +31,14 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {},
-                    child:const CircleAvatar(
+                    child: const CircleAvatar(
                       backgroundColor: Colors.blueAccent,
                     ),
                   ),
-                  const  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  const     Text (
+                  const Text(
                     'Mohamed Boraie',
                     style: TextStyle(
                       fontSize: 18,
@@ -50,18 +47,19 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               actions: [
-
-                const    SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Padding(
                   padding: const EdgeInsetsDirectional.only(end: 10),
                   child: IconButton(
                     onPressed: () {
-                      myNavigator(context,notificationScreen());
-
+                      myNavigator(context, notificationScreen());
                     },
-                    icon: const Icon(Icons.notifications,size: 26,),
+                    icon: const Icon(
+                      Icons.notifications,
+                      size: 26,
+                    ),
                     color: Color(0xff20ADDC),
                   ),
                 ),
@@ -69,9 +67,12 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.only(end: 10),
                   child: IconButton(
                     onPressed: () {
-                      myNavigator(context,SearchScreen());
+                      myNavigator(context, SearchScreen());
                     },
-                    icon: const Icon(Icons.search,size: 26,),
+                    icon: const Icon(
+                      Icons.search,
+                      size: 26,
+                    ),
                     color: Color(0xff20ADDC),
                   ),
                 ),
@@ -107,27 +108,19 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     SingleChildScrollView(
-
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
                           GestureDetector(
                             onTap: () {
-
                               layoutCubit.changCategoryTitleToBook();
-                              myNavigator(context,   BookCategoryScreen());
-
+                              myNavigator(context, BookCategoryScreen());
                             },
                             child: categoryProvider(
-                                image: 'assets/bookCategory.png',
-                                text: 'B00kS',
-                              width: size.width/2.7,
-
-
-
-
-
+                              image: 'assets/bookCategory.png',
+                              text: 'B00kS',
+                              width: size.width / 2.7,
                             ),
                           ),
                           const SizedBox(
@@ -136,35 +129,41 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context,FoodCategoryScreen());
+                              myNavigator(context, FoodCategoryScreen());
                             },
                             child: categoryProvider(
-                                image: 'assets/foodCategory.png', text: 'food', width: size.width/2.7,),
+                              image: 'assets/foodCategory.png',
+                              text: 'food',
+                              width: size.width / 2.7,
+                            ),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           GestureDetector(
-
                             onTap: () {
-
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context,   MedicineCategoryScreen());
+                              myNavigator(context, MedicineCategoryScreen());
                             },
                             child: categoryProvider(
-                                image: 'assets/medicineCategory.png', text: 'medicine', width: size.width/2.7,),
+                              image: 'assets/medicineCategory.png',
+                              text: 'medicine',
+                              width: size.width / 2.7,
+                            ),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           GestureDetector(
                             onTap: () {
-
                               layoutCubit.changCategoryTitleToBook();
-                              myNavigator(context,   ClothesCategoryScreen());
+                              myNavigator(context, ClothesCategoryScreen());
                             },
                             child: categoryProvider(
-                                image: 'assets/clothesCategory.png', text: 'clothes', width: size.width/2.7,),
+                              image: 'assets/clothesCategory.png',
+                              text: 'clothes',
+                              width: size.width / 2.7,
+                            ),
                           ),
                         ],
                       ),
@@ -186,24 +185,23 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(color: Colors.amber),
                           ),
                         ),
-
                       ],
                     ),
                     SingleChildScrollView(
-
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
                           GestureDetector(
                             onTap: () {
-
                               layoutCubit.changCategoryTitleToBook();
-                              myNavigator(context,   BookCategoryScreen());
-
+                              myNavigator(context, BookCategoryScreen());
                             },
                             child: categoryProvider(
-                                image: 'assets/bookCategory.png', text: 'B00kS', width: size.width/2.7,),
+                              image: 'assets/bookCategory.png',
+                              text: 'B00kS',
+                              width: size.width / 2.7,
+                            ),
                           ),
                           const SizedBox(
                             width: 10,
@@ -211,26 +209,28 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context,   FoodCategoryScreen());
+                              myNavigator(context, FoodCategoryScreen());
                             },
                             child: categoryProvider(
-                                image: 'assets/foodCategory.png', text: 'food', width: size.width/2.7,),
+                              image: 'assets/foodCategory.png',
+                              text: 'food',
+                              width: size.width / 2.7,
+                            ),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           GestureDetector(
-
                             onTap: () {
-
                               layoutCubit.changCategoryTitleToMedicine();
                               myNavigator(context, MedicineCategoryScreen());
                             },
                             child: categoryProvider(
-                                image: 'assets/medicineCategory.png', text: 'medicine', width: size.width/2.7,),
+                              image: 'assets/medicineCategory.png',
+                              text: 'medicine',
+                              width: size.width / 2.7,
+                            ),
                           ),
-
-
                         ],
                       ),
                     ),
@@ -243,8 +243,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 //

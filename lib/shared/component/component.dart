@@ -5,72 +5,61 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 
-Widget mySearchTextFormField({
-  TextEditingController? controller,
-  double borderRadius=10,
-  TextInputType? keyboardType = TextInputType.text,
-  String? hint,
-  bool obscure = false,
-  bool filledStatus = true,
-
-
-
-  Function? suffixFunction,
-  IconData? prefixIcon,
-  IconData? suffixIcon,
-  Color? labelColor,
-  Color? prefixColor,
-  Color? suffixColor,
-  Color? hintColor,
-  Color? backGroundColor,
-  Color? borderColor,
-  double ?height,
-  double ?prefixSize,
-  void Function(String)? onChanged
-
-
-}) =>
+Widget mySearchTextFormField(
+        {TextEditingController? controller,
+        double borderRadius = 10,
+        TextInputType? keyboardType = TextInputType.text,
+        String? hint,
+        bool obscure = false,
+        bool filledStatus = true,
+        Function? suffixFunction,
+        IconData? prefixIcon,
+        IconData? suffixIcon,
+        Color? labelColor,
+        Color? prefixColor,
+        Color? suffixColor,
+        Color? hintColor,
+        Color? backGroundColor,
+        Color? borderColor,
+        double? height,
+        double? prefixSize,
+        void Function(String)? onChanged}) =>
     TextFormField(
       onChanged: onChanged,
       keyboardType: keyboardType,
       controller: controller,
-
-
       validator: (value) {
         if (value!.isEmpty) {
           return 'this failed is required';
         }
       },
       decoration: InputDecoration(
-
-          prefixIcon:Icon( prefixIcon,color:prefixColor ,size: prefixSize,),
-          constraints: BoxConstraints(
-
-              maxHeight: height!
+          prefixIcon: Icon(
+            prefixIcon,
+            color: prefixColor,
+            size: prefixSize,
           ),
+          constraints: BoxConstraints(maxHeight: height!),
           hintText: hint!,
-          hintStyle: TextStyle(
-              color:hintColor
-          ),
+          hintStyle: TextStyle(color: hintColor),
           filled: filledStatus,
           fillColor: backGroundColor!,
           border: OutlineInputBorder(
-              borderSide:  BorderSide(
+              borderSide: BorderSide(
                 color: borderColor!,
               ),
               borderRadius: BorderRadius.circular(borderRadius)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide:  BorderSide(color: borderColor)),
+              borderSide: BorderSide(color: borderColor)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide:  BorderSide(color: borderColor))
-      ),
+              borderSide: BorderSide(color: borderColor))),
     );
 
 Widget myDefaultTextFormField({
   TextEditingController? controller,
-  double borderRadius=10,
+  double borderRadius = 10,
   TextInputType? keyboardType = TextInputType.text,
   String? hint,
   bool obscure = false,
@@ -85,51 +74,44 @@ Widget myDefaultTextFormField({
   Color? hintColor,
   Color? backGroundColor,
   Color? borderColor,
-  double ?height,
-
-
+  double? height,
 }) =>
     TextFormField(
       keyboardType: keyboardType,
       controller: controller,
-
       validator: validator,
       decoration: InputDecoration(
-
-          prefixIcon:Icon( prefixIcon,color:prefixColor ,),
-          constraints: BoxConstraints(
-
-              minHeight: height!
+          prefixIcon: Icon(
+            prefixIcon,
+            color: prefixColor,
           ),
+          constraints: BoxConstraints(minHeight: height!),
           hintText: hint!,
-          hintStyle: TextStyle(
-              color:hintColor
-          ),
+          hintStyle: TextStyle(color: hintColor),
           filled: filledStatus,
           fillColor: backGroundColor!,
           border: OutlineInputBorder(
-              borderSide:  BorderSide(
+              borderSide: BorderSide(
                 color: borderColor!,
               ),
               borderRadius: BorderRadius.circular(borderRadius)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide:  BorderSide(color: borderColor)),
+              borderSide: BorderSide(color: borderColor)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide:  BorderSide(color: borderColor))
-      ),
+              borderSide: BorderSide(color: borderColor))),
     );
+
 Widget mySpecialTextFormField({
-  TextEditingController? controller ,
-  double borderRadius=10,
+  TextEditingController? controller,
+  double borderRadius = 10,
   TextInputType? keyboardType = TextInputType.text,
   String? hint,
-  bool ?obscure = false,
-  bool ?filledStatus = true,
-
+  bool? obscure = false,
+  bool? filledStatus = true,
   Function? suffixFunction,
-  Function ?onTap,
+  Function? onTap,
   IconData? prefixIcon,
   IconData? suffixIcon,
   Color? labelColor,
@@ -138,81 +120,71 @@ Widget mySpecialTextFormField({
   Color? hintColor,
   Color? backGroundColor,
   Color? borderColor,
-  double ?height,
-
-
-
+  double? height,
 }) =>
     TextFormField(
       keyboardType: keyboardType,
       controller: controller!,
-
-      onTap: (){onTap!();},
+      onTap: () {
+        onTap!();
+      },
       validator: (value) {
         if (value!.isEmpty) {
           return 'this failed is required';
         }
       },
       decoration: InputDecoration(
-
-          prefixIcon:Icon( prefixIcon,color:prefixColor ,),
-          constraints: BoxConstraints(
-
-              minHeight: height!
+          prefixIcon: Icon(
+            prefixIcon,
+            color: prefixColor,
           ),
+          constraints: BoxConstraints(minHeight: height!),
           hintText: hint!,
-          hintStyle: TextStyle(
-              color:hintColor
-          ),
+          hintStyle: TextStyle(color: hintColor),
           filled: filledStatus,
           fillColor: backGroundColor!,
           border: OutlineInputBorder(
-              borderSide:  BorderSide(
+              borderSide: BorderSide(
                 color: borderColor!,
               ),
               borderRadius: BorderRadius.circular(borderRadius)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide:  BorderSide(color: borderColor)),
+              borderSide: BorderSide(color: borderColor)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide:  BorderSide(color: borderColor))
-      ),
+              borderSide: BorderSide(color: borderColor))),
     );
-Widget myDescriptionTextFormField({required TextEditingController? controller}) => TextFormField(
-  controller:controller ,
-  validator: (value) {
-    if (value!.isEmpty) {
-      return 'Description is required';
-    }
-  },
-   maxLines: 7,
-  decoration: const InputDecoration(
 
-    border: OutlineInputBorder(
-
-        borderSide: BorderSide(
+Widget myDescriptionTextFormField(
+        {required TextEditingController? controller}) =>
+    TextFormField(
+      controller: controller,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Description is required';
+        }
+      },
+      maxLines: 7,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(
+            borderSide: BorderSide(
           color: Colors.amber,
         )),
-    enabledBorder:
-    OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-    hintText: 'Description',
-
-
-    hintStyle: TextStyle(
-      overflow: TextOverflow.ellipsis,
-
-    ),
-    contentPadding: EdgeInsetsDirectional.symmetric(
-      horizontal: 10,
-      vertical: 20,
-
-
-    ),
-    fillColor: Colors.white,
-    filled: true,
-  ),
-);
+        enabledBorder:
+            OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        hintText: 'Description',
+        hintStyle: TextStyle(
+          overflow: TextOverflow.ellipsis,
+        ),
+        contentPadding: EdgeInsetsDirectional.symmetric(
+          horizontal: 10,
+          vertical: 20,
+        ),
+        fillColor: Colors.white,
+        filled: true,
+      ),
+    );
 
 Widget myTextFormField({
   TextEditingController? controller,
@@ -249,13 +221,13 @@ Widget myTextFormField({
           ),
           suffixIcon: suffixIcon != null
               ? IconButton(
-              onPressed: () {
-                suffixFunction!();
-              },
-              icon: Icon(
-                suffixIcon,
-                color: suffixColor,
-              ))
+                  onPressed: () {
+                    suffixFunction!();
+                  },
+                  icon: Icon(
+                    suffixIcon,
+                    color: suffixColor,
+                  ))
               : null,
           label: Text(
             label!,
@@ -449,20 +421,22 @@ Widget donateCategoryItem({
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Stream<User?> get user => _auth.authStateChanges();
+
   Future<bool> sininWithGoogle(BuildContext context) async {
     bool isSignin = false;
     try {
       final googleUser = await GoogleSignIn().signIn();
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+            await googleUser.authentication;
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
         final UserCredential userCredential =
-        await _auth.signInWithCredential(credential);
+            await _auth.signInWithCredential(credential);
         final User? user = userCredential.user;
         if (kDebugMode) {
           print('user $user');
@@ -488,40 +462,28 @@ class AuthMethods {
   }
 }
 
-
-
 int titleIndex = 0;
 
-Widget myStaticTextFormField( {
-  TextEditingController? controller,
-  TextInputType? keyboardType = TextInputType.text,
-
-  String? hint,
-  bool obscure = false,
-  bool filled = true,
-  void Function(String)? onFieldSubmitted,
-  Function? suffixFunction,
-  required String? Function(String?)? validator,
-  Function? data,
-  IconData? prefixIcon,
-  IconData? suffixIcon,
-  Color? labelColor,
-  Color? prefixColor,
-  Color? suffixColor,
-  double? width=double.infinity ,
-
-
-  void Function()? onTap
-}) =>
+Widget myStaticTextFormField(
+        {TextEditingController? controller,
+        TextInputType? keyboardType = TextInputType.text,
+        String? hint,
+        bool obscure = false,
+        bool filled = true,
+        void Function(String)? onFieldSubmitted,
+        Function? suffixFunction,
+        required String? Function(String?)? validator,
+        Function? data,
+        IconData? prefixIcon,
+        IconData? suffixIcon,
+        Color? labelColor,
+        Color? prefixColor,
+        Color? suffixColor,
+        double? width = double.infinity,
+        void Function()? onTap}) =>
     Container(
-
-      decoration: BoxDecoration(
-
-        borderRadius: BorderRadius.circular(10)
-      ),
-      width:width,
-
-
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+      width: width,
       child: TextFormField(
         onTap: onTap,
         controller: controller,
@@ -529,7 +491,7 @@ Widget myStaticTextFormField( {
         keyboardType: keyboardType,
         validator: validator,
         obscureText: obscure,
-        onFieldSubmitted:onFieldSubmitted,
+        onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           prefixIcon: Icon(
             prefixIcon,
@@ -537,15 +499,14 @@ Widget myStaticTextFormField( {
           ),
           suffixIcon: suffixIcon != null
               ? IconButton(
-              onPressed: () {
-                suffixFunction!();
-              },
-              icon: Icon(
-                suffixIcon,
-                color: suffixColor,
-              ))
+                  onPressed: () {
+                    suffixFunction!();
+                  },
+                  icon: Icon(
+                    suffixIcon,
+                    color: suffixColor,
+                  ))
               : null,
-
           hintText: hint,
           fillColor: Colors.white,
           filled: filled,
@@ -570,57 +531,44 @@ Widget myStaticTextFormField( {
         ),
       ),
     );
+
 class ExprirationDate extends StatelessWidget {
-   ExprirationDate({required this. controller}) ;
-   TextEditingController controller;
+  ExprirationDate({required this.controller});
+
+  TextEditingController controller;
+
   @override
   Widget build(BuildContext context) {
-    return  Container(
-
+    return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10)
-      ),
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: TextFormField(
         controller: controller,
-
-
         onTap: () {
           showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
-              lastDate: DateTime.parse(
-                  '2400-05-07'))
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.parse('2400-05-07'))
               .then((value) {
-            controller.text =
-                DateFormat.yMMMd()
-                    .format(value!);
+            controller.text = DateFormat.yMMMd().format(value!);
           });
         },
         decoration: InputDecoration(
-
           hintText: 'Epiration Date',
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
                 color: Colors.amber,
-
-              )
-          ),
+              )),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
               color: Colors.transparent,
-
-
             ),
           ),
-
-
         ),
       ),
     );
   }
 }
-

@@ -41,55 +41,36 @@ class OnBoardingScreen3 extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    const Text(
-                        'Donating food is an easy and'
-                       ,
-                        style: TextStyle(
-                          textBaseline: TextBaseline.alphabetic,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20
-                        )),
-                    const Text(
-                        ' impactful way to help those in need.'
-                        ,
-                        style: TextStyle(
-                          textBaseline: TextBaseline.alphabetic,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20
-                        )),
-                    const Text(
-                        'With your help,'
-                             ,
+                    const Text('Donating food is an easy and',
                         style: TextStyle(
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.w600,
-                            fontSize: 20
-                        )),
-                    const Text(
-
-                            'we can provide nutritious meals to ',
+                            fontSize: 20)),
+                    const Text(' impactful way to help those in need.',
                         style: TextStyle(
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.w600,
-                            fontSize: 22
-                        )),
-
-
-                    const Text(
-                            'individuals and families who may be ',
+                            fontSize: 20)),
+                    const Text('With your help,',
                         style: TextStyle(
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.w600,
-                            fontSize: 20
-                        )),
-
-                    const Text(
-                        'struggling to make ends meet.',
+                            fontSize: 20)),
+                    const Text('we can provide nutritious meals to ',
                         style: TextStyle(
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.w600,
-                            fontSize: 22
-                        )),
+                            fontSize: 22)),
+                    const Text('individuals and families who may be ',
+                        style: TextStyle(
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20)),
+                    const Text('struggling to make ends meet.',
+                        style: TextStyle(
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 22)),
                   ],
                 ),
               ],

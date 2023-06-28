@@ -1,8 +1,8 @@
-
 class FoodUnit {
   final int id;
   final bool active;
   final String arabicName;
+
   // final String description;
   final String englishName;
 
@@ -30,7 +30,7 @@ class FoodUnit {
       'active': active,
       'arabic_name': arabicName,
       'english_name': englishName,
-     // 'description':description
+      // 'description':description
     };
   }
 }

@@ -1,4 +1,3 @@
-
 class MedicineModel {
   final int id;
   final bool active;
@@ -18,20 +17,20 @@ class MedicineModel {
 
   factory MedicineModel.fromJson(Map<String, dynamic> json) {
     return MedicineModel(
-      unit:json['unit']as String,
-      category: json['category'] as String ,
-      id: json['id'] as int ,
+      unit: json['unit'] as String,
+      category: json['category'] as String,
+      id: json['id'] as int,
       active: json['active'] as bool,
-      arabicName: json['arabic_name']as String ,
+      arabicName: json['arabic_name'] as String,
       englishName: json['english_name'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'category':category,
+      'category': category,
       'id': id,
-      'unit':unit,
+      'unit': unit,
       'active': active,
       'arabic_name': arabicName,
       'english_name': englishName,

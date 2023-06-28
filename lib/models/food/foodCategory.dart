@@ -7,10 +7,10 @@ class FoodCategory {
 
   FoodCategory(
       {this.id,
-        this.active,
-        this.description,
-        this.arabicName,
-        this.englishName});
+      this.active,
+      this.description,
+      this.arabicName,
+      this.englishName});
 
   FoodCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];

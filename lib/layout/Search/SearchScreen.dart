@@ -15,6 +15,7 @@ class SearchScreen extends StatelessWidget {
   var searchController = TextEditingController();
 
   SearchScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,24 +55,22 @@ class SearchScreen extends StatelessWidget {
           children: [
             FutureBuilder<List<MedicineModel>>(
               future: MedicineServices().getListMedicineName(),
-              builder: ( context , snapshot ) {
+              builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<MedicineModel> listOfMedicine = snapshot.data!;
 
-                  return  Expanded(
+                  return Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) => ListTile(
-                      title: Text('${listOfMedicine[index].englishName}'),
-                    ),
-                    itemCount: listOfMedicine.length,
-
+                        title: Text('${listOfMedicine[index].englishName}'),
+                      ),
+                      itemCount: listOfMedicine.length,
                     ),
                   );
                 } else {
                   return const Center(child: Text('..............'));
                 }
               },
-
             ),
           ],
         ),

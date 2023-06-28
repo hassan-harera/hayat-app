@@ -22,25 +22,25 @@ class Donation {
 
   Donation(
       {this.id,
-        this.active,
-        this.title,
-        this.description,
-        this.needDate,
-        this.needExpirationDate,
-        this.category,
-        this.status,
-        this.communicationMethod,
-        this.imageUrl,
-        this.city,
-        this.user,
-        this.qrCode,
-        this.reputation,
-        this.bookTitle,
-        this.bookSubTitle,
-        this.bookAuthor,
-        this.bookPublisher,
-        this.bookPublicationYear,
-        this.bookLanguage});
+      this.active,
+      this.title,
+      this.description,
+      this.needDate,
+      this.needExpirationDate,
+      this.category,
+      this.status,
+      this.communicationMethod,
+      this.imageUrl,
+      this.city,
+      this.user,
+      this.qrCode,
+      this.reputation,
+      this.bookTitle,
+      this.bookSubTitle,
+      this.bookAuthor,
+      this.bookPublisher,
+      this.bookPublicationYear,
+      this.bookLanguage});
 
   Donation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -156,13 +156,13 @@ class User {
 
   User(
       {this.id,
-        this.firstName,
-        this.lastName,
-        this.mobile,
-        this.email,
-        this.password,
-        this.username,
-        this.deviceToken});
+      this.firstName,
+      this.lastName,
+      this.mobile,
+      this.email,
+      this.password,
+      this.username,
+      this.deviceToken});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];

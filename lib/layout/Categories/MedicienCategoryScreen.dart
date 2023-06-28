@@ -16,7 +16,6 @@ import '../HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
 import '../HayatLayout/LayOutCubit/LayoutState.dart';
 
 class MedicineCategoryScreen extends StatefulWidget {
-
   MedicineCategoryScreen({super.key});
 
   @override
@@ -29,57 +28,67 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
   var titleController = TextEditingController();
   var DescriptionController = TextEditingController();
   var categoryController = TextEditingController();
-AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   String? medicineName;
 
   var formKey = GlobalKey<FormState>();
-  Uint8List ? _file;
+  Uint8List? _file;
 
-  _selectImage(BuildContext context)async{
-    final size =MediaQuery.of(context).size;
-    return showDialog(context: context, builder: (context) {
-      return SimpleDialog(
-        title: const Text('Create post '),
-        children: [
-          SimpleDialogOption(
-            padding:const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                const Icon(Icons.camera,color: Colors.amber,),
-                SizedBox(width:size.width/30,),
-                const Text('Take a photo from camera',),
-              ],
+  _selectImage(BuildContext context) async {
+    final size = MediaQuery.of(context).size;
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text('Create post '),
+          children: [
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.camera,
+                    color: Colors.amber,
+                  ),
+                  SizedBox(
+                    width: size.width / 30,
+                  ),
+                  const Text(
+                    'Take a photo from camera',
+                  ),
+                ],
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.camera);
+                setState(() {
+                  _file = file;
+                });
+              },
             ),
-            onPressed: ()async{
-              Navigator.of(context).pop();
-              Uint8List file = await pickImage(ImageSource.camera );
-              setState(() {
-                _file=file;
-              });
-
-            },
-          ),
-          SimpleDialogOption(
-            padding:const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                const Icon(Icons.image),
-                SizedBox(width:size.width/30,),
-                const Text('chose from gallery '),
-              ],
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  const Icon(Icons.image),
+                  SizedBox(
+                    width: size.width / 30,
+                  ),
+                  const Text('chose from gallery '),
+                ],
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.gallery);
+                setState(() {
+                  _file = file;
+                });
+              },
             ),
-            onPressed: ()async{
-              Navigator.of(context).pop();
-              Uint8List file = await pickImage(ImageSource.gallery );
-              setState(() {
-                _file=file;
-              });
-
-            },
-          ),
-        ],
-      );
-    },);
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -92,7 +101,7 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
         builder: (context, state) {
           LayoutCubit layoutCubit = LayoutCubit.get(context);
           return GestureDetector(
-            onTap: (){
+            onTap: () {
               FocusScope.of(context).unfocus();
             },
             child: Scaffold(
@@ -121,59 +130,63 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                   onTap: () => _selectImage(context),
                                   child: _file == null
                                       ? Image.asset(
-                                    'assets/add-image.png',
-                                    width: 100,
-                                    height: 100,
-                                  )
+                                          'assets/add-image.png',
+                                          width: 100,
+                                          height: 100,
+                                        )
                                       : Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      width: 100,
-                                      height: 100,
-                                      child: AspectRatio(
-                                        aspectRatio: 478 / 451,
-                                        child: Container(
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(10),
-                                              image: DecorationImage(
-                                                image: MemoryImage(_file!),
-                                                fit: BoxFit.fill,
-                                                alignment: FractionalOffset
-                                                    .topCenter,
-                                              )),
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: 100,
+                                            height: 100,
+                                            child: AspectRatio(
+                                              aspectRatio: 478 / 451,
+                                              child: Container(
+                                                padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    image: DecorationImage(
+                                                      image:
+                                                          MemoryImage(_file!),
+                                                      fit: BoxFit.fill,
+                                                      alignment:
+                                                          FractionalOffset
+                                                              .topCenter,
+                                                    )),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
                                 ),
                                 // const Spacer(),
                                 Expanded(
                                     child: myStaticTextFormField(
-                                      controller: titleController,
-                                        hint: 'Title',
-                                      validator: (value){
-                                        if(value!.isEmpty){
-                                          return 'please inter title';
-                                        }
-                                      },
-                                    )),
+                                  controller: titleController,
+                                  hint: 'Title',
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'please inter title';
+                                    }
+                                  },
+                                )),
                               ],
                             ),
-                            myDescriptionTextFormField(controller: DescriptionController),
+                            myDescriptionTextFormField(
+                                controller: DescriptionController),
                             const SizedBox(
                               height: 15,
                             ),
                             myStaticTextFormField(
                               controller: categoryController,
-                              validator: (value){
-                                if(value!.isEmpty){
+                              validator: (value) {
+                                if (value!.isEmpty) {
                                   return 'please inter title';
                                 }
                               },
-                                hint: 'medicine Category',
-                                ),
+                              hint: 'medicine Category',
+                            ),
                             const SizedBox(
                               height: 15,
                             ),
@@ -183,7 +196,8 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Column(
                                             crossAxisAlignment:
@@ -191,7 +205,6 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                             children: [
                                               const Text(
                                                 'Search',
-
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(fontSize: 18),
                                               ),
@@ -234,24 +247,25 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                                       hintText: 'hint',
                                                       filled: true,
                                                       fillColor: Colors.white,
-                                                      border: OutlineInputBorder(
-                                                          borderSide:
-                                                              const BorderSide(
-                                                            color: Colors.amber,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10)),
-                                                      enabledBorder:
+                                                      border:
                                                           OutlineInputBorder(
+                                                              borderSide:
+                                                                  const BorderSide(
+                                                                color: Colors
+                                                                    .amber,
+                                                              ),
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          10),
-                                                              borderSide:
-                                                                  const BorderSide(
-                                                                      color: Colors
-                                                                          .amber))),
+                                                                          10)),
+                                                      enabledBorder: OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .amber))),
 //                                               );
 //                                             child: childmyStaticTextFormField(validator: validator)(
 //                                               controller:searchController ,
@@ -273,7 +287,8 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                     ),
                                     Spacer(),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
@@ -288,9 +303,10 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                               height: 15,
                                             ),
                                             SizedBox(
-                                              width: 190,
-                                              child:ExprirationDate(controller: dateController,)
-                                            ),
+                                                width: 190,
+                                                child: ExprirationDate(
+                                                  controller: dateController,
+                                                )),
                                           ],
                                         ),
                                       ],
@@ -304,28 +320,31 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                   children: [
                                     Expanded(
                                       child: myStaticTextFormField(
-                                        validator: (value){
-                                          if(value!.isEmpty){
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
                                             return 'please inter amount';
                                           }
                                         },
-                                          hint: 'Amount', ),
+                                        hint: 'Amount',
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 15,
                                     ),
                                     SizedBox(
                                         width: 190,
-                                        child: FutureBuilder<List<MedicineUnit>>(
+                                        child:
+                                            FutureBuilder<List<MedicineUnit>>(
                                           future: MedicineServices()
                                               .getMedicineUnits(),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               List<MedicineUnit> units =
                                                   snapshot.data!;
-                                              String? sItem = jsonEncode(units[0]
-                                                  .englishName
-                                                  .toString());
+                                              String? sItem = jsonEncode(
+                                                  units[0]
+                                                      .englishName
+                                                      .toString());
                                               return DropdownButtonFormField(
                                                 hint: const Text('Unit'),
                                                 iconEnabledColor: Colors.amber,
@@ -337,9 +356,9 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                                 items: units
                                                     .map((item) =>
                                                         DropdownMenuItem(
-                                                            value: jsonEncode(item
-                                                                .englishName
-                                                                .toString()),
+                                                            value: jsonEncode(
+                                                                item.englishName
+                                                                    .toString()),
                                                             child: Text(
                                                               jsonEncode(item
                                                                   .englishName
@@ -368,8 +387,9 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                                         OutlineInputBorder(
                                                             borderSide:
                                                                 const BorderSide(
-                                                                    color: Colors
-                                                                        .amber),
+                                                                    color:
+                                                                        Colors
+                                                                            .amber),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -457,15 +477,13 @@ AutovalidateMode autoValidateMode=AutovalidateMode.disabled;
                                 text: 'Next',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
-                                   // myNavigator(context,
+                                    // myNavigator(context,
 
-                                        // SocialMediaCommunication(title: titleController.text, quantity: 3, cityId: 1, communicationMethod: layoutCubit.communicationTool.toString(), description: DescriptionController.text, bookTitle: 'bookTitle', foodUnitId: 2, foodCategoryId:3, foodExpirationDate: dateController.text));
+                                    // SocialMediaCommunication(title: titleController.text, quantity: 3, cityId: 1, communicationMethod: layoutCubit.communicationTool.toString(), description: DescriptionController.text, bookTitle: 'bookTitle', foodUnitId: 2, foodCategoryId:3, foodExpirationDate: dateController.text));
                                     formKey.currentState!.save();
-                                  }else{
-                                    setState(() {
-
-                                    });
-                                    autoValidateMode=AutovalidateMode.always;
+                                  } else {
+                                    setState(() {});
+                                    autoValidateMode = AutovalidateMode.always;
                                   }
                                   //
                                 },

@@ -12,6 +12,7 @@ class BoardingData {
   late String image;
   late String title;
   late String body;
+
   BoardingData({
     required this.image,
     required this.title,

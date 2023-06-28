@@ -1,5 +1,3 @@
-
-
 class Medicine {
   final int id;
   final bool active;

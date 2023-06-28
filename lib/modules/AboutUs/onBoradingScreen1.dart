@@ -3,6 +3,7 @@ import '../../shared/component/constans.dart';
 
 class OnBoardingScreen1 extends StatelessWidget {
   const OnBoardingScreen1({super.key});
+
   @override
   Widget build(BuildContext context) {
     sizeConfig().init(context);
@@ -42,20 +43,20 @@ class OnBoardingScreen1 extends StatelessWidget {
                 Column(
                   children: [
                     const Text('Welcome to our donations platform!',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
                     const Text(' Our vision is a world',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
                     const Text('  where donation is further, faster',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
                     const Text('and directed to',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
                     const Text(' the people most in need',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
                   ],
                 ),
               ],

@@ -9,6 +9,7 @@ import '../RestPassword/RestPassword.dart';
 
 class IdentityVerificationScreen extends StatefulWidget {
   IdentityVerificationScreen({required this.phoneNumber});
+
   late final String phoneNumber;
 
   @override
@@ -22,6 +23,7 @@ class _IdentityVerificationScreenState
 
   var verificationController = TextEditingController();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+
   // @override
   // void initState() {
   //   // TODO: implement initState
@@ -45,8 +47,7 @@ class _IdentityVerificationScreenState
                   phoneNum: widget.phoneNumber,
                   otp: verificationController.text,
                 ));
-          }
-          else if (state is OtpVerificationErrorState) {
+          } else if (state is OtpVerificationErrorState) {
             showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
@@ -133,7 +134,6 @@ class _IdentityVerificationScreenState
                           child: Column(
                             children: [
                               myStaticTextFormField(
-
                                 validator: (String? value) {
                                   if (value!.isEmpty || value.length != 6) {
                                     return ' Please Enter Code';
@@ -151,7 +151,7 @@ class _IdentityVerificationScreenState
                           height: 50,
                         ),
                         ConditionalBuilder(
-                          condition:state is! OtpVerificationLoadingState,
+                          condition: state is! OtpVerificationLoadingState,
                           builder: (context) => myButton(
                               text: 'Verify',
                               onTap: () {
@@ -168,7 +168,7 @@ class _IdentityVerificationScreenState
                               },
                               radius: 30),
                           fallback: (context) =>
-                          const Center(child: CircularProgressIndicator()),
+                              const Center(child: CircularProgressIndicator()),
                         ),
                       ],
                     ),
