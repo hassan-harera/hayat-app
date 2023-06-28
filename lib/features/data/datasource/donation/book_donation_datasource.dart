@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
-import 'package:hayat_eg/features/data/model/medicine_donation.dart';
+import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../core/error/exceptions.dart';
@@ -20,7 +20,7 @@ class BookDonationDataSource {
     });
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return MedicineDonation.fromJson(jsonDecode(response.body));
+      return BookDonationResponse.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 400) {
       throw BadRequestException(
           apiError: ApiError.fromJson(jsonDecode(response.body)));
