@@ -6,9 +6,9 @@ import 'package:hayat_eg/layout/Categories/socialMediaCommunication.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:intl/intl.dart';
-import '../../../../../models/Medicine/medicine_unit.dart';
+import '../../../../data/model/medicine/medicine_unit.dart';
 import '../../../../../services/getRequest/medicine/medicine-search.dart';
-import '../../../../../services/getRequest/medicine/medicine-api-get.dart';
+import '../../../../data/model/donation/medicine/medicine-api-get.dart';
 import '../../../../../shared/Utils/Utils.dart';
 import '../../../../../shared/component/component.dart';
 import '../../../../../shared/component/constans.dart';

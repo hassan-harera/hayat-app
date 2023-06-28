@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hayat_eg/layout/Notification/notificationScreen.dart';
+import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constans.dart';
 

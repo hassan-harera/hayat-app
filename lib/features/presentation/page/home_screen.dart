@@ -1,17 +1,17 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/create_book_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/medicine/create_medicine_donation_screen.dart';
 import '../../../shared/component/constans.dart';
 import '../../../widgets/homeBuilder.dart';
-import '../../Categories/BookCatiogryScreen.dart';
-import '../../Categories/ClothesCategory.dart';
-import '../../Categories/FoodCatigory.dart';
-import '../../HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
-import '../../HayatLayout/LayOutCubit/LayoutState.dart';
-import '../../Notification/notificationScreen.dart';
-import '../../Search/SearchScreen.dart';
-import '../Donation/DonationScreen.dart';
+import 'donation/clothing/clothing_donation_form.dart';
+import 'donation/food/FoodCatigory.dart';
+import '../../../layout/HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
+import '../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
+import 'notification/notificationScreen.dart';
+import '../../../layout/Search/SearchScreen.dart';
+import 'donation/donations_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                         const Spacer(),
                         TextButton(
                           onPressed: () {
-                            myNavigator(context, DonationScreen());
+                            myNavigator(context, DonationsScreen());
                           },
                           child: const Text(
                             'Sea All ',
@@ -115,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToBook();
-                              myNavigator(context, BookCategoryScreen());
+                              myNavigator(context, BookDonationFormScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/bookCategory.png',

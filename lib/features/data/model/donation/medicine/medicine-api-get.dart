@@ -7,11 +7,11 @@ import 'package:hayat_eg/models/Clothes/clothesType.dart';
 
 import 'package:hayat_eg/models/Clothes/clothesType.dart';
 
-import '../../../helper/helper.dart';
-import '../../../models/Clothes/clothesSize.dart';
-import '../../../models/Medicine/medicineModel.dart';
-import '../../../models/Medicine/medicine_unit.dart';
-import '../../../shared/network/endPoints/endPint.dart';
+import '../../../../../helper/helper.dart';
+import '../../../../../models/Clothes/clothesSize.dart';
+import '../../../../../models/Medicine/medicineModel.dart';
+import '../../medicine/medicine_unit.dart';
+import '../../../../../shared/network/endPoints/endPint.dart';
 
 class MedicineServices {
   Future<List<MedicineUnit>> getMedicineUnits() async {

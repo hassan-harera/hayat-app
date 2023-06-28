@@ -11,13 +11,13 @@ import 'package:hayat_eg/models/Clothes/clothesType.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/Clothes/clothesSize.dart';
-import '../../services/getRequest/clothes/clothes-api-get.dart';
+import '../../../../../models/Clothes/clothesSize.dart';
+import '../../../../../services/getRequest/clothes/clothes-api-get.dart';
 
-import '../../shared/component/component.dart';
-import '../../shared/component/constans.dart';
-import '../HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
-import '../HayatLayout/LayOutCubit/LayoutState.dart';
+import '../../../../../shared/component/component.dart';
+import '../../../../../shared/component/constans.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/HayatLaoutCubit.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 
 class ClothesCategoryScreen extends StatefulWidget {
   @override

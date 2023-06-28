@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 
 import '../../shared/component/constans.dart';
-import '../Notification/notificationScreen.dart';
+import '../../features/presentation/page/notification/notificationScreen.dart';
 import '../Search/SearchScreen.dart';
 import 'LayOutCubit/HayatLaoutCubit.dart';
 import 'LayOutCubit/LayoutState.dart';

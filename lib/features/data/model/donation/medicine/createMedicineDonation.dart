@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../helper/helper.dart';
-import '../../models/Medicine/medicineDonation.dart';
+import '../../../../../helper/helper.dart';
+import '../../../../../models/Medicine/medicineDonation.dart';
 
 class CreateMedicineDonation {
   Future<MedicineDonation> postMedicineDonation({

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../data/model/city/city.dart';
-import '../../data/repository/CityRepository.dart';
+import '../../../data/model/city/city.dart';
+import '../../../data/repository/CityRepository.dart';
 
 final sl = GetIt.instance;
 

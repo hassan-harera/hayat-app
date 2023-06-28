@@ -20,98 +20,42 @@ class MedicineDonationRequest {
   int? unitId;
 
   MedicineDonationRequest(
-      {this.title,
-      this.description,
-      this.donationDate,
-      this.donationExpirationDate,
-      this.category,
-      this.status,
-      this.communicationMethod,
+      {this.quantity,
       this.cityId,
-      this.imageUrl,
-      this.telegramLink,
-      this.whatsappLink,
-      this.qrCode,
-      this.reputation,
-      this.quantity,
-      this.medicineUnit,
-      this.medicineExpirationDate,
-      this.medicineUnitId,
-      this.medicineId,
-      this.unitId});
+      this.communicationMethod,
+      this.description,
+      this.title,
+      this.bookTitle,
+      this.foodUnitId,
+      this.foodCategoryId,
+      this.foodExpirationDate,
+      this.telegramLink});
 
   MedicineDonationRequest.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    description = json['description'];
-    donationDate = json['donation_date'];
-    donationExpirationDate = json['donation_expiration_date'];
-    category = json['category'];
-    status = json['status'];
-    communicationMethod = json['communication_method'];
-    cityId = json['city_id'];
-    imageUrl = json['image_url'];
-    telegramLink = json['telegram_link'];
-    whatsappLink = json['whatsapp_link'];
-    qrCode = json['qr_code'];
-    reputation = json['reputation'];
     quantity = json['quantity'];
-    medicineUnit = json['medicine_unit'] != null
-        ? new MedicineUnit.fromJson(json['medicine_unit'])
-        : null;
-    medicineExpirationDate = json['medicine_expiration_date'];
-    medicineUnitId = json['medicine_unit_id'];
-    medicineId = json['medicine_id'];
-    unitId = json['unit_id'];
+    cityId = json['city_id'];
+    communicationMethod = json['communication_method'];
+    description = json['description'];
+    title = json['title'];
+    bookTitle = json['book_title'];
+    foodUnitId = json['food_unit_id'];
+    foodCategoryId = json['food_category_id'];
+    foodExpirationDate = json['food_expiration_date'];
+    telegramLink = json['telegram_link'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['donation_date'] = this.donationDate;
-    data['donation_expiration_date'] = this.donationExpirationDate;
-    data['category'] = this.category;
-    data['status'] = this.status;
-    data['communication_method'] = this.communicationMethod;
-    data['city_id'] = this.cityId;
-    data['image_url'] = this.imageUrl;
-    data['telegram_link'] = this.telegramLink;
-    data['whatsapp_link'] = this.whatsappLink;
-    data['qr_code'] = this.qrCode;
-    data['reputation'] = this.reputation;
     data['quantity'] = this.quantity;
-    if (this.medicineUnit != null) {
-      data['medicine_unit'] = this.medicineUnit!.toJson();
-    }
-    data['medicine_expiration_date'] = this.medicineExpirationDate;
-    data['medicine_unit_id'] = this.medicineUnitId;
-    data['medicine_id'] = this.medicineId;
-    data['unit_id'] = this.unitId;
-    return data;
-  }
-}
-
-class MedicineUnit {
-  int? id;
-  bool? active;
-  String? arabicName;
-  String? englishName;
-
-  MedicineUnit({this.id, this.active, this.arabicName, this.englishName});
-
-  MedicineUnit.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    active = json['active'];
-    arabicName = json['arabic_name'];
-    englishName = json['english_name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['active'] = this.active;
-    data['arabic_name'] = this.arabicName;
-    data['english_name'] = this.englishName;
+    data['city_id'] = this.cityId;
+    data['communication_method'] = this.communicationMethod;
+    data['description'] = this.description;
+    data['title'] = this.title;
+    data['book_title'] = this.bookTitle;
+    data['food_unit_id'] = this.foodUnitId;
+    data['food_category_id'] = this.foodCategoryId;
+    data['food_expiration_date'] = this.foodExpirationDate;
+    data['telegram_link'] = this.telegramLink;
     return data;
   }
 }

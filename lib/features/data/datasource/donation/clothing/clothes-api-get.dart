@@ -1,11 +1,8 @@
+import 'package:hayat_eg/features/data/model/clothing/clothesCategory.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothesSize.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothesType.dart';
+import 'package:hayat_eg/helper/helper.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
-
-import '../../../helper/helper.dart';
-import '../../../models/Clothes/clothesCategory.dart';
-import '../../../models/Clothes/clothesSize.dart';
-import '../../../models/Clothes/clothesType.dart';
-import '../../../models/Medicine/medicineModel.dart';
-import '../../../models/Medicine/medicine_unit.dart';
 
 class ClothesServices {
   Future<List<ClothesSize>> getClothesSize() async {

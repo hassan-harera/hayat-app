@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:hayat_eg/layout/LayoutScreens/Donation/DonationScreen.dart';
+import 'package:hayat_eg/features/presentation/page/donation/donations_screen.dart';
 
-import '../../services/postRequest/Medicine/postMedicineServices.dart';
+import '../../features/data/model/donation/medicine/postMedicineServices.dart';
 import '../../shared/component/constans.dart';
 
 class SocialMediaCommunication extends StatelessWidget {
@@ -124,7 +124,7 @@ class SocialMediaCommunication extends StatelessWidget {
                     if (formKey.currentState!.validate()) {
                       myNavigator(
                           context,
-                          DonationScreen(
+                          DonationsScreen(
                             donationBuilder: ItemBuilder(
                               categoryName: categoryName,
                               description: description,

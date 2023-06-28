@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../helper/helper.dart';
-import '../../models/Medicine/medicineDonation.dart';
+import '../../../../../helper/helper.dart';
+import '../../../../../models/Medicine/medicineDonation.dart';
 
 class updateMedicine {
   Future<MedicineDonation> postMedicineDonation({

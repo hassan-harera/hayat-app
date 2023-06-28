@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../modules/StartApp/Splash/Splash_view.dart';
-import '../../../modules/StartApp/login/Login.dart';
-import '../../../modules/StartApp/on_bording/onBordingLayout.dart';
-import '../../../outhFolder/google/outh.dart';
-import '../../../outhFolder/google/userIngo/userInfo.dart';
-import '../../../shared/component/constans.dart';
-import '../../../shared/network/local/Cash_helper/cash_helper.dart';
+import '../../../../modules/StartApp/Splash/Splash_view.dart';
+import '../../../../modules/StartApp/login/Login.dart';
+import '../../../../modules/StartApp/on_bording/onBordingLayout.dart';
+import '../../../../outhFolder/google/outh.dart';
+import '../../../../outhFolder/google/userIngo/userInfo.dart';
+import '../../../../shared/component/constans.dart';
+import '../../../../shared/network/local/Cash_helper/cash_helper.dart';
 import 'editProfil.dart';
 
 class ProfileScreen extends StatefulWidget {

@@ -1,8 +1,8 @@
-import '../../../helper/helper.dart';
-import '../../../models/Medicine/postMedicine.dart';
+import '../../../../../helper/helper.dart';
+import 'medicine_donation_request.dart';
 
 class PostMedicineDonation {
-  Future<PostMedicine> postMedicineDonation({
+  Future<MedicineDonationRequest> postMedicineDonation({
     required int? quantity,
     required int? cityId,
     required String? communicationMethod,
@@ -32,6 +32,6 @@ class PostMedicineDonation {
       token: token,
     );
 
-    return PostMedicine.fromJson(data);
+    return MedicineDonationRequest.fromJson(data);
   }
 }
