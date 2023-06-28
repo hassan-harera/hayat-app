@@ -106,7 +106,7 @@ class HayatLayoutScreen extends StatelessWidget {
                               color: Colors.amber,
                             ),
                             const Text(
-                              'Donation',
+                              'Donations',
                               style: TextStyle(
                                 color: Colors.amber,
                               ),
@@ -125,7 +125,7 @@ class HayatLayoutScreen extends StatelessWidget {
                               color: Colors.grey,
                             ),
                             const Text(
-                              'Donation',
+                              'Donations',
                               style: TextStyle(
                                 color: Colors.grey,
                               ),

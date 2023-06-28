@@ -78,22 +78,3 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
-
-// class imageProvidor => Container(
-// width: 140,
-// decoration: BoxDecoration(
-// borderRadius: BorderRadiusDirectional.circular(10)
-// ,     color: Colors.white,
-// ),
-//
-// child:Column(
-// children: [
-// Image.asset('assets/addImage.png',width: 130,height:140 ,color:Colors.cyanAccent ),
-// Padding(
-// padding: const EdgeInsetsDirectional.only(bottom: 8),
-//
-// ),
-//
-// ],
-// ),
-//);
