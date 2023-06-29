@@ -6,8 +6,9 @@ ThemeData lightThem = ThemeData(
   // fontFamily: 'assets/Fonts/PTSans-Regular.ttf',
   scaffoldBackgroundColor: const Color(0xffF1F4F8),
   textTheme: const TextTheme(
-      bodyText1: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black)),
+    bodyText1: TextStyle(color: Colors.amber),
+    headline1: TextStyle(color: Colors.amber),
+  ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor: Colors.amber,
@@ -31,6 +32,7 @@ ThemeData lightThem = ThemeData(
         color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
   ),
 );
+
 ThemeData darkThem = ThemeData(
     textTheme: const TextTheme(
         bodyText1: TextStyle(

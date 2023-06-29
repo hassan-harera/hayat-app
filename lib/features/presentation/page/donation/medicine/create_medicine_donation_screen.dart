@@ -28,6 +28,8 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
   var medicineTitleController = TextEditingController();
   var medicineDescriptionController = TextEditingController();
   var medicineNameController = TextEditingController();
+  var telegramController = TextEditingController();
+  var watsAppController = TextEditingController();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   String? medicineName;
 
@@ -487,7 +489,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                             Row(
                               children: [
                                 Radio(
-                                    value: 'Phone-chat',
+                                    value: 'Phone & chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
                                       layoutCubit.communicationTool = value;
@@ -495,16 +497,91 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'Phone&chat',
+                                  'Phone & chat',
                                   style: TextStyle(fontSize: 17),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Social Media',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: watsAppController,
+                                  keyboardType: TextInputType.phone,
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your watsApp number';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      prefixIcon: Image.asset(
+                                        'assets/watsAppImage.png',
+                                        scale: 18,
+                                        color: Colors.amber,
+                                      ),
+                                      hintText: 'WatsApp',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your telegram number';
+                                    }
+                                  },
+                                  controller: telegramController,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(
+                                        Icons.telegram_outlined,
+                                        color: Colors.amber,
+                                        size: 35,
+                                      ),
+                                      hintText: 'Telegram',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
                                 ),
                               ],
                             ),
                             const SizedBox(
                               height: 10,
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             myButton(
-                                text: 'Next',
+                                text: 'Submit',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
                                     myNavigator(

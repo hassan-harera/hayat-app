@@ -330,7 +330,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             Row(
                               children: [
                                 Radio(
-                                    value: 'Phone-chat',
+                                    value: 'Phone & chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
                                       layoutCubit.communicationTool = value;
@@ -338,7 +338,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                       communicationMethod = 'CHAT_AND_PHONE';
                                     }),
                                 const Text(
-                                  'Phone-chat',
+                                  'Phone & chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -361,12 +361,12 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                   keyboardType: TextInputType.phone,
                                   validator: (v) {
                                     if (v!.isEmpty) {
-                                      return 'please add your watsapp number';
+                                      return 'please add your watsApp number';
                                     }
                                   },
                                   decoration: InputDecoration(
                                       prefixIcon: Image.asset(
-                                        'assets/watsapp.png',
+                                        'assets/watsAppImage.png',
                                         scale: 18,
                                         color: Colors.amber,
                                       ),
@@ -466,11 +466,11 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Something Went Wrong'),
+            title: const Text('Something Went Wrong'),
             content: Text(error.apiError.displayMessage.toString()),
             actions: <Widget>[
               TextButton(
-                child: Text('Dismiss'),
+                child: const Text('Dismiss'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

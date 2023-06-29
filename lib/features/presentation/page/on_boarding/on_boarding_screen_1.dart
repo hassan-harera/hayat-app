@@ -26,9 +26,9 @@ class OnBoardingScreen1 extends StatelessWidget {
                     height: sizeConfig.defaultSize! * 30,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text(
                     'Donations',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -40,23 +40,38 @@ class OnBoardingScreen1 extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                Column(
+                const Column(
                   children: [
-                    const Text('Welcome to our donations platform!',
+                    Text('Welcome to our donations platform!',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500)),
-                    const Text(' Our vision is a world',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.amber,
+                        )),
+                    Text(' Our vision is a world',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500)),
-                    const Text('  where donation is further, faster',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.amber,
+                        )),
+                    Text('  where donation is further, faster',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500)),
-                    const Text('and directed to',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.amber,
+                        )),
+                    Text('and directed to',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500)),
-                    const Text(' the people most in need',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.amber,
+                        )),
+                    Text(' the people most in need',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500)),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.amber,
+                        )),
                   ],
                 ),
               ],

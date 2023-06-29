@@ -29,7 +29,8 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
   var titleController = TextEditingController();
   int? categoryId;
   var descriptionController = TextEditingController();
-
+  var telegramController = TextEditingController();
+  var watsAppController = TextEditingController();
   var categoryController = TextEditingController();
 
   var quantityController = TextEditingController();
@@ -277,7 +278,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                                 return 'please inter title';
                                               }
                                             },
-                                            hint: 'food name ',
+                                            hint: 'Food name ',
                                           ),
                                         ),
                                       ],
@@ -300,6 +301,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                         SizedBox(
                                             width: 190,
                                             child: ExprirationDate(
+                                              hint: 'Inter date',
                                               controller: dateController,
                                             )),
                                       ],
@@ -355,8 +357,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                                                 item.englishName
                                                                     .toString()),
                                                             child: Text(
-                                                              jsonEncode(item
-                                                                  .englishName
+                                                              (item.englishName
                                                                   .toString()),
                                                             )))
                                                     .toList(),
@@ -423,7 +424,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'chat',
+                                  'Chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -447,7 +448,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                             Row(
                               children: [
                                 Radio(
-                                    value: 'Phone-chat',
+                                    value: 'Phone & Chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
                                       layoutCubit.communicationTool = value;
@@ -455,7 +456,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'Phone-chat',
+                                  'Phone & Chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -463,8 +464,83 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                             const SizedBox(
                               height: 10,
                             ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Social Media',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: watsAppController,
+                                  keyboardType: TextInputType.phone,
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your watsApp number';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      prefixIcon: Image.asset(
+                                        'assets/watsAppImage.png',
+                                        scale: 18,
+                                        color: Colors.amber,
+                                      ),
+                                      hintText: 'WatsApp',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your telegram number';
+                                    }
+                                  },
+                                  controller: telegramController,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(
+                                        Icons.telegram_outlined,
+                                        color: Colors.amber,
+                                        size: 35,
+                                      ),
+                                      hintText: 'Telegram',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             myButton(
-                                text: 'Next',
+                                text: 'Submit',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
                                     CreateMedicineDonation()

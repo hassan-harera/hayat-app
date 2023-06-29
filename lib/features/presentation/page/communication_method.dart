@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/presentation/page/donation/donations_screen.dart';
 
-import '../../data/model/donation/medicine/postMedicineServices.dart';
 import '../../../shared/component/constants.dart';
 
 class SocialMediaCommunication extends StatelessWidget {
@@ -73,7 +72,7 @@ class SocialMediaCommunication extends StatelessWidget {
                 },
                 decoration: InputDecoration(
                     prefixIcon: Image.asset(
-                      'assets/watsapp.png',
+                      'assets/watsAppImage.png',
                       scale: 18,
                       color: Colors.amber,
                     ),
