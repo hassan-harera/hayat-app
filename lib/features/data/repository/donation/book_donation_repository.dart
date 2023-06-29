@@ -9,7 +9,7 @@ class BookDonationRepository {
     required this.bookDonationDataSource,
   });
 
-  Future<ClothingDonationResponse?> create(BookDonationRequest request) async {
+  Future<BookDonationResponse?> create(BookDonationRequest request) async {
     return await bookDonationDataSource.create(request);
   }
 }

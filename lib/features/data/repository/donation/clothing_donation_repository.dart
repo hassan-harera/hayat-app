@@ -11,7 +11,7 @@ class ClothingDonationRepository {
     required this.clothingDonationDataSource,
   });
 
-  Future<ClothingDonationResponse?> create(
+  Future<BookDonationResponse?> create(
       ClothingDonationRequest request) async {
     return await clothingDonationDataSource.create(request);
   }

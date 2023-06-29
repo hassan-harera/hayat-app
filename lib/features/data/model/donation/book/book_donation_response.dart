@@ -1,7 +1,7 @@
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
-class ClothingDonationResponse {
+class BookDonationResponse {
   int? id;
   bool? active;
   String? title;
@@ -26,7 +26,7 @@ class ClothingDonationResponse {
   String? bookPublicationYear;
   String? bookLanguage;
 
-  ClothingDonationResponse(
+  BookDonationResponse(
       {this.id,
       this.active,
       this.title,
@@ -51,7 +51,7 @@ class ClothingDonationResponse {
       this.bookPublicationYear,
       this.bookLanguage});
 
-  ClothingDonationResponse.fromJson(Map<String, dynamic> json) {
+  BookDonationResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     active = json['active'];
     title = json['title'];

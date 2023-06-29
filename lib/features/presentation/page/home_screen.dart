@@ -131,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context, FoodCategoryScreen());
+                              myNavigator(context, CreateFoodDonationScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/foodCategory.png',
