@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/donation/medicine/medicine-api-get.dart';
 
 import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
+import 'package:hayat_eg/features/data/model/medicineModel.dart';
 
-import '../../models/Medicine/medicineModel.dart';
 import '../../styles/colors.dart';
 
 class SearchScreen extends StatelessWidget {

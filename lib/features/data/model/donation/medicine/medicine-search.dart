@@ -4,7 +4,6 @@ import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../helper/helper.dart';
-import '../../../../../models/Medicine/medicineModel.dart';
 
 class SearchMedicineName {
   Future getMedicineName({required String medicineName}) async {

@@ -1,9 +1,9 @@
 import 'package:hayat_eg/features/data/model/clothing/clothesCategory.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothesSize.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothesType.dart';
+import 'package:hayat_eg/features/data/model/medicineModel.dart';
 
 import '../../../../../helper/helper.dart';
-import '../../../../../models/Medicine/medicineModel.dart';
 import '../../medicine/medicine_unit.dart';
 import '../../../../../shared/network/endPoints/endPint.dart';
 

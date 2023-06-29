@@ -2,15 +2,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hayat_eg/features/presentation/page/login/Login.dart';
+import 'package:hayat_eg/features/presentation/page/on_boarding/on_bording_layout.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
-import 'package:hayat_eg/modules/StartApp/on_bording/on_bording_layout.dart';
 import 'package:hayat_eg/shared/BlocObserver.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/DioHelper.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';
 import 'package:hayat_eg/styles/thems.dart';
 
 import 'firebase_options.dart';
-import 'modules/StartApp/login/Login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

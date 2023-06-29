@@ -1,8 +1,8 @@
+import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothesCategory.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothesSize.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothesType.dart';
 import 'package:hayat_eg/helper/helper.dart';
-import 'package:hayat_eg/models/medicineModel.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 
 class ClothesServices {
@@ -40,11 +40,11 @@ class ClothesServices {
     return clothesType;
   }
 
-  Future<List<MedicineModel>> getListMedicineName() async {
+  Future<List<Medicine>> getListMedicineName() async {
     List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/medicines');
-    List<MedicineModel> listMedicine = [];
+    List<Medicine> listMedicine = [];
     for (int i = 0; i < data.length; i++) {
-      listMedicine.add(MedicineModel.fromJson(data[i]));
+      listMedicine.add(Medicine.fromJson(data[i]));
     }
 
     print(data);

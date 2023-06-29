@@ -5,10 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
-import '../../../../layout/HayatLayout/hayat-egLayout.dart';
-import '../../../../shared/component/constants.dart';
 import '../RegisterCubit/registerState.dart';
-import '../RegisterCubit/rigistrCubit.dart';
+import '../RegisterCubit/register_cubit.dart';
 
 class setPasswordScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();

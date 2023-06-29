@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/modules/StartApp/login/LoginCubit/LoginCubit.dart';
-import 'package:hayat_eg/modules/StartApp/login/LoginCubit/LoginStates.dart';
+import 'package:hayat_eg/features/presentation/page/login/LoginCubit/LoginCubit.dart';
+import 'package:hayat_eg/features/presentation/page/login/LoginCubit/LoginStates.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 
 class SearchTestScreen extends StatelessWidget {

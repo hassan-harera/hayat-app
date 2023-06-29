@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hayat_eg/features/data/model/medicine_donation.dart';
 
 import '../../../../../helper/helper.dart';
-import '../../../../../models/Medicine/medicineDonation.dart';
 
 class updateMedicine {
   Future<MedicineDonation> postMedicineDonation({

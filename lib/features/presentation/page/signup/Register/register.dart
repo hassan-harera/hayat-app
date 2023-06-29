@@ -5,7 +5,7 @@ import 'package:hayat_eg/features/presentation/page/login/Login.dart';
 import 'package:hayat_eg/features/presentation/page/signup/RegisterCubit/registerState.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
-import '../RegisterCubit/rigistrCubit.dart';
+import '../RegisterCubit/register_cubit.dart';
 import '../phoneNumber/phoneNumberScreen.dart';
 
 class RegisterScreen extends StatefulWidget {

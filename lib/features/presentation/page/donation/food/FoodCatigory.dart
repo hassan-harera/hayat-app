@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/features/data/datasource/donation/food/food-api-get.dart';
 import 'package:hayat_eg/features/data/model/food/foodCategory.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
-import 'package:hayat_eg/layout/Categories/socialMediaCommunication.dart';
+import 'package:hayat_eg/features/presentation/page/communication_method.dart';
 
 import 'package:image_picker/image_picker.dart';
 

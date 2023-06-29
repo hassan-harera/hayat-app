@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/modules/StartApp/registerScreen/RegisterCubit/registerState.dart';
 
 import 'forgetPasswordState.dart';
 

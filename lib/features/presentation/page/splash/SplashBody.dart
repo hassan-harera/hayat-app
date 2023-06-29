@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../on_bording/on_bording_layout.dart';
+import 'package:hayat_eg/features/presentation/page/on_boarding/on_bording_layout.dart';
 
 class splashBody extends StatefulWidget {
   @override

@@ -4,8 +4,8 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/shared/component/component.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../../../../../shared/component/constants.dart';
 
 import '../ForgetPasswordCubit/ForgetPasswordCubit.dart';
 import '../ForgetPasswordCubit/forgetPasswordState.dart';

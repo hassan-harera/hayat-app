@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/features/data/model/medicine_donation.dart';
 import '../../../../../helper/helper.dart';
-import '../../../../../models/Medicine/medicineDonation.dart';
 
 class CreateMedicineDonation {
   Future<MedicineDonation> postMedicineDonation({

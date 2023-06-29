@@ -1,4 +1,3 @@
-import '../../../../models/LoginModel/loginModel.dart';
 
 abstract class LoginStates {}
 

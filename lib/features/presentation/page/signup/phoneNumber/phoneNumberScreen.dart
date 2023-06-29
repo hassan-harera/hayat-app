@@ -2,12 +2,12 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/modules/StartApp/login/Login.dart';
+import 'package:hayat_eg/features/presentation/page/login/Login.dart';
+import 'package:hayat_eg/shared/component/component.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 
-import '../../../../shared/component/component.dart';
-import '../../../../shared/component/constants.dart';
 import '../RegisterCubit/registerState.dart';
-import '../RegisterCubit/rigistrCubit.dart';
+import '../RegisterCubit/register_cubit.dart';
 import '../phoneVerification/phoneVervicationScreen.dart';
 
 class PhoneScreen extends StatelessWidget {
