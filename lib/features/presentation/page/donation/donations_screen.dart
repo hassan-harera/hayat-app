@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
+import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import '../../../../shared/component/constants.dart';
 import '../notification/notificationScreen.dart';
-
-final sl = GetIt.instance;
 
 class DonationsScreen extends StatefulWidget {
   DonationsScreen(

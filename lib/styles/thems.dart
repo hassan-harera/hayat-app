@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 ThemeData lightThem = ThemeData(
-  // fontFamily: 'assets/Fonts/PTSans-Regular.ttf',
   scaffoldBackgroundColor: const Color(0xffF1F4F8),
+  fontFamily: 'PT_Sans',
   textTheme: const TextTheme(
-      bodyText1: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black)),
+      bodyText2: TextStyle(
+          fontFamily: 'PTSans-Regular.ttf',
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: Colors.black)),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor: Colors.amber,
@@ -28,16 +31,19 @@ ThemeData lightThem = ThemeData(
 
     // backwardsCompatibility: false,
     titleTextStyle: const TextStyle(
-        color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+        fontFamily: '/assets/fonts/PTSans-Regular.ttf',
+        color: Colors.black,
+        fontSize: 18,
+        fontWeight: FontWeight.bold),
   ),
 );
 ThemeData darkThem = ThemeData(
     textTheme: const TextTheme(
         bodyText1: TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.w600,
-      color: Colors.white,
-    )),
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            fontFamily: '/assets/fonts/PTSans-Regular.ttf')),
     primarySwatch: defultColor,
     iconTheme: const IconThemeData(color: Colors.black),
     appBarTheme: const AppBarTheme(
@@ -48,7 +54,10 @@ ThemeData darkThem = ThemeData(
         // backwardsCompatibility: false,
 
         titleTextStyle: TextStyle(
-            color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            fontFamily: '/assets/fonts/PTSans-Bold.ttf')),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.deepOrange,

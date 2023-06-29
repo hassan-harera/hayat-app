@@ -14,7 +14,7 @@ class BookDonationDataSource {
 
   BookDonationDataSource({required this.client});
 
-  Future<BookDonationResponse?> create(BookDonationRequest request) async {
+  Future<ClothingDonationResponse?> create(BookDonationRequest request) async {
     String token = Cash_helper.getData(key: 'token');
     final response = await client
         .post(Uri.parse(apiUrl), body: jsonEncode(request.toJson()), headers: {
@@ -23,7 +23,7 @@ class BookDonationDataSource {
     });
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return BookDonationResponse.fromJson(jsonDecode(response.body));
+      return ClothingDonationResponse.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 400) {
       throw BadRequestException(
           apiError: ApiError.fromJson(jsonDecode(response.body)));

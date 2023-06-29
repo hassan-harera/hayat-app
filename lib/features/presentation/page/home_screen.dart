@@ -6,7 +6,7 @@ import 'package:hayat_eg/features/presentation/page/donation/medicine/create_med
 import 'package:hayat_eg/features/presentation/widgets/homeBuilder.dart';
 import '../../../shared/component/constants.dart';
 import 'donation/clothing/clothing_donation_form.dart';
-import 'donation/food/FoodCatigory.dart';
+import 'donation/food/create_food_donation_screen.dart';
 import '../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import 'notification/notificationScreen.dart';
@@ -129,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context, FoodCategoryScreen());
+                              myNavigator(context, CreateFoodDonationScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/foodCategory.png',
@@ -209,7 +209,7 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context, FoodCategoryScreen());
+                              myNavigator(context, CreateFoodDonationScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/foodCategory.png',

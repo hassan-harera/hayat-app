@@ -1,13 +1,21 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/features/data/datasource/donation/food/food-api-get.dart';
-import 'package:hayat_eg/features/data/model/food/foodCategory.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/features/data/datasource/donation/food/food_donation_datasource.dart';
+import 'package:hayat_eg/features/data/model/donation/food/food_donation_request.dart';
+import 'package:hayat_eg/features/data/model/food/food_category.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
+import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
 import 'package:hayat_eg/features/presentation/page/communication_method.dart';
+import 'package:hayat_eg/injection_container.dart';
+import 'package:hayat_eg/styles/styles.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -18,26 +26,28 @@ import '../../../../../shared/component/constants.dart';
 import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 
-class FoodCategoryScreen extends StatefulWidget {
+class CreateFoodDonationScreen extends StatefulWidget {
   @override
-  State<FoodCategoryScreen> createState() => _FoodCategoryScreenState();
+  State<CreateFoodDonationScreen> createState() =>
+      _CreateFoodDonationScreenState();
 }
 
-class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
+class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
   var formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   var titleController = TextEditingController();
   int? categoryId;
+  int? unitId;
+
   var descriptionController = TextEditingController();
-
   var categoryController = TextEditingController();
-
   var quantityController = TextEditingController();
-
   var dateController = TextEditingController();
-
   var timeController = TextEditingController();
+  var communicationMethod = TextEditingController();
 
+  FoodDonationRepository _foodDonationRepository = sl();
+  FoodRepository _foodRepository = sl();
   String? sItem;
   Uint8List? myFile;
 
@@ -126,8 +136,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
             child: Scaffold(
                 appBar: AppBar(
                   title: const Text(
-                    'Food Category',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    'Food Donation',
                   ),
                 ),
                 body: SafeArea(
@@ -200,12 +209,10 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                             SizedBox(
                                 width: double.infinity,
                                 child: FutureBuilder<List<FoodCategory>>(
-                                  future: FoodServices().getFoodCategory(),
+                                  future: _foodRepository.listCategories(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<FoodCategory> data = snapshot.data!;
-                                      sItem = jsonEncode(
-                                          data[0].englishName.toString());
                                       return DropdownButtonFormField(
                                         hint: const Text('Unit'),
                                         iconEnabledColor: Colors.amber,
@@ -213,21 +220,15 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                           Icons.keyboard_arrow_down,
                                           size: 30,
                                         ),
-                                        value: sItem.toString(),
                                         items: data
                                             .map((item) => DropdownMenuItem(
-                                                value: jsonEncode(item
-                                                    .englishName
-                                                    .toString()),
-                                                child: Text(
-                                                  jsonEncode(item.englishName
-                                                      .toString()),
-                                                )))
+                                                value: item.englishName,
+                                                child: Text(item.englishName
+                                                    as String)))
                                             .toList(),
                                         onChanged: (item) {
                                           sItem = item;
-
-                                          categoryId = data[0].id;
+                                          unitId = data[0].id;
                                         },
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
@@ -262,7 +263,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                     Column(
                                       children: [
                                         const Text(
-                                          'Search',
+                                          'City',
                                           textAlign: TextAlign.start,
                                           style: TextStyle(fontSize: 18),
                                         ),
@@ -274,10 +275,10 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                           child: myStaticTextFormField(
                                             validator: (value) {
                                               if (value!.isEmpty) {
-                                                return 'please inter title';
+                                                return 'City Required';
                                               }
                                             },
-                                            hint: 'food name ',
+                                            hint: 'Location City ',
                                           ),
                                         ),
                                       ],
@@ -317,6 +318,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                   children: [
                                     Expanded(
                                       child: myStaticTextFormField(
+                                        controller: quantityController,
                                         keyboardType: TextInputType.number,
                                         hint: 'Amount',
                                         validator: (value) {
@@ -332,14 +334,12 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                     SizedBox(
                                         width: 190,
                                         child: FutureBuilder<List<FoodUnit>>(
-                                          future: FoodServices().getFoodUnits(),
+                                          future: _foodRepository.listUnits(),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               List<FoodUnit> data =
                                                   snapshot.data!;
-                                              sItem = jsonEncode(data[0]
-                                                  .englishName
-                                                  .toString());
+                                              sItem = data[0].englishName;
                                               return DropdownButtonFormField(
                                                 hint: const Text('Unit'),
                                                 iconEnabledColor: Colors.amber,
@@ -351,14 +351,11 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                                 items: data
                                                     .map((item) =>
                                                         DropdownMenuItem(
-                                                            value: jsonEncode(
-                                                                item.englishName
-                                                                    .toString()),
+                                                            value: item
+                                                                .englishName,
                                                             child: Text(
-                                                              jsonEncode(item
-                                                                  .englishName
-                                                                  .toString()),
-                                                            )))
+                                                                item.englishName
+                                                                    as String)))
                                                     .toList(),
                                                 onChanged: (item) {
                                                   sItem = item;
@@ -418,7 +415,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                     value: 'Chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
+                                      layoutCubit.communicationTool = 'CHAT';
                                       layoutCubit.changRadioValue();
                                       //   setState(() {});
                                     }),
@@ -434,7 +431,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                     value: 'Phone',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
+                                      layoutCubit.communicationTool = 'PHONE';
                                       layoutCubit.changRadioValue();
                                       //  setState(() {});
                                     }),
@@ -447,15 +444,16 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                             Row(
                               children: [
                                 Radio(
-                                    value: 'Phone-chat',
+                                    value: 'Phone & chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
+                                      layoutCubit.communicationTool =
+                                          'CHAT_AND_PHONE';
                                       layoutCubit.changRadioValue();
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'Phone-chat',
+                                  'Phone & chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -466,51 +464,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                             myButton(
                                 text: 'Next',
                                 onTap: () async {
-                                  if (formKey.currentState!.validate()) {
-                                    CreateMedicineDonation()
-                                        .postMedicineDonation(
-                                            communication_method: layoutCubit
-                                                .communicationTool
-                                                .toString(),
-                                            quantity: quantityController.text,
-                                            city_id: 'city_id',
-                                            description:
-                                                descriptionController.text,
-                                            state: 'state',
-                                            title: titleController.text,
-                                            medicine_unit_id: sItem.toString(),
-                                            medicine_id: 'medicine_id',
-                                            medicine_expiration_date:
-                                                dateController.text,
-                                            token: 'deviceToken');
-                                    myNavigator(
-                                        context,
-                                        SocialMediaCommunication(
-                                            file: myFile,
-                                            date: dateController.text,
-                                            categoryName:
-                                                layoutCubit.titleList[2],
-                                            title: titleController.text,
-                                            quantity: 1,
-                                            cityId: 1,
-                                            communicationMethod: layoutCubit
-                                                .communicationTool
-                                                .toString(),
-                                            description:
-                                                descriptionController.text,
-                                            bookTitle: 'bookTitle',
-                                            foodUnitId: 2,
-                                            foodCategoryId: categoryId,
-                                            foodExpirationDate:
-                                                dateController.text));
-                                    formKey.currentState!.save();
-                                  } else {
-                                    setState(() {
-                                      autoValidateMode =
-                                          AutovalidateMode.always;
-                                    });
-                                  }
-                                  //
+                                  onSubmit(layoutCubit);
                                 },
                                 radius: 10),
                           ],
@@ -523,5 +477,42 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
         },
       ),
     );
+  }
+
+  void onSubmit(LayoutCubit layoutCubit) {
+    final request = FoodDonationRequest(
+      title: titleController.text,
+      description: descriptionController.text,
+      cityId: 1,
+      communicationMethod: layoutCubit.communicationTool,
+      quantity: double.parse(quantityController.text),
+      foodCategoryId: categoryId,
+      foodUnitId: 1,
+    );
+
+    final response = _foodDonationRepository.create(request);
+    response.onError((error, stackTrace) {});
+
+    response.then((value) => {}, onError: (error, stackTrace) {
+      error as BadRequestException;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Something Went Wrong'),
+            content: Text(error.apiError.displayMessage.toString()),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Dismiss'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      stackTrace.printError();
+    });
   }
 }

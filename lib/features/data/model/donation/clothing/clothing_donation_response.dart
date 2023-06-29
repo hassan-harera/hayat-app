@@ -1,5 +1,8 @@
-import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/user/user.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_seasson.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
+import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 
 class ClothingDonationResponse {
   int? id;
@@ -19,12 +22,11 @@ class ClothingDonationResponse {
   String? qrCode;
   int? reputation;
   int? quantity;
-  String? bookTitle;
-  String? bookSubTitle;
-  String? bookAuthor;
-  String? bookPublisher;
-  String? bookPublicationYear;
-  String? bookLanguage;
+  ClothingSeason? clothingSeason;
+  ClothingSize? clothingCondition;
+  ClothingSize? clothingSize;
+  ClothingCategory? clothingCategory;
+  ClothingType? clothingType;
 
   ClothingDonationResponse(
       {this.id,
@@ -44,12 +46,11 @@ class ClothingDonationResponse {
       this.qrCode,
       this.reputation,
       this.quantity,
-      this.bookTitle,
-      this.bookSubTitle,
-      this.bookAuthor,
-      this.bookPublisher,
-      this.bookPublicationYear,
-      this.bookLanguage});
+      this.clothingSeason,
+      this.clothingCondition,
+      this.clothingSize,
+      this.clothingCategory,
+      this.clothingType});
 
   ClothingDonationResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -61,24 +62,29 @@ class ClothingDonationResponse {
     category = json['category'];
     status = json['status'];
     communicationMethod = json['communication_method'];
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     imageUrl = json['image_url'];
     telegramLink = json['telegram_link'];
     whatsappLink = json['whatsapp_link'];
     qrCode = json['qr_code'];
     reputation = json['reputation'];
     quantity = json['quantity'];
-    bookTitle = json['book_title'];
-    bookSubTitle = json['book_sub_title'];
-    bookAuthor = json['book_author'];
-    bookPublisher = json['book_publisher'];
-    bookPublicationYear = json['book_publication_year'];
-    bookLanguage = json['book_language'];
+    clothingSeason = json['clothing_season'] != null
+        ? ClothingSeason.fromJson(json['clothing_season'])
+        : null;
+    clothingCondition = json['clothing_condition'] != null
+        ? ClothingSize.fromJson(json['clothing_condition'])
+        : null;
+    clothingSize = json['clothing_size'];
+    clothingCategory = json['clothing_category'] != null
+        ? ClothingCategory.fromJson(json['clothing_category'])
+        : null;
+    clothingType = json['clothing_type'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['active'] = this.active;
     data['title'] = this.title;
@@ -100,12 +106,17 @@ class ClothingDonationResponse {
     data['qr_code'] = this.qrCode;
     data['reputation'] = this.reputation;
     data['quantity'] = this.quantity;
-    data['book_title'] = this.bookTitle;
-    data['book_sub_title'] = this.bookSubTitle;
-    data['book_author'] = this.bookAuthor;
-    data['book_publisher'] = this.bookPublisher;
-    data['book_publication_year'] = this.bookPublicationYear;
-    data['book_language'] = this.bookLanguage;
+    if (this.clothingSeason != null) {
+      data['clothing_season'] = this.clothingSeason!.toJson();
+    }
+    if (this.clothingCondition != null) {
+      data['clothing_condition'] = this.clothingCondition!.toJson();
+    }
+    data['clothing_size'] = this.clothingSize;
+    if (this.clothingCategory != null) {
+      data['clothing_category'] = this.clothingCategory!.toJson();
+    }
+    data['clothing_type'] = this.clothingType;
     return data;
   }
 }

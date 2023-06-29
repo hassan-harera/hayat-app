@@ -17,8 +17,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'LoginCubit/LoginCubit.dart';
 import 'LoginCubit/LoginStates.dart';
 
-final sl = GetIt.instance;
-
 class LoginScreen extends StatefulWidget {
   @override
   State<LoginScreen> createState() => _LoginScreenState();

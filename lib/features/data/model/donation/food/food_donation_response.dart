@@ -1,7 +1,7 @@
-import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/user/user.dart';
+import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
+import 'package:hayat_eg/features/data/model/food/food_unit.dart';
 
-class ClothingDonationResponse {
+class FoodDonationResponse {
   int? id;
   bool? active;
   String? title;
@@ -18,15 +18,11 @@ class ClothingDonationResponse {
   String? whatsappLink;
   String? qrCode;
   int? reputation;
+  FoodUnit? foodUnit;
   int? quantity;
-  String? bookTitle;
-  String? bookSubTitle;
-  String? bookAuthor;
-  String? bookPublisher;
-  String? bookPublicationYear;
-  String? bookLanguage;
+  String? foodExpirationDate;
 
-  ClothingDonationResponse(
+  FoodDonationResponse(
       {this.id,
       this.active,
       this.title,
@@ -43,15 +39,11 @@ class ClothingDonationResponse {
       this.whatsappLink,
       this.qrCode,
       this.reputation,
+      this.foodUnit,
       this.quantity,
-      this.bookTitle,
-      this.bookSubTitle,
-      this.bookAuthor,
-      this.bookPublisher,
-      this.bookPublicationYear,
-      this.bookLanguage});
+      this.foodExpirationDate});
 
-  ClothingDonationResponse.fromJson(Map<String, dynamic> json) {
+  FoodDonationResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     active = json['active'];
     title = json['title'];
@@ -61,20 +53,18 @@ class ClothingDonationResponse {
     category = json['category'];
     status = json['status'];
     communicationMethod = json['communication_method'];
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     imageUrl = json['image_url'];
     telegramLink = json['telegram_link'];
     whatsappLink = json['whatsapp_link'];
     qrCode = json['qr_code'];
     reputation = json['reputation'];
+    foodUnit = json['food_unit'] != null
+        ? new FoodUnit.fromJson(json['food_unit'])
+        : null;
     quantity = json['quantity'];
-    bookTitle = json['book_title'];
-    bookSubTitle = json['book_sub_title'];
-    bookAuthor = json['book_author'];
-    bookPublisher = json['book_publisher'];
-    bookPublicationYear = json['book_publication_year'];
-    bookLanguage = json['book_language'];
+    foodExpirationDate = json['food_expiration_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,13 +89,11 @@ class ClothingDonationResponse {
     data['whatsapp_link'] = this.whatsappLink;
     data['qr_code'] = this.qrCode;
     data['reputation'] = this.reputation;
+    if (this.foodUnit != null) {
+      data['food_unit'] = this.foodUnit!.toJson();
+    }
     data['quantity'] = this.quantity;
-    data['book_title'] = this.bookTitle;
-    data['book_sub_title'] = this.bookSubTitle;
-    data['book_author'] = this.bookAuthor;
-    data['book_publisher'] = this.bookPublisher;
-    data['book_publication_year'] = this.bookPublicationYear;
-    data['book_language'] = this.bookLanguage;
+    data['food_expiration_date'] = this.foodExpirationDate;
     return data;
   }
 }

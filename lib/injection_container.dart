@@ -1,9 +1,17 @@
 // import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hayat_eg/features/data/datasource/clothing/clothing_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/donation/book/book_donation_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/donation/clothing/clothing_donation_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/donation/donations_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/donation/food/food_donation_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/food/food_datasource.dart';
+import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,20 +36,43 @@ Future<void> init() async {
   sl.registerLazySingleton<BookDonationRepository>(
     () => BookDonationRepository(bookDonationDataSource: sl()),
   );
+  sl.registerLazySingleton<FoodDonationRepository>(
+    () => FoodDonationRepository(foodDonationDataSource: sl()),
+  );
+  sl.registerLazySingleton<ClothingDonationRepository>(
+    () => ClothingDonationRepository(clothingDonationDataSource: sl()),
+  );
+  sl.registerLazySingleton<FoodRepository>(
+    () => FoodRepository(foodDatasource: sl()),
+  );
+  sl.registerLazySingleton<ClothingRepository>(
+        () => ClothingRepository(clothingDataSource: sl()),
+  );
 
   // Data sources
-  sl.registerLazySingleton<CityDataSource>(
-    () => CityDataSource(client: sl()),
-  );
   sl.registerLazySingleton<DonationDataSource>(
     () => DonationDataSource(client: sl()),
   );
   sl.registerLazySingleton<BookDonationDataSource>(
     () => BookDonationDataSource(client: sl()),
   );
-
   sl.registerLazySingleton<MedicineDonationDataSource>(
     () => MedicineDonationDataSource(client: sl()),
+  );
+  sl.registerLazySingleton<FoodDonationDatasource>(
+    () => FoodDonationDatasource(client: sl()),
+  );
+  sl.registerLazySingleton<ClothingDonationDataSource>(
+    () => ClothingDonationDataSource(client: sl()),
+  );
+  sl.registerLazySingleton<CityDataSource>(
+    () => CityDataSource(client: sl()),
+  );
+  sl.registerLazySingleton<FoodDataSource>(
+    () => FoodDataSource(),
+  );
+  sl.registerLazySingleton<ClothingDatasource>(
+        () => ClothingDatasource(),
   );
 
   // External

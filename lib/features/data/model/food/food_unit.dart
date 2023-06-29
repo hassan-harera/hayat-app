@@ -1,38 +1,28 @@
 class FoodUnit {
-  final int id;
-  final bool active;
-  final String arabicName;
+  int? id;
+  bool? active;
+  String? arabicName;
+  String? englishName;
 
-  // final String description;
-  final String englishName;
+  FoodUnit(
+      {this.id,
+      this.active,
+      this.arabicName,
+      this.englishName});
 
-  FoodUnit({
-    required this.id,
-    required this.active,
-    required this.arabicName,
-    required this.englishName,
-    // required this.description,
-  });
-
-  factory FoodUnit.fromJson(Map<String, dynamic> json) {
-    return FoodUnit(
-      id: json['id'] as int,
-      active: json['active'] as bool,
-      arabicName: json['arabic_name'] as String,
-      englishName: json['english_name'] as String,
-      //description: json['description']as String,
-    );
+  FoodUnit.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    active = json['active'];
+    arabicName = json['arabic_name'];
+    englishName = json['english_name'];
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'active': active,
-      'arabic_name': arabicName,
-      'english_name': englishName,
-      // 'description':description
-    };
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['active'] = this.active;
+    data['arabic_name'] = this.arabicName;
+    data['english_name'] = this.englishName;
+    return data;
   }
 }
-// /api/v1/medicine/units
-// /api/v1/food/units
