@@ -111,7 +111,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
             child: Scaffold(
                 appBar: AppBar(
                   title: const Text(
-                    'Book Title',
+                    'Book Donation',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
