@@ -3,7 +3,6 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
@@ -12,10 +11,10 @@ import 'package:hayat_eg/features/presentation/page/donation/book/view_book_dona
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
-import '../../../../../shared/component/component.dart';
 import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
-import 'package:flutter/material.dart';
+import '../../../../../shared/component/component.dart';
 
 class BookDonationFormScreen extends StatefulWidget {
   @override
@@ -28,7 +27,15 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
   var bookTitleController = TextEditingController();
+  var bookAuthorController = TextEditingController();
+  var bookPublisherController = TextEditingController();
+  var bookQuantityController = TextEditingController();
+  var bookLanguageController = TextEditingController();
+  var bookCityController = TextEditingController();
+  var bookPublicationYearController = TextEditingController();
   var bookSubTitleController = TextEditingController();
+  var telegramController = TextEditingController();
+  var watsAppController = TextEditingController();
   late String communicationMethod;
   late Long cityId;
 
@@ -146,7 +153,8 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                             child: AspectRatio(
                                               aspectRatio: 478 / 451,
                                               child: Container(
-                                                padding: EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -177,11 +185,6 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                 ),
                               ],
                             ),
-                            myDescriptionTextFormField(
-                                controller: descriptionController),
-                            const SizedBox(
-                              height: 15,
-                            ),
                             myStaticTextFormField(
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -192,9 +195,27 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               controller: bookTitleController,
                             ),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
                             myStaticTextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'please add Book Category';
+                                }
+                              },
+                              hint: 'Book Sub Title',
+                              controller: bookSubTitleController,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            myDescriptionTextFormField(
+                                controller: descriptionController),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            myStaticTextFormField(
+                              controller: bookLanguageController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please inter Book Language';
@@ -206,7 +227,8 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               height: 10,
                             ),
                             myStaticTextFormField(
-                              hint: 'publisher',
+                              controller: bookQuantityController,
+                              hint: 'Quantity',
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please inter publisher';
@@ -214,7 +236,57 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               },
                             ),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
+                            ),
+                            myStaticTextFormField(
+                              controller: bookPublisherController,
+                              hint: 'Book Publisher',
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please inter publisher';
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            myStaticTextFormField(
+                              controller: bookAuthorController,
+                              hint: 'Book Author',
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please inter publisher';
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            ExprirationDate(
+                              hint: '         Book Publication Year',
+                              controller: bookPublicationYearController,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  myNavigator(context, SearchScreen());
+                                });
+                              },
+                              child: myStaticTextFormField(
+                                hint: 'City',
+                                controller: bookCityController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please inter publisher';
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             const Text(
                               'Communication Method',
@@ -274,8 +346,83 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Social Media',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: watsAppController,
+                                  keyboardType: TextInputType.phone,
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your watsapp number';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      prefixIcon: Image.asset(
+                                        'assets/watsapp.png',
+                                        scale: 18,
+                                        color: Colors.amber,
+                                      ),
+                                      hintText: 'WatsApp',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your telegram number';
+                                    }
+                                  },
+                                  controller: telegramController,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(
+                                        Icons.telegram_outlined,
+                                        color: Colors.amber,
+                                        size: 35,
+                                      ),
+                                      hintText: 'Telegram',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             myButton(
-                                text: 'Next',
+                                text: 'Submit',
                                 onTap: () async {
                                   onSubmit();
                                 },

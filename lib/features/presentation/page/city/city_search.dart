@@ -28,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: TextField(
           onSubmitted: _search,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Search',
             border: InputBorder.none,
             suffixIcon: Icon(Icons.search),
