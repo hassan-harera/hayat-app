@@ -1,8 +1,8 @@
 import 'dart:math';
 
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hayat_eg/features/data/repository/oauth/google/GoogleSignInButton.dart';
@@ -14,6 +14,7 @@ import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'LoginCubit/LoginCubit.dart';
 import 'LoginCubit/LoginStates.dart';
 
@@ -132,14 +133,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Column(
                                   children: [
                                     myTextFormField(
-                                      label: ('Phone Number'),
+                                      label: ('Mobile,Email or username'),
                                       prefixIcon: (Icons.email_outlined),
                                       controller: subjectController,
                                       hint: '01XX-XXX-XXXX',
                                       keyboardType: TextInputType.emailAddress,
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return "Email Address is Required";
+                                          return "This Field is Required";
                                         } else {
                                           return null;
                                         }
@@ -312,7 +313,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const Text('Don\'t have an account?'),
                                   defaultTextBottom(
                                       function: () {
-                                        myNavigator(context, RegisterScreen());
+                                        myNavigateAndReplacement(
+                                            context, RegisterScreen());
                                       },
                                       text: 'Sign up'),
                                 ],

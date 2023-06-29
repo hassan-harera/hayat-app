@@ -1,40 +1,38 @@
 class ApiError {
-  String? status;
-  String? timestamp;
-  String? message;
-  Null? debugMessage;
-  String? displayMessage;
-  String? code;
-  Null? subErrors;
+  final int status;
+  final DateTime timestamp;
+  final String message;
+  final String debugMessage;
+  final String displayMessage;
+  final String code;
 
-  ApiError(
-      {this.status,
-      this.timestamp,
-      this.message,
-      this.debugMessage,
-      this.displayMessage,
-      this.code,
-      this.subErrors});
+  ApiError({
+    required this.status,
+    required this.timestamp,
+    required this.message,
+    required this.debugMessage,
+    required this.displayMessage,
+    required this.code,
+  });
 
-  ApiError.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    timestamp = json['timestamp'];
-    message = json['message'];
-    debugMessage = json['debugMessage'];
-    displayMessage = json['displayMessage'];
-    code = json['code'];
-    subErrors = json['subErrors'];
+  factory ApiError.fromJson(Map<String, dynamic> json) {
+    return ApiError(
+        status: json['status'] as int,
+        timestamp: DateTime.parse(json['timestamp'] as String),
+        message: json['message'] as String,
+        debugMessage: json['debugMessage'] as String,
+        displayMessage: json['displayMessage'] as String,
+        code: json['code'] as String);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['timestamp'] = this.timestamp;
-    data['message'] = this.message;
-    data['debugMessage'] = this.debugMessage;
-    data['displayMessage'] = this.displayMessage;
-    data['code'] = this.code;
-    data['subErrors'] = this.subErrors;
-    return data;
+    return {
+      'status': status,
+      'timestamp': timestamp.toIso8601String(),
+      'message': message,
+      'debugMessage': debugMessage,
+      'displayMessage': displayMessage,
+      'code': code
+    };
   }
 }

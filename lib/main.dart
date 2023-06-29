@@ -26,7 +26,6 @@ void main() async {
   Widget? widget;
   bool? onBoarding = Cash_helper.getData(key: 'onBoarding');
   String? token = Cash_helper.getData(key: 'token');
-  print(token);
 
   if (onBoarding != null) {
     if (token != null) {
@@ -38,6 +37,7 @@ void main() async {
     widget = const OnBoardingScreen();
   }
 
+  // widget = const TestScreen();
   runApp(MyApp(
     startWidget: widget,
   ));
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
       theme: lightThem,
       darkTheme: darkThem,
       themeMode: ThemeMode.light,
-      home: startWidget,
+      home: const HayatLayoutScreen(),
     );
   }
 }

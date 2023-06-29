@@ -25,7 +25,7 @@ class _MedicineFormState extends State<MedicineForm> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Add Medicine'),
+          title: const Text('Add Medicine'),
         ),
         body: SingleChildScrollView(
             child: Padding(
@@ -54,15 +54,15 @@ class _MedicineFormState extends State<MedicineForm> {
                                 _image!,
                                 fit: BoxFit.cover,
                               )
-                            : Icon(
+                            : const Icon(
                                 Icons.camera_alt,
                                 size: 50,
                               ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Title',
                         border: OutlineInputBorder(),
                       ),
@@ -76,9 +76,9 @@ class _MedicineFormState extends State<MedicineForm> {
                         _title = value;
                       },
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Description',
                         border: OutlineInputBorder(),
                       ),
@@ -93,14 +93,14 @@ class _MedicineFormState extends State<MedicineForm> {
                         _description = value;
                       },
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'City',
                         border: OutlineInputBorder(),
                       ),
                       value: _city,
-                      items: [
+                      items: const [
                         DropdownMenuItem(
                           child: Text('City 1'),
                           value: 'City 1',
@@ -126,14 +126,14 @@ class _MedicineFormState extends State<MedicineForm> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Communication Method',
                         border: OutlineInputBorder(),
                       ),
                       value: _communicationMethod,
-                      items: [
+                      items: const [
                         DropdownMenuItem(
                           child: Text('Phone'),
                           value: 'Phone',
@@ -159,7 +159,7 @@ class _MedicineFormState extends State<MedicineForm> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Slider(
                       value: _quantity,
                       min: 0,
@@ -173,14 +173,14 @@ class _MedicineFormState extends State<MedicineForm> {
                       },
                     ),
                     Text('Quantity: ${_quantity.toStringAsFixed(0)}'),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Medicine',
                         border: OutlineInputBorder(),
                       ),
                       value: _medicine,
-                      items: [
+                      items: const [
                         DropdownMenuItem(
                           child: Text('Medicine 1'),
                           value: 'Medicine 1',

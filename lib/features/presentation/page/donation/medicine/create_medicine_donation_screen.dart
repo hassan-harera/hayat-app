@@ -1,32 +1,33 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/features/data/model/donation/medicine/medicine-search.dart';
+import 'package:hayat_eg/features/presentation/page/communication_method.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:intl/intl.dart';
-import '../../../../data/model/medicine/medicine_unit.dart';
-import '../../../../data/model/donation/medicine/medicine-api-get.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import '../../../../../shared/Utils/Utils.dart';
 import '../../../../../shared/component/component.dart';
 import '../../../../../shared/component/constants.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
+import '../../../../data/model/donation/medicine/medicine-api-get.dart';
+import '../../../../data/model/medicine/medicine_unit.dart';
 
 class MedicineCategoryScreen extends StatefulWidget {
-  MedicineCategoryScreen({super.key});
+  const MedicineCategoryScreen({super.key});
 
   @override
   State<MedicineCategoryScreen> createState() => _MedicineCategoryScreenState();
 }
 
 class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
-  var searchController = TextEditingController();
-  var dateController = TextEditingController();
-  var titleController = TextEditingController();
-  var DescriptionController = TextEditingController();
-  var categoryController = TextEditingController();
+  var medicineSearchController = TextEditingController();
+  var medicineDateController = TextEditingController();
+  var medicineTitleController = TextEditingController();
+  var medicineDescriptionController = TextEditingController();
+  var medicineNameController = TextEditingController();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   String? medicineName;
 
@@ -141,7 +142,8 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                             child: AspectRatio(
                                               aspectRatio: 478 / 451,
                                               child: Container(
-                                                padding: EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -162,7 +164,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 // const Spacer(),
                                 Expanded(
                                     child: myStaticTextFormField(
-                                  controller: titleController,
+                                      controller: medicineTitleController,
                                   hint: 'Title',
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -173,18 +175,18 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                               ],
                             ),
                             myDescriptionTextFormField(
-                                controller: DescriptionController),
+                                controller: medicineDescriptionController),
                             const SizedBox(
                               height: 15,
                             ),
                             myStaticTextFormField(
-                              controller: categoryController,
+                              controller: medicineNameController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'please inter title';
                                 }
                               },
-                              hint: 'medicine Category',
+                              hint: 'medicine ',
                             ),
                             const SizedBox(
                               height: 15,
@@ -203,7 +205,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               const Text(
-                                                'Search',
+                                                'City',
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(fontSize: 18),
                                               ),
@@ -215,7 +217,8 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                 child: TextFormField(
                                                   keyboardType:
                                                       TextInputType.text,
-                                                  controller: searchController,
+                                                  controller:
+                                                      medicineSearchController,
                                                   onFieldSubmitted:
                                                       (value) async {
                                                     medicineName = value;
@@ -226,7 +229,6 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                         .getMedicineName(
                                                             medicineName:
                                                                 medicineName!);
-                                                    print(medicineName);
                                                   },
 
 //
@@ -243,7 +245,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                   },
 
                                                   decoration: InputDecoration(
-                                                      hintText: 'hint',
+                                                      hintText: 'Search city',
                                                       filled: true,
                                                       fillColor: Colors.white,
                                                       border:
@@ -284,7 +286,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                             ]),
                                       ],
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -304,7 +306,8 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                             SizedBox(
                                                 width: 190,
                                                 child: ExprirationDate(
-                                                  controller: dateController,
+                                                  controller:
+                                                      medicineDateController,
                                                 )),
                                           ],
                                         ),
@@ -318,13 +321,28 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: myStaticTextFormField(
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'please inter amount';
-                                          }
-                                        },
-                                        hint: 'Amount',
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Medicine Amount',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          myStaticTextFormField(
+                                            keyboardType: TextInputType.number,
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return 'please inter amount';
+                                              }
+                                            },
+                                            hint: 'Amount',
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     const SizedBox(
@@ -332,74 +350,87 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                     ),
                                     SizedBox(
                                         width: 190,
-                                        child:
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              'Medicine Unit',
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
                                             FutureBuilder<List<MedicineUnit>>(
-                                          future: MedicineServices()
-                                              .getMedicineUnits(),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              List<MedicineUnit> units =
-                                                  snapshot.data!;
-                                              String? sItem = jsonEncode(
-                                                  units[0]
-                                                      .englishName
-                                                      .toString());
-                                              return DropdownButtonFormField(
-                                                hint: const Text('Unit'),
-                                                iconEnabledColor: Colors.amber,
-                                                icon: const Icon(
-                                                  Icons.keyboard_arrow_down,
-                                                  size: 30,
-                                                ),
-                                                value: sItem.toString(),
-                                                items: units
-                                                    .map((item) =>
-                                                        DropdownMenuItem(
-                                                            value: jsonEncode(
-                                                                item.englishName
-                                                                    .toString()),
-                                                            child: Text(
-                                                              jsonEncode(item
-                                                                  .englishName
-                                                                  .toString()),
-                                                            )))
-                                                    .toList(),
-                                                onChanged: (item) {
-                                                  sItem = item;
-                                                },
-                                                decoration: InputDecoration(
-                                                    fillColor: Colors.white,
-                                                    filled: true,
-                                                    constraints:
-                                                        const BoxConstraints(
-                                                            maxHeight: 60),
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.amber),
+                                              future: MedicineServices()
+                                                  .getMedicineUnits(),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  List<MedicineUnit> units =
+                                                      snapshot.data!;
+                                                  String? sItem = jsonEncode(
+                                                      units[0]
+                                                          .englishName
+                                                          .toString());
+                                                  return DropdownButtonFormField(
+                                                    hint: const Text('Unit'),
+                                                    iconEnabledColor:
+                                                        Colors.amber,
+                                                    icon: const Icon(
+                                                      Icons.keyboard_arrow_down,
+                                                      size: 30,
                                                     ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
+                                                    value: sItem.toString(),
+                                                    items: units
+                                                        .map((item) =>
+                                                            DropdownMenuItem(
+                                                                value: jsonEncode(item
+                                                                    .englishName
+                                                                    .toString()),
+                                                                child: Text(
+                                                                  jsonEncode(item
+                                                                      .englishName
+                                                                      .toString()),
+                                                                )))
+                                                        .toList(),
+                                                    onChanged: (item) {
+                                                      sItem = item;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                        fillColor: Colors.white,
+                                                        filled: true,
+                                                        constraints:
+                                                            const BoxConstraints(
+                                                                maxHeight: 60),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .amber),
+                                                        ),
+                                                        enabledBorder: OutlineInputBorder(
                                                             borderSide:
                                                                 const BorderSide(
-                                                                    color:
-                                                                        Colors
-                                                                            .amber),
+                                                                    color: Colors
+                                                                        .amber),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
                                                                         10))),
-                                              );
-                                            } else {
-                                              return const Center(
-                                                  child:
-                                                      CircularProgressIndicator());
-                                            }
-                                          },
+                                                  );
+                                                } else {
+                                                  return const Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                }
+                                              },
+                                            ),
+                                          ],
                                         )),
                                   ],
                                 ),
@@ -464,7 +495,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'Phone-chat',
+                                  'Phone&chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -476,9 +507,25 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 text: 'Next',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
-                                    // myNavigator(context,
-
-                                    // SocialMediaCommunication(title: titleController.text, quantity: 3, cityId: 1, communicationMethod: layoutCubit.communicationTool.toString(), description: DescriptionController.text, bookTitle: 'bookTitle', foodUnitId: 2, foodCategoryId:3, foodExpirationDate: dateController.text));
+                                    myNavigator(
+                                        context,
+                                        SocialMediaCommunication(
+                                          title: medicineTitleController.text,
+                                          quantity: 3,
+                                          cityId: 1,
+                                          communicationMethod: layoutCubit
+                                              .communicationTool
+                                              .toString(),
+                                          description:
+                                              medicineDescriptionController
+                                                  .text,
+                                          bookTitle: 'bookTitle',
+                                          foodUnitId: 2,
+                                          foodCategoryId: 3,
+                                          foodExpirationDate:
+                                              medicineDateController.text,
+                                          file: null,
+                                        ));
                                     formKey.currentState!.save();
                                   } else {
                                     setState(() {});

@@ -11,6 +11,8 @@ import '../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import 'notification/notificationScreen.dart';
 import '../../../layout/Search/SearchScreen.dart';
+import '../../../shared/component/constants.dart';
+import 'donation/clothing/clothing_donation_form.dart';
 import 'donation/donations_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -129,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context, CreateFoodDonationScreen());
+                              myNavigator(context, FoodCategoryScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/foodCategory.png',

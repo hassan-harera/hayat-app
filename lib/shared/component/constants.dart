@@ -1,7 +1,9 @@
 import 'dart:core';
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import '../../layout/LayoutScreens/ItemScreen/ItemScreen.dart';
 
 void myNavigator(context, widget) =>
@@ -11,6 +13,11 @@ void myNavigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => widget),
       (route) => false,
+    );
+
+void myNavigateAndReplacement(context, widget) => Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => widget),
     );
 
 myButton(

@@ -203,7 +203,7 @@ Widget myTextFormField({
   Color? suffixColor,
 }) =>
     Padding(
-      padding: EdgeInsetsDirectional.only(bottom: 10),
+      padding: const EdgeInsetsDirectional.only(bottom: 10),
       child: TextFormField(
         controller: controller,
         style: const TextStyle(),
@@ -511,7 +511,7 @@ Widget myStaticTextFormField(
           fillColor: Colors.white,
           filled: filled,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.white,
             ),
             borderRadius: BorderRadius.circular(10),
@@ -533,9 +533,10 @@ Widget myStaticTextFormField(
     );
 
 class ExprirationDate extends StatelessWidget {
-  ExprirationDate({required this.controller});
+  ExprirationDate({required this.controller, @required this.hint});
 
   TextEditingController controller;
+  String? hint = 'Expiration Date';
 
   @override
   Widget build(BuildContext context) {
@@ -544,6 +545,11 @@ class ExprirationDate extends StatelessWidget {
           color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: TextFormField(
         controller: controller,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Please Inter Date';
+          }
+        },
         onTap: () {
           showDatePicker(
                   context: context,
@@ -555,15 +561,15 @@ class ExprirationDate extends StatelessWidget {
           });
         },
         decoration: InputDecoration(
-          hintText: 'Epiration Date',
+          hintText: hint,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Colors.amber,
               )),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.transparent,
             ),
           ),
