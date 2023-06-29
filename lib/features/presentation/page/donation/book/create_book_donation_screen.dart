@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
@@ -276,14 +277,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             myButton(
                                 text: 'Next',
                                 onTap: () async {
-                                  if (formKey.currentState!.validate()) {
-                                    formKey.currentState!.save();
-                                    onSubmit();
-                                  } else {
-                                    setState(() {});
-                                    autoValidateMode = AutovalidateMode.always;
-                                  }
-                                  //
+                                  onSubmit();
                                 },
                                 radius: 10),
                           ],
@@ -297,7 +291,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       ),
     );
   }
-// comment
+
   void onSubmit() {
     final request = BookDonationRequest(
       title: titleController.text,
@@ -320,16 +314,16 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                 ),
               )
             }, onError: (error, stackTrace) {
-      stackTrace.printError();
+      error as BadRequestException;
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text(error.toString()),
+            title: Text('Something Went Wrong'),
+            content: Text(error.apiError.displayMessage.toString()),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: Text('Dismiss'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -338,6 +332,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
           );
         },
       );
+      stackTrace.printError();
     });
   }
 }
