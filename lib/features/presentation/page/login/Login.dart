@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hayat_eg/features/data/repository/oauth/google/GoogleSignInButton.dart';
 import 'package:hayat_eg/features/data/repository/oauth/google/oauth.dart';
 import 'package:hayat_eg/features/presentation/page/signup/Register/register.dart';
@@ -11,9 +12,12 @@ import 'package:hayat_eg/features/presentation/page/signup/forgetPasswordFolder/
 import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
+import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'LoginCubit/LoginCubit.dart';
 import 'LoginCubit/LoginStates.dart';
+
+final sl = GetIt.instance;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -53,6 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
+            Cash_helper.setData(key: 'token', value: state.token);
+            print(state.token);
             myNavigateAndFinish(context, const HayatLayoutScreen());
           } else if (state is LoginErrorState) {
             showDialog(
@@ -183,19 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       builder: (context) => myButton(
                                           text: 'login',
                                           onTap: () {
-                                            if (formKey.currentState!
-                                                .validate()) {
-                                              loginCubit.loginWithApi(
-                                                  subject:
-                                                      subjectController.text,
-                                                  password:
-                                                      passwordController.text,
-                                                  deviceToken: deviceToken);
-                                              formKey.currentState!.save();
-                                            } else {
-                                              autoValidateMode =
-                                                  AutovalidateMode.always;
-                                            }
+                                            onSubmitted(loginCubit);
                                           },
                                           radius: 30),
                                       fallback: (context) => const Center(
@@ -338,5 +332,17 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       ),
     );
+  }
+
+  void onSubmitted(LoginCubit loginCubit) {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      loginCubit.loginWithApi(
+          subject: subjectController.text,
+          password: passwordController.text,
+          deviceToken: deviceToken);
+    } else {
+      autoValidateMode = AutovalidateMode.always;
+    }
   }
 }

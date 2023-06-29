@@ -47,7 +47,7 @@ class LoginCubit extends Cubit<LoginStates> {
         responseBode['status'] == 'UNSUPPORTED_MEDIA_TYPE') {
       emit(LoginErrorState(responseBode['message']));
     } else {
-      emit(LoginSuccessState());
+      emit(LoginSuccessState(responseBode['token']));
     }
   }
 
@@ -92,7 +92,7 @@ class LoginCubit extends Cubit<LoginStates> {
         responseBode['status'] == 'UNSUPPORTED_MEDIA_TYPE') {
       emit(LoginErrorState(responseBode['message']));
     } else {
-      emit(LoginSuccessState());
+      emit(LoginSuccessState(responseBode['token']));
     }
   }
 }

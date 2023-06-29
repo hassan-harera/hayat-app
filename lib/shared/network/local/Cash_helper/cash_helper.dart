@@ -35,4 +35,8 @@ class Cash_helper {
   }) async {
     return await sharedPreferences!.remove(key);
   }
+
+  static void setData({required String key, required String value}) {
+    sharedPreferences!.setString(key, value);
+  }
 }
