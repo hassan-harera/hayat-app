@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/features/presentation/page/login/Login.dart';
 import 'package:hayat_eg/features/presentation/page/on_boarding/on_bording_layout.dart';
+import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
 import 'package:hayat_eg/shared/BlocObserver.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/DioHelper.dart';
@@ -18,6 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  init();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await Cash_helper.init();

@@ -128,14 +128,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Column(
                                   children: [
                                     myTextFormField(
-                                      label: ('Email Address'),
+                                      label: ('Phone Number'),
                                       prefixIcon: (Icons.email_outlined),
                                       controller: subjectController,
-                                      hint: 'Example@gmail.com',
+                                      hint: '01XX-XXX-XXXX',
                                       keyboardType: TextInputType.emailAddress,
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return " Email Address is Required";
+                                          return "Email Address is Required";
                                         } else {
                                           return null;
                                         }
@@ -146,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     myTextFormField(
                                       label: 'Password',
-                                      hint: '. . . . . . . . . . .',
+                                      hint: '* * * * * * * *',
                                       prefixIcon: Icons.lock_outline,
                                       keyboardType:
                                           TextInputType.visiblePassword,
