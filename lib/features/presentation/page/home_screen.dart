@@ -171,7 +171,7 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       children: [
                         const Text(
-                          'Needs Categories',
+                          'Needs',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
