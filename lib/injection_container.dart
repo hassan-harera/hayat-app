@@ -6,12 +6,16 @@ import 'package:hayat_eg/features/data/datasource/donation/clothing/clothing_don
 import 'package:hayat_eg/features/data/datasource/donation/donations_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/donation/food/food_donation_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/food/food_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/need/book/book_need_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/need/need_datasource.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +30,9 @@ Future<void> init() async {
 
   // Use cases
 
-  // Repository
+  /**
+   * Donation Repositories
+   */
   sl.registerLazySingleton<CityRepository>(
     () => CityRepository(cityDataSource: sl()),
   );
@@ -42,11 +48,25 @@ Future<void> init() async {
   sl.registerLazySingleton<ClothingDonationRepository>(
     () => ClothingDonationRepository(clothingDonationDataSource: sl()),
   );
+
+  /**
+   * Need Repositories
+   */
+  sl.registerLazySingleton<NeedRepository>(
+    () => NeedRepository(needDataSource: sl()),
+  );
+  sl.registerLazySingleton<BookNeedRepository>(
+    () => BookNeedRepository(bookNeedDataSource: sl()),
+  );
+
+  /**
+   * Facets Repositories
+   */
   sl.registerLazySingleton<FoodRepository>(
     () => FoodRepository(foodDatasource: sl()),
   );
   sl.registerLazySingleton<ClothingRepository>(
-        () => ClothingRepository(clothingDataSource: sl()),
+    () => ClothingRepository(clothingDataSource: sl()),
   );
 
   // Data sources
@@ -72,11 +92,23 @@ Future<void> init() async {
     () => FoodDataSource(),
   );
   sl.registerLazySingleton<ClothingDatasource>(
-        () => ClothingDatasource(),
+    () => ClothingDatasource(),
+  );
+
+  /**
+   * Need Data Sources
+   */
+  sl.registerLazySingleton<NeedDataSource>(
+    () => NeedDataSource(client: sl()),
+  );
+  sl.registerLazySingleton<BookNeedDataSource>(
+    () => BookNeedDataSource(client: sl()),
   );
 
   // External
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton<http.Client>(
+    () => http.Client(),
+  );
 }
