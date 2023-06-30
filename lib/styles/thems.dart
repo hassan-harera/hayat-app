@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 ThemeData lightThem = ThemeData(
-  // fontFamily: 'assets/Fonts/PTSans-Regular.ttf',
   scaffoldBackgroundColor: const Color(0xffF1F4F8),
+  fontFamily: 'PT_Sans',
   textTheme: const TextTheme(
-    bodyText1: TextStyle(color: Colors.amber),
-    headline1: TextStyle(color: Colors.amber),
-  ),
+      bodyText2: TextStyle(
+          fontFamily: 'PTSans-Regular.ttf',
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: Colors.black)),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor: Colors.amber,
     unselectedItemColor: Colors.grey,
     backgroundColor: Colors.white,
   ),
-
   primarySwatch: defultColor,
   iconTheme: const IconThemeData(
     color: Colors.amber,
@@ -32,7 +33,6 @@ ThemeData lightThem = ThemeData(
         color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
   ),
 );
-
 ThemeData darkThem = ThemeData(
     textTheme: const TextTheme(
         bodyText1: TextStyle(

@@ -11,7 +11,7 @@ import '../../../layout/Search/SearchScreen.dart';
 import '../../../shared/component/constants.dart';
 import 'donation/clothing/clothing_donation_form.dart';
 import 'donation/donations_screen.dart';
-import 'donation/food/FoodCatigory.dart';
+import 'donation/food/create_food_donation_screen.dart';
 import 'notification/notificationScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -130,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context, FoodCategoryScreen());
+                              myNavigator(context, CreateFoodDonationScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/foodCategory.png',
@@ -172,7 +172,7 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       children: [
                         const Text(
-                          'Needs Categories',
+                          'Needs',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
@@ -210,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context, FoodCategoryScreen());
+                              myNavigator(context, CreateFoodDonationScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/foodCategory.png',

@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/features/data/datasource/donation/clothing/clothing_donation_datasource.dart';
-import 'package:hayat_eg/features/data/model/clothing/clothesCategory.dart';
-import 'package:hayat_eg/features/data/model/clothing/clothesSize.dart';
-import 'package:hayat_eg/features/data/model/clothing/clothesType.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
+import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
+import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -86,6 +87,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
   final formKey = GlobalKey<FormState>();
   var descriptionController = TextEditingController();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+  ClothingRepository clothingRepository = sl();
 
   @override
   Widget build(BuildContext context) {
@@ -178,12 +180,12 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                             ),
                             SizedBox(
                                 width: double.infinity,
-                                child: FutureBuilder<List<ClothesCategory>>(
-                                  future:
-                                      ClothesServices().getClothesCategory(),
+                                child: FutureBuilder<List<ClothingCategory>>(
+                                  future: clothingRepository
+                                      .listClothingCategories(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      List<ClothesCategory> units =
+                                      List<ClothingCategory> units =
                                           snapshot.data!;
                                       String? sItem = jsonEncode(
                                           units[0].englishName.toString());
@@ -235,11 +237,12 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                             ),
                             SizedBox(
                                 width: double.infinity,
-                                child: FutureBuilder<List<ClothesType>>(
-                                  future: ClothesServices().getClothesType(),
+                                child: FutureBuilder<List<ClothingType>>(
+                                  future:
+                                      clothingRepository.listClothingTypes(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      List<ClothesType> units = snapshot.data!;
+                                      List<ClothingType> units = snapshot.data!;
                                       String? sItem = jsonEncode(
                                           units[0].englishName.toString());
                                       return DropdownButtonFormField(
@@ -306,12 +309,12 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                 ),
                                 SizedBox(
                                     width: 150,
-                                    child: FutureBuilder<List<ClothesSize>>(
-                                      future:
-                                          ClothesServices().getClothesSize(),
+                                    child: FutureBuilder<List<ClothingSize>>(
+                                      future: clothingRepository
+                                          .listClothingSizes(),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
-                                          List<ClothesSize> units =
+                                          List<ClothingSize> units =
                                               snapshot.data!;
                                           String? sItem = jsonEncode(
                                               units[0].englishName.toString());

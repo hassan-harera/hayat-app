@@ -1,11 +1,11 @@
-import 'package:hayat_eg/features/data/model/clothing/clothesCategory.dart';
-import 'package:hayat_eg/features/data/model/clothing/clothesSize.dart';
-import 'package:hayat_eg/features/data/model/clothing/clothesType.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/model/medicineModel.dart';
 
 import '../../../../../helper/helper.dart';
-import '../../medicine/medicine_unit.dart';
 import '../../../../../shared/network/endPoints/endPint.dart';
+import '../../medicine/medicine_unit.dart';
 
 class MedicineServices {
   Future<List<MedicineUnit>> getMedicineUnits() async {
@@ -19,35 +19,35 @@ class MedicineServices {
     return unitList;
   }
 
-  Future<List<ClothesSize>> getClothesSize() async {
+  Future<List<ClothingSize>> getClothesSize() async {
     List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/clothing/sizes');
-    List<ClothesSize> clothesSize = [];
+    List<ClothingSize> clothesSize = [];
     for (int i = 0; i < data.length; i++) {
       clothesSize.add(
-        ClothesSize.fromJson(data[i]),
+        ClothingSize.fromJson(data[i]),
       );
     }
     return clothesSize;
   }
 
-  Future<List<ClothesCategory>> getClothesCategory() async {
+  Future<List<ClothingCategory>> getClothesCategory() async {
     List<dynamic> data =
         await Api().get(url: '$baseUrl/api/v1/clothing/categories');
-    List<ClothesCategory> clothesCategory = [];
+    List<ClothingCategory> clothesCategory = [];
     for (int i = 0; i < data.length; i++) {
       clothesCategory.add(
-        ClothesCategory.fromJson(data[i]),
+        ClothingCategory.fromJson(data[i]),
       );
     }
     return clothesCategory;
   }
 
-  Future<List<ClothesType>> getClothesType() async {
+  Future<List<ClothingType>> getClothesType() async {
     List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/clothing/types');
-    List<ClothesType> clothesType = [];
+    List<ClothingType> clothesType = [];
     for (int i = 0; i < data.length; i++) {
       clothesType.add(
-        ClothesType.fromJson(data[i]),
+        ClothingType.fromJson(data[i]),
       );
     }
     return clothesType;

@@ -4,7 +4,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hayat_eg/features/data/repository/oauth/google/GoogleSignInButton.dart';
 import 'package:hayat_eg/features/data/repository/oauth/google/oauth.dart';
 import 'package:hayat_eg/features/presentation/page/signup/Register/register.dart';
@@ -17,8 +16,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'LoginCubit/LoginCubit.dart';
 import 'LoginCubit/LoginStates.dart';
-
-final sl = GetIt.instance;
 
 class LoginScreen extends StatefulWidget {
   @override

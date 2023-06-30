@@ -4,41 +4,45 @@ import 'dart:typed_data';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/features/data/datasource/donation/food/food-api-get.dart';
-import 'package:hayat_eg/features/data/model/food/foodCategory.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/features/data/model/donation/food/food_donation_request.dart';
+import 'package:hayat_eg/features/data/model/food/food_category.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
-import 'package:hayat_eg/features/presentation/page/communication_method.dart';
-
+import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
+import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../data/model/donation/medicine/createMedicineDonation.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import '../../../../../shared/Utils/Utils.dart';
 import '../../../../../shared/component/component.dart';
 import '../../../../../shared/component/constants.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 
-class FoodCategoryScreen extends StatefulWidget {
+class CreateFoodDonationScreen extends StatefulWidget {
   @override
-  State<FoodCategoryScreen> createState() => _FoodCategoryScreenState();
+  State<CreateFoodDonationScreen> createState() =>
+      _CreateFoodDonationScreenState();
 }
 
-class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
+class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
   var formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   var titleController = TextEditingController();
   int? categoryId;
+  int? unitId;
+
   var descriptionController = TextEditingController();
   var telegramController = TextEditingController();
   var watsAppController = TextEditingController();
   var categoryController = TextEditingController();
-
   var quantityController = TextEditingController();
-
   var dateController = TextEditingController();
-
   var timeController = TextEditingController();
+  var communicationMethod = TextEditingController();
 
+  FoodDonationRepository _foodDonationRepository = sl();
+  FoodRepository _foodRepository = sl();
   String? sItem;
   Uint8List? myFile;
 
@@ -127,8 +131,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
             child: Scaffold(
                 appBar: AppBar(
                   title: const Text(
-                    'Food Category',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    'Food Donation',
                   ),
                 ),
                 body: SafeArea(
@@ -201,12 +204,10 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                             SizedBox(
                                 width: double.infinity,
                                 child: FutureBuilder<List<FoodCategory>>(
-                                  future: FoodServices().getFoodCategory(),
+                                  future: _foodRepository.listCategories(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<FoodCategory> data = snapshot.data!;
-                                      sItem = jsonEncode(
-                                          data[0].englishName.toString());
                                       return DropdownButtonFormField(
                                         hint: const Text('Unit'),
                                         iconEnabledColor: Colors.amber,
@@ -278,7 +279,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                                 return 'please inter title';
                                               }
                                             },
-                                            hint: 'Food name ',
+                                            hint: 'food name ',
                                           ),
                                         ),
                                       ],
@@ -301,7 +302,6 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                         SizedBox(
                                             width: 190,
                                             child: ExprirationDate(
-                                              hint: 'Inter date',
                                               controller: dateController,
                                             )),
                                       ],
@@ -334,14 +334,12 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                     SizedBox(
                                         width: 190,
                                         child: FutureBuilder<List<FoodUnit>>(
-                                          future: FoodServices().getFoodUnits(),
+                                          future: _foodRepository.listUnits(),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               List<FoodUnit> data =
                                                   snapshot.data!;
-                                              sItem = jsonEncode(data[0]
-                                                  .englishName
-                                                  .toString());
+                                              sItem = data[0].englishName;
                                               return DropdownButtonFormField(
                                                 hint: const Text('Unit'),
                                                 iconEnabledColor: Colors.amber,
@@ -357,7 +355,8 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                                                 item.englishName
                                                                     .toString()),
                                                             child: Text(
-                                                              (item.englishName
+                                                              jsonEncode(item
+                                                                  .englishName
                                                                   .toString()),
                                                             )))
                                                     .toList(),
@@ -424,7 +423,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'Chat',
+                                  'chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -451,12 +450,13 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                                     value: 'Phone & Chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
+                                      layoutCubit.communicationTool =
+                                          'CHAT_AND_PHONE';
                                       layoutCubit.changRadioValue();
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'Phone & Chat',
+                                  'Phone & chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -542,51 +542,7 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
                             myButton(
                                 text: 'Submit',
                                 onTap: () async {
-                                  if (formKey.currentState!.validate()) {
-                                    CreateMedicineDonation()
-                                        .postMedicineDonation(
-                                            communication_method: layoutCubit
-                                                .communicationTool
-                                                .toString(),
-                                            quantity: quantityController.text,
-                                            city_id: 'city_id',
-                                            description:
-                                                descriptionController.text,
-                                            state: 'state',
-                                            title: titleController.text,
-                                            medicine_unit_id: sItem.toString(),
-                                            medicine_id: 'medicine_id',
-                                            medicine_expiration_date:
-                                                dateController.text,
-                                            token: 'deviceToken');
-                                    myNavigator(
-                                        context,
-                                        SocialMediaCommunication(
-                                            file: myFile,
-                                            date: dateController.text,
-                                            categoryName:
-                                                layoutCubit.titleList[2],
-                                            title: titleController.text,
-                                            quantity: 1,
-                                            cityId: 1,
-                                            communicationMethod: layoutCubit
-                                                .communicationTool
-                                                .toString(),
-                                            description:
-                                                descriptionController.text,
-                                            bookTitle: 'bookTitle',
-                                            foodUnitId: 2,
-                                            foodCategoryId: categoryId,
-                                            foodExpirationDate:
-                                                dateController.text));
-                                    formKey.currentState!.save();
-                                  } else {
-                                    setState(() {
-                                      autoValidateMode =
-                                          AutovalidateMode.always;
-                                    });
-                                  }
-                                  //
+                                  onSubmit(layoutCubit);
                                 },
                                 radius: 10),
                           ],
@@ -599,5 +555,42 @@ class _FoodCategoryScreenState extends State<FoodCategoryScreen> {
         },
       ),
     );
+  }
+
+  void onSubmit(LayoutCubit layoutCubit) {
+    final request = FoodDonationRequest(
+      title: titleController.text,
+      description: descriptionController.text,
+      cityId: 1,
+      communicationMethod: layoutCubit.communicationTool,
+      quantity: double.parse(quantityController.text),
+      foodCategoryId: categoryId,
+      foodUnitId: 1,
+    );
+
+    final response = _foodDonationRepository.create(request);
+    response.onError((error, stackTrace) {});
+
+    response.then((value) => {}, onError: (error, stackTrace) {
+      error as BadRequestException;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Something Went Wrong'),
+            content: Text(error.apiError.displayMessage.toString()),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Dismiss'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      stackTrace.printError();
+    });
   }
 }

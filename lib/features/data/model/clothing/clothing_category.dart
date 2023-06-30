@@ -1,19 +1,16 @@
-class ClothesSize {
+class ClothingCategory {
   int? id;
   bool? active;
   String? arabicName;
   String? englishName;
-  String? size;
 
-  ClothesSize(
-      {this.id, this.active, this.arabicName, this.englishName, this.size});
+  ClothingCategory({this.id, this.active, this.arabicName, this.englishName});
 
-  ClothesSize.fromJson(Map<String, dynamic> json) {
+  ClothingCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     active = json['active'];
     arabicName = json['arabicName'];
     englishName = json['englishName'];
-    size = json['size'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,7 +19,6 @@ class ClothesSize {
     data['active'] = this.active;
     data['arabicName'] = this.arabicName;
     data['englishName'] = this.englishName;
-    data['size'] = this.size;
     return data;
   }
 }
