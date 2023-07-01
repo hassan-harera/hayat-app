@@ -17,7 +17,6 @@ ThemeData lightThem = ThemeData(
     unselectedItemColor: Colors.grey,
     backgroundColor: Colors.white,
   ),
-
   primarySwatch: defultColor,
   iconTheme: const IconThemeData(
     color: Colors.amber,
@@ -31,19 +30,16 @@ ThemeData lightThem = ThemeData(
 
     // backwardsCompatibility: false,
     titleTextStyle: const TextStyle(
-        fontFamily: '/assets/fonts/PTSans-Regular.ttf',
-        color: Colors.black,
-        fontSize: 18,
-        fontWeight: FontWeight.bold),
+        color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
   ),
 );
 ThemeData darkThem = ThemeData(
     textTheme: const TextTheme(
         bodyText1: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-            fontFamily: '/assets/fonts/PTSans-Regular.ttf')),
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
+    )),
     primarySwatch: defultColor,
     iconTheme: const IconThemeData(color: Colors.black),
     appBarTheme: const AppBarTheme(
@@ -54,10 +50,7 @@ ThemeData darkThem = ThemeData(
         // backwardsCompatibility: false,
 
         titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            fontFamily: '/assets/fonts/PTSans-Bold.ttf')),
+            color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.deepOrange,

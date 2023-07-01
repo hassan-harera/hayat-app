@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../login/Login.dart';
 import 'on_boarding_screen_1.dart';
 import 'on_boarding_screen_2.dart';
 import 'on_boarding_screen_3.dart';
 import 'on_boarding_screen_4.dart';
-import '../login/Login.dart';
 
 class BoardingData {
   late String image;
@@ -134,32 +135,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                       ),
                     ],
-                  ),
-                ),
-                Visibility(
-                  visible: isLast == true ? false : true,
-                  child: Positioned(
-                    top: sizeConfig.defaultSize! * 1,
-                    right: 15,
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(start: 280, top: 40),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                            color: Colors.amber,
-                            onPressed: submit,
-                            child: const Text(
-                              'Skip',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ),
                 Padding(

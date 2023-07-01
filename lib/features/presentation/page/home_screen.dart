@@ -6,6 +6,7 @@ import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/create_book_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/medicine/create_medicine_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/homeBuilder.dart';
+
 import 'package:hayat_eg/features/presentation/widgets/need/need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import '../../../shared/component/constants.dart';
@@ -13,11 +14,12 @@ import 'donation/clothing/clothing_donation_form.dart';
 import 'donation/food/create_food_donation_screen.dart';
 import '../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
-import 'notification/notificationScreen.dart';
 import '../../../layout/Search/SearchScreen.dart';
 import '../../../shared/component/constants.dart';
 import 'donation/clothing/clothing_donation_form.dart';
 import 'donation/donations_screen.dart';
+import 'donation/food/create_food_donation_screen.dart';
+import 'notification/notificationScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -104,10 +106,7 @@ class _HomeScreen extends State<HomeScreen> {
               ],
             ),
             body: Padding(
-              padding: EdgeInsets.only(
-                left: size.width / 40,
-                right: size.width / 40,
-              ),
+              padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -227,7 +226,7 @@ class _HomeScreen extends State<HomeScreen> {
                                 ),
                             itemCount: _list.length)),
                   ],
-                )
+                ),
               ),
             ),
           );
@@ -236,3 +235,5 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 }
+
+//

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hayat_eg/injection_container.dart';
 
 import '../../../data/model/city/city.dart';

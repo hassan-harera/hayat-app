@@ -1,15 +1,14 @@
-import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
+import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/helper/helper.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 
 class ClothingDatasource {
   Future<List<ClothingSize>> listClothingSizes() async {
     List<dynamic> data = await Api().get(url: '$baseUrl/api/v1/clothing/sizes');
-    return List<ClothingSize>.from(
-        data.map((e) => ClothingSize.fromJson(e)));
+    return List<ClothingSize>.from(data.map((e) => ClothingSize.fromJson(e)));
   }
 
   Future<List<ClothingCategory>> listClothingCategories() async {

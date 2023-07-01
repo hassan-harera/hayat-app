@@ -1,30 +1,23 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
-import 'package:hayat_eg/features/data/datasource/donation/food/food_donation_datasource.dart';
 import 'package:hayat_eg/features/data/model/donation/food/food_donation_request.dart';
 import 'package:hayat_eg/features/data/model/food/food_category.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
 import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
-import 'package:hayat_eg/features/presentation/page/communication_method.dart';
 import 'package:hayat_eg/injection_container.dart';
-import 'package:hayat_eg/styles/styles.dart';
-
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../data/model/donation/medicine/createMedicineDonation.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
+import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import '../../../../../shared/Utils/Utils.dart';
 import '../../../../../shared/component/component.dart';
 import '../../../../../shared/component/constants.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 
 class CreateFoodDonationScreen extends StatefulWidget {
   @override
@@ -40,6 +33,8 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
   int? unitId;
 
   var descriptionController = TextEditingController();
+  var telegramController = TextEditingController();
+  var watsAppController = TextEditingController();
   var categoryController = TextEditingController();
   var quantityController = TextEditingController();
   var dateController = TextEditingController();
@@ -220,15 +215,21 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           Icons.keyboard_arrow_down,
                                           size: 30,
                                         ),
+                                        value: sItem.toString(),
                                         items: data
                                             .map((item) => DropdownMenuItem(
-                                                value: item.englishName,
-                                                child: Text(item.englishName
-                                                    as String)))
+                                                value: jsonEncode(item
+                                                    .englishName
+                                                    .toString()),
+                                                child: Text(
+                                                  jsonEncode(item.englishName
+                                                      .toString()),
+                                                )))
                                             .toList(),
                                         onChanged: (item) {
                                           sItem = item;
-                                          unitId = data[0].id;
+
+                                          categoryId = data[0].id;
                                         },
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
@@ -263,7 +264,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                     Column(
                                       children: [
                                         const Text(
-                                          'City',
+                                          'Search',
                                           textAlign: TextAlign.start,
                                           style: TextStyle(fontSize: 18),
                                         ),
@@ -275,10 +276,10 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           child: myStaticTextFormField(
                                             validator: (value) {
                                               if (value!.isEmpty) {
-                                                return 'City Required';
+                                                return 'please inter title';
                                               }
                                             },
-                                            hint: 'Location City ',
+                                            hint: 'food name ',
                                           ),
                                         ),
                                       ],
@@ -318,7 +319,6 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   children: [
                                     Expanded(
                                       child: myStaticTextFormField(
-                                        controller: quantityController,
                                         keyboardType: TextInputType.number,
                                         hint: 'Amount',
                                         validator: (value) {
@@ -351,11 +351,14 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                                 items: data
                                                     .map((item) =>
                                                         DropdownMenuItem(
-                                                            value: item
-                                                                .englishName,
-                                                            child: Text(
+                                                            value: jsonEncode(
                                                                 item.englishName
-                                                                    as String)))
+                                                                    .toString()),
+                                                            child: Text(
+                                                              jsonEncode(item
+                                                                  .englishName
+                                                                  .toString()),
+                                                            )))
                                                     .toList(),
                                                 onChanged: (item) {
                                                   sItem = item;
@@ -415,7 +418,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                     value: 'Chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
-                                      layoutCubit.communicationTool = 'CHAT';
+                                      layoutCubit.communicationTool = value;
                                       layoutCubit.changRadioValue();
                                       //   setState(() {});
                                     }),
@@ -431,7 +434,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                     value: 'Phone',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
-                                      layoutCubit.communicationTool = 'PHONE';
+                                      layoutCubit.communicationTool = value;
                                       layoutCubit.changRadioValue();
                                       //  setState(() {});
                                     }),
@@ -444,7 +447,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                             Row(
                               children: [
                                 Radio(
-                                    value: 'Phone & chat',
+                                    value: 'Phone & Chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
                                       layoutCubit.communicationTool =
@@ -461,8 +464,83 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                             const SizedBox(
                               height: 10,
                             ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Social Media',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: watsAppController,
+                                  keyboardType: TextInputType.phone,
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your watsApp number';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      prefixIcon: Image.asset(
+                                        'assets/watsAppImage.png',
+                                        scale: 18,
+                                        color: Colors.amber,
+                                      ),
+                                      hintText: 'WatsApp',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your telegram number';
+                                    }
+                                  },
+                                  controller: telegramController,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(
+                                        Icons.telegram_outlined,
+                                        color: Colors.amber,
+                                        size: 35,
+                                      ),
+                                      hintText: 'Telegram',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             myButton(
-                                text: 'Next',
+                                text: 'Submit',
                                 onTap: () async {
                                   onSubmit(layoutCubit);
                                 },

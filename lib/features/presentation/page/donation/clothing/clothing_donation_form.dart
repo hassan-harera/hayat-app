@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/features/data/datasource/donation/clothing/clothing_donation_datasource.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
@@ -25,6 +24,8 @@ class ClothesCategoryScreen extends StatefulWidget {
 
 class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
   Uint8List? _file;
+  var telegramController = TextEditingController();
+  var watsAppController = TextEditingController();
 
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
@@ -141,7 +142,8 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                             child: AspectRatio(
                                               aspectRatio: 478 / 451,
                                               child: Container(
-                                                padding: EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -179,8 +181,8 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                             SizedBox(
                                 width: double.infinity,
                                 child: FutureBuilder<List<ClothingCategory>>(
-                                  future:
-                                      clothingRepository.listClothingCategories(),
+                                  future: clothingRepository
+                                      .listClothingCategories(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<ClothingCategory> units =
@@ -201,8 +203,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                                     .englishName
                                                     .toString()),
                                                 child: Text(
-                                                  jsonEncode(item.englishName
-                                                      .toString()),
+                                                  (item.englishName.toString()),
                                                 )))
                                             .toList(),
                                         onChanged: (item) {
@@ -258,8 +259,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                                     .englishName
                                                     .toString()),
                                                 child: Text(
-                                                  jsonEncode(item.englishName
-                                                      .toString()),
+                                                  (item.englishName.toString()),
                                                 )))
                                             .toList(),
                                         onChanged: (item) {
@@ -304,24 +304,12 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                     },
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                // SizedBox(
-                                //   width: 150,
-                                //   child: myStaticTextFormField(
-                                //     hint: 'Size',
-                                //     validator: (value) {
-                                //       if (value!.isEmpty) {
-                                //         return 'Please inter size';
-                                //       }
-                                //     },
-                                //   ),
-                                // ),
                                 SizedBox(
                                     width: 150,
-                                    child:
-                                        FutureBuilder<List<ClothingSize>>(
+                                    child: FutureBuilder<List<ClothingSize>>(
                                       future: clothingRepository
                                           .listClothingSizes(),
                                       builder: (context, snapshot) {
@@ -344,8 +332,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                                         .englishName
                                                         .toString()),
                                                     child: Text(
-                                                      jsonEncode(item
-                                                          .englishName
+                                                      (item.englishName
                                                           .toString()),
                                                     )))
                                                 .toList(),
@@ -404,7 +391,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'chat',
+                                  'Chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -428,7 +415,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                             Row(
                               children: [
                                 Radio(
-                                    value: 'Phone-chat',
+                                    value: 'Phone & chat',
                                     groupValue: layoutCubit.communicationTool,
                                     onChanged: (value) {
                                       layoutCubit.communicationTool = value;
@@ -436,7 +423,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                       //   setState(() {});
                                     }),
                                 const Text(
-                                  'Phone-chat',
+                                  'Phone&chat',
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -444,8 +431,83 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                             const SizedBox(
                               height: 10,
                             ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Social Media',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: watsAppController,
+                                  keyboardType: TextInputType.phone,
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your watsApp number';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      prefixIcon: Image.asset(
+                                        'assets/watsAppImage.png',
+                                        scale: 18,
+                                        color: Colors.amber,
+                                      ),
+                                      hintText: 'WatsApp',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  validator: (v) {
+                                    if (v!.isEmpty) {
+                                      return 'please add your telegram number';
+                                    }
+                                  },
+                                  controller: telegramController,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(
+                                        Icons.telegram_outlined,
+                                        color: Colors.amber,
+                                        size: 35,
+                                      ),
+                                      hintText: 'Telegram',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             myButton(
-                                text: 'Next',
+                                text: 'Submit',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
                                     myNavigator(

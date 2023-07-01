@@ -4,11 +4,7 @@ class FoodUnit {
   String? arabicName;
   String? englishName;
 
-  FoodUnit(
-      {this.id,
-      this.active,
-      this.arabicName,
-      this.englishName});
+  FoodUnit({this.id, this.active, this.arabicName, this.englishName});
 
   FoodUnit.fromJson(Map<String, dynamic> json) {
     id = json['id'];
