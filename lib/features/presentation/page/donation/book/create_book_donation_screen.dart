@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +40,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   var watsAppController = TextEditingController();
   late String communicationMethod;
   late Long cityId;
+  bool selectedRadio = false;
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   BookDonationRepository _bookDonationRepository = sl();
@@ -118,9 +120,13 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  title: const Text(
-                    'Book Donation',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  centerTitle: false,
+                  title: Transform(
+                    transform:
+                        Matrix4.translationValues(size.width - 220, 0.0, 0.0),
+                    child: const Text(
+                      'Book Category',
+                    ),
                   ),
                 ),
                 body: SafeArea(
@@ -198,6 +204,62 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
+                            DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                isFilterOnline: true,
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                showSearchBox: true,
+                                menuProps: MenuProps(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                ),
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                ),
+                              ),
+                              items: const [
+                                'bani-suif',
+                                'mansura',
+                                'cairo',
+                                'tanta',
+                                'alexandria',
+                                'bani-suif',
+                                'mansura',
+                                'cairo',
+                                'tanta',
+                                'alexandria',
+                              ],
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  border: OutlineInputBorder(
+                                    gapPadding: 10,
+                                  ),
+                                  hintText: "Please Chose Your City",
+                                ),
+                              ),
+                              onChanged: print,
+                              selectedItem: null,
+                              validator: (String? item) {
+                                if (item == null) {
+                                  return "City Name is  Required";
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
                             myStaticTextFormField(
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -264,7 +326,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               height: 10,
                             ),
                             ExprirationDate(
-                              hint: '         Book Publication Year',
+                              hint: 'Book Publication Year',
                               controller: bookPublicationYearController,
                             ),
                             const SizedBox(
@@ -281,81 +343,112 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                 controller: bookCityController,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please inter publisher';
+                                    return 'Please inter Your City';
                                   }
                                 },
                               ),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             const Text(
                               'Communication Method',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black45),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Chat',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      communicationMethod = 'CHAT';
-                                    }),
-                                const Text(
-                                  'chat',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Phone',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      communicationMethod = 'PHONE';
-                                    }),
-                                const Text(
-                                  'Phone',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Phone & chat',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      communicationMethod = 'CHAT_AND_PHONE';
-                                    }),
-                                const Text(
-                                  'Phone & chat',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
+                            Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                        value: 'Chat',
+                                        selectedTileColor: Colors.white,
+                                        title: const Text(
+                                          'Chat',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                          communicationMethod = 'CHAT';
+                                        }),
+                                  ),
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                        value: 'Phone',
+                                        activeColor: Colors.amber,
+                                        hoverColor: Colors.amber,
+                                        selectedTileColor: Colors.white,
+                                        selected: true,
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        title: const Text(
+                                          'Phone',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                          communicationMethod = 'PHONE';
+                                        }),
+                                  ),
+                                  GestureDetector(
+                                    excludeFromSemantics: true,
+                                    child: RadioListTile(
+                                        value: 'Phone & Chat',
+                                        activeColor: Colors.amber,
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        hoverColor: Colors.amber,
+                                        title: const Text(
+                                          'Phone & Chat',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                          communicationMethod =
+                                              'CHAT_AND_PHONE';
+                                        }),
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
                                   'Social Media',
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black45),
                                 ),
                                 const SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
                                 TextFormField(
                                   controller: watsAppController,
@@ -366,25 +459,27 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      prefixIcon: Image.asset(
-                                        'assets/watsAppImage.png',
-                                        scale: 18,
+                                    prefixIcon: Image.asset(
+                                      'assets/watsAppImage.png',
+                                      scale: 18,
+                                      color: Colors.amber,
+                                    ),
+                                    hintText: 'WatsApp',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
                                         color: Colors.amber,
                                       ),
-                                      hintText: 'WatsApp',
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -397,26 +492,28 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.telegram_outlined,
-                                        color: Colors.amber,
-                                        size: 35,
+                                    prefixIcon: const Icon(
+                                      Icons.telegram_outlined,
+                                      color: Colors.amber,
+                                      size: 35,
+                                    ),
+                                    hintText: 'Telegram',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
                                       ),
-                                      hintText: 'Telegram',
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
-                                ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.amber,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                             const SizedBox(

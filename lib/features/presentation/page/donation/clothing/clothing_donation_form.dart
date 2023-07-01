@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
   Uint8List? _file;
   var telegramController = TextEditingController();
   var watsAppController = TextEditingController();
+  String? sItem;
 
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
@@ -106,9 +108,13 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  title: const Text(
-                    'Clothes Category',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  centerTitle: false,
+                  title: Transform(
+                    transform:
+                        Matrix4.translationValues(size.width - 250, 0.0, 0.0),
+                    child: const Text(
+                      'Clothes Category',
+                    ),
                   ),
                 ),
                 body: SafeArea(
@@ -178,6 +184,62 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                             const SizedBox(
                               height: 15,
                             ),
+                            DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                isFilterOnline: true,
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                showSearchBox: true,
+                                menuProps: MenuProps(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                ),
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                ),
+                              ),
+                              items: const [
+                                'bani-suif',
+                                'mansura',
+                                'cairo',
+                                'tanta',
+                                'alexandria',
+                                'bani-suif',
+                                'mansura',
+                                'cairo',
+                                'tanta',
+                                'alexandria',
+                              ],
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  border: OutlineInputBorder(
+                                    gapPadding: 10,
+                                  ),
+                                  hintText: "Please Chose Your Country",
+                                ),
+                              ),
+                              onChanged: print,
+                              selectedItem: null,
+                              validator: (String? item) {
+                                if (item == null) {
+                                  return "City Name is  Required";
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
                             SizedBox(
                                 width: double.infinity,
                                 child: FutureBuilder<List<ClothingCategory>>(
@@ -187,16 +249,15 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                     if (snapshot.hasData) {
                                       List<ClothingCategory> units =
                                           snapshot.data!;
-                                      String? sItem = jsonEncode(
-                                          units[0].englishName.toString());
+                                      sItem = null;
                                       return DropdownButtonFormField(
-                                        hint: const Text('Size'),
+                                        hint: const Text('Clothes Type'),
                                         iconEnabledColor: Colors.amber,
                                         icon: const Icon(
                                           Icons.keyboard_arrow_down,
                                           size: 30,
                                         ),
-                                        value: sItem.toString(),
+                                        value: sItem,
                                         items: units
                                             .map((item) => DropdownMenuItem(
                                                 value: jsonEncode(item
@@ -222,7 +283,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
-                                                    color: Colors.amber),
+                                                    color: Colors.white),
                                                 borderRadius:
                                                     BorderRadius.circular(10))),
                                       );
@@ -243,16 +304,15 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<ClothingType> units = snapshot.data!;
-                                      String? sItem = jsonEncode(
-                                          units[0].englishName.toString());
+                                      sItem = null;
                                       return DropdownButtonFormField(
-                                        hint: const Text('Size'),
+                                        hint: const Text('Clothes Gender'),
                                         iconEnabledColor: Colors.amber,
                                         icon: const Icon(
                                           Icons.keyboard_arrow_down,
                                           size: 30,
                                         ),
-                                        value: sItem.toString(),
+                                        value: sItem,
                                         items: units
                                             .map((item) => DropdownMenuItem(
                                                 value: jsonEncode(item
@@ -278,7 +338,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
-                                                    color: Colors.amber),
+                                                    color: Colors.white),
                                                 borderRadius:
                                                     BorderRadius.circular(10))),
                                       );
@@ -316,16 +376,15 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                         if (snapshot.hasData) {
                                           List<ClothingSize> units =
                                               snapshot.data!;
-                                          String? sItem = jsonEncode(
-                                              units[0].englishName.toString());
+                                          sItem = null;
                                           return DropdownButtonFormField(
-                                            hint: const Text('Size'),
+                                            hint: const Text('Clothes Size'),
                                             iconEnabledColor: Colors.amber,
                                             icon: const Icon(
                                               Icons.keyboard_arrow_down,
                                               size: 30,
                                             ),
-                                            value: sItem.toString(),
+                                            value: sItem,
                                             items: units
                                                 .map((item) => DropdownMenuItem(
                                                     value: jsonEncode(item
@@ -356,7 +415,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                                         borderSide:
                                                             const BorderSide(
                                                                 color: Colors
-                                                                    .amber),
+                                                                    .white),
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(10))),
@@ -374,59 +433,85 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                               height: 15,
                             ),
                             const Text(
-                              'Communication Method',
-                              style: TextStyle(fontSize: 18),
+                              'Social Media',
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black45),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Chat',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      //   setState(() {});
-                                    }),
-                                const Text(
-                                  'Chat',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Phone',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      //  setState(() {});
-                                    }),
-                                const Text(
-                                  'Phone',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Phone & chat',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      //   setState(() {});
-                                    }),
-                                const Text(
-                                  'Phone&chat',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
+                            Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                        value: 'Chat',
+                                        selectedTileColor: Colors.white,
+                                        title: const Text(
+                                          'Chat',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                        value: 'Phone',
+                                        activeColor: Colors.amber,
+                                        hoverColor: Colors.amber,
+                                        selectedTileColor: Colors.white,
+                                        selected: true,
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        title: const Text(
+                                          'Phone',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                  GestureDetector(
+                                    excludeFromSemantics: true,
+                                    child: RadioListTile(
+                                        value: 'Phone & Chat',
+                                        activeColor: Colors.amber,
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        hoverColor: Colors.amber,
+                                        title: const Text(
+                                          'Phone & Chat',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(
                               height: 10,
@@ -435,11 +520,12 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
-                                  'Social Media',
-                                  style: TextStyle(fontSize: 20),
+                                  'Communication Method',
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black45),
                                 ),
                                 const SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
                                 TextFormField(
                                   controller: watsAppController,
@@ -450,25 +536,27 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      prefixIcon: Image.asset(
-                                        'assets/watsAppImage.png',
-                                        scale: 18,
+                                    prefixIcon: Image.asset(
+                                      'assets/watsAppImage.png',
+                                      scale: 18,
+                                      color: Colors.amber,
+                                    ),
+                                    hintText: 'WatsApp',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
                                         color: Colors.amber,
                                       ),
-                                      hintText: 'WatsApp',
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -481,26 +569,28 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.telegram_outlined,
-                                        color: Colors.amber,
-                                        size: 35,
+                                    prefixIcon: const Icon(
+                                      Icons.telegram_outlined,
+                                      color: Colors.amber,
+                                      size: 35,
+                                    ),
+                                    hintText: 'Telegram',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
                                       ),
-                                      hintText: 'Telegram',
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
-                                ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.amber,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                             const SizedBox(

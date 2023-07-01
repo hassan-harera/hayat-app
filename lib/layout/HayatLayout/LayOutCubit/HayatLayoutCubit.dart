@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,14 +5,11 @@ import 'package:hayat_eg/features/data/model/HomeModel/HomeModelScreen.dart';
 import 'package:hayat_eg/features/presentation/page/need/NeedsScreen.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../shared/network/endPoints/endPint.dart';
-import '../../../shared/network/local/Cash_helper/DioHelper.dart';
-import '../../LayoutScreens/Add/AddScreen.dart';
-
 import '../../../features/presentation/page/donation/donations_screen.dart';
 import '../../../features/presentation/page/home_screen.dart';
-
 import '../../../features/presentation/page/profile/profileScreen.dart';
+import '../../../shared/network/endPoints/endPint.dart';
+import '../../../shared/network/local/Cash_helper/DioHelper.dart';
 import 'LayoutState.dart';
 
 class LayoutCubit extends Cubit<LayoutStates> {
@@ -47,43 +42,6 @@ class LayoutCubit extends Cubit<LayoutStates> {
     imageFile = image.toString() as Uint8List?;
     emit(LayoutChoiceImageFromCameraState());
     Navigator.pop(key.currentContext ?? context);
-  }
-
-  Future showOption(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Make a chioce'),
-        content: SingleChildScrollView(
-          child: Column(
-            children: [
-              ListTile(
-                leading: const Icon(
-                  Icons.image,
-                  color: Colors.amber,
-                ),
-                title: const Text(
-                  'Gallery',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onTap: () => imageFromGallery(context),
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.camera,
-                  color: Colors.amber,
-                ),
-                title: const Text(
-                  'Camera',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onTap: () => imageFromCamera(context),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   String? communicationTool = 'communication';
