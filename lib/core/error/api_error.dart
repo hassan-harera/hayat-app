@@ -1,10 +1,10 @@
 class ApiError {
-  final int status;
-  final DateTime timestamp;
-  final String message;
-  final String debugMessage;
-  final String displayMessage;
-  final String code;
+  final String status;
+  final String timestamp;
+  final String? message;
+  final String? debugMessage;
+  final String? displayMessage;
+  final String? code;
 
   ApiError({
     required this.status,
@@ -17,18 +17,18 @@ class ApiError {
 
   factory ApiError.fromJson(Map<String, dynamic> json) {
     return ApiError(
-        status: json['status'] as int,
-        timestamp: DateTime.parse(json['timestamp'] as String),
-        message: json['message'] as String,
-        debugMessage: json['debugMessage'] as String,
-        displayMessage: json['displayMessage'] as String,
-        code: json['code'] as String);
+        status: json['status'] as String,
+        timestamp: json['timestamp'] as String,
+        message: json['message'],
+        debugMessage: json['debugMessage'],
+        displayMessage: json['displayMessage'],
+        code: json['code']);
   }
 
   Map<String, dynamic> toJson() {
     return {
       'status': status,
-      'timestamp': timestamp.toIso8601String(),
+      'timestamp': timestamp,
       'message': message,
       'debugMessage': debugMessage,
       'displayMessage': displayMessage,

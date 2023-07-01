@@ -1,11 +1,11 @@
-import 'dart:ffi';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
+import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_screen.dart';
@@ -39,12 +39,24 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   var telegramController = TextEditingController();
   var watsAppController = TextEditingController();
   late String communicationMethod;
-  late Long cityId;
-  bool selectedRadio = false;
+  late int cityId;
+  List<City>? _cities = [];
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   BookDonationRepository _bookDonationRepository = sl();
   Uint8List? _file;
+
+  CityRepository _cityRepository = sl();
+
+  @override
+  void initState() {
+    super.initState();
+    _cityRepository.search('').then((value) {
+      setState(() {
+        _cities = value;
+      });
+    });
+  }
 
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
@@ -120,13 +132,9 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  centerTitle: false,
-                  title: Transform(
-                    transform:
-                        Matrix4.translationValues(size.width - 220, 0.0, 0.0),
-                    child: const Text(
-                      'Book Category',
-                    ),
+                  title: const Text(
+                    'Book Donation',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
                 body: SafeArea(
@@ -218,18 +226,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                   showFavoriteItems: true,
                                 ),
                               ),
-                              items: const [
-                                'bani-suif',
-                                'mansura',
-                                'cairo',
-                                'tanta',
-                                'alexandria',
-                                'bani-suif',
-                                'mansura',
-                                'cairo',
-                                'tanta',
-                                'alexandria',
-                              ],
+                              items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
                                   const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
@@ -244,14 +241,19 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                   border: OutlineInputBorder(
                                     gapPadding: 10,
                                   ),
-                                  hintText: "Please Chose Your City",
+                                  hintText: "Select city",
                                 ),
                               ),
-                              onChanged: print,
+                              onChanged: (value) => setState(() {
+                                cityId = _cities!
+                                    .firstWhere((element) =>
+                                        element.arabicName == value)
+                                    .id;
+                              }),
                               selectedItem: null,
                               validator: (String? item) {
                                 if (item == null) {
-                                  return "City Name is  Required";
+                                  return "City is required";
                                 } else {
                                   return null;
                                 }
@@ -343,7 +345,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                 controller: bookCityController,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please inter Your City';
+                                    return 'Location';
                                   }
                                 },
                               ),
@@ -544,7 +546,8 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       bookTitle: bookTitleController.text,
       bookSubTitle: bookSubTitleController.text,
       communicationMethod: communicationMethod,
-      cityId: 1,
+      quantity: int.parse(bookQuantityController.text),
+      cityId: cityId,
     );
 
     final response = _bookDonationRepository.create(request);
@@ -559,24 +562,25 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                 ),
               )
             }, onError: (error, stackTrace) {
-      error as BadRequestException;
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Something Went Wrong'),
-            content: Text(error.apiError.displayMessage.toString()),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Dismiss'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Something Went Wrong'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
       stackTrace.printError();
     });
   }

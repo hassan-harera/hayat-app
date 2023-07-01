@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:hayat_eg/core/json/json_encoder.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exceptions.dart';
@@ -29,7 +30,7 @@ class CityDataSource {
   Future<List<City>?> search(String query) async {
     final response = await client.get(Uri.parse("$apiUrl/search?q=$query"));
     if (response.statusCode == 200) {
-      List<dynamic> data = List<dynamic>.from(jsonDecode(response.body));
+      List<dynamic> data = List<dynamic>.from(decodeJson(response.body));
       return List<City>.from(data.map((json) => City.fromJson(json)));
     } else if (response.statusCode == 400) {
       throw BadRequestException(

@@ -14,13 +14,13 @@ import 'package:hayat_eg/features/presentation/widgets/homeBuilder.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import '../../../shared/component/constants.dart';
-import 'donation/clothing/clothing_donation_form.dart';
+import 'donation/clothing/create_clothing_donation_screen.dart';
 import 'donation/food/create_food_donation_screen.dart';
 import '../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import '../../../layout/Search/SearchScreen.dart';
 import '../../../shared/component/constants.dart';
-import 'donation/clothing/clothing_donation_form.dart';
+import 'donation/clothing/create_clothing_donation_screen.dart';
 import 'donation/donations_screen.dart';
 import 'donation/food/create_food_donation_screen.dart';
 import 'notification/notificationScreen.dart';
@@ -184,7 +184,7 @@ class _HomeScreen extends State<HomeScreen> {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToBook();
-                              myNavigator(context, ClothesCategoryScreen());
+                              myNavigator(context, CreateClothingDonationScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/clothesCategory.png',
