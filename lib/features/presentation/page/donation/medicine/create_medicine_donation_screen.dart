@@ -209,7 +209,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                               const Text(
                                                 'City',
                                                 textAlign: TextAlign.start,
-                                                style: TextStyle(fontSize: 18),
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black45),
                                               ),
                                               const SizedBox(
                                                 height: 15,
@@ -232,14 +234,6 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                             medicineName:
                                                                 medicineName!);
                                                   },
-
-//
-//                                             medicineName=value;
-//                                               SearchMedicineName getMedicineName=SearchMedicineName();
-//                                              getMedicineName.getMedicineName(medicineName: cityName!);
-//                                                 // print(value);
-//
-
                                                   validator: (value) {
                                                     if (value!.isEmpty) {
                                                       return 'this failed is required';
@@ -269,20 +263,6 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                               const BorderSide(
                                                                   color: Colors
                                                                       .amber))),
-//                                               );
-//                                             child: childmyStaticTextFormField(validator: validator)(
-//                                               controller:searchController ,
-//
-//                                               onSubmitted: (value){
-//
-//                                             cityName=value;
-//                                               SearchMedicineName getMedicineName=SearchMedicineName();
-//                                              getMedicineName.getMedicineName(medicineName: cityName!);
-//                                                print(value);
-//                                               },
-//                                               hint: 'food name ',
-// onTap: (){}
-//                                             ),
                                                 ),
                                               )
                                             ]),
@@ -300,7 +280,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                             const Text(
                                               'Expiration Date',
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(fontSize: 18),
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black45),
                                             ),
                                             const SizedBox(
                                               height: 15,
@@ -308,6 +290,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                             SizedBox(
                                                 width: 190,
                                                 child: ExprirationDate(
+                                                  hint: 'Please Inter Date',
                                                   controller:
                                                       medicineDateController,
                                                 )),
@@ -330,7 +313,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                           const Text(
                                             'Medicine Amount',
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 18),
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black45),
                                           ),
                                           const SizedBox(
                                             height: 15,
@@ -359,7 +344,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                             const Text(
                                               'Medicine Unit',
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(fontSize: 18),
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black45),
                                             ),
                                             const SizedBox(
                                               height: 15,
@@ -391,7 +378,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                                     .englishName
                                                                     .toString()),
                                                                 child: Text(
-                                                                  jsonEncode(item
+                                                                  (item
                                                                       .englishName
                                                                       .toString()),
                                                                 )))
@@ -436,78 +423,102 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                         )),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
                               ],
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              'Communication Method',
-                              style: TextStyle(fontSize: 18),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Chat',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      //   setState(() {});
-                                    }),
-                                const Text(
-                                  'chat',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
+                            const Text(
+                              'Communication Method',
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black45),
                             ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Phone',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      //  setState(() {});
-                                    }),
-                                const Text(
-                                  'Phone',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
+                            const SizedBox(
+                              height: 20,
                             ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Phone & chat',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      //   setState(() {});
-                                    }),
-                                const Text(
-                                  'Phone & chat',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
+                            Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                        value: 'Chat',
+                                        selectedTileColor: Colors.white,
+                                        title: const Text(
+                                          'Chat',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                        value: 'Phone',
+                                        activeColor: Colors.amber,
+                                        hoverColor: Colors.amber,
+                                        selectedTileColor: Colors.white,
+                                        selected: true,
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        title: const Text(
+                                          'Phone',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                  GestureDetector(
+                                    excludeFromSemantics: true,
+                                    child: RadioListTile(
+                                        value: 'Phone & Chat',
+                                        activeColor: Colors.amber,
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        hoverColor: Colors.amber,
+                                        title: const Text(
+                                          'Phone & Chat',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
                                   'Social Media',
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black45),
                                 ),
                                 const SizedBox(
                                   height: 20,

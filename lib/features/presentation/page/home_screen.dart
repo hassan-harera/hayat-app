@@ -1,6 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hayat_eg/features/data/model/need/need_response.dart';
+import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:hayat_eg/features/data/model/need/need_response.dart';
 import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/create_book_donation_screen.dart';
@@ -54,24 +58,19 @@ class _HomeScreen extends State<HomeScreen> {
           LayoutCubit layoutCubit = LayoutCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.blueAccent,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    'Mohamed Boraie',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ],
+              leading: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  CupertinoIcons.profile_circled,
+                  size: 30,
+                  color: Color(0xff20ADDC),
+                ),
+              ),
+              title: const Text(
+                'Mohamed Boraie',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
               actions: [
                 const SizedBox(
@@ -100,7 +99,7 @@ class _HomeScreen extends State<HomeScreen> {
                       Icons.search,
                       size: 26,
                     ),
-                    color: Color(0xff20ADDC),
+                    color: const Color(0xff20ADDC),
                   ),
                 ),
               ],
@@ -170,7 +169,8 @@ class _HomeScreen extends State<HomeScreen> {
                           GestureDetector(
                             onTap: () {
                               layoutCubit.changCategoryTitleToMedicine();
-                              myNavigator(context, MedicineCategoryScreen());
+                              myNavigator(
+                                  context, const MedicineCategoryScreen());
                             },
                             child: categoryProvider(
                               image: 'assets/medicineCategory.png',

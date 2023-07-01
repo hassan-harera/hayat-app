@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hayat_eg/features/presentation/page/home_screen.dart';
 import 'package:hayat_eg/features/presentation/page/login/Login.dart';
 import 'package:hayat_eg/features/presentation/page/on_boarding/on_bording_layout.dart';
 import 'package:hayat_eg/injection_container.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
       theme: lightThem,
       darkTheme: darkThem,
       themeMode: ThemeMode.light,
-      home: const HayatLayoutScreen(),
+      home: const HomeScreen(),
     );
   }
 }

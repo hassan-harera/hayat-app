@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -130,8 +131,13 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  title: const Text(
-                    'Food Donation',
+                  centerTitle: false,
+                  title: Transform(
+                    transform:
+                        Matrix4.translationValues(size.width - 220, 0.0, 0.0),
+                    child: const Text(
+                      'Food Category',
+                    ),
                   ),
                 ),
                 body: SafeArea(
@@ -165,7 +171,8 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                             child: AspectRatio(
                                               aspectRatio: 478 / 451,
                                               child: Container(
-                                                padding: EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -201,6 +208,118 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                             const SizedBox(
                               height: 15,
                             ),
+                            DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                isFilterOnline: true,
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                showSearchBox: true,
+                                menuProps: MenuProps(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                ),
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                ),
+                              ),
+                              items: const [
+                                'bani-suif',
+                                'mansura',
+                                'cairo',
+                                'tanta',
+                                'alexandria',
+                                'bani-suif',
+                                'mansura',
+                                'cairo',
+                                'tanta',
+                                'alexandria',
+                              ],
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  border: OutlineInputBorder(
+                                    gapPadding: 10,
+                                  ),
+                                  hintText: "Please Chose Your City",
+                                ),
+                              ),
+                              onChanged: print,
+                              selectedItem: null,
+                              validator: (String? item) {
+                                if (item == null) {
+                                  return "City Name is  Required";
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                isFilterOnline: true,
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                showSearchBox: true,
+                                menuProps: MenuProps(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                ),
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                ),
+                              ),
+                              items: const [
+                                'bani-suif',
+                                'mansura',
+                                'cairo',
+                                'tanta',
+                                'alexandria',
+                                'bani-suif',
+                                'mansura',
+                                'cairo',
+                                'tanta',
+                                'alexandria',
+                              ],
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  border: OutlineInputBorder(
+                                    gapPadding: 10,
+                                  ),
+                                  hintText: "Please Inter Food Name",
+                                ),
+                              ),
+                              onChanged: print,
+                              selectedItem: null,
+                              validator: (String? item) {
+                                if (item == null) {
+                                  return "City Name is  Required";
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             SizedBox(
                                 width: double.infinity,
                                 child: FutureBuilder<List<FoodCategory>>(
@@ -208,22 +327,22 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<FoodCategory> data = snapshot.data!;
+                                      sItem = null;
                                       return DropdownButtonFormField(
-                                        hint: const Text('Unit'),
+                                        hint: const Text('Food Category'),
                                         iconEnabledColor: Colors.amber,
                                         icon: const Icon(
                                           Icons.keyboard_arrow_down,
                                           size: 30,
                                         ),
-                                        value: sItem.toString(),
+                                        value: sItem,
                                         items: data
                                             .map((item) => DropdownMenuItem(
                                                 value: jsonEncode(item
                                                     .englishName
                                                     .toString()),
                                                 child: Text(
-                                                  jsonEncode(item.englishName
-                                                      .toString()),
+                                                  (item.englishName.toString()),
                                                 )))
                                             .toList(),
                                         onChanged: (item) {
@@ -255,18 +374,78 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   },
                                 )),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: FutureBuilder<List<FoodUnit>>(
+                                future: _foodRepository.listUnits(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    List<FoodUnit> data = snapshot.data!;
+
+                                    sItem = null;
+                                    return DropdownButtonFormField(
+                                      hint: const Text('Food Unit'),
+                                      iconEnabledColor: Colors.amber,
+                                      icon: const Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 30,
+                                      ),
+                                      value: sItem,
+                                      items: data
+                                          .map((item) => DropdownMenuItem(
+                                              value: jsonEncode(
+                                                  item.englishName.toString()),
+                                              child: Text(
+                                                (item.englishName.toString()),
+                                              )))
+                                          .toList(),
+                                      onChanged: (item) {
+                                        sItem = item;
+                                      },
+                                      decoration: InputDecoration(
+                                          fillColor: Colors.white,
+                                          focusColor: Colors.amber,
+                                          filled: true,
+                                          constraints: const BoxConstraints(
+                                              maxHeight: 60),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.amber),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: const BorderSide(
+                                                  color: Colors.white),
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    );
+                                  } else {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             Row(
                               children: [
                                 Row(
                                   children: [
                                     Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           'Search',
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(fontSize: 18),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black45),
                                         ),
                                         const SizedBox(
                                           height: 15,
@@ -274,27 +453,32 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                         SizedBox(
                                           width: size.width - 230,
                                           child: myStaticTextFormField(
+                                            keyboardType: TextInputType.number,
+                                            hint: 'Amount',
                                             validator: (value) {
                                               if (value!.isEmpty) {
                                                 return 'please inter title';
                                               }
                                             },
-                                            hint: 'food name ',
                                           ),
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Row(
                                   children: [
                                     Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           'Expiration Date',
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(fontSize: 18),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black45),
                                         ),
                                         const SizedBox(
                                           height: 15,
@@ -302,6 +486,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                         SizedBox(
                                             width: 190,
                                             child: ExprirationDate(
+                                              hint: 'please Inter Date',
                                               controller: dateController,
                                             )),
                                       ],
@@ -313,166 +498,103 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                             const SizedBox(
                               height: 15,
                             ),
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: myStaticTextFormField(
-                                        keyboardType: TextInputType.number,
-                                        hint: 'Amount',
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'please inter title';
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    SizedBox(
-                                        width: 190,
-                                        child: FutureBuilder<List<FoodUnit>>(
-                                          future: _foodRepository.listUnits(),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              List<FoodUnit> data =
-                                                  snapshot.data!;
-                                              sItem = data[0].englishName;
-                                              return DropdownButtonFormField(
-                                                hint: const Text('Unit'),
-                                                iconEnabledColor: Colors.amber,
-                                                icon: const Icon(
-                                                  Icons.keyboard_arrow_down,
-                                                  size: 30,
-                                                ),
-                                                value: sItem.toString(),
-                                                items: data
-                                                    .map((item) =>
-                                                        DropdownMenuItem(
-                                                            value: jsonEncode(
-                                                                item.englishName
-                                                                    .toString()),
-                                                            child: Text(
-                                                              jsonEncode(item
-                                                                  .englishName
-                                                                  .toString()),
-                                                            )))
-                                                    .toList(),
-                                                onChanged: (item) {
-                                                  sItem = item;
-                                                },
-                                                decoration: InputDecoration(
-                                                    fillColor: Colors.white,
-                                                    focusColor: Colors.amber,
-                                                    filled: true,
-                                                    constraints:
-                                                        const BoxConstraints(
-                                                            maxHeight: 60),
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.amber),
-                                                    ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                                const BorderSide(
-                                                                    color:
-                                                                        Colors
-                                                                            .white),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10))),
-                                              );
-                                            } else {
-                                              return const Center(
-                                                  child:
-                                                      CircularProgressIndicator());
-                                            }
-                                          },
-                                        )),
-                                  ],
-                                ),
-                              ],
-                            ),
                             const SizedBox(
-                              height: 15,
+                              height: 20,
                             ),
                             const Text(
                               'Communication Method',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black45),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Chat',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      //   setState(() {});
-                                    }),
-                                const Text(
-                                  'chat',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Phone',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool = value;
-                                      layoutCubit.changRadioValue();
-                                      //  setState(() {});
-                                    }),
-                                const Text(
-                                  'Phone',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Phone & Chat',
-                                    groupValue: layoutCubit.communicationTool,
-                                    onChanged: (value) {
-                                      layoutCubit.communicationTool =
-                                          'CHAT_AND_PHONE';
-                                      layoutCubit.changRadioValue();
-                                      //   setState(() {});
-                                    }),
-                                const Text(
-                                  'Phone & chat',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
+                            Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                        value: 'Chat',
+                                        selectedTileColor: Colors.white,
+                                        title: const Text(
+                                          'Chat',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                        value: 'Phone',
+                                        activeColor: Colors.amber,
+                                        hoverColor: Colors.amber,
+                                        selectedTileColor: Colors.white,
+                                        selected: true,
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        title: const Text(
+                                          'Phone',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                  GestureDetector(
+                                    excludeFromSemantics: true,
+                                    child: RadioListTile(
+                                        value: 'Phone & Chat',
+                                        activeColor: Colors.amber,
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        hoverColor: Colors.amber,
+                                        title: const Text(
+                                          'Phone & Chat',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        ),
+                                        groupValue:
+                                            layoutCubit.communicationTool,
+                                        onChanged: (value) {
+                                          layoutCubit.communicationTool = value;
+                                          layoutCubit.changRadioValue();
+                                        }),
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
                                   'Social Media',
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black45),
                                 ),
                                 const SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
                                 TextFormField(
                                   controller: watsAppController,
@@ -483,25 +605,27 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      prefixIcon: Image.asset(
-                                        'assets/watsAppImage.png',
-                                        scale: 18,
+                                    prefixIcon: Image.asset(
+                                      'assets/watsAppImage.png',
+                                      scale: 18,
+                                      color: Colors.amber,
+                                    ),
+                                    hintText: 'WatsApp',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
                                         color: Colors.amber,
                                       ),
-                                      hintText: 'WatsApp',
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -514,25 +638,27 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.telegram_outlined,
-                                        color: Colors.amber,
-                                        size: 35,
+                                    prefixIcon: const Icon(
+                                      Icons.telegram_outlined,
+                                      color: Colors.amber,
+                                      size: 35,
+                                    ),
+                                    hintText: 'Telegram',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
                                       ),
-                                      hintText: 'Telegram',
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.amber,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -577,11 +703,11 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Something Went Wrong'),
+            title: const Text('Something Went Wrong'),
             content: Text(error.apiError.displayMessage.toString()),
             actions: <Widget>[
               TextButton(
-                child: Text('Dismiss'),
+                child: const Text('Dismiss'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
