@@ -39,15 +39,15 @@ void main() async {
   }
 
   // widget = const TestScreen();
-  runApp(MyApp(
+  runApp(HayatApp(
     startWidget: widget,
   ));
 }
 
-class MyApp extends StatelessWidget {
+class HayatApp extends StatelessWidget {
   Widget startWidget;
 
-  MyApp({
+  HayatApp({
     required this.startWidget,
   });
 
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
       theme: lightThem,
       darkTheme: darkThem,
       themeMode: ThemeMode.light,
-      home: const HomeScreen(),
+      home: startWidget,
     );
   }
 }

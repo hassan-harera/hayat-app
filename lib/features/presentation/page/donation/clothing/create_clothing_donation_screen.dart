@@ -4,10 +4,15 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
+import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_request.dart';
+import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat_layout.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
@@ -17,17 +22,47 @@ import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import '../../../../../shared/component/component.dart';
 import '../../../../../shared/component/constants.dart';
+import 'view_clothing_donation_screen.dart';
 
-class ClothesCategoryScreen extends StatefulWidget {
+class CreateClothingDonationScreen extends StatefulWidget {
+  const CreateClothingDonationScreen({super.key});
+
   @override
-  State<ClothesCategoryScreen> createState() => _BookCategoryScreenState();
+  State<CreateClothingDonationScreen> createState() =>
+      _CreateClothingDonationScreen();
 }
 
-class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
-  Uint8List? _file;
+class _CreateClothingDonationScreen
+    extends State<CreateClothingDonationScreen> {
+  var titleController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var clothingTypeController = TextEditingController();
+  var clothingSizeController = TextEditingController();
+  var clothingCategoryController = TextEditingController();
+  var clothingQuantityController = TextEditingController();
   var telegramController = TextEditingController();
-  var watsAppController = TextEditingController();
+  var whatsappController = TextEditingController();
+
+  CityRepository _cityRepository = sl();
+  ClothingRepository _clothingRepository = sl();
+  ClothingDonationRepository _clothingDonationRepository = sl();
+
+  final formKey = GlobalKey<FormState>();
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+  Uint8List? _file;
   String? sItem;
+  late int cityId;
+  List<City>? _cities = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _cityRepository.search('').then((value) {
+      setState(() {
+        _cities = value;
+      });
+    });
+  }
 
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
@@ -85,11 +120,6 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
       },
     );
   }
-
-  final formKey = GlobalKey<FormState>();
-  var descriptionController = TextEditingController();
-  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  ClothingRepository clothingRepository = sl();
 
   @override
   Widget build(BuildContext context) {
@@ -171,6 +201,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                 myStaticTextFormField(
                                   width: size.width - 160,
                                   hint: 'Title',
+                                  controller: titleController,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'please add Title';
@@ -198,18 +229,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                   showFavoriteItems: true,
                                 ),
                               ),
-                              items: const [
-                                'bani-suif',
-                                'mansura',
-                                'cairo',
-                                'tanta',
-                                'alexandria',
-                                'bani-suif',
-                                'mansura',
-                                'cairo',
-                                'tanta',
-                                'alexandria',
-                              ],
+                              items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
                                   const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
@@ -224,14 +244,19 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                   border: OutlineInputBorder(
                                     gapPadding: 10,
                                   ),
-                                  hintText: "Please Chose Your Country",
+                                  hintText: "Select city",
                                 ),
                               ),
-                              onChanged: print,
+                              onChanged: (value) => setState(() {
+                                cityId = _cities!
+                                    .firstWhere((element) =>
+                                        element.arabicName == value)
+                                    .id;
+                              }),
                               selectedItem: null,
                               validator: (String? item) {
                                 if (item == null) {
-                                  return "City Name is  Required";
+                                  return "City is required";
                                 } else {
                                   return null;
                                 }
@@ -243,7 +268,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                             SizedBox(
                                 width: double.infinity,
                                 child: FutureBuilder<List<ClothingCategory>>(
-                                  future: clothingRepository
+                                  future: _clothingRepository
                                       .listClothingCategories(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
@@ -300,7 +325,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                 width: double.infinity,
                                 child: FutureBuilder<List<ClothingType>>(
                                   future:
-                                      clothingRepository.listClothingTypes(),
+                                      _clothingRepository.listClothingTypes(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<ClothingType> units = snapshot.data!;
@@ -370,7 +395,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                 SizedBox(
                                     width: 150,
                                     child: FutureBuilder<List<ClothingSize>>(
-                                      future: clothingRepository
+                                      future: _clothingRepository
                                           .listClothingSizes(),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
@@ -528,7 +553,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                   height: 10,
                                 ),
                                 TextFormField(
-                                  controller: watsAppController,
+                                  controller: whatsappController,
                                   keyboardType: TextInputType.phone,
                                   validator: (v) {
                                     if (v!.isEmpty) {
@@ -600,9 +625,7 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
                                 text: 'Submit',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
-                                    myNavigator(
-                                        context, const HayatLayoutScreen());
-                                    formKey.currentState!.save();
+                                    onSubmit();
                                   } else {
                                     setState(() {});
                                     autoValidateMode = AutovalidateMode.always;
@@ -620,5 +643,51 @@ class _BookCategoryScreenState extends State<ClothesCategoryScreen> {
         },
       ),
     );
+  }
+
+  void onSubmit() async {
+    final request = ClothingDonationRequest(
+      title: titleController.text,
+      description: descriptionController.text,
+      // clothingCategoryId: clothingCategoryId,
+      // clothingConditionId: clothingConditionId,
+      // clothingSeasonId: clothingSeasonId,
+      // clothingTypeId: clothingTypeId,
+      // quantity: int.parse(bookQuantityController.text),
+      cityId: cityId,
+    );
+
+    final response = _clothingDonationRepository.create(request);
+
+    response.then(
+        (value) => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ClothingDonationScreen(),
+                ),
+              )
+            }, onError: (error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Something Went Wrong'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
   }
 }
