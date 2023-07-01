@@ -104,7 +104,10 @@ class _HomeScreen extends State<HomeScreen> {
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.only(
+                left: size.width / 40,
+                right: size.width / 40,
+              ),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -212,18 +215,19 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    ListView.builder(
-                        padding: EdgeInsets.all(0),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => Padding(
-                              padding: EdgeInsets.only(
-                                bottom: size.height / 30,
-                              ),
-                              child: needItem(context, _list[index]),
-                            ),
-                        itemCount: _list.length),
+                    Center(
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: size.height / 30,
+                                  ),
+                                  child: needItem(context, _list[index]),
+                                ),
+                            itemCount: _list.length)),
                   ],
-                ),
+                )
               ),
             ),
           );

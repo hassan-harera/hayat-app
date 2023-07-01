@@ -1,7 +1,8 @@
 import 'package:hayat_eg/features/data/model/city/city.dart';
+import 'package:hayat_eg/features/data/model/need/need_response.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
-class BookNeedResponse {
+class BookNeedResponse extends NeedResponse {
   String? id;
   bool? active;
   String? title;

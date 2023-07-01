@@ -1,5 +1,8 @@
 import 'dart:ffi';
 
+import 'package:hayat_eg/features/data/model/city/city.dart';
+import 'package:hayat_eg/features/data/model/user/user.dart';
+
 class DonationResponse {
   int? id;
   bool? active;
@@ -77,76 +80,6 @@ class DonationResponse {
     data['whatsapp_link'] = this.whatsappLink;
     data['qr_code'] = this.qrCode;
     data['reputation'] = this.reputation;
-    return data;
-  }
-}
-
-class City {
-  int? id;
-  bool? active;
-  String? arabicName;
-  String? englishName;
-
-  City({this.id, this.active, this.arabicName, this.englishName});
-
-  City.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    active = json['active'];
-    arabicName = json['arabicName'];
-    englishName = json['englishName'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['active'] = this.active;
-    data['arabicName'] = this.arabicName;
-    data['englishName'] = this.englishName;
-    return data;
-  }
-}
-
-class User {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? mobile;
-  Null? email;
-  String? password;
-  String? username;
-  String? deviceToken;
-
-  User(
-      {this.id,
-      this.firstName,
-      this.lastName,
-      this.mobile,
-      this.email,
-      this.password,
-      this.username,
-      this.deviceToken});
-
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    mobile = json['mobile'];
-    email = json['email'];
-    password = json['password'];
-    username = json['username'];
-    deviceToken = json['deviceToken'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['mobile'] = this.mobile;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['username'] = this.username;
-    data['deviceToken'] = this.deviceToken;
     return data;
   }
 }

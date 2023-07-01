@@ -1,5 +1,7 @@
+import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
+import 'package:hayat_eg/features/data/model/user/user.dart';
 
 class FoodDonationResponse {
   int? id;
