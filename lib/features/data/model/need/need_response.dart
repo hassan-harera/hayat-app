@@ -1,61 +1,66 @@
-import 'dart:ffi';
-
 import 'package:hayat_eg/features/data/model/city/city.dart';
+import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
-class DonationResponse {
-  int? id;
+class NeedResponse {
+  String? id;
   bool? active;
   String? title;
   String? description;
-  String? donationDate;
-  String? donationExpirationDate;
+  String? needDate;
+  String? needExpirationDate;
   String? category;
   String? status;
   String? communicationMethod;
+  String? imageUrl;
   City? city;
   User? user;
-  String? imageUrl;
-  String? telegramLink;
-  String? whatsappLink;
   String? qrCode;
-  Int? reputation;
+  int? reputation;
+  int? age;
+  String? bloodType;
+  String? hospital;
+  String? illness;
 
-  DonationResponse(
+  NeedResponse(
       {this.id,
       this.active,
       this.title,
       this.description,
-      this.donationDate,
-      this.donationExpirationDate,
+      this.needDate,
+      this.needExpirationDate,
       this.category,
       this.status,
       this.communicationMethod,
+      this.imageUrl,
       this.city,
       this.user,
-      this.imageUrl,
-      this.telegramLink,
-      this.whatsappLink,
       this.qrCode,
-      this.reputation});
+      this.reputation,
+      this.age,
+      this.bloodType,
+      this.hospital,
+      this.illness});
 
-  DonationResponse.fromJson(Map<String, dynamic> json) {
+  NeedResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     active = json['active'];
     title = json['title'];
     description = json['description'];
-    donationDate = json['donation_date'];
-    donationExpirationDate = json['donation_expiration_date'];
+    needDate = json['need_date'];
+    needExpirationDate = json['need_expiration_date'];
     category = json['category'];
     status = json['status'];
     communicationMethod = json['communication_method'];
+    imageUrl = json['image_url'];
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    imageUrl = json['image_url'];
-    telegramLink = json['telegram_link'];
-    whatsappLink = json['whatsapp_link'];
     qrCode = json['qr_code'];
     reputation = json['reputation'];
+    age = json['age'];
+    bloodType = json['blood_type'];
+    hospital = json['hospital'];
+    illness = json['illness'];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,22 +69,24 @@ class DonationResponse {
     data['active'] = this.active;
     data['title'] = this.title;
     data['description'] = this.description;
-    data['donation_date'] = this.donationDate;
-    data['donation_expiration_date'] = this.donationExpirationDate;
+    data['need_date'] = this.needDate;
+    data['need_expiration_date'] = this.needExpirationDate;
     data['category'] = this.category;
     data['status'] = this.status;
     data['communication_method'] = this.communicationMethod;
+    data['image_url'] = this.imageUrl;
     if (this.city != null) {
       data['city'] = this.city!.toJson();
     }
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
-    data['image_url'] = this.imageUrl;
-    data['telegram_link'] = this.telegramLink;
-    data['whatsapp_link'] = this.whatsappLink;
     data['qr_code'] = this.qrCode;
     data['reputation'] = this.reputation;
+    data['age'] = this.age;
+    data['blood_type'] = this.bloodType;
+    data['hospital'] = this.hospital;
+    data['illness'] = this.illness;
     return data;
   }
 }

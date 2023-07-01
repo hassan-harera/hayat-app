@@ -8,7 +8,7 @@ import 'package:hayat_eg/features/data/repository/oauth/google/GoogleSignInButto
 import 'package:hayat_eg/features/data/repository/oauth/google/oauth.dart';
 import 'package:hayat_eg/features/presentation/page/signup/Register/register.dart';
 import 'package:hayat_eg/features/presentation/page/signup/forgetPasswordFolder/forgetPassword/ForgetPassword.dart';
-import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
+import 'package:hayat_eg/layout/HayatLayout/hayat_layout.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';

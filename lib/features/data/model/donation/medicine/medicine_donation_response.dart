@@ -1,4 +1,7 @@
+import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
+import 'package:hayat_eg/features/data/model/medicine_unit.dart';
+import 'package:hayat_eg/features/data/model/user/user.dart';
 
 class MedicineDonationResponse {
   int? id;
@@ -97,101 +100,6 @@ class MedicineDonationResponse {
     if (this.medicine != null) {
       data['medicine'] = this.medicine!.toJson();
     }
-    return data;
-  }
-}
-
-class City {
-  int? id;
-  bool? active;
-  String? arabicName;
-  String? englishName;
-
-  City({this.id, this.active, this.arabicName, this.englishName});
-
-  City.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    active = json['active'];
-    arabicName = json['arabicName'];
-    englishName = json['englishName'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['active'] = this.active;
-    data['arabicName'] = this.arabicName;
-    data['englishName'] = this.englishName;
-    return data;
-  }
-}
-
-class User {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? mobile;
-  String? email;
-  String? password;
-  String? username;
-  String? deviceToken;
-
-  User(
-      {this.id,
-      this.firstName,
-      this.lastName,
-      this.mobile,
-      this.email,
-      this.password,
-      this.username,
-      this.deviceToken});
-
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    mobile = json['mobile'];
-    email = json['email'];
-    password = json['password'];
-    username = json['username'];
-    deviceToken = json['deviceToken'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['mobile'] = this.mobile;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['username'] = this.username;
-    data['deviceToken'] = this.deviceToken;
-    return data;
-  }
-}
-
-class MedicineUnit {
-  int? id;
-  bool? active;
-  String? arabicName;
-  String? englishName;
-
-  MedicineUnit({this.id, this.active, this.arabicName, this.englishName});
-
-  MedicineUnit.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    active = json['active'];
-    arabicName = json['arabic_name'];
-    englishName = json['english_name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['active'] = this.active;
-    data['arabic_name'] = this.arabicName;
-    data['english_name'] = this.englishName;
     return data;
   }
 }

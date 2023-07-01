@@ -1,8 +1,10 @@
+import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_seasson.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
+import 'package:hayat_eg/features/data/model/user/user.dart';
 
 class ClothingDonationResponse {
   int? id;

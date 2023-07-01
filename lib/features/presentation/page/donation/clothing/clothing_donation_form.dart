@@ -9,7 +9,7 @@ import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/injection_container.dart';
-import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
+import 'package:hayat_eg/layout/HayatLayout/hayat_layout.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 

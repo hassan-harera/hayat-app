@@ -1,39 +1,44 @@
 class User {
-  final int id;
-  final String firstName;
-  final String lastName;
-  final String mobile;
-  final String email;
-  final String username;
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? mobile;
+  String? email;
+  String? password;
+  String? username;
+  String? deviceToken;
 
-  User({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.mobile,
-    required this.email,
-    required this.username,
-  });
+  User(
+      {this.id,
+      this.firstName,
+      this.lastName,
+      this.mobile,
+      this.email,
+      this.password,
+      this.username,
+      this.deviceToken});
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'] as int,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-      mobile: json['mobile'] as String,
-      email: json['email'] as String,
-      username: json['username'] as String,
-    );
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    mobile = json['mobile'];
+    email = json['email'];
+    password = json['password'];
+    username = json['username'];
+    deviceToken = json['deviceToken'];
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'firstName': firstName,
-      'lastName': lastName,
-      'mobile': mobile,
-      'email': email,
-      'username': username,
-    };
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['mobile'] = this.mobile;
+    data['email'] = this.email;
+    data['password'] = this.password;
+    data['username'] = this.username;
+    data['deviceToken'] = this.deviceToken;
+    return data;
   }
 }

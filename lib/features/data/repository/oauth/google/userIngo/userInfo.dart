@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hayat_eg/layout/HayatLayout/hayat-egLayout.dart';
+import 'package:hayat_eg/layout/HayatLayout/hayat_layout.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 

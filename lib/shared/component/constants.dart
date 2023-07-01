@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hayat_eg/features/data/model/need/need_response.dart';
 
 import '../../layout/LayoutScreens/ItemScreen/ItemScreen.dart';
 
@@ -366,95 +367,6 @@ Widget defaultTextFormField({
       ),
     );
 
-Widget itemCategory(BuildContext context) {
-  final size = MediaQuery.of(context).size;
-  return GestureDetector(
-    onTap: () {
-      myNavigator(context, ItemScreen(titleName: 'k'));
-    },
-    child: Container(
-      height: 155,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 155,
-            width: size.width / 3,
-            decoration: BoxDecoration(
-                color: Color(0xffE3EAF2),
-                border: Border.all(
-                  color: Color(0xffE3EAF2),
-                ),
-                borderRadius: BorderRadius.circular(20)),
-            child: Icon(
-              Icons.image_outlined,
-              color: Colors.black,
-              size: 40,
-            ),
-          ),
-          SizedBox(
-            width: size.width / 20,
-          ),
-          Expanded(
-            child: SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    'Category Name',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                  SizedBox(
-                    width: size.height / 25,
-                  ),
-                  Text(
-                    'Mohamed Ahmed',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
-                  ),
-                  SizedBox(
-                    width: size.height / 25,
-                  ),
-                  Text(
-                    'Description food  food Donation Description food  food Donation Description food  food Donation',
-                    maxLines: 2,
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Spacer(),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xffE3EAF2),
-                          border: Border.all(color: Color(0xff20ADDC)),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        height: size.height / 20,
-                        width: size.width / 3,
-                      ),
-                      Spacer(),
-                      Text('2 days lift'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
 
 class ItemBuilder extends StatelessWidget {
   ItemBuilder(
