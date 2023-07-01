@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
@@ -19,7 +17,7 @@ class DonationResponse {
   String? telegramLink;
   String? whatsappLink;
   String? qrCode;
-  Int? reputation;
+  int? reputation;
 
   DonationResponse(
       {this.id,

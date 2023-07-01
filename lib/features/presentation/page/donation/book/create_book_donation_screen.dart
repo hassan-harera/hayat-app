@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +36,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   var telegramController = TextEditingController();
   var watsAppController = TextEditingController();
   late String communicationMethod;
-  late Long cityId;
+  late int cityId;
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   BookDonationRepository _bookDonationRepository = sl();
