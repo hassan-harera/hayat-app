@@ -18,7 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
-  // var mobilController = TextEditingController();
+
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
 
@@ -89,50 +89,74 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   autovalidateMode: autoValidateMode,
                                   child: Column(
                                     children: [
-                                      defaultTextFormField(
-                                        hint: ('First Name'),
-                                        prefixIcon:
-                                        (Icons.person_outline_outlined),
-                                        controller: firstNameController,
-                                        keyboardType: TextInputType.text,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return " First Name is Required";
-                                          } else {
-                                            return null;
-                                          }
-                                        },
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'First Name',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          defaultTextFormField(
+                                            hint: ('First Name'),
+                                            prefixIcon:
+                                            (Icons.person_outline_outlined),
+                                            controller: firstNameController,
+                                            keyboardType: TextInputType.text,
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return " First Name is Required";
+                                              } else {
+                                                return null;
+                                              }
+                                            },
+                                          ),
+                                        ],
                                       ),
                                       SizedBox(
                                         height: size.height / 80,
                                       ),
-                                      defaultTextFormField(
-                                        hint: ('Last Name'),
-                                        prefixIcon:
-                                        (Icons.person_outline_outlined),
-                                        controller: lastNameController,
-                                        keyboardType:
-                                        TextInputType.emailAddress,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return " last Name is Required";
-                                          } else {
-                                            return null;
-                                          }
-                                        },
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Last Name',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          defaultTextFormField(
+                                            hint: ('Last Name'),
+                                            prefixIcon:
+                                            (Icons.person_outline_outlined),
+                                            controller: lastNameController,
+                                            keyboardType:
+                                            TextInputType.emailAddress,
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return " last Name is Required";
+                                              } else {
+                                                return null;
+                                              }
+                                            },
+                                          ),
+                                        ],
                                       ),
                                       SizedBox(
-                                        height: size.height / 80,
+                                        height: size.height / 40,
                                       ),
-                                      SizedBox(
-                                        height: size.height / 80,
-                                      ),
-                                      SizedBox(
-                                        height: size.height / 80,
-                                      ),
-                                      SizedBox(
-                                        height: size.height / 80,
-                                      ),
+
                                       ConditionalBuilder(
                                         condition:
                                         state is! RegisterLoadingState,
@@ -168,7 +192,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text('Do have an account Already?'),
+                                    const Text('Do You have an account Already ?',style: TextStyle(fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                      color: Colors.black54
+                                    ),
+
+                                    ),
                                     defaultTextBottom(
                                         function: () {
                                           myNavigateAndReplacement(

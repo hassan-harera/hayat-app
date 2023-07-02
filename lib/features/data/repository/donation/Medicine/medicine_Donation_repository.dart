@@ -1,16 +1,19 @@
-import 'package:hayat_eg/features/data/datasource/donation/medicine/medicine_donation_datasource.dart';
-import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
+import 'package:hayat_eg/features/data/datasource/donation/book/book_donation_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/donation/medicine_donation_datasource.dart';
+import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
+import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
+import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_request.dart';
+import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_response.dart';
 
-
-
-class MedicineRepository {
+class MedicineDonationRepository {
   final MedicineDonationDataSource medicineDonationDataSource;
 
-  MedicineRepository({
+  MedicineDonationRepository({
     required this.medicineDonationDataSource,
   });
 
-  Future<List<Medicine>?> search(String query) async {
-    return await medicineDonationDataSource.search(query);
+  Future<MedicineDonationResponse?> create(
+      MedicineDonationRequest request) async {
+    return await medicineDonationDataSource.create(request);
   }
 }

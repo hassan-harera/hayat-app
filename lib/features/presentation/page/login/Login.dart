@@ -234,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     CircularStrokeCap.round,
                                                 center: Text(
                                                   '${progressNumber()}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: Colors.amber),
@@ -309,7 +309,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text('Don\'t have an account?'),
+                                  const Text('Don\'t have an account?',style: TextStyle(fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: Colors.black54
+                              ),),
                                   defaultTextBottom(
                                       function: () {
                                         myNavigateAndReplacement(
