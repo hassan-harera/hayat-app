@@ -10,6 +10,7 @@ import 'package:hayat_eg/features/data/model/donation/book/book_donation_respons
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/view.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
@@ -232,13 +233,13 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               ),
                               items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
-                              const DropDownDecoratorProps(
+                                  const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       )),
@@ -251,7 +252,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               onChanged: (value) => setState(() {
                                 cityId = _cities!
                                     .firstWhere((element) =>
-                                element.arabicName == value)
+                                        element.arabicName == value)
                                     .id;
                               }),
                               selectedItem: null,
@@ -354,13 +355,13 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               ),
                               items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
-                              const DropDownDecoratorProps(
+                                  const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       )),
@@ -373,7 +374,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               onChanged: (value) => setState(() {
                                 cityId = _cities!
                                     .firstWhere((element) =>
-                                element.arabicName == value)
+                                        element.arabicName == value)
                                     .id;
                               }),
                               selectedItem: null,

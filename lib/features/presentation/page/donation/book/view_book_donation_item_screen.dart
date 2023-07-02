@@ -2,13 +2,12 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
 class BookDonationItemScreen extends StatefulWidget {
-
   @override
   State<BookDonationItemScreen> createState() => _BookDonationItemScreenState();
 }
 
 class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
-int ratingNumber=1;
+  int ratingNumber = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +39,12 @@ int ratingNumber=1;
         title: const Text('Book Donation'),
       ),
       body: Padding(
-        padding:  EdgeInsets.only(left: 8.0, top:   size.height/45,),
-        child: ListView(
-          children:[
-            Column(
+        padding: EdgeInsets.only(
+          left: 8.0,
+          top: size.height / 45,
+        ),
+        child: ListView(children: [
+          Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -63,7 +64,6 @@ int ratingNumber=1;
                       size: 40,
                     ),
                   ),
-
                   Expanded(
                     child: Column(
                       children: [
@@ -72,14 +72,16 @@ int ratingNumber=1;
                               setState(() {
                                 ratingNumber++;
                               });
-                            }, icon: const Icon(Icons.arrow_upward)),
+                            },
+                            icon: const Icon(Icons.arrow_upward)),
                         const SizedBox(
                           height: 10,
                         ),
-                         Text(
+                        Text(
                           '$ratingNumber',
                           maxLines: 1,
-                          style: const TextStyle(overflow: TextOverflow.ellipsis),
+                          style:
+                              const TextStyle(overflow: TextOverflow.ellipsis),
                         ),
                         const SizedBox(
                           height: 10,
@@ -94,13 +96,11 @@ int ratingNumber=1;
                       ],
                     ),
                   ),
-
                 ],
               ),
-               SizedBox(
-                height: size.height/45,
+              SizedBox(
+                height: size.height / 45,
               ),
-
               const Row(
                 children: [
                   Text(
@@ -294,7 +294,7 @@ int ratingNumber=1;
               const SizedBox(
                 height: 10,
               ),
-               const Row(
+              const Row(
                 children: [
                   Text(
                     'Telegram : ',
@@ -310,8 +310,8 @@ int ratingNumber=1;
                 ],
               ),
             ],
-          ),]
-        ),
+          ),
+        ]),
       ),
     );
   }

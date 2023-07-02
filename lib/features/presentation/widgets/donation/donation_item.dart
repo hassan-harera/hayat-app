@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
+import 'package:hayat_eg/features/data/model/donation/donation_category.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
+
+import '../../page/donation/book/view_book_donation_item_screen.dart';
 
 class DonationItem extends StatelessWidget {
   final DonationResponse _donationResponse;
@@ -14,7 +18,9 @@ class DonationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        viewDonationItemScreen(context, _donationResponse);
+      },
       child: SizedBox(
         height: size.height / 5,
         child: Row(
@@ -128,7 +134,7 @@ class DonationItem extends StatelessWidget {
                           style: ButtonStyle(
                             elevation: MaterialStateProperty.all<double>(0),
                             backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                                MaterialStateProperty.all<Color>(Colors.white),
                             shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4),
@@ -169,5 +175,15 @@ class DonationItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void viewDonationItemScreen(
+      BuildContext context, DonationResponse donationResponse) {
+    if (_donationResponse.category == 'BOOKS') {
+      myNavigator(context, BookDonationItemScreen());
+    } else if (_donationResponse.category == DonationCategory.MEDICINE) {
+    } else if (_donationResponse.category == 'FOOD') {}
+    else if (_donationResponse.category == 'MEDICINE') {}
+    else if (_donationResponse.category == 'OTHER') {}
   }
 }

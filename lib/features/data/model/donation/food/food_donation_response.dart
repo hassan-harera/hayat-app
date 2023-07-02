@@ -10,7 +10,6 @@ class FoodDonationResponse extends DonationResponse {
   String? description;
   String? donationDate;
   String? donationExpirationDate;
-  String? category;
   String? status;
   String? communicationMethod;
   City? city;
@@ -31,7 +30,7 @@ class FoodDonationResponse extends DonationResponse {
       this.description,
       this.donationDate,
       this.donationExpirationDate,
-      this.category,
+      super.category,
       this.status,
       this.communicationMethod,
       this.city,
