@@ -6,6 +6,7 @@ import 'package:hayat_eg/features/data/datasource/donation/clothing/clothing_don
 import 'package:hayat_eg/features/data/datasource/donation/donations_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/donation/food/food_donation_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/food/food_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/medicine/medicine_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/need/book/book_need_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/need/need_datasource.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
@@ -13,14 +14,18 @@ import 'package:hayat_eg/features/data/repository/donation/book_donation_reposit
 import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
+import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/data/datasource/city_datasource.dart';
-import 'features/data/datasource/medicine_donation_datasource.dart';
+import 'features/data/datasource/donation/medicine_donation_datasource.dart';
+import 'features/data/datasource/need/medicine/medicine_need_datasource.dart';
 import 'features/data/repository/CityRepository.dart';
 
 final sl = GetIt.instance;
@@ -48,6 +53,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ClothingDonationRepository>(
     () => ClothingDonationRepository(clothingDonationDataSource: sl()),
   );
+  sl.registerLazySingleton<MedicineDonationRepository>(
+    () => MedicineDonationRepository(medicineDonationDataSource: sl()),
+  );
 
   /**
    * Need Repositories
@@ -57,6 +65,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<BookNeedRepository>(
     () => BookNeedRepository(bookNeedDataSource: sl()),
+  );
+  sl.registerLazySingleton<MedicineNeedRepository>(
+    () => MedicineNeedRepository(medicineNeedDataSource: sl()),
   );
 
   /**
@@ -68,8 +79,13 @@ Future<void> init() async {
   sl.registerLazySingleton<ClothingRepository>(
     () => ClothingRepository(clothingDataSource: sl()),
   );
+  sl.registerLazySingleton<MedicineRepository>(
+    () => MedicineRepository(sl()),
+  );
 
-  // Data sources
+  /**
+   * Donation Data Sources
+   */
   sl.registerLazySingleton<DonationDataSource>(
     () => DonationDataSource(client: sl()),
   );
@@ -85,14 +101,21 @@ Future<void> init() async {
   sl.registerLazySingleton<ClothingDonationDataSource>(
     () => ClothingDonationDataSource(client: sl()),
   );
+
+  /**
+   * Facets Data Sources
+   */
   sl.registerLazySingleton<CityDataSource>(
     () => CityDataSource(client: sl()),
   );
   sl.registerLazySingleton<FoodDataSource>(
-    () => FoodDataSource(),
+    () => FoodDataSource(client: sl()),
   );
   sl.registerLazySingleton<ClothingDatasource>(
     () => ClothingDatasource(),
+  );
+  sl.registerLazySingleton<MedicineDataSource>(
+        () => MedicineDataSource(sl()),
   );
 
   /**
@@ -103,6 +126,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<BookNeedDataSource>(
     () => BookNeedDataSource(client: sl()),
+  );
+  sl.registerLazySingleton<MedicineNeedDataSource>(
+    () => MedicineNeedDataSource(client: sl()),
   );
 
   // External

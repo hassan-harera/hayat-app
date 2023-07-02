@@ -13,7 +13,7 @@ class FoodRepository {
     return await foodDatasource.listFoodCategories();
   }
 
-  Future<List<FoodUnit>>? listUnits() async {
+  Future<List<FoodUnit>> listUnits() async {
     return await foodDatasource.listFoodUnits();
   }
 }

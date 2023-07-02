@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hayat_eg/features/data/model/donation/medicine/medicine-api-get.dart';
+import 'package:hayat_eg/features/data/datasource/medicine/medicine_datasource.dart';
 
 import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
 import 'package:hayat_eg/features/data/model/medicineModel.dart';
@@ -53,7 +53,6 @@ class SearchScreen extends StatelessWidget {
         child: Column(
           children: [
             FutureBuilder<List<MedicineModel>>(
-              future: MedicineServices().getListMedicineName(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<MedicineModel> listOfMedicine = snapshot.data!;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 
 Widget mySearchTextFormField(
         {TextEditingController? controller,
@@ -301,10 +302,6 @@ Widget donateCategoryItem({
       ),
     );
 
-
-
-
-
 int titleIndex = 0;
 
 Widget myStaticTextFormField(
@@ -323,7 +320,8 @@ Widget myStaticTextFormField(
         Color? prefixColor,
         Color? suffixColor,
         double? width = double.infinity,
-        void Function()? onTap}) =>
+        void Function()? onTap,
+        void Function(String)? onChanged}) =>
     Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
       width: width,
@@ -334,6 +332,7 @@ Widget myStaticTextFormField(
         keyboardType: keyboardType,
         validator: validator,
         obscureText: obscure,
+        onChanged: onChanged,
         onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           // prefixIcon: Icon(
@@ -401,7 +400,8 @@ class ExprirationDate extends StatelessWidget {
                   firstDate: DateTime.now(),
                   lastDate: DateTime.parse('2400-05-07'))
               .then((value) {
-            controller.text = DateFormat.yMMMd().format(value!);
+            DateFormat formatter = DateFormat('yyyy-MM-dd');
+            controller.text = formatter.format(value!);
           });
         },
         decoration: InputDecoration(

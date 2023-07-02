@@ -5,10 +5,13 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/food/food_donation_request.dart';
 import 'package:hayat_eg/features/data/model/food/food_category.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
+import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
 import 'package:hayat_eg/injection_container.dart';
@@ -29,23 +32,47 @@ class CreateFoodDonationScreen extends StatefulWidget {
 class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
   var formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  var titleController = TextEditingController();
   int? categoryId;
-  int? unitId;
 
-  var descriptionController = TextEditingController();
-  var telegramController = TextEditingController();
-  var watsAppController = TextEditingController();
-  var categoryController = TextEditingController();
-  var quantityController = TextEditingController();
-  var dateController = TextEditingController();
-  var timeController = TextEditingController();
-  var communicationMethod = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final _foodExpirationDateController = TextEditingController();
+  final communicationMethodController = TextEditingController();
+  final telegramController = TextEditingController();
+  final watsAppController = TextEditingController();
+  final categoryController = TextEditingController();
+  final quantityController = TextEditingController();
+  final dateController = TextEditingController();
+  final timeController = TextEditingController();
+  final _city = TextEditingController();
+  final _foodUnit = TextEditingController();
+  String communicationMethod = '';
 
   FoodDonationRepository _foodDonationRepository = sl();
   FoodRepository _foodRepository = sl();
+  CityRepository _cityRepository = sl();
+
   String? sItem;
   Uint8List? myFile;
+
+  List<City>? _cities = [];
+  List<FoodUnit> _foodUnits = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _foodRepository.listUnits().then((value) {
+      setState(() {
+        _foodUnits = value;
+      });
+    });
+
+    _cityRepository.search('').then((value) {
+      setState(() {
+        _cities = value;
+      });
+    });
+  }
 
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
@@ -102,18 +129,6 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
         );
       },
     );
-  }
-
-  final FirebaseMessaging fcm = FirebaseMessaging.instance;
-  String? deviceToken;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    fcm.getToken().then((token) {
-      deviceToken = token;
-      print('the token is :$token');
-    });
   }
 
   @override
@@ -222,18 +237,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   showFavoriteItems: true,
                                 ),
                               ),
-                              items: const [
-                                'bani-suif',
-                                'mansura',
-                                'cairo',
-                                'tanta',
-                                'alexandria',
-                                'bani-suif',
-                                'mansura',
-                                'cairo',
-                                'tanta',
-                                'alexandria',
-                              ],
+                              items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
                                   const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
@@ -248,70 +252,20 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   border: OutlineInputBorder(
                                     gapPadding: 10,
                                   ),
-                                  hintText: "Please Chose Your City",
+                                  hintText: "Select city",
                                 ),
                               ),
-                              onChanged: print,
+                              onChanged: (value) => setState(() {
+                                _city.text = _cities!
+                                    .firstWhere((element) =>
+                                        element.arabicName == value)
+                                    .id
+                                    .toString();
+                              }),
                               selectedItem: null,
                               validator: (String? item) {
                                 if (item == null) {
-                                  return "City Name is  Required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items: const [
-                                'bani-suif',
-                                'mansura',
-                                'cairo',
-                                'tanta',
-                                'alexandria',
-                                'bani-suif',
-                                'mansura',
-                                'cairo',
-                                'tanta',
-                                'alexandria',
-                              ],
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Please Inter Food Name",
-                                ),
-                              ),
-                              onChanged: print,
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City Name is  Required";
+                                  return "City is Required";
                                 } else {
                                   return null;
                                 }
@@ -401,8 +355,17 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                                 (item.englishName.toString()),
                                               )))
                                           .toList(),
-                                      onChanged: (item) {
-                                        sItem = item;
+                                      onChanged: (value) {
+                                        print(value);
+                                        setState(() {
+                                          _foodUnit.text = _foodUnits
+                                              .firstWhere((element) =>
+                                                  jsonEncode(
+                                                      element.englishName) ==
+                                                  value)
+                                              .id
+                                              .toString();
+                                        });
                                       },
                                       decoration: InputDecoration(
                                           fillColor: Colors.white,
@@ -455,9 +418,12 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           child: myStaticTextFormField(
                                             keyboardType: TextInputType.number,
                                             hint: 'Amount',
+                                            onChanged: (value) {
+                                              quantityController.text = value;
+                                            },
                                             validator: (value) {
                                               if (value!.isEmpty) {
-                                                return 'please inter title';
+                                                return 'Quantity is Required';
                                               }
                                             },
                                           ),
@@ -487,7 +453,8 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                             width: 190,
                                             child: ExprirationDate(
                                               hint: 'please Inter Date',
-                                              controller: dateController,
+                                              controller:
+                                                  _foodExpirationDateController,
                                             )),
                                       ],
                                     ),
@@ -535,6 +502,9 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
                                         }),
+                                    onTap: () {
+                                      communicationMethod = 'CHAT';
+                                    },
                                   ),
                                   GestureDetector(
                                     child: RadioListTile(
@@ -557,6 +527,9 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
                                         }),
+                                    onTap: () {
+                                      communicationMethod = 'PHONE';
+                                    },
                                   ),
                                   GestureDetector(
                                     excludeFromSemantics: true,
@@ -578,6 +551,9 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
                                         }),
+                                    onTap: () {
+                                      communicationMethod = 'CHAT_AND_PHONE';
+                                    },
                                   ),
                                 ],
                               ),
@@ -684,38 +660,42 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
   }
 
   void onSubmit(LayoutCubit layoutCubit) {
+    print(_foodExpirationDateController.text);
     final request = FoodDonationRequest(
-      title: titleController.text,
-      description: descriptionController.text,
-      cityId: 1,
-      communicationMethod: layoutCubit.communicationTool,
-      quantity: double.parse(quantityController.text),
-      foodCategoryId: categoryId,
-      foodUnitId: 1,
-    );
+        title: titleController.text,
+        description: descriptionController.text,
+        cityId: int.parse(_city.text),
+        communicationMethod: communicationMethod,
+        quantity: double.parse(quantityController.text),
+        foodCategoryId: categoryId,
+        foodUnitId: int.parse(_foodUnit.text),
+        telegramLink: "https://t.me/${telegramController.text}",
+        whatsappLink: "https://wa.me/${watsAppController.text}",
+        foodExpirationDate: _foodExpirationDateController.text);
+
 
     final response = _foodDonationRepository.create(request);
-    response.onError((error, stackTrace) {});
-
-    response.then((value) => {}, onError: (error, stackTrace) {
-      error as BadRequestException;
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Something Went Wrong'),
-            content: Text(error.apiError.displayMessage.toString()),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Dismiss'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+    response.then((value) => {});
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Something Went Wrong'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
       stackTrace.printError();
     });
   }

@@ -9,6 +9,7 @@ class FoodDonationRequest {
   int? foodCategoryId;
   String? foodExpirationDate;
   String? telegramLink;
+  String? whatsappLink;
 
   FoodDonationRequest(
       {this.quantity,
@@ -20,7 +21,8 @@ class FoodDonationRequest {
       this.foodUnitId,
       this.foodCategoryId,
       this.foodExpirationDate,
-      this.telegramLink});
+      this.telegramLink,
+      this.whatsappLink});
 
   FoodDonationRequest.fromJson(Map<String, dynamic> json) {
     quantity = json['quantity'];
