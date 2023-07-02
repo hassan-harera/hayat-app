@@ -1,10 +1,36 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
+import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
+import 'package:hayat_eg/injection_container.dart';
 
-class BookDonationItemScreen extends StatelessWidget {
-  BookDonationItemScreen({super.key, required this.titleName});
+class BookDonationScreen extends StatefulWidget {
+  final int _id;
 
-  String? titleName;
+  const BookDonationScreen(this._id, {super.key});
+
+  @override
+  State<BookDonationScreen> createState() =>
+      _BookDonationScreen(_id);
+}
+
+class _BookDonationScreen extends State<BookDonationScreen> {
+  final BookDonationRepository _bookDonationRepository = sl();
+  final int _id;
+  late BookDonationResponse _bookDonationResponse;
+  String titleName = 'Book Donation';
+
+  _BookDonationScreen(this._id);
+
+  @override
+  void initState() {
+    super.initState();
+    _bookDonationRepository.get(_id).then((value) {
+      setState(() {
+        _bookDonationResponse = value as BookDonationResponse;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +41,7 @@ class BookDonationItemScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          content: BarcodeWidget(
-                            data: 'data for make QR '!,
-                            barcode: Barcode.qrCode(),
-                            color: Colors.black,
-                            width: 250,
-                            height: 250,
-                          ),
-                          backgroundColor: Colors.grey[50],
-                        ));
+                showQr(context);
               },
               icon: const Icon(
                 Icons.qr_code,
@@ -43,10 +58,10 @@ class BookDonationItemScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: size.height / 4,
+                  height: size.height / 3.5,
                   width: size.width / 1.2,
                   decoration: BoxDecoration(
-                      color: Color.fromRGBO(4, 108, 109, 1),
+                      color: const Color(0xffE3EAF2),
                       border: Border.all(
                         color: const Color(0xffE3EAF2),
                       ),
@@ -173,5 +188,22 @@ class BookDonationItemScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showQr(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: BarcodeWidget(
+              data: _bookDonationResponse.qrCode as String,
+              barcode: Barcode.qrCode(),
+              color: Colors.black,
+              width: 250,
+              height: 250,
+            ),
+            backgroundColor: Colors.grey[50],
+          );
+        });
   }
 }

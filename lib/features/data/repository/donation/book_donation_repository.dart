@@ -21,4 +21,8 @@ class BookDonationRepository {
   Future<List<BookDonationResponse>?> search(String query) async {
     return await bookDonationDataSource.search(query);
   }
+
+  Future<BookDonationResponse?> get(int id) async {
+    return bookDonationDataSource.get(id);
+  }
 }

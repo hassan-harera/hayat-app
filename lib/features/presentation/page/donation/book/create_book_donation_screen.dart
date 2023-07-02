@@ -10,7 +10,8 @@ import 'package:hayat_eg/features/data/model/donation/book/book_donation_respons
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
-import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_screen.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
+import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
@@ -46,7 +47,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   List<City>? _cities = [];
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  BookDonationRepository _bookDonationRepository = sl();
+  final BookDonationRepository _bookDonationRepository = sl();
   Uint8List? _file;
 
   CityRepository _cityRepository = sl();
@@ -595,7 +596,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookDonationScreen(),
+                    builder: (context) => BookDonationScreen(id),
                   ),
                 )
               });

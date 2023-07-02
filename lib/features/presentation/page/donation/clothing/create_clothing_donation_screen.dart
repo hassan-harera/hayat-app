@@ -15,7 +15,6 @@ import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
-import 'package:hayat_eg/features/presentation/widgets/dialog/donation_success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat_layout.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';

@@ -36,6 +36,17 @@ class BookDonationDataSource {
     }
   }
 
+  Future<BookDonationResponse?> get(int id) async {
+    final response = await client.get(Uri.parse('$apiUrl/$id'));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return BookDonationResponse.fromJson(decodeJson(response.body));
+    } else if (response.statusCode == 400) {
+      throw BadRequestException(
+          apiError: ApiError.fromJson(decodeJson(response.body)));
+    }
+  }
+
   Future<BookDonationResponse?> updateImage(int id, Uint8List file) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('$baseUrl/api/v1/donations/book/$id/images'));

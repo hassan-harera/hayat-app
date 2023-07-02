@@ -3,9 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hayat_eg/features/data/model/need/need_response.dart';
-
-import '../../layout/LayoutScreens/ItemScreen/ItemScreen.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 
 void myNavigator(context, widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
@@ -387,7 +385,6 @@ class ItemBuilder extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        myNavigator(context, ItemScreen(titleName: categoryName));
       },
       child: Container(
         height: 155,

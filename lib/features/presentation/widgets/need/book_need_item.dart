@@ -2,14 +2,13 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
-import 'package:hayat_eg/layout/LayoutScreens/ItemScreen/ItemScreen.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
 Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
   final size = MediaQuery.of(context).size;
   return GestureDetector(
     onTap: () {
-      myNavigator(context, ItemScreen(titleName: 'k'));
     },
     child: Container(
       height: 155,
@@ -26,7 +25,7 @@ Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
                   color: Color(0xffE3EAF2),
                 ),
                 borderRadius: BorderRadius.circular(20)),
-            child: Icon(
+            child: const Icon(
               Icons.image_outlined,
               color: Colors.black,
               size: 40,
@@ -43,7 +42,7 @@ Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
                 children: [
                   Text(
                     needResponse.title ?? '',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     ),
@@ -53,7 +52,7 @@ Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
                   ),
                   Text(
                     '${needResponse.user!.firstName!} ${needResponse.user!.lastName!}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
                     ),
@@ -61,7 +60,7 @@ Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
                   SizedBox(
                     width: size.height / 25,
                   ),
-                  Text(
+                  const Text(
                     'Description food  food Donation Description food  food Donation Description food  food Donation',
                     maxLines: 2,
                     style: TextStyle(
@@ -69,12 +68,12 @@ Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
                       fontSize: 18,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Color(0xffE3EAF2),
+                          color: const Color(0xffE3EAF2),
                           border: Border.all(color: Color(0xff20ADDC)),
                           borderRadius: BorderRadius.circular(20),
                         ),

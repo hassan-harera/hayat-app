@@ -14,7 +14,6 @@ import 'package:hayat_eg/features/data/repository/donation/book_donation_reposit
 import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
-import 'package:hayat_eg/features/data/repository/donation/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
@@ -27,6 +26,7 @@ import 'features/data/datasource/city_datasource.dart';
 import 'features/data/datasource/donation/medicine/medicine_donation_datasource.dart';
 import 'features/data/datasource/need/medicine/medicine_need_datasource.dart';
 import 'features/data/repository/CityRepository.dart';
+import 'features/data/repository/donation/Medicine/medicine_donation_repository.dart';
 
 final sl = GetIt.instance;
 

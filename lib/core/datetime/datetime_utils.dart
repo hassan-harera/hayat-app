@@ -1,4 +1,10 @@
-String timeAgo(DateTime dateTime) {
+import 'package:intl/intl.dart';
+
+String timeAgo(String? value) {
+  if (value == null || value.isEmpty) {
+    return "";
+  }
+  DateTime dateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(value);
   Duration diff = DateTime.now().difference(dateTime);
 
   if (diff.inSeconds < 60) {
