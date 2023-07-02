@@ -232,13 +232,13 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               ),
                               items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
+                              const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
+                                      BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       )),
@@ -251,7 +251,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               onChanged: (value) => setState(() {
                                 cityId = _cities!
                                     .firstWhere((element) =>
-                                        element.arabicName == value)
+                                element.arabicName == value)
                                     .id;
                               }),
                               selectedItem: null,
@@ -338,21 +338,52 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  myNavigator(context, SearchScreen());
-                                });
-                              },
-                              child: myStaticTextFormField(
-                                hint: 'City',
-                                controller: bookCityController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Location';
-                                  }
-                                },
+                            DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                isFilterOnline: true,
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                showSearchBox: true,
+                                menuProps: MenuProps(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                ),
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                ),
                               ),
+                              items: _cities!.map((e) => e.arabicName).toList(),
+                              dropdownDecoratorProps:
+                              const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  border: OutlineInputBorder(
+                                    gapPadding: 10,
+                                  ),
+                                  hintText: "Select city",
+                                ),
+                              ),
+                              onChanged: (value) => setState(() {
+                                cityId = _cities!
+                                    .firstWhere((element) =>
+                                element.arabicName == value)
+                                    .id;
+                              }),
+                              selectedItem: null,
+                              validator: (String? item) {
+                                if (item == null) {
+                                  return "City is required";
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                             const SizedBox(
                               height: 20,

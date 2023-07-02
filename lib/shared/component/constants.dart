@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 
+import 'package:hayat_eg/layout/LayoutScreens/ItemScreen/BookDonationItemScreen.dart';
+
+
 void myNavigator(context, widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 
@@ -116,7 +119,7 @@ Widget categoryProvider({
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.circular(10),
-        color: Color(0xff20ADDC),
+        color: const Color(0xff20ADDC),
       ),
       child: Column(
         children: [
@@ -181,7 +184,7 @@ Widget myCard() => Stack(
                     offset: const Offset(10, 10)),
               ],
             ),
-            child: Card(
+            child: const Card(
               elevation: 10,
               child: Padding(
                 padding:
@@ -294,7 +297,7 @@ SnackBar mySnackBar({required String content}) {
     backgroundColor: Colors.black,
     content: Text(
       content,
-      style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
+      style: const TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
     ),
   );
 }
@@ -315,7 +318,7 @@ Widget defaultTextFormField({
   Color? suffixColor,
 }) =>
     Padding(
-      padding: EdgeInsetsDirectional.only(bottom: 10),
+      padding: const EdgeInsetsDirectional.only(bottom: 10),
       child: TextFormField(
         controller: controller,
         style: const TextStyle(),
@@ -344,7 +347,7 @@ Widget defaultTextFormField({
           hintText: hint,
           filled: true,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.white,
             ),
             borderRadius: BorderRadius.circular(10),
@@ -385,6 +388,7 @@ class ItemBuilder extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        myNavigator(context, BookDonationItemScreen());
       },
       child: Container(
         height: 155,
@@ -396,9 +400,9 @@ class ItemBuilder extends StatelessWidget {
               height: 155,
               width: size.width / 3,
               decoration: BoxDecoration(
-                  color: Color(0xffE3EAF2),
+                  color: const Color(0xffE3EAF2),
                   border: Border.all(
-                    color: Color(0xffE3EAF2),
+                    color: const Color(0xffE3EAF2),
                   ),
                   borderRadius: BorderRadius.circular(20)),
               child: file == null
@@ -415,7 +419,7 @@ class ItemBuilder extends StatelessWidget {
                         child: AspectRatio(
                           aspectRatio: 478 / 451,
                           child: Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
@@ -440,7 +444,7 @@ class ItemBuilder extends StatelessWidget {
                   children: [
                     Text(
                       categoryName!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 22,
                       ),
@@ -448,7 +452,7 @@ class ItemBuilder extends StatelessWidget {
                     SizedBox(
                       width: size.height / 25,
                     ),
-                    Text(
+                    const Text(
                       'Mohamed Ahmed',
                       style: TextStyle(
                         color: Colors.grey,
@@ -463,25 +467,25 @@ class ItemBuilder extends StatelessWidget {
                       child: Text(
                         '$description ',
                         maxLines: 2,
-                        style: TextStyle(
+                        style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 18,
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xffE3EAF2),
-                            border: Border.all(color: Color(0xff20ADDC)),
+                            color: const Color(0xffE3EAF2),
+                            border: Border.all(color: const Color(0xff20ADDC)),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           height: size.height / 20,
                           width: size.width / 3,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text('$date'),
                       ],
                     ),

@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +38,15 @@ class PhoneVerificationScreen extends StatelessWidget {
                   firstNameController: firstNameController,
                   lastNameController: lastNameController,
                   mobilController: mobilController,
+                ));
+            showDialog(
+                context: context,
+                builder: (context) => const AlertDialog(
+                  content: Text(
+                    'Success',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.red,
                 ));
           } else if (state is OTPVerificationRegisterErrorState) {
             showDialog(
@@ -136,20 +146,17 @@ class PhoneVerificationScreen extends StatelessWidget {
                       const SizedBox(
                         height: 50,
                       ),
-                      myButton(
-                          text: 'Verify',
-                          onTap: () {
-                            if (formKey.currentState!.validate()) {
-                              registerCubit.oTPVerificationRegister(
-                                  mobile: mobilController,
-                                  otp: verificationController.text);
-
-                              formKey.currentState!.save();
-                            } else {
-                              autoValidateMode = AutovalidateMode.always;
-                            }
-                          },
-                          radius: 30),
+                      ConditionalBuilder(
+                        condition: state is OTPVerificationRegisterLoadingState,
+                        builder: (context) =>const  Center(
+                            child: CircularProgressIndicator()),
+                        fallback: (context) =>myButton(
+                            text: 'Verify',
+                            onTap: () {
+                              onSubmitted(registerCubit);
+                  },
+                  radius: 30),
+                      ),
                     ],
                   ),
                 ),
@@ -159,5 +166,15 @@ class PhoneVerificationScreen extends StatelessWidget {
         },
       ),
     );
+  }
+  void onSubmitted(RegisterCubit registerCubit) {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      registerCubit.oTPVerificationRegister(
+          mobile: mobilController,
+          otp: verificationController.text);
+    } else {
+      autoValidateMode = AutovalidateMode.always;
+    }
   }
 }

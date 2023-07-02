@@ -2,16 +2,16 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/features/presentation/page/login/Login.dart';
+import 'package:hayat_eg/features/presentation/page/signup/phoneNumber/PhoneNumberCubit.dart';
+import 'package:hayat_eg/features/presentation/page/signup/phoneNumber/PhoneNumberStates.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
-import '../RegisterCubit/registerState.dart';
-import '../RegisterCubit/register_cubit.dart';
 import '../phoneVerification/phoneVervicationScreen.dart';
 
 class PhoneScreen extends StatelessWidget {
   PhoneScreen(
-      {required this.firstNameController, required this.lastNameController});
+      {super.key, required this.firstNameController, required this.lastNameController});
 
   var formKey = GlobalKey<FormState>();
   final String firstNameController;
@@ -23,10 +23,10 @@ class PhoneScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocProvider(
-      create: (context) => RegisterCubit(),
-      child: BlocConsumer<RegisterCubit, RegisterState>(
+      create: (context) => PhoneNumberCubit(),
+      child: BlocConsumer<PhoneNumberCubit, PhoneNumberStates>(
         listener: (context, state) {
-          if (state is PhoneVerificationRegisterSuccessState) {
+          if (state is PhoneNumberSuccessState) {
             myNavigator(
                 context,
                 PhoneVerificationScreen(
@@ -34,127 +34,118 @@ class PhoneScreen extends StatelessWidget {
                   lastNameController: lastNameController,
                   firstNameController: firstNameController,
                 ));
+            showDialog(context: context, builder: (context) => const AlertDialog(
+              content: Text('Success',style: TextStyle(color: Colors.white),),
+              backgroundColor: Colors.green,
+            ));
           }
-          // else if (state is SetPhoneErrorState){
-          //   showDialog(context: context, builder: (context) => AlertDialog(
-          //     content: Text(state.errorMessage,style: const TextStyle(color: Colors.white),),
-          //     backgroundColor: Colors.red,
-          //   ));
-          // }
+          else if (state is PhoneNumberErrorState){
+            showDialog(context: context, builder: (context) => AlertDialog(
+              content: Text(state.errorMessage,style: const TextStyle(color: Colors.white),),
+              backgroundColor: Colors.red,
+            ));
+          }
         },
         builder: (context, state) {
-          RegisterCubit registerCubit = RegisterCubit.get(context);
+          PhoneNumberCubit phoneNumberCubit = PhoneNumberCubit.get(context);
           return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
               leading: backIcon(context),
             ),
-            body: Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: size.width / 2,
-                          height: size.height / 5,
-                          decoration: const BoxDecoration(
-                            color: Colors.transparent,
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/slider.png',
-                              ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: size.width / 2,
+                        height: size.height / 5,
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/slider.png',
                             ),
                           ),
                         ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    'Sign Up'.toUpperCase(),
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          color: Colors.amber,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 45,
+                  ),
+                  Form(
+                    key: formKey,
+                    autovalidateMode: autoValidateMode,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Phone Number',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        myTextFormField(
+                          label: 'Please Inter Your Phone Number',
+                          controller: phoneController,
+                          keyboardType: TextInputType.number,
+                          prefixIcon: Icons.phone_outlined,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Phone Number is Required';
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ConditionalBuilder(
+                          condition: state is! PhoneNumberSuccessState,
+                          builder: (context) => myButton(
+                              radius: 30,
+                              text: 'Next',
+                              onTap: () {
+                                onSubmitted(phoneNumberCubit);
+                              }
+                              ),
+                          fallback: (context) => const Center(
+                              child: CircularProgressIndicator()),
+                        ),
                       ],
                     ),
-                    Text(
-                      'Sign Up'.toUpperCase(),
-                      style: Theme.of(context).textTheme.headline4?.copyWith(
-                            fontWeight: FontWeight.w900,
-                            color: Colors.amber,
-                          ),
-                    ),
-                    const SizedBox(
-                      height: 45,
-                    ),
-                    Form(
-                      key: formKey,
-                      autovalidateMode: autoValidateMode,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Phone Number',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          myTextFormField(
-                            label: 'Please Inter Your Phone Number',
-                            controller: phoneController,
-                            keyboardType: TextInputType.number,
-                            prefixIcon: Icons.phone_outlined,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Phone Number is Required';
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          ConditionalBuilder(
-                            condition: true,
-                            builder: (context) => myButton(
-                                radius: 30,
-                                text: 'Next',
-                                onTap: () {
-                                  if (formKey.currentState!.validate()) {
-                                    registerCubit.phoneVerification(
-                                        mobile: phoneController.text);
-                                    formKey.currentState!.save();
-                                  } else {
-                                    autoValidateMode = AutovalidateMode.always;
-                                  }
-                                }),
-                            fallback: (context) => const Center(
-                                child: CircularProgressIndicator()),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('Already hava an account?'),
-                              defaultTextBottom(
-                                  function: () {
-                                    myNavigator(context, LoginScreen());
-                                  },
-                                  text: 'LOGIN ')
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]),
-                ),
+                  ),
+                ]),
               ),
             ),
           );
         },
       ),
     );
+  }
+  void onSubmitted(PhoneNumberCubit phoneNumberCubit) {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      phoneNumberCubit.phoneVerificationInRegister(
+          mobile: phoneController.text
+      );
+    } else {
+      autoValidateMode = AutovalidateMode.always;
+    }
   }
 }

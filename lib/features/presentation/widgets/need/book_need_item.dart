@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
+import 'package:hayat_eg/layout/LayoutScreens/ItemScreen/BookDonationItemScreen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
@@ -20,9 +21,9 @@ Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
             height: 155,
             width: size.width / 3,
             decoration: BoxDecoration(
-                color: Color(0xffE3EAF2),
+                color: const Color(0xffE3EAF2),
                 border: Border.all(
-                  color: Color(0xffE3EAF2),
+                  color: const Color(0xffE3EAF2),
                 ),
                 borderRadius: BorderRadius.circular(20)),
             child: const Icon(
@@ -74,14 +75,14 @@ Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
                       Container(
                         decoration: BoxDecoration(
                           color: const Color(0xffE3EAF2),
-                          border: Border.all(color: Color(0xff20ADDC)),
+                          border: Border.all(color: const Color(0xff20ADDC)),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         height: size.height / 20,
                         width: size.width / 3,
                       ),
-                      Spacer(),
-                      Text('2 days lift'),
+                      const Spacer(),
+                      const Text('2 days lift'),
                     ],
                   ),
                 ],
