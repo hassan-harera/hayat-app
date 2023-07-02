@@ -19,7 +19,7 @@ class MedicineDonationResponse {
   String? whatsappLink;
   String? qrCode;
   int? reputation;
-  int? quantity;
+  double? quantity;
   MedicineUnit? medicineUnit;
   String? medicineExpirationDate;
   Medicine? medicine;

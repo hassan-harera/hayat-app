@@ -1,7 +1,5 @@
-import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
-
-class MedicineDonationRequest {
-  double? quantity;
+class MedicineNeedRequest {
+  int? quantity;
   int? cityId;
   String? communicationMethod;
   String? description;
@@ -9,24 +7,21 @@ class MedicineDonationRequest {
   String? title;
   int? medicineUnitId;
   String? telegramLink;
-  String? whatsappLink;
   int? medicineId;
-  String? medicineExpirationDate;
 
-  MedicineDonationRequest(
-      {this.quantity,
-      this.cityId,
-      this.communicationMethod,
-      this.description,
-      this.state,
-      this.title,
-      this.medicineUnitId,
-      this.telegramLink,
-      this.whatsappLink,
-      this.medicineId,
-      this.medicineExpirationDate});
+  MedicineNeedRequest({
+    this.quantity,
+    this.cityId,
+    this.communicationMethod,
+    this.description,
+    this.state,
+    this.title,
+    this.medicineUnitId,
+    this.telegramLink,
+    this.medicineId,
+  });
 
-  MedicineDonationRequest.fromJson(Map<String, dynamic> json) {
+  MedicineNeedRequest.fromJson(Map<String, dynamic> json) {
     quantity = json['quantity'];
     cityId = json['city_id'];
     communicationMethod = json['communication_method'];
@@ -35,9 +30,7 @@ class MedicineDonationRequest {
     title = json['title'];
     medicineUnitId = json['medicine_unit_id'];
     telegramLink = json['telegram_link'];
-    whatsappLink = json['whatsapp_link'];
     medicineId = json['medicine_id'];
-    medicineExpirationDate = json['medicine_expiration_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,9 +43,7 @@ class MedicineDonationRequest {
     data['title'] = this.title;
     data['medicine_unit_id'] = this.medicineUnitId;
     data['telegram_link'] = this.telegramLink;
-    data['whatsapp_link'] = this.whatsappLink;
     data['medicine_id'] = this.medicineId;
-    data['medicine_expiration_date'] = this.medicineExpirationDate;
     return data;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
 import 'package:hayat_eg/features/data/model/need/need_response.dart';
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/need_item.dart';
@@ -22,16 +23,18 @@ class NeedsScreen extends StatefulWidget {
 class _NeedsScreen extends State<NeedsScreen> {
   final formKey = GlobalKey<FormState>();
 
+  final query = TextEditingController();
   String category = 'ALL';
-
-  NeedRepository _needRepository = sl();
-  BookNeedRepository _bookNeedRepository = sl();
   List<NeedResponse> _list = [];
+
+  final NeedRepository _needRepository = sl();
+  final BookNeedRepository _bookNeedRepository = sl();
+  final MedicineNeedRepository _medicineNeedRepository = sl();
 
   @override
   void initState() {
     super.initState();
-    getAllNeeds();
+    _getAllNeeds();
   }
 
   @override
@@ -48,6 +51,7 @@ class _NeedsScreen extends State<NeedsScreen> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: query,
                     decoration: InputDecoration(
                       hintText: 'Search',
                       prefixIcon: Icon(Icons.search),
@@ -55,6 +59,9 @@ class _NeedsScreen extends State<NeedsScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    onChanged: (value) {
+                      getNeeds();
+                    },
                   ),
                 ),
                 SizedBox(width: 16.0),
@@ -81,7 +88,7 @@ class _NeedsScreen extends State<NeedsScreen> {
                   onPressed: () {
                     category = 'MEDICINE';
                     getNeeds();
-                  },
+                  }
                 ),
                 TabItem(
                   text: 'Books',
@@ -104,6 +111,7 @@ class _NeedsScreen extends State<NeedsScreen> {
             child: Container(
               padding: EdgeInsets.all(16.0),
               child: ListView.builder(
+                padding: EdgeInsets.all(10.0),
                 itemCount: _list.length,
                 itemBuilder: (context, index) {
                   return needItem(
@@ -120,34 +128,46 @@ class _NeedsScreen extends State<NeedsScreen> {
   }
 
   void getNeeds() async {
+    setState(() {
+      _list = [];
+    });
+
     if (category == 'ALL') {
-      getAllNeeds();
+      _getAllNeeds();
     } else if (category == 'MEDICINE') {
-      getMedicineNeeds();
+      _getMedicineNeeds();
     } else if (category == 'BOOK') {
-      getBookNeeds();
+      _getBookNeeds();
     } else if (category == 'BLOOD') {
-      getBloodNeeds();
+      _getBloodNeeds();
     }
   }
 
-  void getAllNeeds() {
-    _needRepository.search('').then((value) {
+  void _getAllNeeds() {
+    _needRepository.search(query.text).then((value) {
       setState(() {
         _list = value!;
       });
     });
   }
 
-  void getMedicineNeeds() {}
-
-  void getBookNeeds() {}
-
-  void getBloodNeeds() {
-    _bookNeedRepository.search('').then((value) {
+  void _getMedicineNeeds() {
+    _medicineNeedRepository.search(query.text).then((value) {
       setState(() {
         _list = value!;
       });
     });
+  }
+
+  void _getBookNeeds() {
+    _bookNeedRepository.search(query.text).then((value) {
+      setState(() {
+        _list = value!;
+      });
+    });
+  }
+
+  void _getBloodNeeds() {
+
   }
 }
