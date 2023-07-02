@@ -1,9 +1,10 @@
 import 'package:hayat_eg/features/data/model/city/city.dart';
+import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/model/medicine_unit.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
-class MedicineDonationResponse {
+class MedicineDonationResponse extends DonationResponse {
   int? id;
   String? title;
   String? description;

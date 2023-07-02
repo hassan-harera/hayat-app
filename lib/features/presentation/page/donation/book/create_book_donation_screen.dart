@@ -2,9 +2,11 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
+import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
@@ -40,6 +42,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   var watsAppController = TextEditingController();
   late String communicationMethod;
   late int cityId;
+  bool _isLoading = false;
   List<City>? _cities = [];
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
@@ -551,17 +554,12 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
     );
 
     final response = _bookDonationRepository.create(request);
-    response.onError((error, stackTrace) {});
+    response.then((value) => {
+          value as BookDonationResponse,
+          uploadImage(value.id as int),
+        });
 
-    response.then(
-        (value) => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BookDonationScreen(),
-                ),
-              )
-            }, onError: (error, stackTrace) {
+    response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
           context: context,
@@ -583,5 +581,24 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       }
       stackTrace.printError();
     });
+  }
+
+  uploadImage(int id) {
+    if (_file != null) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      _bookDonationRepository
+          .updateImage(id, _file as Uint8List)
+          .then((value) => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookDonationScreen(),
+                  ),
+                )
+              });
+    }
   }
 }

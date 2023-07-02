@@ -24,7 +24,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/data/datasource/city_datasource.dart';
-import 'features/data/datasource/donation/medicine_donation_datasource.dart';
+import 'features/data/datasource/donation/medicine/medicine_donation_datasource.dart';
 import 'features/data/datasource/need/medicine/medicine_need_datasource.dart';
 import 'features/data/repository/CityRepository.dart';
 
@@ -112,7 +112,7 @@ Future<void> init() async {
     () => FoodDataSource(client: sl()),
   );
   sl.registerLazySingleton<ClothingDatasource>(
-    () => ClothingDatasource(),
+    () => ClothingDatasource(sl()),
   );
   sl.registerLazySingleton<MedicineDataSource>(
         () => MedicineDataSource(sl()),

@@ -1,7 +1,8 @@
 import 'package:hayat_eg/features/data/model/city/city.dart';
+import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
-class BookDonationResponse {
+class BookDonationResponse extends DonationResponse {
   int? id;
   bool? active;
   String? title;

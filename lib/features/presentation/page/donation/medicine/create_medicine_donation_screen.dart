@@ -12,7 +12,6 @@ import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
-import 'package:hayat_eg/features/presentation/page/communication_method.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 

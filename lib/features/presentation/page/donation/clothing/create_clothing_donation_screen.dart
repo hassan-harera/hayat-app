@@ -4,15 +4,18 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_request.dart';
+import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/donation_success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/layout/HayatLayout/hayat_layout.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
@@ -36,10 +39,12 @@ class _CreateClothingDonationScreen
     extends State<CreateClothingDonationScreen> {
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
-  var clothingTypeController = TextEditingController();
-  var clothingSizeController = TextEditingController();
-  var clothingCategoryController = TextEditingController();
+  var clothingType = TextEditingController();
+  var clothingSize = TextEditingController();
+  var clothingCategory = TextEditingController();
+  var clothingCondition = TextEditingController();
   var clothingQuantityController = TextEditingController();
+  var communicationMethod = TextEditingController();
   var telegramController = TextEditingController();
   var whatsappController = TextEditingController();
 
@@ -53,6 +58,9 @@ class _CreateClothingDonationScreen
   String? sItem;
   late int cityId;
   List<City>? _cities = [];
+  List<ClothingCategory>? _clothingCategories = [];
+
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -60,6 +68,12 @@ class _CreateClothingDonationScreen
     _cityRepository.search('').then((value) {
       setState(() {
         _cities = value;
+      });
+    });
+
+    _clothingRepository.listClothingCategories().then((value) {
+      setState(() {
+        _clothingCategories = value;
       });
     });
   }
@@ -143,7 +157,7 @@ class _CreateClothingDonationScreen
                     transform:
                         Matrix4.translationValues(size.width - 250, 0.0, 0.0),
                     child: const Text(
-                      'Clothes Category',
+                      'Clothes Donation',
                     ),
                   ),
                 ),
@@ -274,7 +288,6 @@ class _CreateClothingDonationScreen
                                     if (snapshot.hasData) {
                                       List<ClothingCategory> units =
                                           snapshot.data!;
-                                      sItem = null;
                                       return DropdownButtonFormField(
                                         hint: const Text('Clothes Type'),
                                         iconEnabledColor: Colors.amber,
@@ -282,18 +295,22 @@ class _CreateClothingDonationScreen
                                           Icons.keyboard_arrow_down,
                                           size: 30,
                                         ),
-                                        value: sItem,
                                         items: units
                                             .map((item) => DropdownMenuItem(
-                                                value: jsonEncode(item
-                                                    .englishName
-                                                    .toString()),
+                                                value:
+                                                    item.arabicName as String,
                                                 child: Text(
-                                                  (item.englishName.toString()),
-                                                )))
+                                                    item.arabicName as String)))
                                             .toList(),
                                         onChanged: (item) {
-                                          sItem = item;
+                                          setState(() {
+                                            print(item);
+                                            clothingCategory.text = units
+                                                .firstWhere((element) =>
+                                                    element.arabicName == item)
+                                                .id
+                                                .toString();
+                                          });
                                         },
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
@@ -380,6 +397,7 @@ class _CreateClothingDonationScreen
                               children: [
                                 Expanded(
                                   child: myStaticTextFormField(
+                                    controller: clothingQuantityController,
                                     keyboardType: TextInputType.number,
                                     hint: 'Quantity',
                                     validator: (value) {
@@ -490,6 +508,7 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
+                                          communicationMethod.text = 'CHAT';
                                         }),
                                   ),
                                   GestureDetector(
@@ -512,6 +531,7 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
+                                          communicationMethod.text = 'PHONE';
                                         }),
                                   ),
                                   GestureDetector(
@@ -533,6 +553,8 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
+                                          communicationMethod.text =
+                                              'CHAT_AND_PHONE';
                                         }),
                                   ),
                                 ],
@@ -649,25 +671,31 @@ class _CreateClothingDonationScreen
     final request = ClothingDonationRequest(
       title: titleController.text,
       description: descriptionController.text,
-      // clothingCategoryId: clothingCategoryId,
-      // clothingConditionId: clothingConditionId,
-      // clothingSeasonId: clothingSeasonId,
-      // clothingTypeId: clothingTypeId,
-      // quantity: int.parse(bookQuantityController.text),
+      clothingCategoryId: int.parse(clothingCategory.text),
+      clothingConditionId: 1,
+      clothingSeasonId: 1,
+      clothingTypeId: 1,
+      communicationMethod: communicationMethod.text,
+      quantity: int.parse(clothingQuantityController.text),
       cityId: cityId,
     );
 
     final response = _clothingDonationRepository.create(request);
 
-    response.then(
-        (value) => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ClothingDonationScreen(),
-                ),
-              )
-            }, onError: (error, stackTrace) {
+    response.then((value) => {
+          value as ClothingDonationResponse,
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const DonationSuccessDialog(
+                message: 'Your donation has been created successfully!',
+              );
+            },
+          ),
+          uploadImage(value.id as int)
+        });
+
+    response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
           context: context,
@@ -689,5 +717,25 @@ class _CreateClothingDonationScreen
       }
       stackTrace.printError();
     });
+  }
+
+  uploadImage(int id) async {
+    if (_file != null) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      await _clothingDonationRepository
+          .updateImage(id, _file as Uint8List)
+          .then((value) => {
+                print(value),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ClothingDonationScreen(),
+                  ),
+                )
+              });
+    }
   }
 }
