@@ -1,8 +1,8 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
-class ItemScreen extends StatelessWidget {
-  ItemScreen({super.key, required this.titleName});
+class BookDonationItemScreen extends StatelessWidget {
+  BookDonationItemScreen({super.key, required this.titleName});
 
   String? titleName;
 
@@ -19,7 +19,7 @@ class ItemScreen extends StatelessWidget {
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: titleName!,
+                            data: 'data for make QR '!,
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
