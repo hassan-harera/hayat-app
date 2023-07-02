@@ -11,7 +11,7 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
     onTap: () {
       myNavigator(context, ItemScreen(titleName: 'k'));
     },
-    child: Container(
+    child: SizedBox(
       height: 155,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -21,12 +21,12 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
             height: 155,
             width: size.width / 3,
             decoration: BoxDecoration(
-                color: Color(0xffE3EAF2),
+                color: const Color(0xffE3EAF2),
                 border: Border.all(
-                  color: Color(0xffE3EAF2),
+                  color: const Color(0xffE3EAF2),
                 ),
                 borderRadius: BorderRadius.circular(20)),
-            child: Icon(
+            child: const Icon(
               Icons.image_outlined,
               color: Colors.black,
               size: 40,
@@ -43,10 +43,12 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                 children: [
                   Text(
                     needResponse.title ?? '',
+                    maxLines: 1,
                     textDirection: TextDirection.rtl,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   SizedBox(
@@ -54,15 +56,17 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                   ),
                   Text(
                     '${needResponse.user!.firstName!} ${needResponse.user!.lastName!}',
-                    style: TextStyle(
+                    maxLines: 1,
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   SizedBox(
                     width: size.height / 25,
                   ),
-                  Text(
+                  const Text(
                     'Description food  food Donation Description food  food Donation Description food  food Donation',
                     maxLines: 2,
                     style: TextStyle(
@@ -70,26 +74,21 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                       fontSize: 18,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Color(0xffE3EAF2),
-                          border: Border.all(color: Color(0xff20ADDC)),
+                          color: const Color(0xffE3EAF2),
+                          border: Border.all(color: const Color(0xff20ADDC)),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         height: size.height / 20,
                         width: size.width / 3,
                       ),
-                      Spacer(),
-                      Text(DateTime.now()
-                          .subtract(Duration(
-                              milliseconds:
-                                  DateTime.parse(needResponse.needDate!)
-                                      .millisecond))
-                          .minute
-                          .toString() + ' min ago'),
+                      const Spacer(),
+                      Text(
+                          '${DateTime.now().subtract(Duration(milliseconds: DateTime.parse(needResponse.needDate!).millisecond)).minute} min ago'),
                     ],
                   ),
                 ],

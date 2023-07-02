@@ -47,7 +47,9 @@ class _CreateClothingDonationScreen
   var communicationMethod = TextEditingController();
   var telegramController = TextEditingController();
   var whatsappController = TextEditingController();
-
+  String? selectedTypeItem;
+  String? sGenderItem;
+  String? sSizeItem;
   CityRepository _cityRepository = sl();
   ClothingRepository _clothingRepository = sl();
   ClothingDonationRepository _clothingDonationRepository = sl();
@@ -157,7 +159,7 @@ class _CreateClothingDonationScreen
                     transform:
                         Matrix4.translationValues(size.width - 250, 0.0, 0.0),
                     child: const Text(
-                      'Clothes Donation',
+                      'Clothes Category',
                     ),
                   ),
                 ),
@@ -212,15 +214,16 @@ class _CreateClothingDonationScreen
                                         ),
                                 ),
                                 // const Spacer(),
-                                myStaticTextFormField(
-                                  width: size.width - 160,
-                                  hint: 'Title',
-                                  controller: titleController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'please add Title';
-                                    }
-                                  },
+                                Expanded(
+                                  child: myStaticTextFormField(
+                                    hint: 'Title',
+                                    controller: titleController,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'please add Title';
+                                      }
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -277,7 +280,7 @@ class _CreateClothingDonationScreen
                               },
                             ),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
                             SizedBox(
                                 width: double.infinity,
@@ -336,7 +339,7 @@ class _CreateClothingDonationScreen
                                   },
                                 )),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
                             SizedBox(
                                 width: double.infinity,
@@ -346,33 +349,35 @@ class _CreateClothingDonationScreen
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<ClothingType> units = snapshot.data!;
-                                      sItem = null;
-                                      return DropdownButtonFormField(
-                                        hint: const Text('Clothes Gender'),
-                                        iconEnabledColor: Colors.amber,
-                                        icon: const Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 30,
-                                        ),
-                                        value: sItem,
-                                        items: units
-                                            .map((item) => DropdownMenuItem(
-                                                value: jsonEncode(item
-                                                    .englishName
-                                                    .toString()),
-                                                child: Text(
-                                                  (item.englishName.toString()),
-                                                )))
-                                            .toList(),
-                                        onChanged: (item) {
-                                          sItem = item;
-                                        },
+                                  sGenderItem = null;
+                                  return DropdownButtonFormField(
+                                    hint: const Text('Clothes Gender'),
+                                    iconEnabledColor: Colors.amber,
+                                    validator: (sGenderItem) {
+                                      if (sGenderItem == null) {
+                                        return 'please Add Clothes Gender';
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 30,
+                                    ),
+                                    value: sGenderItem,
+                                    items: units
+                                        .map((item) => DropdownMenuItem(
+                                            value: jsonEncode(
+                                                item.englishName.toString()),
+                                            child: Text(
+                                              (item.englishName.toString()),
+                                            )))
+                                        .toList(),
+                                    onChanged: (item) {
+                                      sGenderItem = item;
+                                    },
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled: true,
-                                            constraints: const BoxConstraints(
-                                                maxHeight: 60),
-                                            border: OutlineInputBorder(
+                                        border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               borderSide: const BorderSide(
@@ -397,7 +402,6 @@ class _CreateClothingDonationScreen
                               children: [
                                 Expanded(
                                   child: myStaticTextFormField(
-                                    controller: clothingQuantityController,
                                     keyboardType: TextInputType.number,
                                     hint: 'Quantity',
                                     validator: (value) {
@@ -419,15 +423,20 @@ class _CreateClothingDonationScreen
                                         if (snapshot.hasData) {
                                           List<ClothingSize> units =
                                               snapshot.data!;
-                                          sItem = null;
+                                          sSizeItem = null;
                                           return DropdownButtonFormField(
                                             hint: const Text('Clothes Size'),
                                             iconEnabledColor: Colors.amber,
+                                            validator: (sSizeItem) {
+                                              if (sSizeItem == null) {
+                                                return 'please Add Clothes Size';
+                                              }
+                                            },
                                             icon: const Icon(
                                               Icons.keyboard_arrow_down,
                                               size: 30,
                                             ),
-                                            value: sItem,
+                                            value: sSizeItem,
                                             items: units
                                                 .map((item) => DropdownMenuItem(
                                                     value: jsonEncode(item
@@ -439,14 +448,11 @@ class _CreateClothingDonationScreen
                                                     )))
                                                 .toList(),
                                             onChanged: (item) {
-                                              sItem = item;
+                                              sSizeItem = item;
                                             },
                                             decoration: InputDecoration(
                                                 fillColor: Colors.white,
                                                 filled: true,
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxHeight: 60),
                                                 border: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
@@ -508,7 +514,6 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
-                                          communicationMethod.text = 'CHAT';
                                         }),
                                   ),
                                   GestureDetector(
@@ -531,7 +536,6 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
-                                          communicationMethod.text = 'PHONE';
                                         }),
                                   ),
                                   GestureDetector(
@@ -553,8 +557,6 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
-                                          communicationMethod.text =
-                                              'CHAT_AND_PHONE';
                                         }),
                                   ),
                                 ],
@@ -603,6 +605,12 @@ class _CreateClothingDonationScreen
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
@@ -627,6 +635,12 @@ class _CreateClothingDonationScreen
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
                                         color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -671,31 +685,25 @@ class _CreateClothingDonationScreen
     final request = ClothingDonationRequest(
       title: titleController.text,
       description: descriptionController.text,
-      clothingCategoryId: int.parse(clothingCategory.text),
-      clothingConditionId: 1,
-      clothingSeasonId: 1,
-      clothingTypeId: 1,
-      communicationMethod: communicationMethod.text,
-      quantity: int.parse(clothingQuantityController.text),
+      // clothingCategoryId: clothingCategoryId,
+      // clothingConditionId: clothingConditionId,
+      // clothingSeasonId: clothingSeasonId,
+      // clothingTypeId: clothingTypeId,
+      // quantity: int.parse(bookQuantityController.text),
       cityId: cityId,
     );
 
     final response = _clothingDonationRepository.create(request);
 
-    response.then((value) => {
-          value as ClothingDonationResponse,
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const DonationSuccessDialog(
-                message: 'Your donation has been created successfully!',
-              );
-            },
-          ),
-          uploadImage(value.id as int)
-        });
-
-    response.onError((error, stackTrace) {
+    response.then(
+        (value) => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ClothingDonationScreen(),
+                ),
+              )
+            }, onError: (error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
           context: context,
@@ -717,25 +725,5 @@ class _CreateClothingDonationScreen
       }
       stackTrace.printError();
     });
-  }
-
-  uploadImage(int id) async {
-    if (_file != null) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      await _clothingDonationRepository
-          .updateImage(id, _file as Uint8List)
-          .then((value) => {
-                print(value),
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ClothingDonationScreen(),
-                  ),
-                )
-              });
-    }
   }
 }
