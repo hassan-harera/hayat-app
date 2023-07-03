@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 
-import '../../shared/component/constants.dart';
-import '../../features/presentation/page/notification/notificationScreen.dart';
-import '../Search/SearchScreen.dart';
 import 'LayOutCubit/HayatLayoutCubit.dart';
 import 'LayOutCubit/LayoutState.dart';
 
@@ -71,7 +67,8 @@ class HayatLayoutScreen extends StatelessWidget {
                             ),
                             Text(
                               'Home',
-                              style: TextStyle(color: Colors.grey),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 15),
                             )
                           ],
                         ),
@@ -88,7 +85,8 @@ class HayatLayoutScreen extends StatelessWidget {
                             ),
                             Text(
                               'Home',
-                              style: TextStyle(color: Colors.amber),
+                              style:
+                                  TextStyle(color: Colors.amber, fontSize: 15),
                             ),
                           ],
                         ),
@@ -97,7 +95,7 @@ class HayatLayoutScreen extends StatelessWidget {
                       label: '',
                       activeIcon: Padding(
                         padding:
-                            EdgeInsets.only(right: size.width / 10, top: 10),
+                            EdgeInsets.only(right: size.width / 16, top: 10),
                         child: Column(
                           children: [
                             Image.asset(
@@ -107,16 +105,16 @@ class HayatLayoutScreen extends StatelessWidget {
                             ),
                             const Text(
                               'Donations',
-                              style: TextStyle(
-                                color: Colors.amber,
-                              ),
+                              textAlign: TextAlign.start,
+                              style:
+                                  TextStyle(color: Colors.amber, fontSize: 15),
                             )
                           ],
                         ),
                       ),
                       icon: Padding(
                         padding:
-                            EdgeInsets.only(right: size.width / 10, top: 10),
+                            EdgeInsets.only(right: size.width / 16, top: 10),
                         child: Column(
                           children: [
                             Image.asset(
@@ -126,9 +124,9 @@ class HayatLayoutScreen extends StatelessWidget {
                             ),
                             const Text(
                               'Donations',
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
+                              textAlign: TextAlign.start,
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 15),
                             )
                           ],
                         ),
@@ -136,7 +134,7 @@ class HayatLayoutScreen extends StatelessWidget {
                   BottomNavigationBarItem(
                       icon: Padding(
                         padding:
-                            EdgeInsets.only(left: size.width / 10, top: 10),
+                            EdgeInsets.only(left: size.width / 11, top: 10),
                         child: const Column(
                           children: [
                             Icon(
@@ -145,7 +143,8 @@ class HayatLayoutScreen extends StatelessWidget {
                             ),
                             Text(
                               'Needs',
-                              style: TextStyle(color: Colors.grey),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 15),
                             )
                           ],
                         ),
@@ -153,7 +152,7 @@ class HayatLayoutScreen extends StatelessWidget {
                       label: '',
                       activeIcon: Padding(
                         padding:
-                            EdgeInsets.only(left: size.width / 10, top: 10),
+                            EdgeInsets.only(left: size.width / 11, top: 10),
                         child: const Column(
                           children: [
                             Icon(
@@ -162,7 +161,8 @@ class HayatLayoutScreen extends StatelessWidget {
                             ),
                             Text(
                               'Needs',
-                              style: TextStyle(color: Colors.amber),
+                              style:
+                                  TextStyle(color: Colors.amber, fontSize: 15),
                             )
                           ],
                         ),
@@ -179,7 +179,8 @@ class HayatLayoutScreen extends StatelessWidget {
                             ),
                             Text(
                               'Profile',
-                              style: TextStyle(color: Colors.grey),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 15),
                             )
                           ],
                         ),
@@ -196,7 +197,8 @@ class HayatLayoutScreen extends StatelessWidget {
                             ),
                             Text(
                               'Profile',
-                              style: TextStyle(color: Colors.amber),
+                              style:
+                                  TextStyle(color: Colors.amber, fontSize: 15),
                             )
                           ],
                         ),

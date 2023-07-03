@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -48,7 +47,7 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
   final _foodUnit = TextEditingController();
   String communicationMethod = '';
 
-  BloodDonationRepository _foodDonationRepository = sl();
+  FoodDonationRepository _foodDonationRepository = sl();
   FoodRepository _foodRepository = sl();
   CityRepository _cityRepository = sl();
 
@@ -151,7 +150,7 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                     transform:
                         Matrix4.translationValues(size.width - 220, 0.0, 0.0),
                     child: const Text(
-                      'Food Category',
+                      'Blood Need',
                     ),
                   ),
                 ),
@@ -274,6 +273,57 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                             const SizedBox(
                               height: 10,
                             ),
+                            DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                isFilterOnline: true,
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                showSearchBox: true,
+                                menuProps: MenuProps(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                ),
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                ),
+                              ),
+                              items: _cities!.map((e) => e.arabicName).toList(),
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  border: OutlineInputBorder(
+                                    gapPadding: 10,
+                                  ),
+                                  hintText: "Hospital name",
+                                ),
+                              ),
+                              onChanged: (value) => setState(() {
+                                _city.text = _cities!
+                                    .firstWhere((element) =>
+                                        element.arabicName == value)
+                                    .id
+                                    .toString();
+                              }),
+                              selectedItem: null,
+                              validator: (String? item) {
+                                if (item == null) {
+                                  return "City is Required";
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             SizedBox(
                                 width: double.infinity,
                                 child: FutureBuilder<List<FoodCategory>>(
@@ -283,7 +333,7 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                                       List<FoodCategory> data = snapshot.data!;
                                       sItem = null;
                                       return DropdownButtonFormField(
-                                        hint: const Text('Food Category'),
+                                        hint: const Text('Blood Type'),
                                         iconEnabledColor: Colors.amber,
                                         icon: const Icon(
                                           Icons.keyboard_arrow_down,
@@ -340,7 +390,7 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
 
                                     sItem = null;
                                     return DropdownButtonFormField(
-                                      hint: const Text('Food Unit'),
+                                      hint: const Text('Blood Type'),
                                       iconEnabledColor: Colors.amber,
                                       icon: const Icon(
                                         Icons.keyboard_arrow_down,
@@ -397,40 +447,20 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                             ),
                             Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Search',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black45),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        SizedBox(
-                                          width: size.width - 230,
-                                          child: myStaticTextFormField(
-                                            keyboardType: TextInputType.number,
-                                            hint: 'Amount',
-                                            onChanged: (value) {
-                                              quantityController.text = value;
-                                            },
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Quantity is Required';
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                SizedBox(
+                                  width: size.width - 230,
+                                  child: myStaticTextFormField(
+                                    keyboardType: TextInputType.number,
+                                    hint: 'Age',
+                                    onChanged: (value) {
+                                      quantityController.text = value;
+                                    },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Quantity is Required';
+                                      }
+                                    },
+                                  ),
                                 ),
                                 const Spacer(),
                                 Row(
@@ -439,22 +469,16 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          'Expiration Date',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black45),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
                                         SizedBox(
                                             width: 190,
-                                            child: ExprirationDate(
-                                              hint: 'please Inter Date',
-                                              controller:
-                                                  _foodExpirationDateController,
+                                            child: myStaticTextFormField(
+                                              controller: titleController,
+                                              validator: (value) {
+                                                if (value!.isEmpty) {
+                                                  return 'please inter title';
+                                                }
+                                              },
+                                              hint: 'illness',
                                             )),
                                       ],
                                     ),

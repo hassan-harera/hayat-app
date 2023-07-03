@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hayat_eg/features/presentation/page/login/Login.dart';
-import 'package:hayat_eg/features/presentation/page/on_boarding/on_bording_layout.dart';
-import 'package:hayat_eg/features/presentation/page/splash/Splash_view.dart';
+import 'package:hayat_eg/features/presentation/page/Needs/ask_blood_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/Needs/ask_book_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/Needs/ask_medicine_need_screen.dart';
+import 'package:hayat_eg/shared/Utils/Utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../shared/component/constants.dart';
-import '../../../../shared/network/local/Cash_helper/cash_helper.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -14,7 +15,64 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _isSigningIn = false;
+  Uint8List? _file;
+
+  _selectImage(BuildContext context) async {
+    final size = MediaQuery.of(context).size;
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text('Create post '),
+          children: [
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.camera,
+                    color: Colors.amber,
+                  ),
+                  SizedBox(
+                    width: size.width / 30,
+                  ),
+                  const Text(
+                    'Take a photo from camera',
+                  ),
+                ],
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.camera);
+                setState(() {
+                  _file = file;
+                });
+              },
+            ),
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  const Icon(Icons.image),
+                  SizedBox(
+                    width: size.width / 30,
+                  ),
+                  const Text('chose from gallery '),
+                ],
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.gallery);
+                setState(() {
+                  _file = file;
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,138 +81,195 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Mohamed Ahmed'),
-          centerTitle: true,
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.menu))],
+          backgroundColor: Colors.white,
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                ))
+          ],
         ),
         body: ListView(
           children: [
-            SizedBox(
-              height: size.height / 5,
-            ),
-            CircleAvatar(
-              maxRadius: 80,
-              // minRadius: 70,
-
-              backgroundColor: Color(0xffCED9E9),
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  fit: BoxFit.contain,
-                  // matchTextDirection: true,
-                  width: size.width,
-                  imageUrl:
-                      "https://findepartament.com/static/transit/t118/img/text-photo-1.png",
-                  placeholder: (context, url) => new Icon(
-                    Icons.person,
-                    size: 80,
-                    color: Colors.amber,
-                  ),
-                  errorWidget: (context, url, error) => new Icon(
-                    Icons.error,
-                    size: 80,
-                    color: Colors.red,
-                  ),
-                  imageBuilder: (context, imageProvider) => Container(
-                      width: 160.0,
-                      height: 160.0,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.amber, width: 2),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover))),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: size.height / 40,
-            ),
-            Text(
-              'Mohamed ahmed',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 35,
-              ),
-            ),
-            SizedBox(
-              height: size.height / 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                myButton(
-                  height: 50,
-                  onTap: () {},
-                  text: 'edit',
-                  radius: 30,
-                  width: size.width / 2.5,
-                  color: Colors.amber,
-                ),
-                SizedBox(
-                  width: size.width / 20,
-                ),
-                OutlinedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'SHARE',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 18),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+            Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20))),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0, bottom: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => _selectImage(context),
+                      child: _file == null
+                          ? CachedNetworkImage(
+                              fit: BoxFit.contain,
+                              height: 100,
+                              width: 100,
+                              imageUrl:
+                                  "https://findepartament.com/static/transit/t118/img/text-photo-1.png",
+                              placeholder: (context, url) => const Icon(
+                                Icons.person,
+                                size: 80,
+                                color: Colors.amber,
+                              ),
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.error,
+                                size: 80,
+                                color: Colors.red,
+                              ),
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                      width: 160.0,
+                                      height: 160.0,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.orange, width: 2),
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover))),
+                            )
+                          : SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: AspectRatio(
+                                aspectRatio: 478 / 451,
+                                child: Container(
+                                  height: 100,
+                                  width: 100,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: Colors.amber, width: 2),
+                                      image: DecorationImage(
+                                        image: MemoryImage(_file!),
+                                        fit: BoxFit.fill,
+                                        alignment: FractionalOffset.center,
+                                      )),
+                                ),
+                              ),
+                            ),
                     ),
-                    side: BorderSide(
-                      color: Colors.amber,
+                    const SizedBox(
+                      width: 20,
                     ),
-                    minimumSize: Size(size.width / 2.5, 50),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      myButton(
-                          width: 160,
-                          radius: 20,
-                          text: 'SignOut',
-                          onTap: () {
-                            Cash_helper.removeData(key: 'token').then((value) {
-                              if (value) {
-                                myNavigateAndFinish(context, LoginScreen());
-                              }
-                            });
-                          }),
-                      Spacer(),
-                      myButton(
-                          width: 180,
-                          radius: 20,
-                          text: 'onBoarding',
-                          onTap: () {
-                            navigate(context, OnBoardingScreen());
-                          }),
-                      SizedBox(
-                        height: 100,
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Mohamed Ahmed ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            '01288226326 ',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
                       ),
-                    ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft, //Starting point
+                    end: Alignment.bottomRight, //Ending point
+
+                    colors: [
+                      Colors.yellow,
+                      Colors.red.shade400,
+                      Colors.orangeAccent,
+                      Colors.amber,
+                      Colors.amber.shade200,
+                      Colors.amberAccent.shade200,
+                      Colors.red.shade400,
+                      Colors.yellowAccent
+                    ], // List of colors
                   ),
-                  myButton(
-                      radius: 20,
-                      text: 'Splash Screen',
-                      onTap: () {
-                        Cash_helper.removeData(key: 'token').then((value) {
-                          if (value) {
-                            myNavigateAndFinish(context, SplashScreen());
-                          }
-                        });
-                      }),
-                ],
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20))),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                child: Column(
+                  children: [
+                    myCard(
+                        onPressed: () {
+                          myNavigator(context, AakBookNeedScreen());
+                        },
+                        icon: Icons.book,
+                        text: 'Create Book Need'),
+                    myCard(
+                        onPressed: () {
+                          myNavigator(context, AskBloodNeedScreen());
+                        },
+                        icon: Icons.bloodtype,
+                        text: 'Create Blood Need'),
+                    myCard(
+                        onPressed: () {
+                          myNavigator(context, const AskMedicineNeedScreen());
+                        },
+                        icon: Icons.medical_information,
+                        text: 'Create Medicine Need'),
+                    myCard(
+                        onPressed: () {
+                          print('object');
+                        },
+                        icon: Icons.book,
+                        text: 'Create Book Need'),
+                    myCard(
+                        onPressed: () {
+                          print('object');
+                        },
+                        icon: Icons.book,
+                        text: 'Create Book Need'),
+                    myCard(
+                        onPressed: () {
+                          print('object');
+                        },
+                        icon: Icons.share,
+                        text: 'Share'),
+                    myCard(
+                        onPressed: () {
+                          print('object');
+                        },
+                        icon: Icons.notifications,
+                        text: 'Notifications'),
+                    myCard(
+                        onPressed: () {
+                          print('object');
+                        },
+                        icon: Icons.logout,
+                        iconColor: Colors.red,
+                        textColor: Colors.red,
+                        text: 'Sign Out'),
+                  ],
+                ),
               ),
             ),
           ],

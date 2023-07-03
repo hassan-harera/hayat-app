@@ -1,7 +1,6 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/presentation/page/donation/clothing/ClothesDonationItemScreen.dart';
@@ -104,24 +103,22 @@ class DonationItem extends StatelessWidget {
                             shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4),
-                                side: BorderSide(color: Colors.grey),
+                                side: const BorderSide(color: Colors.grey),
                               ),
                             ),
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 26,
-                                height: 26,
-                                child: SvgPicture.asset(
-                                  'assets/call.svg',
-                                  // Replace with the path to your SVG file
-                                  color: Colors.black,
-                                ),
-                              ),
+                                  width: 26,
+                                  height: 26,
+                                  child: Icon(
+                                    Icons.phone,
+                                    color: Colors.black,
+                                  )),
                               SizedBox(width: 4),
-                              const Text(
+                              Text(
                                 'مكالمة',
                                 style: TextStyle(
                                   color: Colors.black,
@@ -141,24 +138,22 @@ class DonationItem extends StatelessWidget {
                             shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4),
-                                side: BorderSide(color: Colors.grey),
+                                side: const BorderSide(color: Colors.grey),
                               ),
                             ),
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 26,
-                                height: 26,
-                                child: SvgPicture.asset(
-                                  'assets/call.svg',
-                                  // Replace with the path to your SVG file
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              const Text(
+                                  width: 26,
+                                  height: 26,
+                                  child: Icon(
+                                    Icons.phone,
+                                    color: Colors.black,
+                                  )),
+                              SizedBox(width: 4),
+                              Text(
                                 'مكالمة',
                                 style: TextStyle(
                                   color: Colors.black,

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 
-void navigate(context, widget) =>
+void myNavigator(context, widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 
 void myNavigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
@@ -133,40 +133,46 @@ Widget categoryProvider({
       ),
     );
 
-// class categoryItems extends StatelessWidget {
-//    categoryItems({required this.image,required this.text,required this.imageWidth,required this.width,required this.double})  ;
-//  String image;
-//   String text,
-//   double imageWidth = 130;
-//       double imageHeight = 140.0;
-//       double wew=90;
-//   double width = 140;
-//       Color? imageColor;
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//     Container(
-//       width: width,
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadiusDirectional.circular(10),
-//         color: Color(0xff20ADDC),
-//       ),
-//       child: Column(
-//         children: [
-//           Image.asset(image,
-//               width: imageWidth, height: imageHeight, color: imageColor),
-//           Padding(
-//             padding: const EdgeInsetsDirectional.only(bottom: 8),
-//             child: Text(
-//               text.toUpperCase(),
-//               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+Widget myCard({
+  required IconData? icon,
+  required String? text,
+  Color? iconColor = Colors.white,
+  Color? textColor = Colors.white,
+  required void Function()? onPressed,
+}) =>
+    Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: SizedBox(
+          height: 80,
+          child: Card(
+            color: Colors.amber,
+            elevation: 2,
+            child: MaterialButton(
+              height: 80,
+              onPressed: onPressed,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    icon!,
+                    color: iconColor,
+                    size: 25,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    text!,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: textColor,
+                        fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+          )),
 
 Widget myCard() => Stack(
       clipBehavior: Clip.none,

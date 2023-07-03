@@ -39,7 +39,8 @@ class HayatSearchTextFormField extends StatelessWidget {
     this.height,
     this.prefixSize,
     this.onChanged,
-    required int borderRadius})
+    required int borderRadius
+  })
 
   @override
   Widget build(BuildContext context) =>
