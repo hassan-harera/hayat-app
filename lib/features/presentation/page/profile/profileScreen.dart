@@ -220,19 +220,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     myCard(
                         onPressed: () {
-                          myNavigator(context, AakBookNeedScreen());
+                          navigate(context, AakBookNeedScreen());
                         },
                         icon: Icons.book,
                         text: 'Create Book Need'),
                     myCard(
                         onPressed: () {
-                          myNavigator(context, AskBloodNeedScreen());
+                          navigate(context, AskBloodNeedScreen());
                         },
                         icon: Icons.bloodtype,
                         text: 'Create Blood Need'),
                     myCard(
                         onPressed: () {
-                          myNavigator(context, const AskMedicineNeedScreen());
+                          navigate(context, const AskMedicineNeedScreen());
                         },
                         icon: Icons.medical_information,
                         text: 'Create Medicine Need'),

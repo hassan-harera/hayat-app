@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 
-void myNavigator(context, widget) =>
+void navigate(context, widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 
 void myNavigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
@@ -173,8 +173,9 @@ Widget myCard({
               ),
             ),
           )),
+    );
 
-Widget myCard() => Stack(
+Widget myCard1() => Stack(
       clipBehavior: Clip.none,
       children: [
         Container(
@@ -279,9 +280,9 @@ class mycustomCliper extends CustomClipper<Path> {
     var h = sizeConfig.screenHeight!;
     path.moveTo(0, sizeConfig.defaultSize! * 590);
     path.lineTo(0, h);
-    // // path.quadraticBezierTo(0, h, 50,h);
+// // path.quadraticBezierTo(0, h, 50,h);
     path.lineTo(w, h);
-    // //  path.quadraticBezierTo(0, h, 50,h);
+// //  path.quadraticBezierTo(0, h, 50,h);
     path.lineTo(w, sizeConfig.defaultSize! * 47);
     path.quadraticBezierTo(sizeConfig.defaultSize! * 25,
         sizeConfig.defaultSize! * 57, 0, sizeConfig.defaultSize! * 59);
@@ -371,7 +372,6 @@ Widget defaultTextFormField({
       ),
     );
 
-
 class ItemBuilder extends StatelessWidget {
   ItemBuilder(
       {super.key,
@@ -390,8 +390,7 @@ class ItemBuilder extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: Container(
         height: 155,
         child: Row(
