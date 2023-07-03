@@ -41,9 +41,6 @@ class _CreateClothingDonationScreen
   var clothingSize = TextEditingController();
   var clothingCategory = TextEditingController();
   var clothingCondition = TextEditingController();
-  var clothingTypeController = TextEditingController();
-  var clothingSizeController = TextEditingController();
-  var clothingCategoryController = TextEditingController();
   var clothingQuantityController = TextEditingController();
   var communicationMethod = TextEditingController();
   var telegramController = TextEditingController();
@@ -290,62 +287,6 @@ class _CreateClothingDonationScreen
                                       .listClothingCategories(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      List<ClothingCategory> units =
-                                          snapshot.data!;
-                                      return DropdownButtonFormField(
-                                        hint: const Text('Clothes Type'),
-                                        iconEnabledColor: Colors.amber,
-                                      selectedTypeItem = null;
-                                      return DropdownButtonFormField(
-                                        hint: const Text('Clothes Type'),
-                                        iconEnabledColor: Colors.amber,
-                                        iconDisabledColor: const Color.fromARGB(
-                                            143, 144, 144, 144),
-                                        focusColor: Colors.red,
-                                        enableFeedback: true,
-                                        validator: (selectedTypeItem) {
-                                          if (selectedTypeItem == null) {
-                                            return 'please Add Clothes Type';
-                                          }
-                                        },
-                                        icon: const Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 30,
-                                        ),
-                                        items: units
-                                            .map((item) => DropdownMenuItem(
-                                                value:
-                                                    item.arabicName as String,
-                                                child: Text(
-                                                    item.arabicName as String)))
-                                            .toList(),
-                                        onChanged: (item) {
-                                          setState(() {
-                                            print(item);
-                                            clothingCategory.text = units
-                                                .firstWhere((element) =>
-                                                    element.arabicName == item)
-                                                .id
-                                                .toString();
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                            fillColor: Colors.white,
-                                            filled: true,
-                                            constraints: const BoxConstraints(
-                                                maxHeight: 60),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.amber),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    color: Colors.white),
-                                                borderRadius:
-                                                    BorderRadius.circular(10))),
-                                      );
                                       List<ClothingCategory> units =
                                           snapshot.data!;
                                       selectedTypeItem = null;

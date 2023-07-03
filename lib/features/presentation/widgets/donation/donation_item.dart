@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/presentation/page/donation/clothing/ClothesDonationItemScreen.dart';
+import 'package:hayat_eg/features/presentation/page/donation/food/view_food_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/medicine/view_medicine_donation_screen.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
@@ -186,9 +187,9 @@ class DonationItem extends StatelessWidget {
     } else if (_donationResponse.category == 'MEDICINE') {
       navigate(context, MedicineDonationItemScreen(id: donationResponse.id!));
     } else if (_donationResponse.category == 'FOOD') {
-      navigate(context, BookDonationItemScreen());
+      navigate(context, FoodDonationItemScreen(id: donationResponse.id!));
     } else if (_donationResponse.category == 'CLOTHING') {
       navigate(context, ClothesDonationItemScreen(id: donationResponse.id!));
-    } else if (_donationResponse.category == 'OTHER') {}
+    }
   }
 }
