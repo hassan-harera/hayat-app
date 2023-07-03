@@ -675,7 +675,8 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
 
 
     final response = _foodDonationRepository.create(request);
-    response.then((value) => {});
+    response.then((value) => {
+    });
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(

@@ -12,4 +12,8 @@ class FoodDonationRepository {
   Future<FoodDonationResponse?> create(FoodDonationRequest request) async {
     return await foodDonationDataSource.create(request);
   }
+
+  Future<List<FoodDonationResponse>?> search(String query) async {
+    return await foodDonationDataSource.search(query);
+  }
 }

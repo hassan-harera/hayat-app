@@ -8,8 +8,8 @@ import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../../core/error/exceptions.dart';
-import '../../../../core/error/api_error.dart';
+import '../../../../../../core/error/exceptions.dart';
+import '../../../../../core/error/api_error.dart';
 
 class MedicineDonationDataSource {
   final http.Client client;
@@ -29,6 +29,19 @@ class MedicineDonationDataSource {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return MedicineDonationResponse.fromJson(decodeJson(response.body));
+    } else if (response.statusCode == 400) {
+      throw BadRequestException(
+          apiError: ApiError.fromJson(jsonDecode(response.body)));
+    }
+  }
+
+  Future<List<MedicineDonationResponse>?> search(String query) async {
+    final response =
+        await client.get(Uri.parse("$baseUrl/api/v1/donations/medicine"));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return List<MedicineDonationResponse>.from(decodeJson(response.body)
+          .map((e) => MedicineDonationResponse.fromJson(e)));
     } else if (response.statusCode == 400) {
       throw BadRequestException(
           apiError: ApiError.fromJson(jsonDecode(response.body)));

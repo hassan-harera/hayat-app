@@ -3,14 +3,13 @@ import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
-class FoodDonationResponse {
+class FoodDonationResponse extends DonationResponse {
   int? id;
   bool? active;
   String? title;
   String? description;
   String? donationDate;
   String? donationExpirationDate;
-  String? category;
   String? status;
   String? communicationMethod;
   City? city;
@@ -21,7 +20,7 @@ class FoodDonationResponse {
   String? qrCode;
   int? reputation;
   FoodUnit? foodUnit;
-  double? quantity;
+  int? quantity;
   String? foodExpirationDate;
 
   FoodDonationResponse(
@@ -31,7 +30,7 @@ class FoodDonationResponse {
       this.description,
       this.donationDate,
       this.donationExpirationDate,
-      this.category,
+      super.category,
       this.status,
       this.communicationMethod,
       this.city,

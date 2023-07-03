@@ -2,13 +2,17 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
+import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
-import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_screen.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/view.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
+import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
@@ -40,10 +44,11 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   var watsAppController = TextEditingController();
   late String communicationMethod;
   late int cityId;
+  bool _isLoading = false;
   List<City>? _cities = [];
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  BookDonationRepository _bookDonationRepository = sl();
+  final BookDonationRepository _bookDonationRepository = sl();
   Uint8List? _file;
 
   CityRepository _cityRepository = sl();
@@ -228,13 +233,13 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               ),
                               items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
-                              const DropDownDecoratorProps(
+                                  const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       )),
@@ -247,7 +252,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               onChanged: (value) => setState(() {
                                 cityId = _cities!
                                     .firstWhere((element) =>
-                                element.arabicName == value)
+                                        element.arabicName == value)
                                     .id;
                               }),
                               selectedItem: null,
@@ -350,13 +355,13 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               ),
                               items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
-                              const DropDownDecoratorProps(
+                                  const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       )),
@@ -369,7 +374,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               onChanged: (value) => setState(() {
                                 cityId = _cities!
                                     .firstWhere((element) =>
-                                element.arabicName == value)
+                                        element.arabicName == value)
                                     .id;
                               }),
                               selectedItem: null,
@@ -582,17 +587,12 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
     );
 
     final response = _bookDonationRepository.create(request);
-    response.onError((error, stackTrace) {});
+    response.then((value) => {
+          value as BookDonationResponse,
+          uploadImage(value.id as int),
+        });
 
-    response.then(
-        (value) => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BookDonationScreen(),
-                ),
-              )
-            }, onError: (error, stackTrace) {
+    response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
           context: context,
@@ -614,5 +614,24 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       }
       stackTrace.printError();
     });
+  }
+
+  uploadImage(int id) {
+    if (_file != null) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      _bookDonationRepository
+          .updateImage(id, _file as Uint8List)
+          .then((value) => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookDonationScreen(id),
+                  ),
+                )
+              });
+    }
   }
 }

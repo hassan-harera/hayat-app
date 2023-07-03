@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
+import 'package:hayat_eg/features/presentation/widgets/search_widget.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
@@ -30,15 +31,15 @@ class _BookDonationScreenState extends State<BookDonationScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
-                      child: mySearchTextFormField(
+                      child: HayatSearchTextFormField(
                     borderRadius: 50,
                     prefixIcon: (Icons.search),
                     prefixSize: 30,
-                    prefixColor: Color(0xff51565F),
+                    prefixColor: const Color(0xff51565F),
                     hint: 'Search Donation',
-                    hintColor: Color(0xff848B94),
-                    backGroundColor: Color(0xffCED9E9),
-                    borderColor: Color(0xffCED9E9),
+                    hintColor: const Color(0xff848B94),
+                    backGroundColor: const Color(0xffCED9E9),
+                    borderColor: const Color(0xffCED9E9),
                     height: 50,
                   )),
                   SizedBox(
@@ -56,7 +57,7 @@ class _BookDonationScreenState extends State<BookDonationScreen> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(

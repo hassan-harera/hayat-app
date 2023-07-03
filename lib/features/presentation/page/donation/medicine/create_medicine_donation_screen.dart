@@ -4,14 +4,15 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/medicine/medicine-search.dart';
+import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_request.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
-import 'package:hayat_eg/features/data/repository/donation/Medicine/medicine_Donation_repository.dart';
-import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/Medicine/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
-import 'package:hayat_eg/features/presentation/page/communication_method.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,38 +32,51 @@ class MedicineCategoryScreen extends StatefulWidget {
 }
 
 class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
-  var medicineSearchController = TextEditingController();
-  var medicineDateController = TextEditingController();
-  var medicineTitleController = TextEditingController();
-  var medicineDescriptionController = TextEditingController();
-  var medicineNameController = TextEditingController();
-  var telegramController = TextEditingController();
-  var watsAppController = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final _city = TextEditingController();
+  var communicationMethod = '';
+  final telegramController = TextEditingController();
+  final watsAppController = TextEditingController();
+  final medicineController = TextEditingController();
+  final _medicineExpirationDateController = TextEditingController();
+  final quantityController = TextEditingController();
+  final medicineUnitController = TextEditingController();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   String? medicineName;
 
   var formKey = GlobalKey<FormState>();
   Uint8List? _file;
-  late int cityId;
-  late int medicineId;
+  final CityRepository _cityRepository = sl();
+  final MedicineRepository _medicineRepository = sl();
+  final MedicineDonationRepository _medicineDonationRepository = sl();
+
   List<City>? _cities = [];
-  List<Medicine>? _medicine = [];
-  CityRepository _cityRepository = sl();
-  MedicineRepository _medicineRepository= sl();
+  List<Medicine>? _medicines = [];
+  List<MedicineUnit> _medicineUnits = [];
+
   @override
   void initState() {
     super.initState();
+    _medicineRepository.listUnits().then((value) {
+      setState(() {
+        _medicineUnits = value;
+      });
+    });
+
     _cityRepository.search('').then((value) {
       setState(() {
         _cities = value;
       });
     });
+
     _medicineRepository.listMedicines().then((value) {
       setState(() {
-        _medicine = value;
+        _medicines = value;
       });
     });
   }
+
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
     return showDialog(
@@ -193,7 +207,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 // const Spacer(),
                                 Expanded(
                                     child: myStaticTextFormField(
-                                      controller: medicineTitleController,
+                                  controller: titleController,
                                   hint: 'Title',
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -204,9 +218,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                               ],
                             ),
                             myDescriptionTextFormField(
-
-
-                                controller: medicineDescriptionController),
+                                controller: descriptionController),
                             const SizedBox(
                               height: 10,
                             ),
@@ -226,13 +238,13 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                               ),
                               items: _cities!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
-                              const DropDownDecoratorProps(
+                                  const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       )),
@@ -243,10 +255,11 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 ),
                               ),
                               onChanged: (value) => setState(() {
-                                cityId = _cities!
+                                _city.text = _cities!
                                     .firstWhere((element) =>
-                                element.arabicName == value)
-                                    .id;
+                                        element.arabicName == value)
+                                    .id
+                                    .toString();
                               }),
                               selectedItem: null,
                               validator: (String? item) {
@@ -274,15 +287,16 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                   showFavoriteItems: true,
                                 ),
                               ),
-                              items: _medicine!.map((e) => e.arabicName).toList(),
+                              items:
+                                  _medicines!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
-                              const DropDownDecoratorProps(
+                                  const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                          BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       )),
@@ -293,10 +307,11 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 ),
                               ),
                               onChanged: (value) => setState(() {
-                                medicineId = _medicine!
+                                medicineController.text = _medicines!
                                     .firstWhere((element) =>
-                                element.arabicName == value)
-                                    .id;
+                                        element.arabicName == value)
+                                    .id
+                                    .toString();
                               }),
                               selectedItem: null,
                               validator: (String? item) {
@@ -312,64 +327,56 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                             ),
                             SizedBox(
                                 child: FutureBuilder<List<MedicineUnit>>(
-                                  future: _medicineRepository.listUnits(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      List<MedicineUnit> units =
-                                      snapshot.data!;
-                                      var selectedMedicineItem;
-                                      return DropdownButtonFormField(
-                                        hint: const Text('Medicine Unit'),
-                                        iconEnabledColor:
-                                        Colors.amber,
-                                        validator: (sGenderItem) {
-                                          if (sGenderItem == null) {
-                                            return 'please Add Medicine Unit';
-                                          }
-                                        },
-                                        icon: const Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 30,
-                                        ),
-                                        value: selectedMedicineItem,
-                                        items: units
-                                            .map((item) =>
-                                            DropdownMenuItem(
-                                                value: jsonEncode(item
-                                                    .englishName
-                                                    .toString()),
-                                                child: Text(
-                                                  (item
-                                                      .englishName
-                                                      .toString()),
-                                                )))
-                                            .toList(),
-                                        onChanged: (item) {
-                                          selectedMedicineItem = item;
-                                        },
-                                        decoration: InputDecoration(
-                                            fillColor: Colors.white,
-                                            filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
+                              future: _medicineRepository.listUnits(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  List<MedicineUnit> units = snapshot.data!;
+                                  var selectedMedicineItem;
+                                  return DropdownButtonFormField(
+                                    hint: const Text('Medicine Unit'),
+                                    iconEnabledColor: Colors.amber,
+                                    validator: (sGenderItem) {
+                                      if (sGenderItem == null) {
+                                        return 'please Add Medicine Unit';
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 30,
+                                    ),
+                                    value: selectedMedicineItem,
+                                    items: units
+                                        .map((item) => DropdownMenuItem(
+                                            value: jsonEncode(
+                                                item.englishName.toString()),
+                                            child: Text(
+                                              (item.englishName.toString()),
+                                            )))
+                                        .toList(),
+                                    onChanged: (item) {
+                                      selectedMedicineItem = item;
+                                    },
+                                    decoration: InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
                                               BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.amber),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    color: Colors.white),
-                                                borderRadius:
-                                                BorderRadius.circular(10))
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber),
                                         ),
-                                      );
-                                    } else {
-                                      return const Center(
-                                          child:
-                                          CircularProgressIndicator());
-                                    }
-                                  },
-                                )),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.white),
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                  );
+                                } else {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
+                            )),
                             const SizedBox(
                               height: 10,
                             ),
@@ -398,8 +405,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                               ),
                                               SizedBox(
                                                 width: size.width - 237,
-                                                child:    myStaticTextFormField(
-                                                  keyboardType: TextInputType.number,
+                                                child: myStaticTextFormField(
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                   validator: (value) {
                                                     if (value!.isEmpty) {
                                                       return 'please inter amount';
@@ -435,7 +443,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                 child: ExprirationDate(
                                                   hint: 'Please Inter Date',
                                                   controller:
-                                                      medicineDateController,
+                                                      _medicineExpirationDateController,
                                                 )),
                                           ],
                                         ),
@@ -446,7 +454,6 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-
                               ],
                             ),
                             const SizedBox(
@@ -486,6 +493,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
                                         }),
+                                    onTap: () {
+                                      communicationMethod = 'CHAT';
+                                    },
                                   ),
                                   GestureDetector(
                                     child: RadioListTile(
@@ -508,6 +518,11 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
                                         }),
+                                    onTap: () {
+                                      setState(() {
+                                        communicationMethod = 'PHONE';
+                                      });
+                                    },
                                   ),
                                   GestureDetector(
                                     excludeFromSemantics: true,
@@ -529,6 +544,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
                                         }),
+                                    onTap: () {
+                                      communicationMethod = 'CHAT_AND_PHONE';
+                                    },
                                   ),
                                 ],
                               ),
@@ -619,28 +637,12 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 text: 'Submit',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
-                                    myNavigator(
-                                        context,
-                                        SocialMediaCommunication(
-                                          title: medicineTitleController.text,
-                                          quantity: 3,
-                                          cityId: 1,
-                                          communicationMethod: layoutCubit
-                                              .communicationTool
-                                              .toString(),
-                                          description:
-                                              medicineDescriptionController
-                                                  .text,
-                                          bookTitle: 'bookTitle',
-                                          foodUnitId: 2,
-                                          foodCategoryId: 3,
-                                          foodExpirationDate:
-                                              medicineDateController.text,
-                                          file: null,
-                                        ));
                                     formKey.currentState!.save();
-                                  } else {
+                                    onSubmit();
                                     setState(() {});
+                                    autoValidateMode =
+                                        AutovalidateMode.onUserInteraction;
+                                  } else {
                                     autoValidateMode = AutovalidateMode.always;
                                   }
                                   //
@@ -656,5 +658,47 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
         },
       ),
     );
+  }
+
+  void onSubmit() async {
+    final request = MedicineDonationRequest(
+      title: titleController.text,
+      description: descriptionController.text,
+      cityId: _cities?[0].id,
+      communicationMethod: 'CHAT',
+      quantity: double.parse(quantityController.text),
+      telegramLink: "https://t.me/${telegramController.text}",
+      whatsappLink: "https://wa.me/${watsAppController.text}",
+      medicineId: _medicines?[0].id,
+      medicineUnitId: _medicineUnits?[0].id,
+      medicineExpirationDate: _medicineExpirationDateController.text,
+    );
+    print(request.toJson());
+    final response = _medicineDonationRepository.create(request);
+    response.then((value) => {
+          print(value),
+        });
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Something Went Wrong'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
   }
 }

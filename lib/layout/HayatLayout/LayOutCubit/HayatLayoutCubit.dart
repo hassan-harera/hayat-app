@@ -16,33 +16,12 @@ class LayoutCubit extends Cubit<LayoutStates> {
   LayoutCubit() : super(LayoutInitialState());
 
   static LayoutCubit get(context) => BlocProvider.of(context);
-  var timeController = TextEditingController();
-  var dateController = TextEditingController();
-  List<String> unitList = [
-    'kg',
-    'gr',
-    'mg',
-  ];
 
   var key = GlobalKey();
   String? selectedItem = 'kg';
   Uint8List? imageFile;
 
-  Future imageFromGallery(BuildContext context) async {
-    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    imageFile = image as Uint8List?;
 
-    emit(LayoutChoiceImageFromGalleryState());
-    Navigator.pop(context);
-  }
-
-  Future imageFromCamera(BuildContext context) async {
-    var image = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    imageFile = image.toString() as Uint8List?;
-    emit(LayoutChoiceImageFromCameraState());
-    Navigator.pop(key.currentContext ?? context);
-  }
 
   String? communicationTool = 'communication';
 
@@ -63,19 +42,6 @@ class LayoutCubit extends Cubit<LayoutStates> {
   void changRadioValue() {
     emit(LayoutChangTitleIndexState());
   }
-
-  List<String> titleList = [
-    'BOOKS DONATION',
-    'FOOD DONATION',
-    'MEDICINE DONATION',
-    'CLOTHES DONATION',
-  ];
-  List<String> typeCategory = [
-    'BOOKS Category',
-    'FOOD Category',
-    'MEDICINE Category',
-    'CLOTHES Category',
-  ];
 
   void changCategoryTitleToMedicine() {
     emit(LayoutVoidMedicineIndexState());
