@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_condition.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_seasson.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_request.dart';
@@ -14,7 +16,6 @@ import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
 import 'package:hayat_eg/injection_container.dart';
-import 'package:hayat_eg/layout/HayatLayout/hayat_layout.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -275,56 +276,203 @@ class _CreateClothingDonationScreen
                                       .listClothingCategories(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      List<ClothingCategory> units = snapshot.data!;
-                                  selectedTypeItem = null;
-                                  return DropdownButtonFormField(
-                                    hint: const Text('Clothes Type'),
-                                    iconEnabledColor: Colors.amber,
-                                    iconDisabledColor:
-                                        Color.fromARGB(143, 144, 144, 144),
-                                    focusColor: Colors.red,
-                                    enableFeedback: true,
-                                    validator: (selectedTypeItem) {
-                                      if (selectedTypeItem == null) {
-                                        return 'please Add Clothes Type';
-                                      }
-                                    },
-                                    icon: const Icon(
-                                      Icons.keyboard_arrow_down,
-                                      size: 30,
-                                    ),
-                                    value: selectedTypeItem,
-                                    items: units
-                                        .map((item) => DropdownMenuItem(
-                                            value: jsonEncode(
-                                                item.englishName.toString()),
-                                            child: Text(
-                                              (item.englishName.toString()),
-                                            )))
-                                        .toList(),
-                                    onChanged: (item) {
-                                      selectedTypeItem = item;
-                                    },
-                                    decoration: InputDecoration(
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            color: Colors.white),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            color: Colors.amber),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            color: Colors.amber),
-                                      ),
-                                    ),
-                                  );
+                                      List<ClothingCategory> units =
+                                          snapshot.data!;
+                                      selectedTypeItem = null;
+                                      return DropdownButtonFormField(
+                                        hint: const Text('Clothes Type'),
+                                        iconEnabledColor: Colors.amber,
+                                        iconDisabledColor: const Color.fromARGB(
+                                            143, 144, 144, 144),
+                                        focusColor: Colors.red,
+                                        enableFeedback: true,
+                                        validator: (selectedTypeItem) {
+                                          if (selectedTypeItem == null) {
+                                            return 'please Add Clothes Type';
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          Icons.keyboard_arrow_down,
+                                          size: 30,
+                                        ),
+                                        value: selectedTypeItem,
+                                        items: units
+                                            .map((item) => DropdownMenuItem(
+                                                value: jsonEncode(item
+                                                    .englishName
+                                                    .toString()),
+                                                child: Text(
+                                                  (item.englishName.toString()),
+                                                )))
+                                            .toList(),
+                                        onChanged: (item) {
+                                          selectedTypeItem = item;
+                                        },
+                                        decoration: InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.white),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.amber),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.amber),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                  },
+                                )),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                                width: double.infinity,
+                                child: FutureBuilder<List<ClothingCondition>>(
+                                  future: _clothingRepository
+                                      .listClothingCondition(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      List<ClothingCondition> units =
+                                          snapshot.data!;
+                                      selectedTypeItem = null;
+                                      return DropdownButtonFormField(
+                                        hint: const Text('Clothes Condition'),
+                                        iconEnabledColor: Colors.amber,
+                                        iconDisabledColor: const Color.fromARGB(
+                                            143, 144, 144, 144),
+                                        focusColor: Colors.red,
+                                        enableFeedback: true,
+                                        validator: (selectedTypeItem) {
+                                          if (selectedTypeItem == null) {
+                                            return 'please Add Clothes Type';
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          Icons.keyboard_arrow_down,
+                                          size: 30,
+                                        ),
+                                        value: selectedTypeItem,
+                                        items: units
+                                            .map((item) => DropdownMenuItem(
+                                                value: jsonEncode(item
+                                                    .englishName
+                                                    .toString()),
+                                                child: Text(
+                                                  (item.englishName.toString()),
+                                                )))
+                                            .toList(),
+                                        onChanged: (item) {
+                                          selectedTypeItem = item;
+                                        },
+                                        decoration: InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.white),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.amber),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.amber),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                  },
+                                )),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                                width: double.infinity,
+                                child: FutureBuilder<List<ClothingSeason>>(
+                                  future:
+                                      _clothingRepository.listClothingSeason(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      List<ClothingSeason> units =
+                                          snapshot.data!;
+                                      selectedTypeItem = null;
+                                      return DropdownButtonFormField(
+                                        hint: const Text('Clothes Season'),
+                                        iconEnabledColor: Colors.amber,
+                                        iconDisabledColor: const Color.fromARGB(
+                                            143, 144, 144, 144),
+                                        focusColor: Colors.red,
+                                        enableFeedback: true,
+                                        validator: (selectedTypeItem) {
+                                          if (selectedTypeItem == null) {
+                                            return 'please Add Clothes Type';
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          Icons.keyboard_arrow_down,
+                                          size: 30,
+                                        ),
+                                        value: selectedTypeItem,
+                                        items: units
+                                            .map((item) => DropdownMenuItem(
+                                                value: jsonEncode(item
+                                                    .englishName
+                                                    .toString()),
+                                                child: Text(
+                                                  (item.englishName.toString()),
+                                                )))
+                                            .toList(),
+                                        onChanged: (item) {
+                                          selectedTypeItem = item;
+                                        },
+                                        decoration: InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.white),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.amber),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.amber),
+                                          ),
+                                        ),
+                                      );
                                     } else {
                                       return const Center(
                                           child: CircularProgressIndicator());

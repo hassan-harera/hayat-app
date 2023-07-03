@@ -1,4 +1,6 @@
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_condition.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_seasson.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
@@ -27,6 +29,30 @@ class ClothingDatasource {
       );
     }
     return clothesType;
+  }
+
+  Future<List<ClothingSeason>> listClothingSeason() async {
+    List<dynamic> data =
+        await Api().get(url: '$baseUrl/api/v1/clothing/seasons');
+    List<ClothingSeason> clothesSeason = [];
+    for (int i = 0; i < data.length; i++) {
+      clothesSeason.add(
+        ClothingSeason.fromJson(data[i]),
+      );
+    }
+    return clothesSeason;
+  }
+
+  Future<List<ClothingCondition>> listClothingCondition() async {
+    List<dynamic> data =
+        await Api().get(url: '$baseUrl/api/v1/clothing/conditions');
+    List<ClothingCondition> clothesCondition = [];
+    for (int i = 0; i < data.length; i++) {
+      clothesCondition.add(
+        ClothingCondition.fromJson(data[i]),
+      );
+    }
+    return clothesCondition;
   }
 
   Future<List<Medicine>> getListMedicineName() async {

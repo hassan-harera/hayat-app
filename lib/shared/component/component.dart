@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/intl.dart';
 
 Widget mySearchTextFormField(
         {TextEditingController? controller,
@@ -335,22 +334,23 @@ Widget myStaticTextFormField(
         onChanged: onChanged,
         onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
-          // prefixIcon: Icon(
-          //   prefixIcon,
-          //   color: prefixColor,
-          // ),
-          // suffixIcon: suffixIcon != null
-          //     ? IconButton(
-          //         onPressed: () {
-          //           suffixFunction!();
-          //         },
-          //         icon: Icon(
-          //           suffixIcon,
-          //           color: suffixColor,
-          //         ))
-          //     : null,
+          prefixIcon: prefixIcon != null
+              ? Icon(
+                  prefixIcon,
+                  color: prefixColor,
+                )
+              : null,
+          suffixIcon: suffixIcon != null
+              ? IconButton(
+                  onPressed: () {
+                    suffixFunction!();
+                  },
+                  icon: Icon(
+                    suffixIcon,
+                    color: suffixColor,
+                  ))
+              : null,
           hintText: hint,
-
           fillColor: Colors.white,
           filled: filled,
           enabledBorder: OutlineInputBorder(

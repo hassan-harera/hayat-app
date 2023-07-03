@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/features/presentation/page/login/Login.dart';
 import 'package:hayat_eg/features/presentation/page/signup/phoneNumber/PhoneNumberCubit.dart';
 import 'package:hayat_eg/features/presentation/page/signup/phoneNumber/PhoneNumberStates.dart';
 import 'package:hayat_eg/shared/component/component.dart';
@@ -101,14 +100,18 @@ class PhoneScreen extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        myTextFormField(
-                          label: 'Please Inter Your Phone Number',
+                        myStaticTextFormField(
+                          hint: 'Please Inter You Phone Number',
                           controller: phoneController,
                           keyboardType: TextInputType.number,
                           prefixIcon: Icons.phone_outlined,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Phone Number is Required';
+                            } else if (value.length < 11) {
+                              return 'Phone Number Is TooShort';
+                            } else if (value.length > 11) {
+                              return 'Phone Number Is Too long';
                             }
                           },
                         ),
@@ -116,16 +119,15 @@ class PhoneScreen extends StatelessWidget {
                           height: 20,
                         ),
                         ConditionalBuilder(
-                          condition: state is! PhoneNumberSuccessState,
-                          builder: (context) => myButton(
+                          condition: state is PhoneNumberLoadingState,
+                          builder: (context) =>
+                              const Center(child: CircularProgressIndicator()),
+                          fallback: (context) => myButton(
                               radius: 30,
                               text: 'Next',
                               onTap: () {
                                 onSubmitted(phoneNumberCubit);
-                              }
-                              ),
-                          fallback: (context) => const Center(
-                              child: CircularProgressIndicator()),
+                              }),
                         ),
                       ],
                     ),
