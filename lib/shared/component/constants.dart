@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 
-import 'package:hayat_eg/features/presentation/page/ItemScreen/DonationItem/BookDonationItemScreen.dart';
-
 void myNavigator(context, widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 
@@ -135,62 +133,74 @@ Widget categoryProvider({
       ),
     );
 
+// GestureDetectorg(
+// onTap: () => _selectImage(context),
+// child: _file == null
+// ? Image.asset(
+// 'assets/add-image.png',
+//
+// )
+// : Padding(
+// padding: const EdgeInsets.all(8.0),
+// child: AspectRatio(
+// aspectRatio: 478 / 451,
+// child: Container(
+//
+// decoration: BoxDecoration(
+//
+// image: DecorationImage(
+// image:
+// MemoryImage(_file!),
+// fit: BoxFit.fill,
+// alignment:
+// FractionalOffset
+//     .topCenter,
+// )),
+// ),
+// ),
+// ),
+// ),
 
-
-Widget myCard() => Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 0,
-                    blurRadius: 40,
-                    offset: const Offset(10, 10)),
-              ],
-            ),
-            child: const Card(
-              elevation: 10,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'HandBag Lv',
-                      style: TextStyle(color: Colors.grey, fontSize: 15),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          r'$25 ',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+Widget myCard({
+  required IconData? icon,
+  required String? text,
+  Color? iconColor = Colors.white,
+  Color? textColor = Colors.white,
+  required void Function()? onPressed,
+}) =>
+    Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: SizedBox(
+          height: 80,
+          child: Card(
+            color: Colors.amber,
+            elevation: 2,
+            child: MaterialButton(
+              height: 80,
+              onPressed: onPressed,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    icon!,
+                    color: iconColor,
+                    size: 25,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    text!,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: textColor,
+                        fontSize: 20),
+                  ),
+                ],
               ),
-            )),
-        PositionedDirectional(
-            start: 85,
-            bottom: 70,
-            child: Image.asset(
-              'assets/clothes.png',
-              height: 95,
-            ))
-      ],
+            ),
+          )),
     );
 
 class sizeConfig {

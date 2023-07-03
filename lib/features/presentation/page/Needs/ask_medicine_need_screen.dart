@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/donation/medicine/medicine-search.dart';
 import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_request.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
+import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/Medicine/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
@@ -21,17 +21,15 @@ import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import '../../../../../shared/Utils/Utils.dart';
 import '../../../../../shared/component/component.dart';
 import '../../../../../shared/component/constants.dart';
-import '../../../../data/datasource/medicine/medicine_datasource.dart';
-import '../../../../data/model/medicine/medicine_unit.dart';
 
-class MedicineCategoryScreen extends StatefulWidget {
-  const MedicineCategoryScreen({super.key});
+class AskMedicineNeedScreen extends StatefulWidget {
+  const AskMedicineNeedScreen({super.key});
 
   @override
-  State<MedicineCategoryScreen> createState() => _MedicineCategoryScreenState();
+  State<AskMedicineNeedScreen> createState() => _AskMedicineNeedScreenState();
 }
 
-class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
+class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final _city = TextEditingController();
@@ -149,9 +147,13 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  title: const Text(
-                    'Medicine Category',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  centerTitle: false,
+                  title: Transform(
+                    transform:
+                        Matrix4.translationValues(size.width - 220, 0.0, 0.0),
+                    child: const Text(
+                      'Medicine Need',
+                    ),
                   ),
                 ),
                 body: SafeArea(
@@ -380,81 +382,19 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                'Medicine Amount',
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.black45),
-                                              ),
-                                              const SizedBox(
-                                                height: 15,
-                                              ),
-                                              SizedBox(
-                                                width: size.width - 237,
-                                                child: myStaticTextFormField(
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  validator: (value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'please inter amount';
-                                                    }
-                                                  },
-                                                  hint: 'Amount',
-                                                ),
-                                              )
-                                            ]),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Expiration Date',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black45),
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            SizedBox(
-                                                width: 190,
-                                                child: ExprirationDate(
-                                                  hint: 'Please Inter Date',
-                                                  controller:
-                                                      _medicineExpirationDateController,
-                                                )),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                              ],
+                            SizedBox(
+                              child: myStaticTextFormField(
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'please inter amount';
+                                  }
+                                },
+                                hint: 'Medicine Amount',
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             const SizedBox(
                               height: 10,

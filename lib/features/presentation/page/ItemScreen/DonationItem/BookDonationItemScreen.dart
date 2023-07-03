@@ -301,6 +301,28 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           Row(
                             children: [
                               Text(
+                                'Book Author : ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'Robert Kiyosaki',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Text(
                                 'Book Quantity : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
