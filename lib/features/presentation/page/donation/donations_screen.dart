@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
-import 'package:hayat_eg/features/data/repository/donation/Medicine/medicine_donation_repository.dart';
-import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
-import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/food/food_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/widgets/donation/donation_item.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/need_tab_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 
 class DonationsScreen extends StatefulWidget {
-  DonationsScreen({super.key});
+  const DonationsScreen({super.key});
 
   @override
   State<DonationsScreen> createState() => _DonationsScreenState();
@@ -23,41 +24,44 @@ class _DonationsScreenState extends State<DonationsScreen> {
 
   final DonationRepository _donationRepository = sl();
   final FoodDonationRepository _foodDonationRepository = sl();
+  final ClothingDonationRepository _clothingDonationRepository = sl();
   final BookDonationRepository _bookDonationRepository = sl();
   final MedicineDonationRepository _medicineDonationRepository = sl();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: query,
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    _getDonations();
+                  },
+                ),
+              ),
+              const SizedBox(width: 16.0),
+              const Icon(Icons.photo_filter),
+              const SizedBox(width: 8.0),
+              const Icon(Icons.sort),
+            ],
+          ),
+        ),
+      ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: query,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      _getDonations();
-                    },
-                  ),
-                ),
-                SizedBox(width: 16.0),
-                Icon(Icons.photo_filter),
-                SizedBox(width: 8.0),
-                Icon(Icons.sort),
-              ],
-            ),
-          ),
-          Container(
+          SizedBox(
             height: 50.0,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -85,7 +89,7 @@ class _DonationsScreenState extends State<DonationsScreen> {
                 TabItem(
                   text: 'Food',
                   onPressed: () {
-                    category = 'BLOOD';
+                    category = 'FOOD';
                     _getDonations();
                   },
                 ),
@@ -101,9 +105,9 @@ class _DonationsScreenState extends State<DonationsScreen> {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: ListView.builder(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 itemCount: _donations.length,
                 itemBuilder: (context, index) {
                   return DonationItem(
@@ -169,7 +173,7 @@ class _DonationsScreenState extends State<DonationsScreen> {
   }
 
   void _getClothingDonations() {
-    _foodDonationRepository.search(query.text).then((value) {
+    _clothingDonationRepository.search(query.text).then((value) {
       setState(() {
         _donations = value!;
       });

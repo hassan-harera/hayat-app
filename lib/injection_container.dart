@@ -10,10 +10,11 @@ import 'package:hayat_eg/features/data/datasource/medicine/medicine_datasource.d
 import 'package:hayat_eg/features/data/datasource/need/book/book_need_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/need/need_datasource.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
-import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
-import 'package:hayat_eg/features/data/repository/donation/clothing_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
-import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/food/food_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
@@ -26,7 +27,6 @@ import 'features/data/datasource/city_datasource.dart';
 import 'features/data/datasource/donation/medicine/medicine_donation_datasource.dart';
 import 'features/data/datasource/need/medicine/medicine_need_datasource.dart';
 import 'features/data/repository/CityRepository.dart';
-import 'features/data/repository/donation/Medicine/medicine_donation_repository.dart';
 
 final sl = GetIt.instance;
 
@@ -90,16 +90,16 @@ Future<void> init() async {
     () => DonationDataSource(client: sl()),
   );
   sl.registerLazySingleton<BookDonationDataSource>(
-    () => BookDonationDataSource(client: sl()),
+    () => BookDonationDataSource(sl()),
   );
   sl.registerLazySingleton<MedicineDonationDataSource>(
     () => MedicineDonationDataSource(client: sl()),
   );
-  sl.registerLazySingleton<FoodDonationDatasource>(
-    () => FoodDonationDatasource(client: sl()),
+  sl.registerLazySingleton<FoodDonationDataSource>(
+    () => FoodDonationDataSource(sl()),
   );
   sl.registerLazySingleton<ClothingDonationDataSource>(
-    () => ClothingDonationDataSource(client: sl()),
+    () => ClothingDonationDataSource(sl()),
   );
 
   /**

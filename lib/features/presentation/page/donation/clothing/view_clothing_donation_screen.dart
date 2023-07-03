@@ -46,7 +46,7 @@ class _ClothingDonationScreenState extends State<ClothingDonationScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      myNavigator(context, notificationScreen());
+                      navigate(context, notificationScreen());
                     },
                     icon: const Icon(
                       Icons.notifications,
@@ -56,7 +56,7 @@ class _ClothingDonationScreenState extends State<ClothingDonationScreen> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(

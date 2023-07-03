@@ -20,7 +20,7 @@ class FoodDonationResponse extends DonationResponse {
   String? qrCode;
   int? reputation;
   FoodUnit? foodUnit;
-  int? quantity;
+  double? quantity;
   String? foodExpirationDate;
 
   FoodDonationResponse(

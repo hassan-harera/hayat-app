@@ -31,7 +31,7 @@ class PhoneVerificationScreen extends StatelessWidget {
       child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state is OTPVerificationRegisterSuccessState) {
-            myNavigator(
+            navigate(
                 context,
                 setPasswordScreen(
                   otp: verificationController.text,

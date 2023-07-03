@@ -8,10 +8,11 @@ import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
-import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
@@ -193,15 +194,16 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                         ),
                                 ),
                                 // const Spacer(),
-                                myStaticTextFormField(
-                                  width: size.width - 160,
-                                  hint: 'Title',
-                                  controller: titleController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'please add Title';
-                                    }
-                                  },
+                                Expanded(
+                                  child: myStaticTextFormField(
+                                    hint: 'Title',
+                                    controller: titleController,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'please add Title';
+                                      }
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -588,6 +590,13 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
 
     final response = _bookDonationRepository.create(request);
     response.then((value) => {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return DonationSuccessDialog(
+                  message: 'Your Donation Request has been sent successfully',
+                );
+              }),
           value as BookDonationResponse,
           uploadImage(value.id as int),
         });
@@ -632,6 +641,13 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                   ),
                 )
               });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookDonationScreen(id),
+        ),
+      );
     }
   }
 }

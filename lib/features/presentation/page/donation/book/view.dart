@@ -1,7 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
-import 'package:hayat_eg/features/data/repository/donation/book_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
 import 'package:hayat_eg/injection_container.dart';
 
 class BookDonationScreen extends StatefulWidget {

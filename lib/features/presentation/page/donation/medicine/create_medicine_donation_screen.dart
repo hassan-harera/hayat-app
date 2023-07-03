@@ -7,22 +7,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/donation/medicine/medicine-search.dart';
 import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_request.dart';
+import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_response.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
+import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
-import 'package:hayat_eg/features/data/repository/donation/Medicine/medicine_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
+import 'package:hayat_eg/layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
+import 'package:hayat_eg/layout/HayatLayout/LayOutCubit/LayoutState.dart';
+import 'package:hayat_eg/shared/Utils/Utils.dart';
+import 'package:hayat_eg/shared/component/component.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
-import '../../../../../shared/Utils/Utils.dart';
-import '../../../../../shared/component/component.dart';
-import '../../../../../shared/component/constants.dart';
-import '../../../../data/datasource/medicine/medicine_datasource.dart';
-import '../../../../data/model/medicine/medicine_unit.dart';
+import 'view_medicine_donation_screen.dart';
 
 class MedicineCategoryScreen extends StatefulWidget {
   const MedicineCategoryScreen({super.key});
@@ -406,6 +407,8 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                               SizedBox(
                                                 width: size.width - 237,
                                                 child: myStaticTextFormField(
+                                                  controller:
+                                                      quantityController,
                                                   keyboardType:
                                                       TextInputType.number,
                                                   validator: (value) {
@@ -673,11 +676,20 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
       medicineUnitId: _medicineUnits?[0].id,
       medicineExpirationDate: _medicineExpirationDateController.text,
     );
-    print(request.toJson());
+
     final response = _medicineDonationRepository.create(request);
-    response.then((value) => {
-          print(value),
-        });
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const DonationSuccessDialog(
+              message: 'Your Donation Request has been sent successfully',
+            );
+          });
+      print(value);
+      value as MedicineDonationResponse;
+      uploadImage(value.id as int);
+    });
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
@@ -700,5 +712,27 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
       }
       stackTrace.printError();
     });
+  }
+
+  uploadImage(int id) {
+    if (_file != null) {
+      _medicineDonationRepository
+          .updateImage(id, _file as Uint8List)
+          .then((value) => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MedicineDonationItemScreen(id: id),
+                  ),
+                )
+              });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MedicineDonationItemScreen(id: id),
+        ),
+      );
+    }
   }
 }

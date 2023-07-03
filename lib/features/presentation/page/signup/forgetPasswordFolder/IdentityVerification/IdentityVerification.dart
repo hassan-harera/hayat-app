@@ -41,7 +41,7 @@ class _IdentityVerificationScreenState
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordStates>(
         listener: (context, state) {
           if (state is OtpVerificationSuccessState) {
-            myNavigator(
+            navigate(
                 context,
                 resetPasswordScreen(
                   phoneNum: widget.phoneNumber,

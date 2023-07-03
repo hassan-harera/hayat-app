@@ -2,15 +2,12 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/need/need_response.dart';
-import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
-import 'package:hayat_eg/features/presentation/page/ItemScreen/DonationItem/BookDonationItemScreen.dart';
-import 'package:hayat_eg/shared/component/constants.dart';
+
 
 Widget needItem(BuildContext context, NeedResponse needResponse) {
   final size = MediaQuery.of(context).size;
   return GestureDetector(
     onTap: () {
-      myNavigator(context, BookDonationItemScreen());
     },
     child: SizedBox(
       height: 155,

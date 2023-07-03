@@ -80,7 +80,7 @@ class _HomeScreen extends State<HomeScreen> {
                   padding: const EdgeInsetsDirectional.only(end: 10),
                   child: IconButton(
                     onPressed: () {
-                      myNavigator(context, notificationScreen());
+                      navigate(context, notificationScreen());
                     },
                     icon: const Icon(
                       Icons.notifications,
@@ -93,7 +93,7 @@ class _HomeScreen extends State<HomeScreen> {
                   padding: const EdgeInsetsDirectional.only(end: 10),
                   child: IconButton(
                     onPressed: () {
-                      myNavigator(context, SearchScreen());
+                      navigate(context, SearchScreen());
                     },
                     icon: const Icon(
                       Icons.search,
@@ -135,7 +135,7 @@ class _HomeScreen extends State<HomeScreen> {
                                 const Spacer(),
                                 TextButton(
                                   onPressed: () {
-                                    myNavigator(context, DonationsScreen());
+                                    navigate(context, DonationsScreen());
                                   },
                                   child: const Text(
                                     'Sea All ',
@@ -152,7 +152,7 @@ class _HomeScreen extends State<HomeScreen> {
                                   GestureDetector(
                                     onTap: () {
                                       layoutCubit.changCategoryTitleToBook();
-                                      myNavigator(context, BookDonationFormScreen());
+                                      navigate(context, BookDonationFormScreen());
                                     },
                                     child: categoryProvider(
                                       image: 'assets/bookCategory.png',
@@ -166,7 +166,7 @@ class _HomeScreen extends State<HomeScreen> {
                                   GestureDetector(
                                     onTap: () {
                                       layoutCubit.changCategoryTitleToMedicine();
-                                      myNavigator(context, CreateFoodDonationScreen());
+                                      navigate(context, CreateFoodDonationScreen());
                                     },
                                     child: categoryProvider(
                                       image: 'assets/foodCategory.png',
@@ -180,7 +180,7 @@ class _HomeScreen extends State<HomeScreen> {
                                   GestureDetector(
                                     onTap: () {
                                       layoutCubit.changCategoryTitleToMedicine();
-                                      myNavigator(
+                                      navigate(
                                           context, const MedicineCategoryScreen());
                                     },
                                     child: categoryProvider(
@@ -195,7 +195,7 @@ class _HomeScreen extends State<HomeScreen> {
                                   GestureDetector(
                                     onTap: () {
                                       layoutCubit.changCategoryTitleToBook();
-                                      myNavigator(context, const CreateClothingDonationScreen());
+                                      navigate(context, const CreateClothingDonationScreen());
                                     },
                                     child: categoryProvider(
                                       image: 'assets/clothesCategory.png',

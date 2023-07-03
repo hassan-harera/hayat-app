@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           radius: 20,
                           text: 'onBoarding',
                           onTap: () {
-                            myNavigator(context, OnBoardingScreen());
+                            navigate(context, OnBoardingScreen());
                           }),
                       SizedBox(
                         height: 100,

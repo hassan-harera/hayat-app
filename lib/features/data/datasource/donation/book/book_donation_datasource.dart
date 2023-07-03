@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:hayat_eg/core/error/api_error.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/core/json/json_encoder.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
@@ -10,18 +12,15 @@ import 'package:hayat_eg/shared/network/local/Cash_helper/cash_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-import '../../../../../../core/error/exceptions.dart';
-import '../../../../../core/error/api_error.dart';
-
 class BookDonationDataSource {
-  final String apiUrl = 'http://146.190.206.136:8080/api/v1/donations/book';
   final http.Client client;
 
-  BookDonationDataSource({required this.client});
+  BookDonationDataSource(this.client);
 
-  Future<BookDonationResponse?> create(BookDonationRequest request) async {
+  Future<BookDonationResponse?> create(
+      BookDonationRequest request) async {
     String token = Cash_helper.getData(key: 'token');
-    final response = await client.post(Uri.parse(apiUrl),
+    final response = await client.post(Uri.parse('$baseUrl/api/v1/donations/book'),
         body: jsonEncode(request.toJson()),
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +28,20 @@ class BookDonationDataSource {
         });
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return BookDonationResponse.fromJson(jsonDecode(response.body));
+      return BookDonationResponse.fromJson(decodeJson(response.body));
+    } else if (response.statusCode == 400) {
+      throw BadRequestException(
+          apiError: ApiError.fromJson(decodeJson(response.body)));
+    }
+  }
+
+  Future<List<BookDonationResponse>?> search(String query) async {
+    final response =
+    await client.get(Uri.parse("$baseUrl/api/v1/donations/book"));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return List<BookDonationResponse>.from(decodeJson(response.body)
+          .map((e) => BookDonationResponse.fromJson(e)));
     } else if (response.statusCode == 400) {
       throw BadRequestException(
           apiError: ApiError.fromJson(jsonDecode(response.body)));
@@ -37,11 +49,40 @@ class BookDonationDataSource {
   }
 
   Future<BookDonationResponse?> get(int id) async {
-    final response = await client.get(Uri.parse('$apiUrl/$id'));
+    final response =
+    await client.get(Uri.parse('$baseUrl/api/v1/donations/book/$id'));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return BookDonationResponse.fromJson(decodeJson(response.body));
     } else if (response.statusCode == 400) {
+      throw BadRequestException(
+          apiError: ApiError.fromJson(decodeJson(response.body)));
+    }
+  }
+
+  Future<BookDonationResponse?> upvote(int id) async {
+    final response = await client.put(
+        Uri.parse('$baseUrl/api/v1/donations/book/$id/upvote'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${Cash_helper.getData(key: 'token')}'
+        });
+
+    if (response.statusCode == 400) {
+      throw BadRequestException(
+          apiError: ApiError.fromJson(decodeJson(response.body)));
+    }
+  }
+
+  Future<BookDonationResponse?> downvote(int id) async {
+    final response = await client.put(
+        Uri.parse('$baseUrl/api/v1/donations/book/$id/down-vote'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${Cash_helper.getData(key: 'token')}'
+        });
+
+    if (response.statusCode == 400) {
       throw BadRequestException(
           apiError: ApiError.fromJson(decodeJson(response.body)));
     }
@@ -63,19 +104,6 @@ class BookDonationDataSource {
       return BookDonationResponse.fromJson(jsonDecode(body));
     } else if (response.statusCode == 400) {
       throw BadRequestException(apiError: ApiError.fromJson(jsonDecode(body)));
-    }
-  }
-
-  Future<List<BookDonationResponse>?> search(String query) async {
-    final response =
-    await client.get(Uri.parse("$baseUrl/api/v1/donations/book"));
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return List<BookDonationResponse>.from(decodeJson(response.body)
-          .map((e) => BookDonationResponse.fromJson(e)));
-    } else if (response.statusCode == 400) {
-      throw BadRequestException(
-          apiError: ApiError.fromJson(jsonDecode(response.body)));
     }
   }
 }

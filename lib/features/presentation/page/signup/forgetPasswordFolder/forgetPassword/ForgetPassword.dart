@@ -39,7 +39,7 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordStates>(
         listener: (context, state) {
           if (state is SetPhoneSuccessState) {
-            myNavigator(
+            navigate(
                 context,
                 IdentityVerificationScreen(
                   phoneNumber: phoneController.text,

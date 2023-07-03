@@ -167,7 +167,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   .validate()) {
                                                 formKey.currentState!.save();
 
-                                                myNavigator(
+                                                navigate(
                                                     context,
                                                     PhoneScreen(
                                                       firstNameController:

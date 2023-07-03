@@ -242,7 +242,7 @@ class basicInformationScreen extends StatelessWidget {
                             onTap: () {
                               if ((formKey.currentState!.validate())) {
                                 if ((registertCubit.checked == true)) {
-                                  myNavigator(context, LoginScreen());
+                                  navigate(context, LoginScreen());
                                 }
 
                                 //

@@ -1,15 +1,39 @@
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:get/get.dart';
+import 'package:hayat_eg/core/datetime/datetime_utils.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/core/loading.dart';
+import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_response.dart';
+import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/injection_container.dart';
 
-class BookDonationItemScreen extends StatefulWidget {
-  const BookDonationItemScreen({super.key});
+class ClothesDonationItemScreen extends StatefulWidget {
+  final int id;
+
+  const ClothesDonationItemScreen({super.key, required this.id});
 
   @override
-  State<BookDonationItemScreen> createState() => _BookDonationItemScreenState();
+  State<ClothesDonationItemScreen> createState() =>
+      _ClothesDonationItemScreenState(id);
 }
 
-class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
-  int ratingNumber = 1;
+class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
+  ClothingDonationResponse? _clothingDonation;
+  final int id;
+
+  _ClothesDonationItemScreenState(this.id);
+
+  final ClothingDonationRepository _clothingDonationRepository = sl();
+
+  @override
+  initState() {
+    super.initState();
+    getClothingDonation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +62,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                 color: Colors.black,
               )),
         ],
-        title: const Text('Book Donation'),
+        title: const Text('Clothing Donation'),
       ),
       body: Padding(
         padding: EdgeInsets.only(
@@ -62,10 +86,9 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           color: const Color(0xffE3EAF2),
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    child: const Icon(
-                      Icons.image_outlined,
-                      color: Colors.black,
-                      size: 40,
+                    child: Image.network(
+                      _clothingDonation?.imageUrl ??
+                          'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
                     ),
                   ),
                   Expanded(
@@ -74,7 +97,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                ratingNumber++;
+                                upvote();
                               });
                             },
                             icon: const Icon(
@@ -85,7 +108,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          '$ratingNumber',
+                          '${_clothingDonation?.reputation ?? 0}',
                           maxLines: 1,
                           style:
                               const TextStyle(overflow: TextOverflow.ellipsis),
@@ -96,7 +119,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                ratingNumber--;
+                                downvote();
                               });
                             },
                             icon: const Icon(
@@ -127,7 +150,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
@@ -138,9 +161,9 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                             children: [
                               Expanded(
                                 child: Text(
+                                  _clothingDonation?.title ?? '',
                                   maxLines: 3,
-                                  'Book Title  ',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                     overflow: TextOverflow.ellipsis,
@@ -153,15 +176,15 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    '12 May',
+                                    timeAgo(_clothingDonation?.donationDate!),
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         overflow: TextOverflow.ellipsis,
                                         color: Colors.grey,
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Icon(Icons.date_range),
+                                  const Icon(Icons.date_range),
                                 ],
                               ),
                             ],
@@ -173,8 +196,8 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  'Mohamed ahmed',
-                                  style: TextStyle(
+                                  ('${_clothingDonation?.user?.firstName!} ${_clothingDonation?.user?.lastName!}'),
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w400,
@@ -182,22 +205,25 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                                   ),
                                 ),
                               ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Bani-Suef',
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        overflow: TextOverflow.ellipsis,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  Icon(Icons.location_on_outlined),
-                                ],
+                              SizedBox(
+                                width: 100,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      ('${_clothingDonation?.city?.arabicName}'),
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          overflow: TextOverflow.ellipsis,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Icon(Icons.location_on_outlined),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -208,6 +234,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                       height: 10,
                     ),
                     Container(
+                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -218,14 +245,22 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           ),
                         ),
                       ),
-                      child: ListView(shrinkWrap: true, children: const [
-                        Text(
-                          'Description ',
+                      child: ListView(shrinkWrap: true, children: [
+                        const Text(
+                          "Description",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             // overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        Text(
+                          _clothingDonation?.description ?? '',
+                          maxLines: 1,
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400),
                         ),
                       ]),
                     ),
@@ -233,6 +268,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                       height: 10,
                     ),
                     Container(
+                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -257,13 +293,13 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           Row(
                             children: [
                               Text(
-                                'Book Sub Title : ',
+                                'Clothes Type : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'rich dad poor Dad',
+                                  'shorts',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -279,13 +315,13 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           Row(
                             children: [
                               Text(
-                                'Book publisher : ',
+                                'Clothes Gender : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Robert Kiyosaki',
+                                  'Men',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -301,13 +337,13 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           Row(
                             children: [
                               Text(
-                                'Book Quantity : ',
+                                'Clothes Quantity : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  '2 books }',
+                                  '2 pieces}',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -323,13 +359,51 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           Row(
                             children: [
                               Text(
-                                'Book Language : ',
+                                'Clothes Size : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'arabic}',
+                                  'Small',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Clothes Condition : ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'good',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Clothes Season : ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'Summer',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -356,29 +430,30 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Social Media',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Communication Method : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Chat ',
+                                  _clothingDonation?.communicationMethod ??
+                                      'Chat',
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400),
@@ -386,46 +461,48 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'watsapp Number : ',
+                              const Text(
+                                'Whatsapp Link: ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
-                                child: Text(
-                                  '01288166326 ',
+                                child: Linkify(
                                   maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                  text:
+                                      _clothingDonation?.whatsappLink ?? 'N/A',
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Telegram : ',
+                              const Text(
+                                'Telegram Link: ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
-                                child: Text(
-                                  'https://t.me/ }',
+                                child: Linkify(
                                   maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                  text:
+                                      _clothingDonation?.telegramLink ?? 'N/A',
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                               ),
                             ],
@@ -433,6 +510,9 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ),
@@ -441,5 +521,90 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
         ]),
       ),
     );
+  }
+
+  void downvote() {
+    final response = _clothingDonationRepository.downvote(id);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const DonationSuccessDialog(
+              message: 'Your have upvoted this donation, Thank you!',
+            );
+          });
+
+      getClothingDonation();
+    });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unable to upvote donation'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  void upvote() async {
+    final response = _clothingDonationRepository.upvote(id);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const DonationSuccessDialog(
+              message: 'Your have upvoted this donation, Thank you!',
+            );
+          });
+
+      getClothingDonation();
+    });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unable to upvote donation'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  void getClothingDonation() {
+    _clothingDonationRepository.get(id).then((value) {
+      setState(() {
+        print(_clothingDonation?.reputation);
+        _clothingDonation = value;
+      });
+    });
   }
 }

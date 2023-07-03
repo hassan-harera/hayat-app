@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         defaultTextBottom(
                                             text: 'Forget Password?',
                                             function: () {
-                                              myNavigator(context,
+                                              navigate(context,
                                                   const forgetPasswordScreen());
                                             }),
                                       ],

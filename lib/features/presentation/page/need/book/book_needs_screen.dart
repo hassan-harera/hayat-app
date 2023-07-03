@@ -4,21 +4,20 @@ import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart'
 import 'package:hayat_eg/features/presentation/widgets/need/need_tab_item.dart';
 
 class BookNeedsScreen extends StatefulWidget {
+  const BookNeedsScreen({super.key});
+
   @override
   State<BookNeedsScreen> createState() => _BookNeedsScreenState();
 }
 
 class _BookNeedsScreenState extends State<BookNeedsScreen> {
   final formKey = GlobalKey<FormState>();
-  List<BookNeedResponse> _list = [];
+  final List<BookNeedResponse> _list = [];
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('My Screen'),
-      ),
       body: Column(
         children: [
           Padding(
@@ -33,7 +32,7 @@ class _BookNeedsScreenState extends State<BookNeedsScreen> {
               ),
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,11 +42,11 @@ class _BookNeedsScreenState extends State<BookNeedsScreen> {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             height: 50.0,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: [
+              children: const [
                 TabItem(text: 'All'),
                 TabItem(text: 'Medicines'),
                 TabItem(text: 'Books'),
@@ -57,7 +56,7 @@ class _BookNeedsScreenState extends State<BookNeedsScreen> {
           ),
           Expanded(
               child: ListView.builder(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shrinkWrap: true,
                   itemBuilder: (context, index) => Padding(
                         padding: EdgeInsets.only(

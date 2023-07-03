@@ -1,9 +1,11 @@
 import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
-import 'package:hayat_eg/features/data/model/donation/donation_category.dart';
+import 'package:hayat_eg/features/presentation/page/donation/clothing/ClothesDonationItemScreen.dart';
+import 'package:hayat_eg/features/presentation/page/donation/medicine/view_medicine_donation_screen.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
 import '../../page/donation/book/view_book_donation_item_screen.dart';
@@ -180,10 +182,13 @@ class DonationItem extends StatelessWidget {
   void viewDonationItemScreen(
       BuildContext context, DonationResponse donationResponse) {
     if (_donationResponse.category == 'BOOKS') {
-      myNavigator(context, BookDonationItemScreen());
-    } else if (_donationResponse.category == DonationCategory.MEDICINE) {
-    } else if (_donationResponse.category == 'FOOD') {}
-    else if (_donationResponse.category == 'MEDICINE') {}
-    else if (_donationResponse.category == 'OTHER') {}
+      navigate(context, BookDonationItemScreen());
+    } else if (_donationResponse.category == 'MEDICINE') {
+      navigate(context, MedicineDonationItemScreen(id: donationResponse.id!));
+    } else if (_donationResponse.category == 'FOOD') {
+      navigate(context, BookDonationItemScreen());
+    } else if (_donationResponse.category == 'CLOTHING') {
+      navigate(context, ClothesDonationItemScreen(id: donationResponse.id!));
+    } else if (_donationResponse.category == 'OTHER') {}
   }
 }

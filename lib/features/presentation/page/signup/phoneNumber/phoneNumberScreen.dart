@@ -26,7 +26,7 @@ class PhoneScreen extends StatelessWidget {
       child: BlocConsumer<PhoneNumberCubit, PhoneNumberStates>(
         listener: (context, state) {
           if (state is PhoneNumberSuccessState) {
-            myNavigator(
+            navigate(
                 context,
                 PhoneVerificationScreen(
                   mobilController: phoneController.text,

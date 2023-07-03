@@ -9,7 +9,9 @@ class TabItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed, // Call the onPressed callback when tapped
+      onTap: () {
+        onPressed?.call();
+      }, // Call the onPressed callback when tapped
       child: Container(
         margin: const EdgeInsets.all(8.0),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

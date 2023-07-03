@@ -1,12 +1,13 @@
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
+import 'package:hayat_eg/features/data/model/clothing/clothing_condition.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_seasson.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
-class ClothingDonationResponse {
+class ClothingDonationResponse extends DonationResponse {
   int? id;
   bool? active;
   String? title;
@@ -25,7 +26,7 @@ class ClothingDonationResponse {
   int? reputation;
   int? quantity;
   ClothingSeason? clothingSeason;
-  ClothingSize? clothingCondition;
+  ClothingCondition? clothingCondition;
   ClothingSize? clothingSize;
   ClothingCategory? clothingCategory;
   ClothingType? clothingType;
@@ -64,8 +65,8 @@ class ClothingDonationResponse {
     category = json['category'];
     status = json['status'];
     communicationMethod = json['communication_method'];
-    city = json['city'] != null ? City.fromJson(json['city']) : null;
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
     imageUrl = json['image_url'];
     telegramLink = json['telegram_link'];
     whatsappLink = json['whatsapp_link'];
@@ -73,20 +74,22 @@ class ClothingDonationResponse {
     reputation = json['reputation'];
     quantity = json['quantity'];
     clothingSeason = json['clothing_season'] != null
-        ? ClothingSeason.fromJson(json['clothing_season'])
+        ? new ClothingSeason.fromJson(json['clothing_season'])
         : null;
     clothingCondition = json['clothing_condition'] != null
-        ? ClothingSize.fromJson(json['clothing_condition'])
+        ? new ClothingCondition.fromJson(json['clothing_condition'])
         : null;
-    clothingSize = json['clothing_size'];
+    clothingSize = json['clothing_size'] != null
+        ? new ClothingSize.fromJson(json['clothing_size'])
+        : null;
     clothingCategory = json['clothing_category'] != null
-        ? ClothingCategory.fromJson(json['clothing_category'])
+        ? new ClothingCategory.fromJson(json['clothing_category'])
         : null;
     clothingType = json['clothing_type'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['active'] = this.active;
     data['title'] = this.title;
