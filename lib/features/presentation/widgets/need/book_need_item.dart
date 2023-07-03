@@ -9,7 +9,7 @@ Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
   final size = MediaQuery.of(context).size;
   return GestureDetector(
     onTap: () {
-      navigate(context, BookDonationItemScreen());
+      myNavigator(context, BookDonationItemScreen());
     },
     child: Container(
       height: 155,
