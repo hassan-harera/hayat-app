@@ -152,7 +152,7 @@ Widget mySpecialTextFormField({
               borderSide: BorderSide(color: borderColor))),
     );
 
-Widget myDescriptionTextFormField(
+Widget postDescriptionTextFormField(
         {required TextEditingController? controller}) =>
     TextFormField(
       controller: controller,
@@ -303,7 +303,7 @@ Widget donateCategoryItem({
 
 int titleIndex = 0;
 
-Widget myStaticTextFormField(
+Widget requiredTextField(
         {TextEditingController? controller,
         TextInputType? keyboardType = TextInputType.text,
         String? hint,

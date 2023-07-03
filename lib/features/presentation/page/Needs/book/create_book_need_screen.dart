@@ -5,15 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/donation/book/book_donation_request.dart';
-import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
+import 'package:hayat_eg/features/data/model/need/book/book_need_request.dart';
+import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
-import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
-import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
-import 'package:hayat_eg/features/presentation/page/donation/book/view.dart';
-import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
+import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
+import 'package:hayat_eg/features/presentation/page/ItemScreen/NeedItem/BookNeedItemScreen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
-import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
@@ -23,12 +20,12 @@ import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import '../../../../../shared/component/component.dart';
 
-class BookDonationFormScreen extends StatefulWidget {
+class BookNeedFormScreen extends StatefulWidget {
   @override
-  State<BookDonationFormScreen> createState() => _BookDonationFormScreenState();
+  State<BookNeedFormScreen> createState() => _BookNeedFormScreenState();
 }
 
-class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
+class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
   final formKey = GlobalKey<FormState>();
 
   var titleController = TextEditingController();
@@ -49,7 +46,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   List<City>? _cities = [];
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  final BookDonationRepository _bookDonationRepository = sl();
+  final BookNeedRepository _bookNeedRepository = sl();
   Uint8List? _file;
 
   CityRepository _cityRepository = sl();
@@ -139,7 +136,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
             child: Scaffold(
                 appBar: AppBar(
                   title: const Text(
-                    'Book Donation',
+                    'Book Need',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
@@ -195,19 +192,27 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                 ),
                                 // const Spacer(),
                                 Expanded(
-                                  child: myStaticTextFormField(
-                                    hint: 'Title',
+                                  child: requiredTextField(
+                                    hint: 'Title*',
                                     controller: titleController,
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'please add Title';
+                                        return 'Title is required';
                                       }
                                     },
                                   ),
                                 ),
                               ],
                             ),
-                            myStaticTextFormField(
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            postDescriptionTextFormField(
+                                controller: descriptionController),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            requiredTextField(
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'please add Book Category';
@@ -269,7 +274,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 15,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'please add Book Category';
@@ -281,12 +286,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            myDescriptionTextFormField(
-                                controller: descriptionController),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               controller: bookLanguageController,
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -298,7 +298,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               controller: bookQuantityController,
                               hint: 'Quantity',
                               validator: (value) {
@@ -310,7 +310,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               controller: bookPublisherController,
                               hint: 'Book Publisher',
                               validator: (value) {
@@ -322,7 +322,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               controller: bookAuthorController,
                               hint: 'Book Author',
                               validator: (value) {
@@ -334,59 +334,10 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            ExprirationDate(
+                            requiredTextField(
                               hint: 'Book Publication Year',
                               controller: bookPublicationYearController,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items: _cities!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Select city",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                cityId = _cities!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id;
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is required";
-                                } else {
-                                  return null;
-                                }
-                              },
+                              validator: (value) {},
                             ),
                             const SizedBox(
                               height: 20,
@@ -578,28 +529,32 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   }
 
   void onSubmit() {
-    final request = BookDonationRequest(
+    final request = BookNeedRequest(
       title: titleController.text,
       description: descriptionController.text,
+      communicationMethod: communicationMethod,
+      cityId: cityId,
       bookTitle: bookTitleController.text,
       bookSubTitle: bookSubTitleController.text,
-      communicationMethod: communicationMethod,
-      quantity: int.parse(bookQuantityController.text),
-      cityId: cityId,
+      bookAuthor: bookAuthorController.text,
+      bookPublisher: bookPublisherController.text,
+      bookPublicationYear: bookPublicationYearController.text,
+      bookLanguage: bookLanguageController.text,
     );
 
-    final response = _bookDonationRepository.create(request);
-    response.then((value) => {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return DonationSuccessDialog(
-                  message: 'Your Donation Request has been sent successfully',
-                );
-              }),
-          value as BookDonationResponse,
-          uploadImage(value.id as int),
-        });
+    final response = _bookNeedRepository.create(request);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your Need Request has been sent successfully',
+            );
+          });
+      if (value is BookNeedResponse) {
+        _uploadImage(value.id!);
+      }
+    });
 
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
@@ -625,27 +580,25 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
     });
   }
 
-  uploadImage(int id) {
+  _uploadImage(String id) async {
     if (_file != null) {
       setState(() {
         _isLoading = true;
       });
 
-      _bookDonationRepository
-          .updateImage(id, _file as Uint8List)
-          .then((value) => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BookDonationScreen(id),
-                  ),
-                )
-              });
+      _bookNeedRepository.updateImage(id, _file as Uint8List).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookNeedItemScreen(),
+          ),
+        );
+      });
     } else {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BookDonationScreen(id),
+          builder: (context) => BookNeedItemScreen(),
         ),
       );
     }

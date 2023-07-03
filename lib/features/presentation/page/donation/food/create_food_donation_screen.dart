@@ -207,7 +207,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                 ),
                                 // const Spacer(),
                                 Expanded(
-                                    child: myStaticTextFormField(
+                                    child: requiredTextField(
                                   controller: titleController,
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -218,7 +218,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                 )),
                               ],
                             ),
-                            myDescriptionTextFormField(
+                            postDescriptionTextFormField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 15,
@@ -415,7 +415,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                         ),
                                         SizedBox(
                                           width: size.width - 230,
-                                          child: myStaticTextFormField(
+                                          child: requiredTextField(
                                             keyboardType: TextInputType.number,
                                             hint: 'Amount',
                                             onChanged: (value) {

@@ -195,7 +195,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                 ),
                                 // const Spacer(),
                                 Expanded(
-                                  child: myStaticTextFormField(
+                                  child: requiredTextField(
                                     hint: 'Title',
                                     controller: titleController,
                                     validator: (value) {
@@ -207,7 +207,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                 ),
                               ],
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'please add Book Category';
@@ -269,7 +269,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 15,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'please add Book Category';
@@ -281,12 +281,12 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            myDescriptionTextFormField(
+                            postDescriptionTextFormField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 10,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               controller: bookLanguageController,
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -298,7 +298,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               controller: bookQuantityController,
                               hint: 'Quantity',
                               validator: (value) {
@@ -310,7 +310,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               controller: bookPublisherController,
                               hint: 'Book Publisher',
                               validator: (value) {
@@ -322,7 +322,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            myStaticTextFormField(
+                            requiredTextField(
                               controller: bookAuthorController,
                               hint: 'Book Author',
                               validator: (value) {
@@ -593,7 +593,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return DonationSuccessDialog(
+                return SuccessDialog(
                   message: 'Your Donation Request has been sent successfully',
                 );
               }),

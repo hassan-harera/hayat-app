@@ -208,7 +208,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                 ),
                                 // const Spacer(),
                                 Expanded(
-                                    child: myStaticTextFormField(
+                                    child: requiredTextField(
                                   controller: titleController,
                                   hint: 'Title',
                                   validator: (value) {
@@ -219,7 +219,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                 )),
                               ],
                             ),
-                            myDescriptionTextFormField(
+                            postDescriptionTextFormField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 10,
@@ -383,7 +383,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                               height: 10,
                             ),
                             SizedBox(
-                              child: myStaticTextFormField(
+                              child: requiredTextField(
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value!.isEmpty) {

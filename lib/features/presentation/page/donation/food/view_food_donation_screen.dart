@@ -488,7 +488,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return const DonationSuccessDialog(
+            return const SuccessDialog(
               message: 'Your have upvoted this donation, Thank you!',
             );
           });
@@ -526,7 +526,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return const DonationSuccessDialog(
+            return const SuccessDialog(
               message: 'Your have upvoted this donation, Thank you!',
             );
           });

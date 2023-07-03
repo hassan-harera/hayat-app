@@ -98,10 +98,10 @@ class ClothingDonationDataSource {
         .assign('Authorization', 'Bearer ${Cash_helper.getData(key: 'token')}');
 
     var response = await request.send();
-    final body = decodeJson(await response.stream.bytesToString());
+    final body = (await response.stream.bytesToString());
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return ClothingDonationResponse.fromJson(jsonDecode(body));
+      return ClothingDonationResponse.fromJson(decodeJson(body));
     } else if (response.statusCode == 400) {
       throw BadRequestException(apiError: ApiError.fromJson(jsonDecode(body)));
     }

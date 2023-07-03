@@ -125,7 +125,7 @@ Future<void> init() async {
     () => NeedDataSource(client: sl()),
   );
   sl.registerLazySingleton<BookNeedDataSource>(
-    () => BookNeedDataSource(client: sl()),
+    () => BookNeedDataSource(sl()),
   );
   sl.registerLazySingleton<MedicineNeedDataSource>(
     () => MedicineNeedDataSource(client: sl()),

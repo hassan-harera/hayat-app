@@ -1,14 +1,14 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
-class BookDonationItemScreen extends StatefulWidget {
-  const BookDonationItemScreen({super.key});
+class BookNeedItemScreen extends StatefulWidget {
+  const BookNeedItemScreen({super.key});
 
   @override
-  State<BookDonationItemScreen> createState() => _BookDonationItemScreenState();
+  State<BookNeedItemScreen> createState() => _BookNeedItemScreenState();
 }
 
-class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
+class _BookNeedItemScreenState extends State<BookNeedItemScreen> {
   int ratingNumber = 1;
 
   @override
@@ -38,7 +38,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                 color: Colors.black,
               )),
         ],
-        title: const Text('Book Donation'),
+        title: const Text('Book Need'),
       ),
       body: Padding(
         padding: EdgeInsets.only(
@@ -247,7 +247,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Donation Details',
+                            'Need Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),

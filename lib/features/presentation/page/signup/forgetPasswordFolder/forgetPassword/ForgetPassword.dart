@@ -139,7 +139,7 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
                           autovalidateMode: autoValidateMode,
                           child: Column(
                             children: [
-                              myStaticTextFormField(
+                              requiredTextField(
                                 validator: (value) {
                                   if (value!.length > 11) {
                                     return 'your password is  long';

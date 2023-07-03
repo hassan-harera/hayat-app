@@ -213,7 +213,7 @@ class _CreateClothingDonationScreen
                                 ),
                                 // const Spacer(),
                                 Expanded(
-                                  child: myStaticTextFormField(
+                                  child: requiredTextField(
                                     hint: 'Title',
                                     controller: titleController,
                                     validator: (value) {
@@ -225,7 +225,7 @@ class _CreateClothingDonationScreen
                                 ),
                               ],
                             ),
-                            myDescriptionTextFormField(
+                            postDescriptionTextFormField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 15,
@@ -596,7 +596,7 @@ class _CreateClothingDonationScreen
                             Row(
                               children: [
                                 Expanded(
-                                  child: myStaticTextFormField(
+                                  child: requiredTextField(
                                     keyboardType: TextInputType.number,
                                     hint: 'Quantity',
                                     validator: (value) {

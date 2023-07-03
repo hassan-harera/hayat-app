@@ -206,7 +206,7 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                                 ),
                                 // const Spacer(),
                                 Expanded(
-                                    child: myStaticTextFormField(
+                                    child: requiredTextField(
                                   controller: titleController,
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -217,7 +217,7 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                                 )),
                               ],
                             ),
-                            myDescriptionTextFormField(
+                            postDescriptionTextFormField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 15,
@@ -449,7 +449,7 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                               children: [
                                 SizedBox(
                                   width: size.width - 230,
-                                  child: myStaticTextFormField(
+                                  child: requiredTextField(
                                     keyboardType: TextInputType.number,
                                     hint: 'Age',
                                     onChanged: (value) {
@@ -471,7 +471,7 @@ class _AskBloodNeedScreenState extends State<AskBloodNeedScreen> {
                                       children: [
                                         SizedBox(
                                             width: 190,
-                                            child: myStaticTextFormField(
+                                            child: requiredTextField(
                                               controller: titleController,
                                               validator: (value) {
                                                 if (value!.isEmpty) {

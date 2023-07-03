@@ -100,7 +100,7 @@ class PhoneScreen extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        myStaticTextFormField(
+                        requiredTextField(
                           hint: 'Please Inter You Phone Number',
                           controller: phoneController,
                           keyboardType: TextInputType.number,

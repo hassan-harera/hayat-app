@@ -207,7 +207,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 ),
                                 // const Spacer(),
                                 Expanded(
-                                    child: myStaticTextFormField(
+                                    child: requiredTextField(
                                   controller: titleController,
                                   hint: 'Title',
                                   validator: (value) {
@@ -218,7 +218,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 )),
                               ],
                             ),
-                            myDescriptionTextFormField(
+                            postDescriptionTextFormField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 10,
@@ -406,7 +406,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                               ),
                                               SizedBox(
                                                 width: size.width - 237,
-                                                child: myStaticTextFormField(
+                                                child: requiredTextField(
                                                   controller:
                                                       quantityController,
                                                   keyboardType:
@@ -682,7 +682,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return const DonationSuccessDialog(
+            return const SuccessDialog(
               message: 'Your Donation Request has been sent successfully',
             );
           });

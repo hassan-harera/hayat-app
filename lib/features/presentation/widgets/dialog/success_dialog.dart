@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class DonationSuccessDialog extends StatelessWidget {
+class SuccessDialog extends StatelessWidget {
   final String message;
 
-  const DonationSuccessDialog({super.key, required this.message});
+  const SuccessDialog({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

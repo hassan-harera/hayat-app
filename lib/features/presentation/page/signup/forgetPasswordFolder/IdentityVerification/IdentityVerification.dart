@@ -133,7 +133,7 @@ class _IdentityVerificationScreenState
                           autovalidateMode: autoValidateMode,
                           child: Column(
                             children: [
-                              myStaticTextFormField(
+                              requiredTextField(
                                 validator: (String? value) {
                                   if (value!.isEmpty || value.length != 6) {
                                     return ' Please Enter Code';

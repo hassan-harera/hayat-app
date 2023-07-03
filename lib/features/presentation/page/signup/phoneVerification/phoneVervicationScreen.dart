@@ -128,7 +128,7 @@ class PhoneVerificationScreen extends StatelessWidget {
                       Form(
                         key: formKey,
                         autovalidateMode: autoValidateMode,
-                        child: myStaticTextFormField(
+                        child: requiredTextField(
                           validator: (String? value) {
                             if (value!.isEmpty) {
                               return ' Please Enter Code';

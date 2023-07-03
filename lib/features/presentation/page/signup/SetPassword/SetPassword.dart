@@ -125,7 +125,7 @@ class setPasswordScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                myStaticTextFormField(
+                                requiredTextField(
                                     validator: (String? value) {
                                       if (value!.isEmpty) {
                                         return ' password is too short';
@@ -158,7 +158,7 @@ class setPasswordScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                myStaticTextFormField(
+                                requiredTextField(
                                     validator: (String? value) {
                                       if (value!.isEmpty) {
                                         return ' password is too short';
