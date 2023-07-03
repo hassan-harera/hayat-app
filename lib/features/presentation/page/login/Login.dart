@@ -183,15 +183,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ],
                                     ),
                                     ConditionalBuilder(
-                                      condition: state is! LoginLoadingState,
-                                      builder: (context) => myButton(
+                                      condition: state is LoginLoadingState,
+                                      builder: (context) => const Center(
+                                          child: CircularProgressIndicator()),
+                                      fallback: (context) => myButton(
                                           text: 'login',
                                           onTap: () {
                                             onSubmitted(loginCubit);
                                           },
                                           radius: 30),
-                                      fallback: (context) => const Center(
-                                          child: CircularProgressIndicator()),
                                     ),
                                     const SizedBox(
                                       height: 20,

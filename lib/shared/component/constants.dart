@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hayat_eg/features/presentation/page/ItemScreen/DonationItem/BookDonationItemScreen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 
 
@@ -134,40 +135,7 @@ Widget categoryProvider({
       ),
     );
 
-// class categoryItems extends StatelessWidget {
-//    categoryItems({required this.image,required this.text,required this.imageWidth,required this.width,required this.double})  ;
-//  String image;
-//   String text,
-//   double imageWidth = 130;
-//       double imageHeight = 140.0;
-//       double wew=90;
-//   double width = 140;
-//       Color? imageColor;
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//     Container(
-//       width: width,
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadiusDirectional.circular(10),
-//         color: Color(0xff20ADDC),
-//       ),
-//       child: Column(
-//         children: [
-//           Image.asset(image,
-//               width: imageWidth, height: imageHeight, color: imageColor),
-//           Padding(
-//             padding: const EdgeInsetsDirectional.only(bottom: 8),
-//             child: Text(
-//               text.toUpperCase(),
-//               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+
 
 Widget myCard() => Stack(
       clipBehavior: Clip.none,
@@ -186,21 +154,21 @@ Widget myCard() => Stack(
               elevation: 10,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'HandBag Lv',
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           r'$25 ',
                           style: TextStyle(fontSize: 15),

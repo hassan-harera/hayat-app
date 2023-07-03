@@ -118,6 +118,7 @@ class PhoneVerificationScreen extends StatelessWidget {
                         'Verification Code',
                         style: TextStyle(
                           fontSize: 20,
+                          color: Colors.black54,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

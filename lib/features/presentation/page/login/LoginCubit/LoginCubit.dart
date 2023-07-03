@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
-import 'package:hayat_eg/shared/network/local/Cash_helper/DioHelper.dart';
 import 'package:http/http.dart' as http;
+
 import 'LoginStates.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
@@ -20,10 +20,6 @@ class LoginCubit extends Cubit<LoginStates> {
     suffixIcon =
         obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(LoginChangeObscureState());
-  }
-
-  void navigateToRegister(context) {
-    emit(LoginToRegisterState());
   }
 
   void loginWithApi({
@@ -51,25 +47,7 @@ class LoginCubit extends Cubit<LoginStates> {
     }
   }
 
-  List<dynamic> search = [];
 
-  void getSearch(String value) {
-    emit(LoginSearchLoadingState());
-    search = [];
-    DioHelper.getData(
-      url: '/api/v1/cities/search',
-      query: {
-        'q': '$value',
-      },
-    ).then((value) {
-      search = value.data['arabicName'];
-      print(search[0]['arabicName']);
-      emit(LoginSearchSuccessState());
-    }).catchError((error) {
-      print(error.toString());
-      emit(LoginSearchErrorState(error));
-    });
-  }
 
   void logoutWithApi({
     required String subject,
