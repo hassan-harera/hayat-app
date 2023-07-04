@@ -192,18 +192,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text('Do You have an account Already ?',style: TextStyle(fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                      color: Colors.black54
+                                    const Text(
+                                      'Do You have an account Already ?',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16,
+                                          color: Colors.black54),
                                     ),
-
-                                    ),
-                                    defaultTextBottom(
-                                        function: () {
+                                    TextButton(
+                                        onPressed: () {
                                           myNavigateAndReplacement(
                                               context, LoginScreen());
                                         },
-                                        text: 'Sign in'),
+                                        child: Text('Sign in')),
                                     SizedBox(
                                       height: size.height / 30,
                                     ),

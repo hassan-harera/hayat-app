@@ -5,8 +5,8 @@ import 'package:hayat_eg/features/data/repository/need/book/book_need_repository
 import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/need_item.dart';
-import 'package:hayat_eg/features/presentation/widgets/need/need_tab_item.dart';
 import 'package:hayat_eg/injection_container.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 
 class NeedsScreen extends StatefulWidget {
   const NeedsScreen({super.key});
@@ -20,6 +20,11 @@ class _NeedsScreen extends State<NeedsScreen> {
 
   final query = TextEditingController();
   String category = 'ALL';
+  bool sColor1 = false;
+  bool sColor2 = false;
+  bool sColor3 = false;
+  bool sColor4 = false;
+  bool sColor5 = false;
   List<NeedResponse> _list = [];
 
   final NeedRepository _needRepository = sl();
@@ -31,91 +36,147 @@ class _NeedsScreen extends State<NeedsScreen> {
   void initState() {
     super.initState();
     _getAllNeeds();
+    category = 'ALL';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Screen'),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: query,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: query,
+                      decoration: InputDecoration(
+                        hintText: 'Search',
+                        fillColor: Colors.white,
+                        filled: true,
+                        constraints:
+                            const BoxConstraints(minHeight: 30, maxHeight: 50),
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.white),
+                          borderRadius: BorderRadius.circular(40.0),
+                        ),
                       ),
+                      onChanged: (value) {
+                        getNeeds();
+                      },
                     ),
-                    onChanged: (value) {
-                      _getNeeds();
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.photo_filter),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.sort),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 40.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    defaultTextBottom(
+                      color: sColor1 ? Colors.blue : Colors.white,
+                      borderColor: sColor1 ? Colors.blue : Colors.white,
+                      textColor: sColor1 ? Colors.white : Colors.black54,
+                      text: 'All',
+                      onPressed: () {
+                        setState(() {});
+
+                        category = 'ALL';
+                        _colorController(category);
+                        getNeeds();
+                      },
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    defaultTextBottom(
+                      color: sColor2 ? Colors.blue : Colors.white,
+                      borderColor: sColor2 ? Colors.blue : Colors.white,
+                      textColor: sColor2 ? Colors.white : Colors.black54,
+                      text: 'Medicines',
+                      onPressed: () {
+                        setState(() {});
+
+                        category = 'MEDICINE';
+                        _colorController(category);
+                        getNeeds();
+                      },
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    defaultTextBottom(
+                      color: sColor3 ? Colors.blue : Colors.white,
+                      borderColor: sColor3 ? Colors.blue : Colors.white,
+                      textColor: sColor3 ? Colors.white : Colors.black54,
+                      text: 'Books',
+                      onPressed: () {
+                        setState(() {});
+
+                        category = 'BOOK';
+                        _colorController(category);
+                        getNeeds();
+                      },
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    defaultTextBottom(
+                      color: sColor4 ? Colors.blue : Colors.white,
+                      borderColor: sColor4 ? Colors.blue : Colors.white,
+                      textColor: sColor4 ? Colors.white : Colors.black54,
+                      text: 'Blood',
+                      onPressed: () {
+                        setState(() {});
+
+                        category = 'BLOOD';
+                        _colorController(category);
+                        getNeeds();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: ListView.builder(
+                    itemCount: _list.length,
+                    itemBuilder: (context, index) {
+                      return needItem(
+                        context,
+                        _list[index],
+                      );
                     },
                   ),
                 ),
-                const SizedBox(width: 16.0),
-                const Icon(Icons.photo_filter),
-                const SizedBox(width: 8.0),
-                const Icon(Icons.sort),
-              ],
-            ),
+              ),
+            ],
           ),
-          SizedBox(
-            height: 50.0,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                TabItem(
-                  text: 'All',
-                  onPressed: () {
-                    category = 'ALL';
-                    _getNeeds();
-                  },
-                ),
-                TabItem(
-                    text: 'Medicines',
-                    onPressed: () {
-                      category = 'MEDICINE';
-                      _getNeeds();
-                    }),
-                TabItem(
-                  text: 'Books',
-                  onPressed: () {
-                    category = 'BOOK';
-                    _getNeeds();
-                  },
-                ),
-                TabItem(
-                  text: 'Blood',
-                  onPressed: () {
-                    category = 'BLOOD';
-                    _getNeeds();
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10.0),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(4.0),
-              itemCount: _list.length,
-              itemBuilder: (context, index) {
-                return needItem(
-                  context,
-                  _list[index],
-                );
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -159,6 +220,45 @@ class _NeedsScreen extends State<NeedsScreen> {
       });
     });
   }
+
+  void _getBloodNeeds() {}
+
+  void _colorController(category) {
+    switch (category) {
+      case 'MEDICINE':
+        {
+          sColor1 = false;
+          sColor2 = true;
+          sColor3 = false;
+          sColor4 = false;
+        }
+        break;
+      case 'BOOK':
+        {
+          sColor1 = false;
+          sColor2 = false;
+          sColor3 = true;
+          sColor4 = false;
+        }
+        break;
+      case 'BLOOD':
+        {
+          sColor1 = false;
+          sColor2 = false;
+          sColor3 = false;
+          sColor4 = true;
+        }
+        break;
+      default:
+        {
+          sColor1 = true;
+          sColor2 = false;
+          sColor3 = false;
+          sColor4 = false;
+        }
+        break;
+    }
+    }
 
   void _getBloodNeeds() {
     _bloodNeedRepository.search(query.text).then((value) {

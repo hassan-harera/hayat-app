@@ -169,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text(
                             'Mohamed Ahmed ',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 18,
                             ),
                           ),
@@ -179,10 +179,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text(
                             '01288226326 ',
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400),
-                          )
+                          ),
                         ],
                       ),
                     )
@@ -194,23 +194,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 20,
             ),
             Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft, //Starting point
-                    end: Alignment.bottomRight, //Ending point
-
-                    colors: [
-                      Colors.yellow,
-                      Colors.red.shade400,
-                      Colors.orangeAccent,
-                      Colors.amber,
-                      Colors.amber.shade200,
-                      Colors.amberAccent.shade200,
-                      Colors.red.shade400,
-                      Colors.yellowAccent
-                    ], // List of colors
-                  ),
-                  borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20))),
               child: Padding(
@@ -236,18 +222,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         icon: Icons.medical_information,
                         text: 'Create Medicine Need'),
-                    myCard(
-                        onPressed: () {
-                          print('object');
-                        },
-                        icon: Icons.book,
-                        text: 'Create Book Need'),
-                    myCard(
-                        onPressed: () {
-                          print('object');
-                        },
-                        icon: Icons.book,
-                        text: 'Create Book Need'),
                     myCard(
                         onPressed: () {
                           print('object');

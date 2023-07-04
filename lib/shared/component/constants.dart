@@ -26,6 +26,7 @@ myButton(
         required Function onTap,
         bool isUppercase = true,
         Color color = Colors.amber,
+        Color textColor = Colors.white,
         double radius = 0}) =>
     Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -41,9 +42,9 @@ myButton(
         },
         child: Text(
           isUppercase ? text.toUpperCase() : text,
-          style: const TextStyle(
+          style: TextStyle(
               letterSpacing: 3,
-              color: Colors.white,
+              color: textColor,
               fontWeight: FontWeight.bold,
               fontSize: 18),
         ),
@@ -51,8 +52,32 @@ myButton(
     );
 
 Widget defaultTextBottom(
-        {required VoidCallback function, required String text}) =>
-    TextButton(onPressed: function, child: Text(text));
+        {required VoidCallback onPressed,
+        Color color = Colors.white,
+        Color textColor = Colors.black,
+        Color borderColor = Colors.amber,
+        required String text}) =>
+    Container(
+      height: 35,
+      width: 150,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: borderColor,
+          width: 1.5,
+        ),
+        borderRadius: BorderRadius.circular(
+          40,
+        ),
+      ),
+      child: myButton(
+          text: text,
+          onTap: onPressed,
+          color: color,
+          radius: 40,
+          height: 30,
+          textColor: textColor,
+          isUppercase: false),
+    );
 
 void showToast({
   required String message,
@@ -136,8 +161,8 @@ Widget categoryProvider({
 Widget myCard({
   required IconData? icon,
   required String? text,
-  Color? iconColor = Colors.white,
-  Color? textColor = Colors.white,
+  Color? iconColor = Colors.grey,
+  Color? textColor = Colors.black,
   required void Function()? onPressed,
 }) =>
     Padding(
@@ -145,7 +170,7 @@ Widget myCard({
       child: SizedBox(
           height: 80,
           child: Card(
-            color: Colors.amber,
+            color: Colors.white,
             elevation: 2,
             child: MaterialButton(
               height: 80,
