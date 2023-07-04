@@ -26,7 +26,8 @@ class BookDonationRequest {
       this.bookAuthor,
       this.bookPublisher,
       this.bookPublicationYear,
-      this.bookLanguage});
+      this.bookLanguage,
+      });
 
   BookDonationRequest fromJson(Map<String, dynamic> json) {
     return BookDonationRequest(

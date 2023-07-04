@@ -4,6 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_category.dart';
@@ -12,9 +13,11 @@ import 'package:hayat_eg/features/data/model/clothing/clothing_seasson.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_request.dart';
+import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,10 +41,11 @@ class _CreateClothingDonationScreen
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
   var clothingType = TextEditingController();
+  var clothingSeason = TextEditingController();
   var clothingSize = TextEditingController();
   var clothingCategory = TextEditingController();
   var clothingCondition = TextEditingController();
-  var clothingQuantityController = TextEditingController();
+  final _quantityController = TextEditingController();
   var communicationMethod = TextEditingController();
   var telegramController = TextEditingController();
   var whatsappController = TextEditingController();
@@ -58,7 +62,10 @@ class _CreateClothingDonationScreen
   String? sItem;
   late int cityId;
   List<City>? _cities = [];
-  List<ClothingCategory>? _clothingCategories = [];
+  List<ClothingCategory> _clothingCategories = [];
+  List<ClothingSeason> _clothingSeasons = [];
+  List<ClothingCondition> _clothingConditions = [];
+  List<ClothingType> _clothingTypes = [];
 
   bool _isLoading = false;
 
@@ -74,6 +81,24 @@ class _CreateClothingDonationScreen
     _clothingRepository.listClothingCategories().then((value) {
       setState(() {
         _clothingCategories = value;
+      });
+    });
+
+    _clothingRepository.listClothingSeason().then((value) {
+      setState(() {
+        _clothingSeasons = value;
+      });
+    });
+
+    _clothingRepository.listClothingCondition().then((value) {
+      setState(() {
+        _clothingConditions = value;
+      });
+    });
+
+    _clothingRepository.listClothingTypes().then((value) {
+      setState(() {
+        _clothingTypes = value;
       });
     });
   }
@@ -309,15 +334,20 @@ class _CreateClothingDonationScreen
                                         value: selectedTypeItem,
                                         items: units
                                             .map((item) => DropdownMenuItem(
-                                                value: jsonEncode(item
-                                                    .englishName
-                                                    .toString()),
+                                                value: jsonEncode(
+                                                    item.arabicName.toString()),
                                                 child: Text(
-                                                  (item.englishName.toString()),
+                                                  (item.arabicName.toString()),
                                                 )))
                                             .toList(),
                                         onChanged: (item) {
-                                          selectedTypeItem = item;
+                                          clothingCategory.text = snapshot.data!
+                                              .firstWhere((element) =>
+                                                  jsonEncode(element.arabicName
+                                                      .toString()) ==
+                                                  item)
+                                              .id
+                                              .toString();
                                         },
                                         decoration: InputDecoration(
                                           fillColor: Colors.white,
@@ -380,15 +410,21 @@ class _CreateClothingDonationScreen
                                         value: selectedTypeItem,
                                         items: units
                                             .map((item) => DropdownMenuItem(
-                                                value: jsonEncode(item
-                                                    .englishName
-                                                    .toString()),
+                                                value: jsonEncode(
+                                                    item.arabicName.toString()),
                                                 child: Text(
-                                                  (item.englishName.toString()),
+                                                  (item.arabicName.toString()),
                                                 )))
                                             .toList(),
                                         onChanged: (item) {
-                                          selectedTypeItem = item;
+                                          clothingCondition.text = snapshot
+                                              .data!
+                                              .firstWhere((element) =>
+                                                  jsonEncode(element.arabicName
+                                                      .toString()) ==
+                                                  item)
+                                              .id
+                                              .toString();
                                         },
                                         decoration: InputDecoration(
                                           fillColor: Colors.white,
@@ -451,15 +487,20 @@ class _CreateClothingDonationScreen
                                         value: selectedTypeItem,
                                         items: units
                                             .map((item) => DropdownMenuItem(
-                                                value: jsonEncode(item
-                                                    .englishName
-                                                    .toString()),
+                                                value: jsonEncode(
+                                                    item.arabicName.toString()),
                                                 child: Text(
-                                                  (item.englishName.toString()),
+                                                  (item.arabicName.toString()),
                                                 )))
                                             .toList(),
                                         onChanged: (item) {
-                                          selectedTypeItem = item;
+                                          clothingSeason.text = snapshot.data!
+                                              .firstWhere((element) =>
+                                                  jsonEncode(element.arabicName
+                                                      .toString()) ==
+                                                  item)
+                                              .id
+                                              .toString();
                                         },
                                         decoration: InputDecoration(
                                           fillColor: Colors.white,
@@ -484,49 +525,6 @@ class _CreateClothingDonationScreen
                                           ),
                                         ),
                                       );
-                                      // List<ClothingCategory> units =
-                                      //     snapshot.data!;
-                                      // return DropdownButtonFormField(
-                                      //   hint: const Text('Clothes Type'),
-                                      //   iconEnabledColor: Colors.amber,
-                                      //   icon: const Icon(
-                                      //     Icons.keyboard_arrow_down,
-                                      //     size: 30,
-                                      //   ),
-                                      //   items: units
-                                      //       .map((item) => DropdownMenuItem(
-                                      //           value:
-                                      //               item.arabicName as String,
-                                      //           child: Text(
-                                      //               item.arabicName as String)))
-                                      //       .toList(),
-                                      //   onChanged: (item) {
-                                      //     setState(() {
-                                      //       print(item);
-                                      //       clothingCategory.text = units
-                                      //           .firstWhere((element) =>
-                                      //               element.arabicName == item)
-                                      //           .id
-                                      //           .toString();
-                                      //     });
-                                      //   },
-                                      //   decoration: InputDecoration(
-                                      //       fillColor: Colors.white,
-                                      //       filled: true,
-                                      //       constraints: const BoxConstraints(
-                                      //           maxHeight: 60),
-                                      //       border: OutlineInputBorder(
-                                      //         borderRadius:
-                                      //             BorderRadius.circular(10),
-                                      //         borderSide: const BorderSide(
-                                      //             color: Colors.amber),
-                                      //       ),
-                                      //       enabledBorder: OutlineInputBorder(
-                                      //           borderSide: const BorderSide(
-                                      //               color: Colors.white),
-                                      //           borderRadius:
-                                      //               BorderRadius.circular(10))),
-                                      // );
                                     } else {
                                       return const Center(
                                           child: CircularProgressIndicator());
@@ -544,35 +542,40 @@ class _CreateClothingDonationScreen
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<ClothingType> units = snapshot.data!;
-                                  sGenderItem = null;
-                                  return DropdownButtonFormField(
-                                    hint: const Text('Clothes Gender'),
-                                    iconEnabledColor: Colors.amber,
-                                    validator: (sGenderItem) {
-                                      if (sGenderItem == null) {
-                                        return 'please Add Clothes Gender';
-                                      }
-                                    },
-                                    icon: const Icon(
-                                      Icons.keyboard_arrow_down,
-                                      size: 30,
-                                    ),
-                                    value: sGenderItem,
-                                    items: units
-                                        .map((item) => DropdownMenuItem(
-                                            value: jsonEncode(
-                                                item.englishName.toString()),
-                                            child: Text(
-                                              (item.englishName.toString()),
-                                            )))
-                                        .toList(),
-                                    onChanged: (item) {
-                                      sGenderItem = item;
-                                    },
+                                      sGenderItem = null;
+                                      return DropdownButtonFormField(
+                                        hint: const Text('Clothes Gender'),
+                                        iconEnabledColor: Colors.amber,
+                                        validator: (sGenderItem) {
+                                          if (sGenderItem == null) {
+                                            return 'please Add Clothes Gender';
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          Icons.keyboard_arrow_down,
+                                          size: 30,
+                                        ),
+                                        value: sGenderItem,
+                                        items: units
+                                            .map((item) => DropdownMenuItem(
+                                                value: jsonEncode(
+                                                    item.arabicName.toString()),
+                                                child: Text(
+                                                  (item.arabicName.toString()),
+                                                )))
+                                            .toList(),
+                                        onChanged: (item) {
+                                          clothingType.text = units
+                                              .firstWhere((element) =>
+                                                  element.arabicName ==
+                                                  jsonDecode(item as String))
+                                              .id
+                                              .toString();
+                                        },
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled: true,
-                                        border: OutlineInputBorder(
+                                            border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               borderSide: const BorderSide(
@@ -597,6 +600,7 @@ class _CreateClothingDonationScreen
                               children: [
                                 Expanded(
                                   child: requiredTextField(
+                                    controller: _quantityController,
                                     keyboardType: TextInputType.number,
                                     hint: 'Quantity',
                                     validator: (value) {
@@ -635,10 +639,10 @@ class _CreateClothingDonationScreen
                                             items: units
                                                 .map((item) => DropdownMenuItem(
                                                     value: jsonEncode(item
-                                                        .englishName
+                                                        .arabicName
                                                         .toString()),
                                                     child: Text(
-                                                      (item.englishName
+                                                      (item.arabicName
                                                           .toString()),
                                                     )))
                                                 .toList(),
@@ -709,6 +713,7 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
+                                          communicationMethod.text = 'CHAT';
                                         }),
                                   ),
                                   GestureDetector(
@@ -731,6 +736,7 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
+                                          communicationMethod.text = 'PHONE';
                                         }),
                                   ),
                                   GestureDetector(
@@ -752,6 +758,8 @@ class _CreateClothingDonationScreen
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
+                                          communicationMethod.text =
+                                              'CHAT_AND_PHONE';
                                         }),
                                   ),
                                 ],
@@ -856,7 +864,7 @@ class _CreateClothingDonationScreen
                                 text: 'Submit',
                                 onTap: () async {
                                   if (formKey.currentState!.validate()) {
-                                    onSubmit();
+                                    _onSubmit();
                                   } else {
                                     setState(() {});
                                     autoValidateMode = AutovalidateMode.always;
@@ -876,29 +884,35 @@ class _CreateClothingDonationScreen
     );
   }
 
-  void onSubmit() async {
+  void _onSubmit() async {
     final request = ClothingDonationRequest(
       title: titleController.text,
       description: descriptionController.text,
-      // clothingCategoryId: clothingCategoryId,
-      // clothingConditionId: clothingConditionId,
-      // clothingSeasonId: clothingSeasonId,
-      // clothingTypeId: clothingTypeId,
-      // quantity: int.parse(bookQuantityController.text),
+      clothingCategoryId: int.tryParse(clothingCategory.text, radix: null),
+      clothingConditionId: int.tryParse(clothingCondition.text, radix: null),
+      clothingSeasonId: int.tryParse(clothingSeason.text, radix: null),
+      clothingTypeId: int.tryParse(clothingType.text, radix: null),
+      quantity: int.parse(_quantityController.text, radix: null),
+      communicationMethod: communicationMethod.text,
+      telegramLink: 'https://t.me/${telegramController.text}',
+      whatsappLink: 'https://wa.me/${whatsappController.text}',
       cityId: cityId,
     );
 
     final response = _clothingDonationRepository.create(request);
-
-    response.then(
-        (value) => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ClothingDonationScreen(),
-                ),
-              )
-            }, onError: (error, stackTrace) {
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your Donation Request has been sent successfully',
+            );
+          });
+      print(value);
+      value as ClothingDonationResponse;
+      uploadImage(value.id as int);
+    });
+    response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
           context: context,
@@ -920,5 +934,32 @@ class _CreateClothingDonationScreen
       }
       stackTrace.printError();
     });
+  }
+
+  uploadImage(int id) {
+    if (_file != null) {
+      _clothingDonationRepository
+          .updateImage(id, _file as Uint8List)
+          .then((value) => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return const SuccessDialog(
+                      message:
+                          'Your Donation Request has been sent successfully',
+                    );
+                  }),
+                )
+              });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return const SuccessDialog(
+            message: 'Your Donation Request has been sent successfully',
+          );
+        }),
+      );
+    }
   }
 }

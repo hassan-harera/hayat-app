@@ -10,9 +10,9 @@ import 'package:hayat_eg/features/data/model/donation/book/book_donation_respons
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
-import 'package:hayat_eg/features/presentation/page/donation/book/view.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
@@ -219,53 +219,14 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items: _cities!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Select city",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                cityId = _cities!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id;
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
+                            CitiesDropMenu(
+                                cities: _cities ?? [],
+                                onSelectedCity: (value) => setState(() {
+                                      cityId = _cities!
+                                          .firstWhere((element) =>
+                                              element.arabicName == value)
+                                          .id;
+                                    })),
                             const SizedBox(
                               height: 15,
                             ),
@@ -337,56 +298,6 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             ExprirationDate(
                               hint: 'Book Publication Year',
                               controller: bookPublicationYearController,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items: _cities!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Select city",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                cityId = _cities!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id;
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is required";
-                                } else {
-                                  return null;
-                                }
-                              },
                             ),
                             const SizedBox(
                               height: 20,
@@ -585,6 +496,8 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       bookSubTitle: bookSubTitleController.text,
       communicationMethod: communicationMethod,
       quantity: int.parse(bookQuantityController.text),
+      telegramLink: 'https://t.me/${telegramController.text}',
+      whatsappLink: 'https://wa.me/${watsAppController.text}',
       cityId: cityId,
     );
 
@@ -593,7 +506,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return SuccessDialog(
+                return const SuccessDialog(
                   message: 'Your Donation Request has been sent successfully',
                 );
               }),
@@ -637,7 +550,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookDonationScreen(id),
+                    builder: (context) => BookDonationDetailsScreen(id : id),
                   ),
                 )
               });
@@ -645,7 +558,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BookDonationScreen(id),
+          builder: (context) => BookDonationDetailsScreen(id : id),
         ),
       );
     }

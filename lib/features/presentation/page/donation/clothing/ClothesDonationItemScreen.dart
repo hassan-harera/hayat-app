@@ -8,6 +8,8 @@ import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/core/loading.dart';
 import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 
@@ -81,7 +83,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                     height: size.height / 3.8,
                     width: size.width / 1.3,
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(4, 108, 109, 1),
+                        color: Colors.black12,
                         border: Border.all(
                           color: const Color(0xffE3EAF2),
                         ),
@@ -89,6 +91,14 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                     child: Image.network(
                       _clothingDonation?.imageUrl ??
                           'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
+                      fit: BoxFit.contain,
+                      // on error set default image
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Image(
+                          image: AssetImage('assets/image.svg'),
+                          fit: BoxFit.contain,
+                        );
+                      },
                     ),
                   ),
                   Expanded(
@@ -462,50 +472,15 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                             ],
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Whatsapp Link: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Linkify(
-                                  maxLines: 1,
-                                  text:
-                                      _clothingDonation?.whatsappLink ?? 'N/A',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                          WhatsappDetails(
+                              whatsappLink: _clothingDonation?.whatsappLink),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Telegram Link: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Linkify(
-                                  maxLines: 1,
-                                  text:
-                                      _clothingDonation?.telegramLink ?? 'N/A',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          TelegramDetails(
+                            telegramLink: _clothingDonation?.telegramLink,
                           ),
                         ],
                       ),

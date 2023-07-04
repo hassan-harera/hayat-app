@@ -1,15 +1,44 @@
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:get/get.dart';
+import 'package:hayat_eg/core/datetime/datetime_utils.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/core/loading.dart';
+import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
+import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
+import 'package:hayat_eg/injection_container.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class BookDonationItemScreen extends StatefulWidget {
-  const BookDonationItemScreen({super.key});
+class BookDonationDetailsScreen extends StatefulWidget {
+  final int id;
+
+  const BookDonationDetailsScreen({super.key, required this.id});
 
   @override
-  State<BookDonationItemScreen> createState() => _BookDonationItemScreenState();
+  State<BookDonationDetailsScreen> createState() =>
+      _BookDonationDetailsScreenState(id);
 }
 
-class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
-  int ratingNumber = 1;
+class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
+  BookDonationResponse? _bookDonation;
+  final int id;
+
+  _BookDonationDetailsScreenState(this.id);
+
+  final BookDonationRepository _bookDonationRepository = sl();
+
+  @override
+  initState() {
+    super.initState();
+    getBookDonation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +52,15 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      content: BarcodeWidget(
-                        data: 'data for make QR ',
-                        barcode: Barcode.qrCode(),
-                        color: Colors.black,
-                        width: 250,
-                        height: 250,
-                      ),
-                      backgroundColor: Colors.grey[50],
-                    ));
+                          content: BarcodeWidget(
+                            data: 'data for make QR ',
+                            barcode: Barcode.qrCode(),
+                            color: Colors.black,
+                            width: 250,
+                            height: 250,
+                          ),
+                          backgroundColor: Colors.grey[50],
+                        ));
               },
               icon: const Icon(
                 Icons.qr_code,
@@ -57,15 +86,13 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                     height: size.height / 3.8,
                     width: size.width / 1.3,
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(4, 108, 109, 1),
+                        color: Colors.black12,
                         border: Border.all(
                           color: const Color(0xffE3EAF2),
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    child: const Icon(
-                      Icons.image_outlined,
-                      color: Colors.black,
-                      size: 40,
+                    child: DownloadedImage(
+                      imageUrl: _bookDonation?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -74,7 +101,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                ratingNumber++;
+                                upvote();
                               });
                             },
                             icon: const Icon(
@@ -85,10 +112,10 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          '$ratingNumber',
+                          '${_bookDonation?.reputation ?? 0}',
                           maxLines: 1,
                           style:
-                          const TextStyle(overflow: TextOverflow.ellipsis),
+                              const TextStyle(overflow: TextOverflow.ellipsis),
                         ),
                         const SizedBox(
                           height: 10,
@@ -96,7 +123,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                ratingNumber--;
+                                downvote();
                               });
                             },
                             icon: const Icon(
@@ -127,7 +154,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
@@ -138,9 +165,9 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                             children: [
                               Expanded(
                                 child: Text(
+                                  _bookDonation?.title ?? '',
                                   maxLines: 3,
-                                  'Book Title  ',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                     overflow: TextOverflow.ellipsis,
@@ -153,15 +180,15 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    '12 May',
+                                    timeAgo(_bookDonation?.donationDate!),
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         overflow: TextOverflow.ellipsis,
                                         color: Colors.grey,
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Icon(Icons.date_range),
+                                  const Icon(Icons.date_range),
                                 ],
                               ),
                             ],
@@ -173,8 +200,8 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  'Mohamed ahmed',
-                                  style: TextStyle(
+                                  ('${_bookDonation?.user?.firstName!} ${_bookDonation?.user?.lastName!}'),
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w400,
@@ -182,22 +209,25 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                                   ),
                                 ),
                               ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Bani-Suef',
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        overflow: TextOverflow.ellipsis,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  Icon(Icons.location_on_outlined),
-                                ],
+                              SizedBox(
+                                width: 100,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      ('${_bookDonation?.city?.arabicName}'),
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          overflow: TextOverflow.ellipsis,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    const Icon(Icons.location_on_outlined),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -208,6 +238,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                       height: 10,
                     ),
                     Container(
+                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -218,14 +249,22 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           ),
                         ),
                       ),
-                      child: ListView(shrinkWrap: true, children: const [
-                        Text(
-                          'Description ',
+                      child: ListView(shrinkWrap: true, children: [
+                        const Text(
+                          "Description",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             // overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        Text(
+                          _bookDonation?.description ?? '',
+                          maxLines: 1,
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400),
                         ),
                       ]),
                     ),
@@ -233,6 +272,7 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                       height: 10,
                     ),
                     Container(
+                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -243,98 +283,148 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Donation Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Book Sub Title : ',
+                              const Text(
+                                'Book Title: ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'rich dad poor Dad',
+                                  _bookDonation?.bookTitle ?? 'N/A',
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 5,
+                          const SizedBox(
+                            height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Book publisher : ',
+                              const Text(
+                                'Book Sub Title: ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Robert Kiyosaki',
+                                  _bookDonation?.bookSubTitle ?? 'N/A',
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 5,
+                          const SizedBox(
+                            height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Book Quantity : ',
+                              const Text(
+                                'Book Language: ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  '2 books }',
+                                  _bookDonation?.bookLanguage ?? 'N/A',
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 5,
+                          const SizedBox(
+                            height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Book Language : ',
+                              const Text(
+                                'Book Author: ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'arabic}',
+                                  _bookDonation?.bookAuthor ?? 'N/A',
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Publisher: ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  _bookDonation?.bookPublisher ?? 'N/A',
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Publication Year: ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  _bookDonation?.bookPublicationYear ?? 'N/A',
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
@@ -356,83 +446,54 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Social Media',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Communication Method : ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Chat ',
+                                  _bookDonation?.communicationMethod ?? 'Chat',
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 5,
+                          const SizedBox(
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                'watsapp Number : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '01288166326 ',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
+                          WhatsappDetails(
+                              whatsappLink: _bookDonation?.whatsappLink),
+                          const SizedBox(
+                            height: 10,
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Telegram : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'https://t.me/ }',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
+                          TelegramDetails(
+                            telegramLink: _bookDonation?.telegramLink ?? '',
                           ),
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ),
@@ -441,5 +502,90 @@ class _BookDonationItemScreenState extends State<BookDonationItemScreen> {
         ]),
       ),
     );
+  }
+
+  void downvote() {
+    final response = _bookDonationRepository.downvote(id);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your have upvoted this donation, Thank you!',
+            );
+          });
+
+      getBookDonation();
+    });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unable to upvote donation'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  void upvote() async {
+    final response = _bookDonationRepository.upvote(id);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your have upvoted this donation, Thank you!',
+            );
+          });
+
+      getBookDonation();
+    });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unable to upvote donation'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  void getBookDonation() {
+    _bookDonationRepository.get(id).then((value) {
+      setState(() {
+        print(_bookDonation?.reputation);
+        _bookDonation = value;
+      });
+    });
   }
 }

@@ -217,9 +217,12 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                             ),
                             CitiesDropMenu(
                               cities: _cities ?? [],
-                              onSelectedCity: (city) {
-                              },
-                            ),
+                                onSelectedCity: (value) => setState(() {
+                                  cityId = _cities!
+                                      .firstWhere((element) =>
+                                  element.arabicName == value)
+                                      .id;
+                                })),
                             const SizedBox(
                               height: 10,
                             ),

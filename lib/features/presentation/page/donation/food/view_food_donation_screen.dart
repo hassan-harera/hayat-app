@@ -8,7 +8,10 @@ import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/core/loading.dart';
 import 'package:hayat_eg/features/data/model/donation/food/food_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/donation/food/food_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
 import 'package:hayat_eg/injection_container.dart';
 
 class FoodDonationItemScreen extends StatefulWidget {
@@ -81,14 +84,13 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                     height: size.height / 3.8,
                     width: size.width / 1.3,
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(4, 108, 109, 1),
+                        color: Colors.black12,
                         border: Border.all(
                           color: const Color(0xffE3EAF2),
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    child: Image.network(
-                      _foodDonation?.imageUrl ??
-                          'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
+                    child: DownloadedImage(
+                      imageUrl: _foodDonation?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -423,48 +425,15 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                             ],
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Whatsapp Link: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Linkify(
-                                  maxLines: 1,
-                                  text: _foodDonation?.whatsappLink ?? 'N/A',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                          WhatsappDetails(
+                              whatsappLink: _foodDonation?.whatsappLink),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Telegram Link: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Linkify(
-                                  maxLines: 1,
-                                  text: _foodDonation?.telegramLink ?? 'N/A',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          TelegramDetails(
+                            telegramLink: _foodDonation?.telegramLink,
                           ),
                         ],
                       ),

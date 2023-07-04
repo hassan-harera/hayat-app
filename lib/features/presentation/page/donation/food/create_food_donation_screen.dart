@@ -9,11 +9,14 @@ import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/food/food_donation_request.dart';
+import 'package:hayat_eg/features/data/model/donation/food/food_donation_response.dart';
 import 'package:hayat_eg/features/data/model/food/food_category.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/food/food_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
+import 'package:hayat_eg/features/presentation/page/donation/food/view_food_donation_screen.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -46,14 +49,14 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
   final timeController = TextEditingController();
   final _city = TextEditingController();
   final _foodUnit = TextEditingController();
-  String communicationMethod = '';
+  final communicationMethod = TextEditingController(text: "CHAT");
 
   FoodDonationRepository _foodDonationRepository = sl();
   FoodRepository _foodRepository = sl();
   CityRepository _cityRepository = sl();
 
   String? sItem;
-  Uint8List? myFile;
+  Uint8List? _file;
 
   List<City>? _cities = [];
   List<FoodUnit> _foodUnits = [];
@@ -102,7 +105,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                 Navigator.of(context).pop();
                 Uint8List file = await pickImage(ImageSource.camera);
                 setState(() {
-                  myFile = file;
+                  _file = file;
                 });
               },
             ),
@@ -121,7 +124,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                 Navigator.of(context).pop();
                 Uint8List file = await pickImage(ImageSource.gallery);
                 setState(() {
-                  myFile = file;
+                  _file = file;
                 });
               },
             ),
@@ -146,13 +149,16 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  centerTitle: false,
-                  title: Transform(
-                    transform:
-                        Matrix4.translationValues(size.width - 220, 0.0, 0.0),
-                    child: const Text(
-                      'Food Category',
-                    ),
+                  elevation: 1.0,
+                  backgroundColor: Colors.white,
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  ),
+                  title: const Text(
+                    'Food Donation',
                   ),
                 ),
                 body: SafeArea(
@@ -172,7 +178,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () => _selectImage(context),
-                                  child: myFile == null
+                                  child: _file == null
                                       ? Image.asset(
                                           'assets/add-image.png',
                                           width: 100,
@@ -194,7 +200,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                                             10),
                                                     image: DecorationImage(
                                                       image:
-                                                          MemoryImage(myFile!),
+                                                          MemoryImage(_file!),
                                                       fit: BoxFit.fill,
                                                       alignment:
                                                           FractionalOffset
@@ -292,16 +298,14 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                         value: sItem,
                                         items: data
                                             .map((item) => DropdownMenuItem(
-                                                value: jsonEncode(item
-                                                    .englishName
-                                                    .toString()),
+                                                value: jsonEncode(
+                                                    item.arabicName.toString()),
                                                 child: Text(
-                                                  (item.englishName.toString()),
+                                                  (item.arabicName.toString()),
                                                 )))
                                             .toList(),
                                         onChanged: (item) {
                                           sItem = item;
-
                                           categoryId = data[0].id;
                                         },
                                         decoration: InputDecoration(
@@ -350,9 +354,9 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                       items: data
                                           .map((item) => DropdownMenuItem(
                                               value: jsonEncode(
-                                                  item.englishName.toString()),
+                                                  item.arabicName.toString()),
                                               child: Text(
-                                                (item.englishName.toString()),
+                                                (item.arabicName.toString()),
                                               )))
                                           .toList(),
                                       onChanged: (value) {
@@ -361,7 +365,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           _foodUnit.text = _foodUnits
                                               .firstWhere((element) =>
                                                   jsonEncode(
-                                                      element.englishName) ==
+                                                      element.arabicName) ==
                                                   value)
                                               .id
                                               .toString();
@@ -503,7 +507,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           layoutCubit.changRadioValue();
                                         }),
                                     onTap: () {
-                                      communicationMethod = 'CHAT';
+                                      communicationMethod.text = 'CHAT';
                                     },
                                   ),
                                   GestureDetector(
@@ -528,7 +532,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           layoutCubit.changRadioValue();
                                         }),
                                     onTap: () {
-                                      communicationMethod = 'PHONE';
+                                      communicationMethod.text = 'PHONE';
                                     },
                                   ),
                                   GestureDetector(
@@ -552,7 +556,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           layoutCubit.changRadioValue();
                                         }),
                                     onTap: () {
-                                      communicationMethod = 'CHAT_AND_PHONE';
+                                      communicationMethod.text = 'CHAT_AND_PHONE';
                                     },
                                   ),
                                 ],
@@ -577,7 +581,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   keyboardType: TextInputType.phone,
                                   validator: (v) {
                                     if (v!.isEmpty) {
-                                      return 'please add your watsApp number';
+                                      return 'Whatsapp is Required';
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -659,23 +663,32 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
     );
   }
 
-  void onSubmit(LayoutCubit layoutCubit) {
-    print(_foodExpirationDateController.text);
+  void onSubmit(LayoutCubit layoutCubit) async {
     final request = FoodDonationRequest(
         title: titleController.text,
         description: descriptionController.text,
         cityId: int.parse(_city.text),
-        communicationMethod: communicationMethod,
+        communicationMethod: communicationMethod.text,
         quantity: double.parse(quantityController.text),
         foodCategoryId: categoryId,
         foodUnitId: int.parse(_foodUnit.text),
         telegramLink: "https://t.me/${telegramController.text}",
         whatsappLink: "https://wa.me/${watsAppController.text}",
         foodExpirationDate: _foodExpirationDateController.text);
-
+    print(request.toJson());
 
     final response = _foodDonationRepository.create(request);
-    response.then((value) => {
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your Donation Request has been sent successfully',
+            );
+          });
+      print(value);
+      value as FoodDonationResponse;
+      uploadImage(value.id as int);
     });
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
@@ -699,5 +712,27 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
       }
       stackTrace.printError();
     });
+  }
+
+  uploadImage(int id) {
+    if (_file != null) {
+      _foodDonationRepository
+          .updateImage(id, _file as Uint8List)
+          .then((value) => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FoodDonationItemScreen(id: id),
+                  ),
+                )
+              });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FoodDonationItemScreen(id: id),
+        ),
+      );
+    }
   }
 }

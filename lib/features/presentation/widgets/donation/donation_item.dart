@@ -3,12 +3,12 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
+import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/clothing/ClothesDonationItemScreen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/food/view_food_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/medicine/view_medicine_donation_screen.dart';
+import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
-
-import '../../page/donation/book/view_book_donation_item_screen.dart';
 
 class DonationItem extends StatelessWidget {
   final DonationResponse _donationResponse;
@@ -40,10 +40,8 @@ class DonationItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  _donationResponse.imageUrl ??
-                      'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png',
-                  fit: BoxFit.cover,
+                child: DownloadedImage(
+                  imageUrl: _donationResponse.imageUrl ?? '',
                 ),
               ),
             ),
@@ -178,7 +176,7 @@ class DonationItem extends StatelessWidget {
   void viewDonationItemScreen(
       BuildContext context, DonationResponse donationResponse) {
     if (_donationResponse.category == 'BOOKS') {
-      navigate(context, BookDonationItemScreen());
+      navigate(context, BookDonationDetailsScreen(id: donationResponse.id!));
     } else if (_donationResponse.category == 'MEDICINE') {
       navigate(context, MedicineDonationItemScreen(id: donationResponse.id!));
     } else if (_donationResponse.category == 'FOOD') {

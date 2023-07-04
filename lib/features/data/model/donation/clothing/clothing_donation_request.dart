@@ -5,6 +5,7 @@ class ClothingDonationRequest {
   int? cityId;
   String? imageUrl;
   String? telegramLink;
+  String? whatsappLink;
   String? qrCode;
   int? quantity;
   int? clothingConditionId;
@@ -19,6 +20,7 @@ class ClothingDonationRequest {
       this.cityId,
       this.imageUrl,
       this.telegramLink,
+      this.whatsappLink,
       this.qrCode,
       this.quantity,
       this.clothingConditionId,
@@ -33,6 +35,7 @@ class ClothingDonationRequest {
     cityId = json['city_id'];
     imageUrl = json['image_url'];
     telegramLink = json['telegram_link'];
+    whatsappLink = json['whatsapp_link'];
     qrCode = json['qr_code'];
     quantity = json['quantity'];
     clothingConditionId = json['clothing_condition_id'];
@@ -49,6 +52,7 @@ class ClothingDonationRequest {
     data['city_id'] = this.cityId;
     data['image_url'] = this.imageUrl;
     data['telegram_link'] = this.telegramLink;
+    data['whatsapp_link'] = this.whatsappLink;
     data['qr_code'] = this.qrCode;
     data['quantity'] = this.quantity;
     data['clothing_condition_id'] = this.clothingConditionId;
