@@ -174,9 +174,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        defaultTextBottom(
-                                            text: 'Forget Password?',
-                                            function: () {
+                                        TextButton(
+                                            child:
+                                                const Text('Forget Password?'),
+                                            onPressed: () {
                                               myNavigator(context,
                                                   const forgetPasswordScreen());
                                             }),
@@ -309,16 +310,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text('Don\'t have an account?',style: TextStyle(fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color: Colors.black54
-                              ),),
-                                  defaultTextBottom(
-                                      function: () {
+                                  const Text(
+                                    'Don\'t have an account?',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                        color: Colors.black54),
+                                  ),
+                                  TextButton(
+                                      onPressed: () {
                                         myNavigateAndReplacement(
                                             context, RegisterScreen());
                                       },
-                                      text: 'Sign up'),
+                                      child: const Text('Sign up')),
                                 ],
                               ),
                             ],
