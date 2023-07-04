@@ -218,7 +218,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 )),
                               ],
                             ),
-                            postDescriptionTextFormField(
+                            descriptionTextField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 10,

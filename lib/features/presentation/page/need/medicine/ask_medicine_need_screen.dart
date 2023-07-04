@@ -219,7 +219,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                 )),
                               ],
                             ),
-                            postDescriptionTextFormField(
+                            descriptionTextField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 10,

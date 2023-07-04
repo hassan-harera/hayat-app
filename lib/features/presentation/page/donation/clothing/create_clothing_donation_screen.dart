@@ -225,7 +225,7 @@ class _CreateClothingDonationScreen
                                 ),
                               ],
                             ),
-                            postDescriptionTextFormField(
+                            descriptionTextField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 15,

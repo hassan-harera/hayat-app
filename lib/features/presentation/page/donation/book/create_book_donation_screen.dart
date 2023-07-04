@@ -281,7 +281,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            postDescriptionTextFormField(
+                            descriptionTextField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 10,

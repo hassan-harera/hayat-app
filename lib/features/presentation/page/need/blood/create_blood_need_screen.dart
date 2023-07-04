@@ -209,12 +209,12 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                 )),
                               ],
                             ),
-                            postDescriptionTextFormField(
+                            descriptionTextField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 10,
                             ),
-                            CityDropMenu(
+                            CitiesDropMenu(
                                 cities: _cities!,
                                 onSelectedCity: (value) => setState(() {
                                       _city.text = _cities!

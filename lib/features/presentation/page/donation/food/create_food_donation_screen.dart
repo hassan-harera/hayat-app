@@ -218,7 +218,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                 )),
                               ],
                             ),
-                            postDescriptionTextFormField(
+                            descriptionTextField(
                                 controller: descriptionController),
                             const SizedBox(
                               height: 15,

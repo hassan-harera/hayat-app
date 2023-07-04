@@ -152,7 +152,7 @@ Widget mySpecialTextFormField({
               borderSide: BorderSide(color: borderColor))),
     );
 
-Widget postDescriptionTextFormField(
+Widget descriptionTextField(
         {required TextEditingController? controller}) =>
     TextFormField(
       controller: controller,

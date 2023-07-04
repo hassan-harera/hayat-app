@@ -2,11 +2,11 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
 
-class CityDropMenu extends StatelessWidget {
+class CitiesDropMenu extends StatelessWidget {
   final List<City> cities;
   final Function(String) onSelectedCity;
 
-  const CityDropMenu(
+  const CitiesDropMenu(
       {super.key, required this.cities, required this.onSelectedCity});
 
   @override

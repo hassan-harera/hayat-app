@@ -11,6 +11,7 @@ import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
 import 'package:hayat_eg/features/presentation/page/need/book/book_need_details_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
@@ -30,18 +31,20 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
 
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
+
   var bookTitleController = TextEditingController();
-  var bookAuthorController = TextEditingController();
-  var bookPublisherController = TextEditingController();
-  var bookQuantityController = TextEditingController();
-  var bookLanguageController = TextEditingController();
-  var bookCityController = TextEditingController();
-  var bookPublicationYearController = TextEditingController();
   var bookSubTitleController = TextEditingController();
+  var bookAuthorController = TextEditingController();
+  var bookLanguageController = TextEditingController();
+  var bookPublisherController = TextEditingController();
+  var bookPublicationYearController = TextEditingController();
+
+  late int cityId;
+  var bookCityController = TextEditingController();
+  late String communicationMethod;
   var telegramController = TextEditingController();
   var watsAppController = TextEditingController();
-  late String communicationMethod;
-  late int cityId;
+
   bool _isLoading = false;
   List<City>? _cities = [];
 
@@ -207,140 +210,65 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            postDescriptionTextFormField(
+                            descriptionTextField(
                                 controller: descriptionController),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CitiesDropMenu(
+                              cities: _cities ?? [],
+                              onSelectedCity: (city) {
+                              },
+                            ),
                             const SizedBox(
                               height: 10,
                             ),
                             requiredTextField(
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'please add Book Category';
+                                  return 'Book Title is required';
                                 }
                               },
                               hint: 'Book Title',
                               controller: bookTitleController,
                             ),
                             const SizedBox(
-                              height: 10,
-                            ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items: _cities!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Select city",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                cityId = _cities!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id;
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            const SizedBox(
                               height: 15,
                             ),
-                            requiredTextField(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'please add Book Category';
-                                }
-                              },
+                            optionalTextField(
                               hint: 'Book Sub Title',
                               controller: bookSubTitleController,
                             ),
                             const SizedBox(
+                              height: 20,
+                            ),
+                            optionalTextField(
+                              controller: bookAuthorController,
+                              hint: 'Book Author',
+                            ),
+                            const SizedBox(
                               height: 10,
                             ),
-                            requiredTextField(
+                            optionalTextField(
                               controller: bookLanguageController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please inter Book Language';
-                                }
-                              },
                               hint: 'Book Language',
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            requiredTextField(
-                              controller: bookQuantityController,
-                              hint: 'Quantity',
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please inter publisher';
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            requiredTextField(
+                            optionalTextField(
                               controller: bookPublisherController,
                               hint: 'Book Publisher',
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please inter publisher';
-                                }
-                              },
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            requiredTextField(
-                              controller: bookAuthorController,
-                              hint: 'Book Author',
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please inter publisher';
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            requiredTextField(
+                            optionalTextField(
                               hint: 'Book Publication Year',
                               controller: bookPublicationYearController,
-                              validator: (value) {},
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             const Text(
                               'Communication Method',
