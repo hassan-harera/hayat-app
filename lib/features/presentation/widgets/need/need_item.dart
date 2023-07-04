@@ -1,14 +1,13 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/need/need_response.dart';
-
 
 Widget needItem(BuildContext context, NeedResponse needResponse) {
   final size = MediaQuery.of(context).size;
   return GestureDetector(
-    onTap: () {
-    },
+    onTap: () {},
     child: SizedBox(
       height: 155,
       child: Row(
@@ -31,6 +30,7 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
             ),
           ),
           SizedBox(
+            height: 10.0,
             width: size.width / 20,
           ),
           Expanded(
@@ -39,7 +39,8 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text(
+                  Expanded(
+                      child: Text(
                     needResponse.title ?? '',
                     maxLines: 1,
                     textDirection: TextDirection.rtl,
@@ -48,7 +49,7 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                       fontSize: 22,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  ),
+                  )),
                   SizedBox(
                     width: size.height / 25,
                   ),
@@ -64,29 +65,11 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                   SizedBox(
                     width: size.height / 25,
                   ),
-                  const Text(
-                    'Description food  food Donation Description food  food Donation Description food  food Donation',
-                    maxLines: 2,
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: 18,
-                    ),
-                  ),
                   const Spacer(),
                   Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xffE3EAF2),
-                          border: Border.all(color: const Color(0xff20ADDC)),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        height: size.height / 20,
-                        width: size.width / 3,
-                      ),
                       const Spacer(),
-                      Text(
-                          '${DateTime.now().subtract(Duration(milliseconds: DateTime.parse(needResponse.needDate!).millisecond)).minute} min ago'),
+                      Text(timeAgo(needResponse.needDate!))
                     ],
                   ),
                 ],

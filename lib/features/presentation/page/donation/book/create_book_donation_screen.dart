@@ -504,7 +504,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                       scale: 18,
                                       color: Colors.amber,
                                     ),
-                                    hintText: 'WatsApp',
+                                    hintText: 'Whatsapp',
                                     filled: true,
                                     fillColor: Colors.white,
                                     enabledBorder: OutlineInputBorder(

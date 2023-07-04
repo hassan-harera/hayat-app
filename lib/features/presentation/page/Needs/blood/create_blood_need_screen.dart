@@ -1,18 +1,19 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_request.dart';
-import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
-import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
+import 'package:hayat_eg/features/data/model/need/blood/blood_need_request.dart';
+import 'package:hayat_eg/features/data/model/need/blood/blood_need_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
-import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
-import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/blood/blood_need_repository.dart';
+import 'package:hayat_eg/features/presentation/page/need/blood/blood_need_screen.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -22,55 +23,41 @@ import '../../../../../shared/Utils/Utils.dart';
 import '../../../../../shared/component/component.dart';
 import '../../../../../shared/component/constants.dart';
 
-class AskMedicineNeedScreen extends StatefulWidget {
-  const AskMedicineNeedScreen({super.key});
-
+class CreateBloodNeedScreen extends StatefulWidget {
   @override
-  State<AskMedicineNeedScreen> createState() => _AskMedicineNeedScreenState();
+  State<CreateBloodNeedScreen> createState() => _CreateBloodNeedScreenState();
 }
 
-class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
+class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
+  final _formKey = GlobalKey<FormState>();
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final _city = TextEditingController();
-  var communicationMethod = '';
+
+  var bloodTypeController = TextEditingController();
+  var illnessController = TextEditingController();
+  final _hospitalNameController = TextEditingController();
+  final _ageController = TextEditingController();
+
+  String communicationMethod = 'CHAT';
   final telegramController = TextEditingController();
-  final watsAppController = TextEditingController();
-  final medicineController = TextEditingController();
-  final _medicineExpirationDateController = TextEditingController();
-  final quantityController = TextEditingController();
-  final medicineUnitController = TextEditingController();
-  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  String? medicineName;
+  final whatsappController = TextEditingController();
 
-  var formKey = GlobalKey<FormState>();
+  BloodNeedRepository _bloodNeedRepository = sl();
+  CityRepository _cityRepository = sl();
+
   Uint8List? _file;
-  final CityRepository _cityRepository = sl();
-  final MedicineRepository _medicineRepository = sl();
-  final MedicineDonationRepository _medicineDonationRepository = sl();
-
   List<City>? _cities = [];
-  List<Medicine>? _medicines = [];
-  List<MedicineUnit> _medicineUnits = [];
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _medicineRepository.listUnits().then((value) {
-      setState(() {
-        _medicineUnits = value;
-      });
-    });
-
     _cityRepository.search('').then((value) {
       setState(() {
         _cities = value;
-      });
-    });
-
-    _medicineRepository.listMedicines().then((value) {
-      setState(() {
-        _medicines = value;
       });
     });
   }
@@ -81,7 +68,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: const Text('Create post '),
+          title: const Text('Create Post '),
           children: [
             SimpleDialogOption(
               padding: const EdgeInsets.all(20),
@@ -147,13 +134,16 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  centerTitle: false,
-                  title: Transform(
-                    transform:
-                        Matrix4.translationValues(size.width - 220, 0.0, 0.0),
-                    child: const Text(
-                      'Medicine Need',
-                    ),
+                  elevation: 1.0,
+                  backgroundColor: Colors.white,
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  ),
+                  title: const Text(
+                    'Blood Need',
                   ),
                 ),
                 body: SafeArea(
@@ -161,8 +151,8 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Form(
-                        key: formKey,
                         autovalidateMode: autoValidateMode,
+                        key: _formKey,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,12 +200,12 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                 Expanded(
                                     child: requiredTextField(
                                   controller: titleController,
-                                  hint: 'Title',
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'please inter title';
+                                      return 'Title is required';
                                     }
                                   },
+                                  hint: 'Title',
                                 )),
                               ],
                             ),
@@ -224,180 +214,123 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items: _cities!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Select city",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                _city.text = _cities!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id
-                                    .toString();
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
+                            CityDropMenu(
+                                cities: _cities!,
+                                onSelectedCity: (value) => setState(() {
+                                      _city.text = _cities!
+                                          .firstWhere((element) =>
+                                              element.arabicName == value)
+                                          .id
+                                          .toString();
+                                    })),
                             const SizedBox(
                               height: 10,
                             ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items:
-                                  _medicines!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Chose Medicine ",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                medicineController.text = _medicines!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id
-                                    .toString();
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is required";
-                                } else {
-                                  return null;
-                                }
-                              },
+                            requiredTextField(
+                              controller: _hospitalNameController,
+                              validator: (value) {},
+                              hint: 'Hospital Name',
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             SizedBox(
-                                child: FutureBuilder<List<MedicineUnit>>(
-                              future: _medicineRepository.listUnits(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  List<MedicineUnit> units = snapshot.data!;
-                                  var selectedMedicineItem;
-                                  return DropdownButtonFormField(
-                                    hint: const Text('Medicine Unit'),
-                                    iconEnabledColor: Colors.amber,
-                                    validator: (sGenderItem) {
-                                      if (sGenderItem == null) {
-                                        return 'please Add Medicine Unit';
+                                width: double.infinity,
+                                child: FutureBuilder<List<String>>(
+                                  initialData: const [
+                                    'A+',
+                                    'A-',
+                                    'B+',
+                                    'B-',
+                                    'AB+',
+                                    'AB-',
+                                    'O+',
+                                    'O-'
+                                  ],
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      List<String> data = snapshot.data!;
+                                      return DropdownButtonFormField(
+                                        hint: const Text('Blood Type'),
+                                        iconEnabledColor: Colors.amber,
+                                        icon: const Icon(
+                                          Icons.keyboard_arrow_down,
+                                          size: 30,
+                                        ),
+                                        items: data
+                                            .map((item) => DropdownMenuItem(
+                                                  value: item,
+                                                  child: Text(item),
+                                                ))
+                                            .toList(),
+                                        onChanged: (item) {
+                                          bloodTypeController.text = item!;
+                                        },
+                                        decoration: InputDecoration(
+                                            fillColor: Colors.white,
+                                            filled: true,
+                                            constraints: const BoxConstraints(
+                                                maxHeight: 60),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.amber),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    color: Colors.white),
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                      );
+                                    } else {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                  },
+                                )),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: size.width - 230,
+                                  child: requiredTextField(
+                                    controller: _ageController,
+                                    keyboardType: TextInputType.number,
+                                    hint: 'Age',
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Age is Required';
                                       }
                                     },
-                                    icon: const Icon(
-                                      Icons.keyboard_arrow_down,
-                                      size: 30,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                            width: 190,
+                                            child: optionalTextField(
+                                              controller: illnessController,
+                                              hint: 'Illness',
+                                            )),
+                                      ],
                                     ),
-                                    value: selectedMedicineItem,
-                                    items: units
-                                        .map((item) => DropdownMenuItem(
-                                            value: jsonEncode(
-                                                item.englishName.toString()),
-                                            child: Text(
-                                              (item.englishName.toString()),
-                                            )))
-                                        .toList(),
-                                    onChanged: (item) {
-                                      selectedMedicineItem = item;
-                                    },
-                                    decoration: InputDecoration(
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.white),
-                                            borderRadius:
-                                                BorderRadius.circular(10))),
-                                  );
-                                } else {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                }
-                              },
-                            )),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            SizedBox(
-                              child: requiredTextField(
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'please inter amount';
-                                  }
-                                },
-                                hint: 'Medicine Amount',
-                              ),
+                                  ],
+                                ),
+                              ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 15,
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             const Text(
                               'Communication Method',
@@ -405,7 +338,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                   fontSize: 16, color: Colors.black45),
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             Container(
                               decoration: const BoxDecoration(
@@ -459,9 +392,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                           layoutCubit.changRadioValue();
                                         }),
                                     onTap: () {
-                                      setState(() {
-                                        communicationMethod = 'PHONE';
-                                      });
+                                      communicationMethod = 'PHONE';
                                     },
                                   ),
                                   GestureDetector(
@@ -492,7 +423,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                               ),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -503,10 +434,10 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                       fontSize: 16, color: Colors.black45),
                                 ),
                                 const SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
                                 TextFormField(
-                                  controller: watsAppController,
+                                  controller: whatsappController,
                                   keyboardType: TextInputType.phone,
                                   validator: (v) {
                                     if (v!.isEmpty) {
@@ -514,25 +445,27 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      prefixIcon: Image.asset(
-                                        'assets/watsAppImage.png',
-                                        scale: 18,
+                                    prefixIcon: Image.asset(
+                                      'assets/watsAppImage.png',
+                                      scale: 18,
+                                      color: Colors.amber,
+                                    ),
+                                    hintText: 'Whatsapp',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
                                         color: Colors.amber,
                                       ),
-                                      hintText: 'Whatsapp',
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -545,30 +478,29 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.telegram_outlined,
-                                        color: Colors.amber,
-                                        size: 35,
+                                    prefixIcon: const Icon(
+                                      Icons.telegram_outlined,
+                                      color: Colors.amber,
+                                      size: 35,
+                                    ),
+                                    hintText: 'Telegram',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.white,
                                       ),
-                                      hintText: 'Telegram',
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.amber,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                               ],
-                            ),
-                            const SizedBox(
-                              height: 10,
                             ),
                             const SizedBox(
                               height: 10,
@@ -576,16 +508,11 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                             myButton(
                                 text: 'Submit',
                                 onTap: () async {
-                                  if (formKey.currentState!.validate()) {
-                                    formKey.currentState!.save();
-                                    onSubmit();
-                                    setState(() {});
-                                    autoValidateMode =
-                                        AutovalidateMode.onUserInteraction;
+                                  if (_formKey.currentState!.validate()) {
+                                    _onSubmit();
                                   } else {
                                     autoValidateMode = AutovalidateMode.always;
                                   }
-                                  //
                                 },
                                 radius: 10),
                           ],
@@ -600,24 +527,31 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
     );
   }
 
-  void onSubmit() async {
-    final request = MedicineDonationRequest(
+  void _onSubmit() {
+    final request = BloodNeedRequest(
       title: titleController.text,
       description: descriptionController.text,
-      cityId: _cities?[0].id,
-      communicationMethod: 'CHAT',
-      quantity: double.parse(quantityController.text),
-      telegramLink: "https://t.me/${telegramController.text}",
-      whatsappLink: "https://wa.me/${watsAppController.text}",
-      medicineId: _medicines?[0].id,
-      medicineUnitId: _medicineUnits?[0].id,
-      medicineExpirationDate: _medicineExpirationDateController.text,
+      cityId: int.parse(_city.text),
+      communicationMethod: communicationMethod,
+      age: int.parse(_ageController.text),
+      bloodType: bloodTypeController.text,
+      hospital: _hospitalNameController.text,
+      illness: illnessController.text,
     );
-    print(request.toJson());
-    final response = _medicineDonationRepository.create(request);
-    response.then((value) => {
-          print(value),
-        });
+
+    final response = _bloodNeedRepository.create(request);
+    response.then((value) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const SuccessDialog(
+              message: "Your Request has been sent successfully");
+        },
+      );
+      if (value is BloodNeedResponse){
+        _uploadImage(value.id!);
+      }
+    });
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
@@ -640,5 +574,29 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
       }
       stackTrace.printError();
     });
+  }
+
+  _uploadImage(String id) async {
+    if (_file != null) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      _bloodNeedRepository.updateImage(id, _file as Uint8List).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BloodNeedItemScreen(),
+          ),
+        );
+      });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BloodNeedItemScreen(),
+        ),
+      );
+    }
   }
 }

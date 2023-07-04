@@ -8,6 +8,7 @@ import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../shared/component/constants.dart';
+import '../Needs/blood/create_blood_need_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -226,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         text: 'Create Book Need'),
                     myCard(
                         onPressed: () {
-                          navigate(context, AskBloodNeedScreen());
+                          navigate(context, CreateBloodNeedScreen());
                         },
                         icon: Icons.bloodtype,
                         text: 'Create Blood Need'),

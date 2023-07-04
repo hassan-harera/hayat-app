@@ -7,6 +7,7 @@ import 'package:hayat_eg/features/data/datasource/donation/donations_datasource.
 import 'package:hayat_eg/features/data/datasource/donation/food/food_donation_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/food/food_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/medicine/medicine_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/need/blood/book_need_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/need/book/book_need_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/need/need_datasource.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
@@ -17,6 +18,7 @@ import 'package:hayat_eg/features/data/repository/donation/food/food_donation_re
 import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/blood/blood_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
@@ -68,6 +70,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<MedicineNeedRepository>(
     () => MedicineNeedRepository(medicineNeedDataSource: sl()),
+  );
+  sl.registerLazySingleton<BloodNeedRepository>(
+    () => BloodNeedRepository(bloodNeedDataSource: sl()),
   );
 
   /**
@@ -129,6 +134,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<MedicineNeedDataSource>(
     () => MedicineNeedDataSource(client: sl()),
+  );
+  sl.registerLazySingleton<BloodNeedDataSource>(
+    () => BloodNeedDataSource(sl()),
   );
 
   // External

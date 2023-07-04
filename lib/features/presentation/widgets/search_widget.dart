@@ -2,13 +2,11 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 
-class HayatSearchTextFormField extends StatelessWidget {
+class HayatSearchTextFormField extends StatefulWidget {
   TextEditingController? controller;
-  double borderRadius = 10;
   TextInputType? keyboardType = TextInputType.text;
   String? hint;
   bool obscure = false;
-  bool filledStatus = true;
   Function? suffixFunction;
   IconData? prefixIcon;
   IconData? suffixIcon;
@@ -42,12 +40,24 @@ class HayatSearchTextFormField extends StatelessWidget {
     required int borderRadius
   })
 
+
   @override
-  Widget build(BuildContext context) =>
-      TextFormField(
-        onChanged: onChanged,
-        keyboardType: keyboardType,
-        controller: controller,
+  State<HayatSearchTextFormField> createState() {
+    return _HayatSearchTextFormFieldState();
+  }
+}
+
+class _HayatSearchTextFormFieldState extends State<HayatSearchTextFormField> {
+  double borderRadius = 10;
+
+  bool filledStatus = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+        onChanged: widget.onChanged,
+        keyboardType: widget.keyboardType,
+        controller: widget.controller,
         validator: (value) {
           if (value!.isEmpty) {
             return 'this failed is required';
@@ -55,25 +65,26 @@ class HayatSearchTextFormField extends StatelessWidget {
         },
         decoration: InputDecoration(
             prefixIcon: Icon(
-              prefixIcon,
-              color: prefixColor,
-              size: prefixSize,
+              widget.prefixIcon,
+              color: widget.prefixColor,
+              size: widget.prefixSize,
             ),
-            constraints: BoxConstraints(maxHeight: height!),
-            hintText: hint!,
-            hintStyle: TextStyle(color: hintColor),
+            constraints: BoxConstraints(maxHeight: widget.height!),
+            hintText: widget.hint!,
+            hintStyle: TextStyle(color: widget.hintColor),
             filled: filledStatus,
-            fillColor: backGroundColor!,
+            fillColor: widget.backGroundColor!,
             border: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: borderColor!,
+                  color: widget.borderColor!,
                 ),
                 borderRadius: BorderRadius.circular(borderRadius)),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: BorderSide(color: borderColor)),
+                borderSide: BorderSide(color: widget.borderColor)),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: BorderSide(color: borderColor))),
+                borderSide: BorderSide(color: widget.borderColor))),
       );
+  }
 }

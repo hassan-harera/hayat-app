@@ -582,7 +582,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                         scale: 18,
                                         color: Colors.amber,
                                       ),
-                                      hintText: 'WatsApp',
+                                      hintText: 'Whatsapp',
                                       filled: true,
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
