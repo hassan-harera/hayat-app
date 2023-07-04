@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             child:
                                                 const Text('Forget Password?'),
                                             onPressed: () {
-                                              myNavigator(context,
+                                              navigate(context,
                                                   const forgetPasswordScreen());
                                             }),
                                       ],

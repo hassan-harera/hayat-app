@@ -71,7 +71,7 @@ class _NeedsScreen extends State<NeedsScreen> {
                         ),
                       ),
                       onChanged: (value) {
-                        getNeeds();
+                        _getNeeds();
                       },
                     ),
                   ),
@@ -106,7 +106,7 @@ class _NeedsScreen extends State<NeedsScreen> {
 
                         category = 'ALL';
                         _colorController(category);
-                        getNeeds();
+                        _getNeeds();
                       },
                     ),
                     const SizedBox(
@@ -122,7 +122,7 @@ class _NeedsScreen extends State<NeedsScreen> {
 
                         category = 'MEDICINE';
                         _colorController(category);
-                        getNeeds();
+                        _getNeeds();
                       },
                     ),
                     const SizedBox(
@@ -138,7 +138,7 @@ class _NeedsScreen extends State<NeedsScreen> {
 
                         category = 'BOOK';
                         _colorController(category);
-                        getNeeds();
+                        _getNeeds();
                       },
                     ),
                     const SizedBox(
@@ -154,7 +154,7 @@ class _NeedsScreen extends State<NeedsScreen> {
 
                         category = 'BLOOD';
                         _colorController(category);
-                        getNeeds();
+                        _getNeeds();
                       },
                     ),
                   ],
@@ -221,7 +221,13 @@ class _NeedsScreen extends State<NeedsScreen> {
     });
   }
 
-  void _getBloodNeeds() {}
+  void _getBloodNeeds() {
+    _bloodNeedRepository.search(query.text).then((value) {
+      setState(() {
+        _list = value!;
+      });
+    });
+  }
 
   void _colorController(category) {
     switch (category) {
@@ -258,13 +264,5 @@ class _NeedsScreen extends State<NeedsScreen> {
         }
         break;
     }
-    }
-
-  void _getBloodNeeds() {
-    _bloodNeedRepository.search(query.text).then((value) {
-      setState(() {
-        _list = value!;
-      });
-    });
   }
 }
