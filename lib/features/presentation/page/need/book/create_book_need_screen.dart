@@ -9,7 +9,7 @@ import 'package:hayat_eg/features/data/model/need/book/book_need_request.dart';
 import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
-import 'package:hayat_eg/features/presentation/page/ItemScreen/NeedItem/BookNeedItemScreen.dart';
+import 'package:hayat_eg/features/presentation/page/need/book/book_need_details_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
@@ -590,7 +590,7 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BookNeedItemScreen(),
+            builder: (context) => BookNeedDetailsScreen(),
           ),
         );
       });
@@ -598,7 +598,7 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BookNeedItemScreen(),
+          builder: (context) => BookNeedDetailsScreen(),
         ),
       );
     }

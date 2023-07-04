@@ -1,63 +1,76 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/need/blood/blood_need_request.dart';
-import 'package:hayat_eg/features/data/model/need/blood/blood_need_response.dart';
+import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_request.dart';
+import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
+import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
-import 'package:hayat_eg/features/data/repository/need/blood/blood_need_repository.dart';
-import 'package:hayat_eg/features/presentation/page/need/blood/blood_need_screen.dart';
-import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
-import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
+import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
-import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
-import '../../../../../shared/Utils/Utils.dart';
-import '../../../../../shared/component/component.dart';
-import '../../../../../shared/component/constants.dart';
+import '../../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
+import '../../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
+import '../../../../../../shared/Utils/Utils.dart';
+import '../../../../../../shared/component/component.dart';
+import '../../../../../../shared/component/constants.dart';
 
-class CreateBloodNeedScreen extends StatefulWidget {
+class AskMedicineNeedScreen extends StatefulWidget {
+  const AskMedicineNeedScreen({super.key});
+
   @override
-  State<CreateBloodNeedScreen> createState() => _CreateBloodNeedScreenState();
+  State<AskMedicineNeedScreen> createState() => _AskMedicineNeedScreenState();
 }
 
-class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
-  final _formKey = GlobalKey<FormState>();
-  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-
+class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final _city = TextEditingController();
-
-  var bloodTypeController = TextEditingController();
-  var illnessController = TextEditingController();
-  final _hospitalNameController = TextEditingController();
-  final _ageController = TextEditingController();
-
-  String communicationMethod = 'CHAT';
+  var communicationMethod = '';
   final telegramController = TextEditingController();
-  final whatsappController = TextEditingController();
+  final watsAppController = TextEditingController();
+  final medicineController = TextEditingController();
+  final _medicineExpirationDateController = TextEditingController();
+  final quantityController = TextEditingController();
+  final medicineUnitController = TextEditingController();
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+  String? medicineName;
 
-  BloodNeedRepository _bloodNeedRepository = sl();
-  CityRepository _cityRepository = sl();
-
+  var formKey = GlobalKey<FormState>();
   Uint8List? _file;
+  final CityRepository _cityRepository = sl();
+  final MedicineRepository _medicineRepository = sl();
+  final MedicineDonationRepository _medicineDonationRepository = sl();
+
   List<City>? _cities = [];
-  bool _isLoading = false;
+  List<Medicine>? _medicines = [];
+  List<MedicineUnit> _medicineUnits = [];
 
   @override
   void initState() {
     super.initState();
+    _medicineRepository.listUnits().then((value) {
+      setState(() {
+        _medicineUnits = value;
+      });
+    });
+
     _cityRepository.search('').then((value) {
       setState(() {
         _cities = value;
+      });
+    });
+
+    _medicineRepository.listMedicines().then((value) {
+      setState(() {
+        _medicines = value;
       });
     });
   }
@@ -68,7 +81,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: const Text('Create Post '),
+          title: const Text('Create post '),
           children: [
             SimpleDialogOption(
               padding: const EdgeInsets.all(20),
@@ -134,16 +147,13 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  elevation: 1.0,
-                  backgroundColor: Colors.white,
-                  leading: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  ),
-                  title: const Text(
-                    'Blood Need',
+                  centerTitle: false,
+                  title: Transform(
+                    transform:
+                        Matrix4.translationValues(size.width - 220, 0.0, 0.0),
+                    child: const Text(
+                      'Medicine Need',
+                    ),
                   ),
                 ),
                 body: SafeArea(
@@ -151,8 +161,8 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Form(
+                        key: formKey,
                         autovalidateMode: autoValidateMode,
-                        key: _formKey,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,12 +210,12 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                 Expanded(
                                     child: requiredTextField(
                                   controller: titleController,
+                                  hint: 'Title',
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Title is required';
+                                      return 'please inter title';
                                     }
                                   },
-                                  hint: 'Title',
                                 )),
                               ],
                             ),
@@ -214,123 +224,180 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            CityDropMenu(
-                                cities: _cities!,
-                                onSelectedCity: (value) => setState(() {
-                                      _city.text = _cities!
-                                          .firstWhere((element) =>
-                                              element.arabicName == value)
-                                          .id
-                                          .toString();
-                                    })),
+                            DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                isFilterOnline: true,
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                showSearchBox: true,
+                                menuProps: MenuProps(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                ),
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                ),
+                              ),
+                              items: _cities!.map((e) => e.arabicName).toList(),
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  border: OutlineInputBorder(
+                                    gapPadding: 10,
+                                  ),
+                                  hintText: "Select city",
+                                ),
+                              ),
+                              onChanged: (value) => setState(() {
+                                _city.text = _cities!
+                                    .firstWhere((element) =>
+                                        element.arabicName == value)
+                                    .id
+                                    .toString();
+                              }),
+                              selectedItem: null,
+                              validator: (String? item) {
+                                if (item == null) {
+                                  return "City is required";
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
                             const SizedBox(
                               height: 10,
                             ),
-                            requiredTextField(
-                              controller: _hospitalNameController,
-                              validator: (value) {},
-                              hint: 'Hospital Name',
+                            DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                isFilterOnline: true,
+                                fit: FlexFit.loose,
+                                showSelectedItems: true,
+                                showSearchBox: true,
+                                menuProps: MenuProps(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                ),
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                ),
+                              ),
+                              items:
+                                  _medicines!.map((e) => e.arabicName).toList(),
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  border: OutlineInputBorder(
+                                    gapPadding: 10,
+                                  ),
+                                  hintText: "Chose Medicine ",
+                                ),
+                              ),
+                              onChanged: (value) => setState(() {
+                                medicineController.text = _medicines!
+                                    .firstWhere((element) =>
+                                        element.arabicName == value)
+                                    .id
+                                    .toString();
+                              }),
+                              selectedItem: null,
+                              validator: (String? item) {
+                                if (item == null) {
+                                  return "City is required";
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             SizedBox(
-                                width: double.infinity,
-                                child: FutureBuilder<List<String>>(
-                                  initialData: const [
-                                    'A+',
-                                    'A-',
-                                    'B+',
-                                    'B-',
-                                    'AB+',
-                                    'AB-',
-                                    'O+',
-                                    'O-'
-                                  ],
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      List<String> data = snapshot.data!;
-                                      return DropdownButtonFormField(
-                                        hint: const Text('Blood Type'),
-                                        iconEnabledColor: Colors.amber,
-                                        icon: const Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 30,
+                                child: FutureBuilder<List<MedicineUnit>>(
+                              future: _medicineRepository.listUnits(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  List<MedicineUnit> units = snapshot.data!;
+                                  var selectedMedicineItem;
+                                  return DropdownButtonFormField(
+                                    hint: const Text('Medicine Unit'),
+                                    iconEnabledColor: Colors.amber,
+                                    validator: (sGenderItem) {
+                                      if (sGenderItem == null) {
+                                        return 'please Add Medicine Unit';
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 30,
+                                    ),
+                                    value: selectedMedicineItem,
+                                    items: units
+                                        .map((item) => DropdownMenuItem(
+                                            value: jsonEncode(
+                                                item.englishName.toString()),
+                                            child: Text(
+                                              (item.englishName.toString()),
+                                            )))
+                                        .toList(),
+                                    onChanged: (item) {
+                                      selectedMedicineItem = item;
+                                    },
+                                    decoration: InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber),
                                         ),
-                                        items: data
-                                            .map((item) => DropdownMenuItem(
-                                                  value: item,
-                                                  child: Text(item),
-                                                ))
-                                            .toList(),
-                                        onChanged: (item) {
-                                          bloodTypeController.text = item!;
-                                        },
-                                        decoration: InputDecoration(
-                                            fillColor: Colors.white,
-                                            filled: true,
-                                            constraints: const BoxConstraints(
-                                                maxHeight: 60),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.amber),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    color: Colors.white),
-                                                borderRadius:
-                                                    BorderRadius.circular(10))),
-                                      );
-                                    } else {
-                                      return const Center(
-                                          child: CircularProgressIndicator());
-                                    }
-                                  },
-                                )),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.white),
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                  );
+                                } else {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
+                            )),
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width - 230,
-                                  child: requiredTextField(
-                                    controller: _ageController,
-                                    keyboardType: TextInputType.number,
-                                    hint: 'Age',
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Age is Required';
-                                      }
-                                    },
-                                  ),
-                                ),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                            width: 190,
-                                            child: optionalTextField(
-                                              controller: illnessController,
-                                              hint: 'Illness',
-                                            )),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            SizedBox(
+                              child: requiredTextField(
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'please inter amount';
+                                  }
+                                },
+                                hint: 'Medicine Amount',
+                              ),
                             ),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             const Text(
                               'Communication Method',
@@ -338,7 +405,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                   fontSize: 16, color: Colors.black45),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Container(
                               decoration: const BoxDecoration(
@@ -392,7 +459,9 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                           layoutCubit.changRadioValue();
                                         }),
                                     onTap: () {
-                                      communicationMethod = 'PHONE';
+                                      setState(() {
+                                        communicationMethod = 'PHONE';
+                                      });
                                     },
                                   ),
                                   GestureDetector(
@@ -423,7 +492,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                               ),
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -434,10 +503,10 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                       fontSize: 16, color: Colors.black45),
                                 ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 20,
                                 ),
                                 TextFormField(
-                                  controller: whatsappController,
+                                  controller: watsAppController,
                                   keyboardType: TextInputType.phone,
                                   validator: (v) {
                                     if (v!.isEmpty) {
@@ -445,27 +514,25 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                    prefixIcon: Image.asset(
-                                      'assets/watsAppImage.png',
-                                      scale: 18,
-                                      color: Colors.amber,
-                                    ),
-                                    hintText: 'Whatsapp',
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
+                                      prefixIcon: Image.asset(
+                                        'assets/watsAppImage.png',
+                                        scale: 18,
                                         color: Colors.amber,
                                       ),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
+                                      hintText: 'Whatsapp',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -478,29 +545,30 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(
-                                      Icons.telegram_outlined,
-                                      color: Colors.amber,
-                                      size: 35,
-                                    ),
-                                    hintText: 'Telegram',
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
+                                      prefixIcon: const Icon(
+                                        Icons.telegram_outlined,
                                         color: Colors.amber,
+                                        size: 35,
                                       ),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
+                                      hintText: 'Telegram',
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Colors.amber,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Colors.amber))),
                                 ),
                               ],
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             const SizedBox(
                               height: 10,
@@ -508,11 +576,16 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                             myButton(
                                 text: 'Submit',
                                 onTap: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    _onSubmit();
+                                  if (formKey.currentState!.validate()) {
+                                    formKey.currentState!.save();
+                                    onSubmit();
+                                    setState(() {});
+                                    autoValidateMode =
+                                        AutovalidateMode.onUserInteraction;
                                   } else {
                                     autoValidateMode = AutovalidateMode.always;
                                   }
+                                  //
                                 },
                                 radius: 10),
                           ],
@@ -527,31 +600,24 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
     );
   }
 
-  void _onSubmit() {
-    final request = BloodNeedRequest(
+  void onSubmit() async {
+    final request = MedicineDonationRequest(
       title: titleController.text,
       description: descriptionController.text,
-      cityId: int.parse(_city.text),
-      communicationMethod: communicationMethod,
-      age: int.parse(_ageController.text),
-      bloodType: bloodTypeController.text,
-      hospital: _hospitalNameController.text,
-      illness: illnessController.text,
+      cityId: _cities?[0].id,
+      communicationMethod: 'CHAT',
+      quantity: double.parse(quantityController.text),
+      telegramLink: "https://t.me/${telegramController.text}",
+      whatsappLink: "https://wa.me/${watsAppController.text}",
+      medicineId: _medicines?[0].id,
+      medicineUnitId: _medicineUnits?[0].id,
+      medicineExpirationDate: _medicineExpirationDateController.text,
     );
-
-    final response = _bloodNeedRepository.create(request);
-    response.then((value) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const SuccessDialog(
-              message: "Your Request has been sent successfully");
-        },
-      );
-      if (value is BloodNeedResponse){
-        _uploadImage(value.id!);
-      }
-    });
+    print(request.toJson());
+    final response = _medicineDonationRepository.create(request);
+    response.then((value) => {
+          print(value),
+        });
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
@@ -574,29 +640,5 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
       }
       stackTrace.printError();
     });
-  }
-
-  _uploadImage(String id) async {
-    if (_file != null) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      _bloodNeedRepository.updateImage(id, _file as Uint8List).then((value) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BloodNeedItemScreen(),
-          ),
-        );
-      });
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BloodNeedItemScreen(),
-        ),
-      );
-    }
   }
 }

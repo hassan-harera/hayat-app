@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hayat_eg/features/presentation/page/Needs/ask_blood_need_screen.dart';
-import 'package:hayat_eg/features/presentation/page/Needs/ask_medicine_need_screen.dart';
-import 'package:hayat_eg/features/presentation/page/Needs/book/create_book_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/medicine/ask_medicine_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/book/create_book_need_screen.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../shared/component/constants.dart';
-import '../Needs/blood/create_blood_need_screen.dart';
+import '../need/blood/create_blood_need_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override

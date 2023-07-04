@@ -3,11 +3,18 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/need/need_response.dart';
+import 'package:hayat_eg/features/presentation/page/need/book/book_need_details_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/medicine/MedicineNeedItemScreen.dart';
+import 'package:hayat_eg/features/presentation/page/need/blood/blood_need_screen.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 
 Widget needItem(BuildContext context, NeedResponse needResponse) {
+  print(needResponse.category);
   final size = MediaQuery.of(context).size;
   return GestureDetector(
-    onTap: () {},
+    onTap: () {
+      navigateToNeedDetails(context, needResponse);
+    },
     child: SizedBox(
       height: 155,
       child: Row(
@@ -80,4 +87,15 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
       ),
     ),
   );
+}
+
+void navigateToNeedDetails(BuildContext context, NeedResponse needResponse) {
+  print(needResponse.category);
+  if (needResponse.category == 'BLOOD') {
+    navigate(context, BloodNeedDetailsScreen());
+  } else if (needResponse.category == 'BOOKS') {
+    navigate(context, BookNeedDetailsScreen());
+  } else if (needResponse.category == 'MEDICINE') {
+    navigate(context, MedicineNeedItemScreen());
+  }
 }

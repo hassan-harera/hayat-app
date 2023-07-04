@@ -1,14 +1,14 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
-class BloodNeedItemScreen extends StatefulWidget {
-  const BloodNeedItemScreen({super.key});
+class BloodNeedDetailsScreen extends StatefulWidget {
+  const BloodNeedDetailsScreen({super.key});
 
   @override
-  State<BloodNeedItemScreen> createState() => _BloodNeedItemScreenState();
+  State<BloodNeedDetailsScreen> createState() => _BloodNeedDetailsScreenState();
 }
 
-class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
+class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
   int ratingNumber = 1;
 
   @override
@@ -182,25 +182,22 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 100,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'Bani-Suef',
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Icon(Icons.location_on_outlined),
-                                  ],
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Bani-Suef',
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Icon(Icons.location_on_outlined),
+                                ],
                               ),
                             ],
                           ),
@@ -211,7 +208,6 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                       height: 10,
                     ),
                     Container(
-                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -237,7 +233,6 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                       height: 10,
                     ),
                     Container(
-                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -252,7 +247,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Donation Details',
+                            'Need Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
@@ -262,13 +257,13 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                           Row(
                             children: [
                               Text(
-                                'Blood Type : ',
+                                'Blood Sub Title : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  ' O+',
+                                  'rich dad poor Dad',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -284,13 +279,13 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                           Row(
                             children: [
                               Text(
-                                'Age : ',
+                                'Blood publisher : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  ' 21',
+                                  'Robert Kiyosaki',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -306,13 +301,13 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                           Row(
                             children: [
                               Text(
-                                'Hospital : ',
+                                'Blood Quantity : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Al Salam Hospital',
+                                  '2 bloods }',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -328,13 +323,13 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                           Row(
                             children: [
                               Text(
-                                'illness : ',
+                                'Blood Language : ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'bleeding',
+                                  'arabic}',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -438,9 +433,6 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    )
                   ],
                 ),
               ),

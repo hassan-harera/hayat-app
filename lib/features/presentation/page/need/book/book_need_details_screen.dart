@@ -1,14 +1,14 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
-class BookNeedItemScreen extends StatefulWidget {
-  const BookNeedItemScreen({super.key});
+class BookNeedDetailsScreen extends StatefulWidget {
+  const BookNeedDetailsScreen({super.key});
 
   @override
-  State<BookNeedItemScreen> createState() => _BookNeedItemScreenState();
+  State<BookNeedDetailsScreen> createState() => _BookNeedDetailsScreenState();
 }
 
-class _BookNeedItemScreenState extends State<BookNeedItemScreen> {
+class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
   int ratingNumber = 1;
 
   @override
