@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () {},
                 icon: const Icon(
                   Icons.edit,
-                  color: Colors.white,
+                  color: Colors.amber,
                 ))
           ],
         ),
@@ -230,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         text: 'Share'),
                     myCard(
                         onPressed: () {
-                          print('object');
+                          myNavigator(context, notificationScreen());
                         },
                         icon: Icons.notifications,
                         text: 'Notifications'),

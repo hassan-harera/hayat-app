@@ -77,8 +77,8 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                       maxLines: 2,
                       style: TextStyle(
                         overflow: TextOverflow.ellipsis,
-                        fontSize: 18,
-                      ),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400),
                     ),
                     const Spacer(),
                     Row(
@@ -94,7 +94,9 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                         ),
                         const Spacer(),
                         Text(
-                            '${DateTime.now().subtract(Duration(milliseconds: DateTime.parse(needResponse.needDate!).millisecond)).minute} min ago'),
+                          '${DateTime.now().subtract(Duration(milliseconds: DateTime.parse(needResponse.needDate!).millisecond)).minute} min ago',
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ],
                     ),
                   ],

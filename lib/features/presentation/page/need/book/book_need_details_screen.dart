@@ -57,15 +57,15 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                     height: size.height / 3.8,
                     width: size.width / 1.3,
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(4, 108, 109, 1),
+                        color: Colors.grey[50],
                         border: Border.all(
-                          color: const Color(0xffE3EAF2),
+                          color: Colors.grey.shade50,
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: const Icon(
-                      Icons.image_outlined,
-                      color: Colors.black,
-                      size: 40,
+                      Icons.image,
+                      color: Colors.blue,
+                      size: 80,
                     ),
                   ),
                   Expanded(
@@ -149,17 +149,20 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
                                     '12 May',
                                     maxLines: 1,
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         overflow: TextOverflow.ellipsis,
                                         color: Colors.grey,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    width: 3,
                                   ),
                                   Icon(Icons.date_range),
                                 ],
@@ -176,25 +179,28 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                   'Mohamed ahmed',
                                   style: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
                                     'Bani-Suef',
                                     maxLines: 1,
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         overflow: TextOverflow.ellipsis,
                                         color: Colors.grey,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    width: 3,
                                   ),
                                   Icon(Icons.location_on_outlined),
                                 ],
@@ -219,13 +225,26 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                         ),
                       ),
                       child: ListView(shrinkWrap: true, children: const [
-                        Text(
-                          'Description ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            // overflow: TextOverflow.ellipsis,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Description ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Text(
+                              'String ',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
                       ]),
                     ),
@@ -249,7 +268,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           Text(
                             'Donation Details',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           SizedBox(
                             height: 10,
@@ -257,9 +276,9 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           Row(
                             children: [
                               Text(
-                                'Book Sub Title : ',
+                                'Book Sub Title: ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                               ),
                               Expanded(
                                 child: Text(
@@ -267,8 +286,8 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
@@ -281,7 +300,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               Text(
                                 'Book publisher : ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                               ),
                               Expanded(
                                 child: Text(
@@ -290,7 +309,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -303,7 +322,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               Text(
                                 'Book Author : ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                               ),
                               Expanded(
                                 child: Text(
@@ -312,7 +331,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -325,7 +344,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               Text(
                                 'Book Quantity : ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                               ),
                               Expanded(
                                 child: Text(
@@ -334,7 +353,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -347,7 +366,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               Text(
                                 'Book Language : ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                               ),
                               Expanded(
                                 child: Text(
@@ -356,7 +375,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -384,7 +403,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           Text(
                             'Social Media',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
+                                fontWeight: FontWeight.w500, fontSize: 18),
                           ),
                           SizedBox(
                             height: 10,
@@ -394,16 +413,15 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               Text(
                                 'Communication Method : ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                               ),
                               Expanded(
                                 child: Text(
                                   'Chat ',
                                   maxLines: 1,
                                   style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                             ],
@@ -416,16 +434,16 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               Text(
                                 'watsapp Number : ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                               ),
                               Expanded(
                                 child: Text(
-                                  '01288166326 ',
+                                  'wa.me/01288156326 ',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -438,16 +456,16 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               Text(
                                 'Telegram : ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                               ),
                               Expanded(
                                 child: Text(
-                                  'https://t.me/ }',
+                                  't.me/mboraie',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
