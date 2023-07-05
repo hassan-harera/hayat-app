@@ -95,8 +95,9 @@ class _NeedsScreen extends State<NeedsScreen> {
                       width: 10,
                     ),
                     defaultTextBottom(
-                      color: sColor1 ? Colors.blue : Colors.white,
-                      borderColor: sColor1 ? Colors.blue : Colors.white,
+                      color: sColor1 ? const Color(0xff20ADDC) : Colors.white,
+                      borderColor:
+                          sColor1 ? const Color(0xff20ADDC) : Colors.white,
                       textColor: sColor1 ? Colors.white : Colors.black54,
                       text: 'All',
                       onPressed: () {
@@ -111,8 +112,9 @@ class _NeedsScreen extends State<NeedsScreen> {
                       width: 5,
                     ),
                     defaultTextBottom(
-                      color: sColor2 ? Colors.blue : Colors.white,
-                      borderColor: sColor2 ? Colors.blue : Colors.white,
+                      color: sColor2 ? const Color(0xff20ADDC) : Colors.white,
+                      borderColor:
+                          sColor2 ? const Color(0xff20ADDC) : Colors.white,
                       textColor: sColor2 ? Colors.white : Colors.black54,
                       text: 'Medicines',
                       onPressed: () {
@@ -127,8 +129,9 @@ class _NeedsScreen extends State<NeedsScreen> {
                       width: 5,
                     ),
                     defaultTextBottom(
-                      color: sColor3 ? Colors.blue : Colors.white,
-                      borderColor: sColor3 ? Colors.blue : Colors.white,
+                      color: sColor3 ? const Color(0xff20ADDC) : Colors.white,
+                      borderColor:
+                          sColor3 ? const Color(0xff20ADDC) : Colors.white,
                       textColor: sColor3 ? Colors.white : Colors.black54,
                       text: 'Books',
                       onPressed: () {
@@ -143,8 +146,9 @@ class _NeedsScreen extends State<NeedsScreen> {
                       width: 5,
                     ),
                     defaultTextBottom(
-                      color: sColor4 ? Colors.blue : Colors.white,
-                      borderColor: sColor4 ? Colors.blue : Colors.white,
+                      color: sColor4 ? const Color(0xff20ADDC) : Colors.white,
+                      borderColor:
+                          sColor4 ? const Color(0xff20ADDC) : Colors.white,
                       textColor: sColor4 ? Colors.white : Colors.black54,
                       text: 'Blood',
                       onPressed: () {

@@ -29,3 +29,5 @@ class LayoutChangeModeState extends LayoutStates {}
 class LayoutChoiceImageFromGalleryState extends LayoutStates {}
 
 class LayoutChoiceImageFromCameraState extends LayoutStates {}
+
+class LayoutScanQRCodeState extends LayoutStates {}

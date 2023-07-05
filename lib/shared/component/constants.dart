@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
+import 'package:hayat_eg/features/presentation/page/ItemScreen/DonationItem/BookDonationItemScreen.dart';
 
 void myNavigator(context, widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => widget));

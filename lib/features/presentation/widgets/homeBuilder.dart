@@ -17,14 +17,14 @@ Widget homeBuilder({
                 width: double.infinity,
                 imageUrl:
                     "https://altitudehauling.com/wp-content/uploads/2018/10/shutterstock_1022661760-1024x512.jpg",
-                placeholder: (context, url) => Center(
-                  child: new Icon(
+                placeholder: (context, url) => const Center(
+                  child: Icon(
                     Icons.favorite_border,
                     size: 80,
                     color: Color(0xff20Addc),
                   ),
                 ),
-                errorWidget: (context, url, error) => new Icon(
+                errorWidget: (context, url, error) => const Icon(
                   Icons.favorite,
                   size: 80,
                   color: Colors.red,
@@ -33,7 +33,8 @@ Widget homeBuilder({
                     width: 160.0,
                     height: 160.0,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xff20Addc), width: 2),
+                        border: Border.all(
+                            color: const Color(0xff20Addc), width: 2),
                         image: DecorationImage(
                             image: imageProvider, fit: BoxFit.cover))),
               ),
@@ -54,7 +55,7 @@ Widget homeBuilder({
                 placeholder: (context, url) => new Icon(
                   Icons.favorite_border,
                   size: 80,
-                  color: Color(0xff20Addc),
+                  color: const Color(0xff20Addc),
                 ),
                 errorWidget: (context, url, error) => new Icon(
                   Icons.favorite,
@@ -65,7 +66,8 @@ Widget homeBuilder({
                     width: 160.0,
                     height: 160.0,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xff20Addc), width: 2),
+                        border: Border.all(
+                            color: const Color(0xff20Addc), width: 2),
                         image: DecorationImage(
                             image: imageProvider, fit: BoxFit.cover))),
               ),
@@ -79,7 +81,7 @@ Widget homeBuilder({
                 placeholder: (context, url) => new Icon(
                   Icons.favorite_border,
                   size: 80,
-                  color: Color(0xff20Addc),
+                  color: const Color(0xff20Addc),
                 ),
                 errorWidget: (context, url, error) => new Icon(
                   Icons.favorite,
@@ -90,7 +92,8 @@ Widget homeBuilder({
                     width: 160.0,
                     height: 160.0,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xff20Addc), width: 2),
+                        border: Border.all(
+                            color: const Color(0xff20Addc), width: 2),
                         image: DecorationImage(
                             image: imageProvider, fit: BoxFit.cover))),
               ),

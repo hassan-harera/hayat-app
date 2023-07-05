@@ -58,7 +58,6 @@ class HayatApp extends StatelessWidget {
       theme: lightThem,
       darkTheme: darkThem,
       themeMode: ThemeMode.light,
-      home: HayatLayoutScreen(),
-    );
+      home: HayatLayoutScreen());
   }
 }

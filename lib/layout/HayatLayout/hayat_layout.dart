@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hayat_eg/features/presentation/widgets/qr_code/ScannQR.dart';
+import 'package:hayat_eg/shared/component/constants.dart';
 
 import 'LayOutCubit/HayatLayoutCubit.dart';
 import 'LayOutCubit/LayoutState.dart';
@@ -30,12 +32,14 @@ class HayatLayoutScreen extends StatelessWidget {
                 highlightElevation: .0,
                 backgroundColor: Colors.amber,
                 child: const Icon(
-                  Icons.add,
+                  Icons.qr_code_scanner,
                   color: Colors.white,
-                  size: 55,
+                  size: 30,
                   weight: 555,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  myNavigator(context, QRScanner());
+                },
               ),
             ),
             floatingActionButtonLocation:

@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/model/donation/donation_category.dart';
+import 'package:hayat_eg/features/presentation/page/ItemScreen/DonationItem/BookDonationItemScreen.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
-
-import '../../page/donation/book/view_book_donation_item_screen.dart';
 
 class DonationItem extends StatelessWidget {
   final DonationResponse _donationResponse;
@@ -55,11 +54,13 @@ class DonationItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      _donationResponse.title ?? '',
+                      _donationResponse.title ?? 'Donation',
+                      maxLines: 1,
                       textDirection: TextDirection.rtl,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 22,
+                        fontSize: 20,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     SizedBox(
@@ -67,7 +68,9 @@ class DonationItem extends StatelessWidget {
                     ),
                     Text(
                       '${_donationResponse.user!.firstName!} ${_donationResponse.user!.lastName!}',
+                      maxLines: 1,
                       style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: Colors.grey,
                         fontSize: 16,
                       ),
@@ -75,14 +78,7 @@ class DonationItem extends StatelessWidget {
                     SizedBox(
                       width: size.height / 25,
                     ),
-                    const Text(
-                      '',
-                      maxLines: 2,
-                      style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: 18,
-                      ),
-                    ),
+                    const Spacer(),
                     const Spacer(),
                     Row(
                       children: [
