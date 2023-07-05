@@ -20,150 +20,147 @@ class DonationItem extends StatelessWidget {
       onTap: () {
         viewDonationItemScreen(context, _donationResponse);
       },
-      child: SizedBox(
-        height: size.height / 5,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 155,
-              width: size.width / 3,
-              decoration: BoxDecoration(
-                  color: const Color(0xffE3EAF2),
-                  border: Border.all(
-                    color: const Color(0xffE3EAF2),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: SizedBox(
+          height: size.height / 5.5,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: size.height / 5.5,
+                width: size.width / 3,
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    border: Border.all(
+                      color: Colors.grey.shade50,
+                    ),
+                    borderRadius: BorderRadius.circular(20)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    _donationResponse.imageUrl ??
+                        'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png',
+                    fit: BoxFit.cover,
                   ),
-                  borderRadius: BorderRadius.circular(20)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  _donationResponse.imageUrl ??
-                      'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png',
-                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-            SizedBox(
-              width: size.width / 20,
-            ),
-            Expanded(
-              child: SizedBox(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      _donationResponse.title ?? 'Donation',
-                      maxLines: 1,
-                      textDirection: TextDirection.rtl,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.height / 25,
-                    ),
-                    Text(
-                      '${_donationResponse.user!.firstName!} ${_donationResponse.user!.lastName!}',
-                      maxLines: 1,
-                      style: const TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: Colors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.height / 25,
-                    ),
-                    const Spacer(),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        const Spacer(),
-                        Text(timeAgo(_donationResponse.donationDate)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            elevation: MaterialStateProperty.all<double>(0),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.white),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                            ),
-                          ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  width: 26,
-                                  height: 26,
-                                  child: Icon(
-                                    Icons.phone,
-                                    color: Colors.black,
-                                  )),
-                              SizedBox(width: 4),
-                              Text(
-                                'مكالمة',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
+              SizedBox(
+                width: size.width / 20,
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: size.height / 5.5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        _donationResponse.title ?? 'Donation',
+                        maxLines: 1,
+                        textDirection: TextDirection.rtl,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            elevation: MaterialStateProperty.all<double>(0),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.white),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                            ),
-                          ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  width: 26,
-                                  height: 26,
-                                  child: Icon(
-                                    Icons.phone,
-                                    color: Colors.black,
-                                  )),
-                              SizedBox(width: 4),
-                              Text(
-                                'مكالمة',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
+                      ),
+                      SizedBox(
+                        width: size.height / 25,
+                      ),
+                      Text(
+                        '${_donationResponse.user!.firstName!} ${_donationResponse.user!.lastName!} ',
+                        maxLines: 1,
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
                         ),
-                      ],
-                    )
-                  ],
+                      ),
+                      SizedBox(
+                        width: size.height / 25,
+                      ),
+                      Text(
+                        '${_donationResponse.city!.englishName}',
+                        maxLines: 1,
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(
+                        width: size.height / 25,
+                      ),
+                      Text(
+                        '${_donationResponse.description}',
+                        maxLines: 3,
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          myEvalutedBottom(
+                            borderColor: const Color(0xff20ADDC),
+                            color: const Color(0xffCED9E9).withOpacity(.5),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                    width: 26,
+                                    height: 26,
+                                    child:
+                                        _donationResponse.communicationMethod ==
+                                                'Phone'
+                                            ? const Icon(
+                                                Icons.phone,
+                                                color: Colors.black,
+                                              )
+                                            : const Icon(
+                                                Icons.chat,
+                                                color: Colors.black,
+                                              )),
+                                const SizedBox(width: 4),
+                                Text(
+                                  _donationResponse.communicationMethod ==
+                                          'Phone'
+                                      ? 'Phone'
+                                      : 'Chat',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {},
+                          ),
+                          const Spacer(),
+                          Text(
+                            timeAgo(
+                              _donationResponse.donationDate,
+                            ),
+                            style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -172,7 +169,7 @@ class DonationItem extends StatelessWidget {
   void viewDonationItemScreen(
       BuildContext context, DonationResponse donationResponse) {
     if (_donationResponse.category == 'BOOKS') {
-      myNavigator(context, BookDonationItemScreen());
+      myNavigator(context, const BookDonationItemScreen());
     } else if (_donationResponse.category == DonationCategory.MEDICINE) {
     } else if (_donationResponse.category == 'FOOD') {}
     else if (_donationResponse.category == 'MEDICINE') {}
