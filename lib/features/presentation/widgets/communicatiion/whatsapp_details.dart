@@ -29,7 +29,7 @@ class WhatsappDetails extends StatelessWidget {
             onOpen: (link) async {
               await launchUrlString(
                 whatsappLink ?? '',
-                mode: LaunchMode.externalApplication,
+                mode: LaunchMode.externalNonBrowserApplication,
               );
             },
           ),

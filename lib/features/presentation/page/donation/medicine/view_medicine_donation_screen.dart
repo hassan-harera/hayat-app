@@ -11,6 +11,7 @@ import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_don
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
 import 'package:hayat_eg/injection_container.dart';
 
 class MedicineDonationItemScreen extends StatefulWidget {
@@ -51,11 +52,12 @@ class _MedicineDonationItemScreenState
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: 'data for make QR ',
+                            data: _medicineDonation?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
                             height: 250,
+                            drawText: true,
                           ),
                           backgroundColor: Colors.grey[50],
                         ));
@@ -89,10 +91,8 @@ class _MedicineDonationItemScreenState
                           color: const Color(0xffE3EAF2),
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    child: Image.network(
-                      _medicineDonation?.imageUrl ??
-                          'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
-                      fit: BoxFit.contain,
+                    child: DownloadedImage(
+                      imageUrl: _medicineDonation?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -169,7 +169,7 @@ class _MedicineDonationItemScreenState
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 24,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -192,6 +192,9 @@ class _MedicineDonationItemScreenState
                                 ],
                               ),
                             ],
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
@@ -225,7 +228,7 @@ class _MedicineDonationItemScreenState
                                           color: Colors.grey,
                                           fontWeight: FontWeight.w400),
                                     ),
-                                    Icon(Icons.location_on_outlined),
+                                    const Icon(Icons.location_on_outlined),
                                   ],
                                 ),
                               ),
@@ -257,6 +260,9 @@ class _MedicineDonationItemScreenState
                             fontSize: 16,
                             // overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Text(
                           _medicineDonation?.description ?? '',
@@ -421,9 +427,9 @@ class _MedicineDonationItemScreenState
                           Row(
                             children: [
                               const Text(
-                                'Communication Method : ',
+                                'Communication Method: ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal, fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
@@ -432,8 +438,8 @@ class _MedicineDonationItemScreenState
                                   maxLines: 1,
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
