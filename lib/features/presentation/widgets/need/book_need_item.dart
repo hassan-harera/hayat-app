@@ -8,8 +8,7 @@ import 'package:hayat_eg/shared/component/constants.dart';
 Widget bookNeedItem(BuildContext context, BookNeedResponse needResponse) {
   final size = MediaQuery.of(context).size;
   return GestureDetector(
-    onTap: () {
-    },
+    onTap: () {},
     child: Container(
       height: 155,
       child: Row(

@@ -13,21 +13,21 @@ class BookDonationRequest {
   String? bookPublicationYear;
   String? bookLanguage;
 
-  BookDonationRequest(
-      {required this.title,
-      this.description,
-      required this.communicationMethod,
-      required this.cityId,
-      this.telegramLink,
-      this.whatsappLink,
-      this.quantity,
-      this.bookTitle,
-      this.bookSubTitle,
-      this.bookAuthor,
-      this.bookPublisher,
-      this.bookPublicationYear,
-      this.bookLanguage,
-      });
+  BookDonationRequest({
+    required this.title,
+    this.description,
+    required this.communicationMethod,
+    required this.cityId,
+    this.telegramLink,
+    this.whatsappLink,
+    this.quantity,
+    this.bookTitle,
+    this.bookSubTitle,
+    this.bookAuthor,
+    this.bookPublisher,
+    this.bookPublicationYear,
+    this.bookLanguage,
+  });
 
   BookDonationRequest fromJson(Map<String, dynamic> json) {
     return BookDonationRequest(

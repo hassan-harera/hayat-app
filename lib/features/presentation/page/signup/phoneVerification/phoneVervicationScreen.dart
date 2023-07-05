@@ -42,12 +42,12 @@ class PhoneVerificationScreen extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (context) => const AlertDialog(
-                  content: Text(
-                    'Success',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  backgroundColor: Colors.red,
-                ));
+                      content: Text(
+                        'Success',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.red,
+                    ));
           } else if (state is OTPVerificationRegisterErrorState) {
             showDialog(
                 context: context,
@@ -149,14 +149,14 @@ class PhoneVerificationScreen extends StatelessWidget {
                       ),
                       ConditionalBuilder(
                         condition: state is OTPVerificationRegisterLoadingState,
-                        builder: (context) =>const  Center(
-                            child: CircularProgressIndicator()),
-                        fallback: (context) =>myButton(
+                        builder: (context) =>
+                            const Center(child: CircularProgressIndicator()),
+                        fallback: (context) => myButton(
                             text: 'Verify',
                             onTap: () {
                               onSubmitted(registerCubit);
-                  },
-                  radius: 30),
+                            },
+                            radius: 30),
                       ),
                     ],
                   ),
@@ -168,12 +168,12 @@ class PhoneVerificationScreen extends StatelessWidget {
       ),
     );
   }
+
   void onSubmitted(RegisterCubit registerCubit) {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       registerCubit.oTPVerificationRegister(
-          mobile: mobilController,
-          otp: verificationController.text);
+          mobile: mobilController, otp: verificationController.text);
     } else {
       autoValidateMode = AutovalidateMode.always;
     }

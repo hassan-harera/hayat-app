@@ -216,13 +216,13 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                               height: 10,
                             ),
                             CitiesDropMenu(
-                              cities: _cities ?? [],
+                                cities: _cities ?? [],
                                 onSelectedCity: (value) => setState(() {
-                                  cityId = _cities!
-                                      .firstWhere((element) =>
-                                  element.arabicName == value)
-                                      .id;
-                                })),
+                                      cityId = _cities!
+                                          .firstWhere((element) =>
+                                              element.arabicName == value)
+                                          .id;
+                                    })),
                             const SizedBox(
                               height: 10,
                             ),

@@ -106,145 +106,155 @@ class _HomeScreen extends State<HomeScreen> {
             ),
             body: Padding(
               padding: const EdgeInsets.all(10),
-              child:
-                  ListView(
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    children: [
-                      Column(
+              child: ListView(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  children: [
+                    Column(
                       mainAxisSize: MainAxisSize.max,
-                    children: [
-                      ConditionalBuilder(
-                        condition: true,
-                        builder: (context) => homeBuilder(imageHeight: 100),
-                        fallback: (context) => const CircularProgressIndicator(),
-                      ),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        children: [
-                          Column(
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  'Donation Categories',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20),
-                                ),
-                                const Spacer(),
-                                TextButton(
-                                  onPressed: () {
-                                    navigate(context, DonationsScreen());
-                                  },
-                                  child: const Text(
-                                    'Sea All ',
-                                    style: TextStyle(color: Colors.amber),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
+                      children: [
+                        ConditionalBuilder(
+                          condition: true,
+                          builder: (context) => homeBuilder(imageHeight: 100),
+                          fallback: (context) =>
+                              const CircularProgressIndicator(),
+                        ),
+                        ListView(
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            children: [
+                              Column(
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      layoutCubit.changCategoryTitleToBook();
-                                      navigate(context, BookDonationFormScreen());
-                                    },
-                                    child: categoryProvider(
-                                      image: 'assets/bookCategory.png',
-                                      text: 'B00kS',
-                                      width: size.width / 2.7,
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        'Donation Categories',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      const Spacer(),
+                                      TextButton(
+                                        onPressed: () {
+                                          navigate(context, DonationsScreen());
+                                        },
+                                        child: const Text(
+                                          'Sea All ',
+                                          style: TextStyle(color: Colors.amber),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            layoutCubit
+                                                .changCategoryTitleToBook();
+                                            navigate(context,
+                                                BookDonationFormScreen());
+                                          },
+                                          child: categoryProvider(
+                                            image: 'assets/bookCategory.png',
+                                            text: 'B00kS',
+                                            width: size.width / 2.7,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            layoutCubit
+                                                .changCategoryTitleToMedicine();
+                                            navigate(context,
+                                                CreateFoodDonationScreen());
+                                          },
+                                          child: categoryProvider(
+                                            image: 'assets/foodCategory.png',
+                                            text: 'food',
+                                            width: size.width / 2.7,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            layoutCubit
+                                                .changCategoryTitleToMedicine();
+                                            navigate(context,
+                                                const MedicineCategoryScreen());
+                                          },
+                                          child: categoryProvider(
+                                            image:
+                                                'assets/medicineCategory.png',
+                                            text: 'medicine',
+                                            width: size.width / 2.7,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            layoutCubit
+                                                .changCategoryTitleToBook();
+                                            navigate(context,
+                                                const CreateClothingDonationScreen());
+                                          },
+                                          child: categoryProvider(
+                                            image: 'assets/clothesCategory.png',
+                                            text: 'clothes',
+                                            width: size.width / 2.7,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        'Needs',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      const Spacer(),
+                                      TextButton(
+                                        onPressed: () {
+                                          // NavegateTo(context, catigoriesScreen());
+                                        },
+                                        child: const Text(
+                                          'Sea All ',
+                                          style: TextStyle(color: Colors.amber),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      layoutCubit.changCategoryTitleToMedicine();
-                                      navigate(context, CreateFoodDonationScreen());
-                                    },
-                                    child: categoryProvider(
-                                      image: 'assets/foodCategory.png',
-                                      text: 'food',
-                                      width: size.width / 2.7,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      layoutCubit.changCategoryTitleToMedicine();
-                                      navigate(
-                                          context, const MedicineCategoryScreen());
-                                    },
-                                    child: categoryProvider(
-                                      image: 'assets/medicineCategory.png',
-                                      text: 'medicine',
-                                      width: size.width / 2.7,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      layoutCubit.changCategoryTitleToBook();
-                                      navigate(context, const CreateClothingDonationScreen());
-                                    },
-                                    child: categoryProvider(
-                                      image: 'assets/clothesCategory.png',
-                                      text: 'clothes',
-                                      width: size.width / 2.7,
-                                    ),
-                                  ),
+                                  Center(
+                                      child: ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) =>
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  bottom: size.height / 30,
+                                                ),
+                                                child: needItem(
+                                                    context, _list[index]),
+                                              ),
+                                          itemCount: _list.length)),
                                 ],
                               ),
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Needs',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20),
-                                ),
-                                const Spacer(),
-                                TextButton(
-                                  onPressed: () {
-                                    // NavegateTo(context, catigoriesScreen());
-                                  },
-                                  child: const Text(
-                                    'Sea All ',
-                                    style: TextStyle(color: Colors.amber),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Center(
-                                child: ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-
-
-                                    itemBuilder: (context, index) => Padding(
-                                          padding: EdgeInsets.only(
-                                            bottom: size.height / 30,
-                                          ),
-                                          child: needItem(context, _list[index]),
-                                        ),
-                                    itemCount: _list.length)),
-                          ],
-                        ),]
-                      ),
-                    ],
-                ),]
-                  ),
-
+                            ]),
+                      ],
+                    ),
+                  ]),
             ),
           );
         },

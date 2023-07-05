@@ -85,14 +85,13 @@ class RegisterCubit extends Cubit<RegisterState> {
       json.decode(response.body);
     }
     emit(PhoneVerificationRegisterSuccessState());
-
   }
 
   void oTPVerificationRegister({
     required String mobile,
     required String otp,
   }) async {
-   emit(OTPVerificationRegisterLoadingState());
+    emit(OTPVerificationRegisterLoadingState());
     http.Response response = await http
         .post(Uri.parse('$baseUrl/api/v1/otp/validate?mobile=$mobile&otp=$otp'),
             body: jsonEncode({
@@ -107,6 +106,5 @@ class RegisterCubit extends Cubit<RegisterState> {
       json.decode(response.body);
     }
     emit(OTPVerificationRegisterSuccessState());
-
   }
 }

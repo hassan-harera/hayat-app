@@ -11,7 +11,8 @@ class FoodDataSource {
   FoodDataSource({required this.client});
 
   Future<List<FoodCategory>> listFoodCategories() async {
-    var response = await client.get(Uri.parse('$baseUrl/api/v1/food/categories'));
+    var response =
+        await client.get(Uri.parse('$baseUrl/api/v1/food/categories'));
     List<dynamic> data = decodeJson(response.body);
     return List<FoodCategory>.from(data.map((e) => FoodCategory.fromJson(e)));
   }

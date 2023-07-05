@@ -76,7 +76,7 @@ Widget needItem(BuildContext context, NeedResponse needResponse) {
                       'Description food  food Donation Description food  food Donation Description food  food Donation',
                       maxLines: 2,
                       style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.ellipsis,
                           fontSize: 15,
                           fontWeight: FontWeight.w400),
                     ),

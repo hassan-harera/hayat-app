@@ -49,15 +49,15 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      content: BarcodeWidget(
-                        data: 'data for make QR ',
-                        barcode: Barcode.qrCode(),
-                        color: Colors.black,
-                        width: 250,
-                        height: 250,
-                      ),
-                      backgroundColor: Colors.grey[50],
-                    ));
+                          content: BarcodeWidget(
+                            data: 'data for make QR ',
+                            barcode: Barcode.qrCode(),
+                            color: Colors.black,
+                            width: 250,
+                            height: 250,
+                          ),
+                          backgroundColor: Colors.grey[50],
+                        ));
               },
               icon: const Icon(
                 Icons.qr_code,
@@ -121,7 +121,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                           '${_clothingDonation?.reputation ?? 0}',
                           maxLines: 1,
                           style:
-                          const TextStyle(overflow: TextOverflow.ellipsis),
+                              const TextStyle(overflow: TextOverflow.ellipsis),
                         ),
                         const SizedBox(
                           height: 10,

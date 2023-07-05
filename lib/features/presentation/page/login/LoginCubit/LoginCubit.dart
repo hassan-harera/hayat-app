@@ -47,8 +47,6 @@ class LoginCubit extends Cubit<LoginStates> {
     }
   }
 
-
-
   void logoutWithApi({
     required String subject,
     required String password,

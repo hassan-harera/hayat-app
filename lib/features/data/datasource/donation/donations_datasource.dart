@@ -30,5 +30,4 @@ class DonationDataSource {
           apiError: ApiError.fromJson(jsonDecode(response.body)));
     }
   }
-
 }

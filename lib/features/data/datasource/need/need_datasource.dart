@@ -11,8 +11,8 @@ class NeedDataSource {
   NeedDataSource({required this.client});
 
   Future<List<NeedResponse>?> search(String query) async {
-    final response = await client
-        .get(Uri.parse("$baseUrl/api/v1/needs/results?q=$query"));
+    final response =
+        await client.get(Uri.parse("$baseUrl/api/v1/needs/results?q=$query"));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return List<NeedResponse>.from(

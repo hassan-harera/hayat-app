@@ -556,7 +556,8 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           layoutCubit.changRadioValue();
                                         }),
                                     onTap: () {
-                                      communicationMethod.text = 'CHAT_AND_PHONE';
+                                      communicationMethod.text =
+                                          'CHAT_AND_PHONE';
                                     },
                                   ),
                                 ],

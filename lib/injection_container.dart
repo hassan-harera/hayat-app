@@ -120,7 +120,7 @@ Future<void> init() async {
     () => ClothingDatasource(sl()),
   );
   sl.registerLazySingleton<MedicineDataSource>(
-        () => MedicineDataSource(sl()),
+    () => MedicineDataSource(sl()),
   );
 
   /**

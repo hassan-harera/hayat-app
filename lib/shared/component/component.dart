@@ -152,8 +152,7 @@ Widget mySpecialTextFormField({
               borderSide: BorderSide(color: borderColor))),
     );
 
-Widget descriptionTextField(
-        {required TextEditingController? controller}) =>
+Widget descriptionTextField({required TextEditingController? controller}) =>
     TextFormField(
       controller: controller,
       maxLines: 7,
@@ -299,6 +298,77 @@ Widget donateCategoryItem({
 int titleIndex = 0;
 
 Widget optionalTextField(
+    {TextEditingController? controller,
+    TextInputType? keyboardType = TextInputType.text,
+    String? hint,
+    bool obscure = false,
+    bool filled = true,
+    void Function(String)? onFieldSubmitted,
+    Function? suffixFunction,
+    Function? data,
+    IconData? prefixIcon,
+    IconData? suffixIcon,
+    Color? labelColor,
+    Color? prefixColor,
+    Color? suffixColor,
+    double? width = double.infinity,
+    void Function()? onTap,
+    void Function(String)? onChanged}) {
+  return Container(
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+    width: width,
+    child: TextFormField(
+      onTap: onTap,
+      controller: controller,
+      style: const TextStyle(),
+      keyboardType: keyboardType,
+      obscureText: obscure,
+      onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
+      decoration: InputDecoration(
+        prefixIcon: prefixIcon != null
+            ? Icon(
+                prefixIcon,
+                color: prefixColor,
+              )
+            : null,
+        suffixIcon: suffixIcon != null
+            ? IconButton(
+                onPressed: () {
+                  suffixFunction!();
+                },
+                icon: Icon(
+                  suffixIcon,
+                  color: suffixColor,
+                ))
+            : null,
+        hintText: hint,
+        fillColor: Colors.white,
+        filled: filled,
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.white,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.amber,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.red,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget requiredTextField(
         {TextEditingController? controller,
         TextInputType? keyboardType = TextInputType.text,
         String? hint,
@@ -306,6 +376,7 @@ Widget optionalTextField(
         bool filled = true,
         void Function(String)? onFieldSubmitted,
         Function? suffixFunction,
+        required String? Function(String?)? validator,
         Function? data,
         IconData? prefixIcon,
         IconData? suffixIcon,
@@ -314,8 +385,8 @@ Widget optionalTextField(
         Color? suffixColor,
         double? width = double.infinity,
         void Function()? onTap,
-        void Function(String)? onChanged}) {
-  return Container(
+        void Function(String)? onChanged}) =>
+    Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
       width: width,
       child: TextFormField(
@@ -323,6 +394,7 @@ Widget optionalTextField(
         controller: controller,
         style: const TextStyle(),
         keyboardType: keyboardType,
+        validator: validator,
         obscureText: obscure,
         onChanged: onChanged,
         onFieldSubmitted: onFieldSubmitted,
@@ -342,80 +414,6 @@ Widget optionalTextField(
                     suffixIcon,
                     color: suffixColor,
                   ))
-              : null,
-          hintText: hint,
-          fillColor: Colors.white,
-          filled: filled,
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.white,
-            ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.amber,
-            ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.red,
-            ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
-    );
-}
-
-
-Widget requiredTextField(
-    {TextEditingController? controller,
-      TextInputType? keyboardType = TextInputType.text,
-      String? hint,
-      bool obscure = false,
-      bool filled = true,
-      void Function(String)? onFieldSubmitted,
-      Function? suffixFunction,
-      required String? Function(String?)? validator,
-      Function? data,
-      IconData? prefixIcon,
-      IconData? suffixIcon,
-      Color? labelColor,
-      Color? prefixColor,
-      Color? suffixColor,
-      double? width = double.infinity,
-      void Function()? onTap,
-      void Function(String)? onChanged}) =>
-    Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-      width: width,
-      child: TextFormField(
-        onTap: onTap,
-        controller: controller,
-        style: const TextStyle(),
-        keyboardType: keyboardType,
-        validator: validator,
-        obscureText: obscure,
-        onChanged: onChanged,
-        onFieldSubmitted: onFieldSubmitted,
-        decoration: InputDecoration(
-          prefixIcon: prefixIcon != null
-              ? Icon(
-            prefixIcon,
-            color: prefixColor,
-          )
-              : null,
-          suffixIcon: suffixIcon != null
-              ? IconButton(
-              onPressed: () {
-                suffixFunction!();
-              },
-              icon: Icon(
-                suffixIcon,
-                color: suffixColor,
-              ))
               : null,
           hintText: hint,
           fillColor: Colors.white,

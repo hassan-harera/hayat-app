@@ -550,7 +550,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookDonationDetailsScreen(id : id),
+                    builder: (context) => BookDonationDetailsScreen(id: id),
                   ),
                 )
               });
@@ -558,7 +558,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BookDonationDetailsScreen(id : id),
+          builder: (context) => BookDonationDetailsScreen(id: id),
         ),
       );
     }

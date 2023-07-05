@@ -12,8 +12,7 @@ class FoodDonationRepository {
     required this.foodDonationDataSource,
   });
 
-  Future<FoodDonationResponse?> create(
-      FoodDonationRequest request) async {
+  Future<FoodDonationResponse?> create(FoodDonationRequest request) async {
     return await foodDonationDataSource.create(request);
   }
 

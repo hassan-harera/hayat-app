@@ -18,7 +18,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
-
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
 
@@ -90,7 +89,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: Column(
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Text(
                                             'First Name',
@@ -106,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           defaultTextFormField(
                                             hint: ('First Name'),
                                             prefixIcon:
-                                            (Icons.person_outline_outlined),
+                                                (Icons.person_outline_outlined),
                                             controller: firstNameController,
                                             keyboardType: TextInputType.text,
                                             validator: (value) {
@@ -123,15 +123,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         height: size.height / 80,
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Text(
                                             'Last Name',
                                             style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black54
-                                            ),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black54),
                                           ),
                                           const SizedBox(
                                             height: 10,
@@ -139,10 +139,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           defaultTextFormField(
                                             hint: ('Last Name'),
                                             prefixIcon:
-                                            (Icons.person_outline_outlined),
+                                                (Icons.person_outline_outlined),
                                             controller: lastNameController,
                                             keyboardType:
-                                            TextInputType.emailAddress,
+                                                TextInputType.emailAddress,
                                             validator: (value) {
                                               if (value!.isEmpty) {
                                                 return " last Name is Required";
@@ -156,10 +156,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       SizedBox(
                                         height: size.height / 40,
                                       ),
-
                                       ConditionalBuilder(
                                         condition:
-                                        state is! RegisterLoadingState,
+                                            state is! RegisterLoadingState,
                                         builder: (context) => myButton(
                                             text: 'Next',
                                             onTap: () {
@@ -171,11 +170,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                     context,
                                                     PhoneScreen(
                                                       firstNameController:
-                                                      firstNameController
-                                                          .text,
+                                                          firstNameController
+                                                              .text,
                                                       lastNameController:
-                                                      lastNameController
-                                                          .text,
+                                                          lastNameController
+                                                              .text,
                                                     ));
                                               } else {
                                                 autoValidateMode =

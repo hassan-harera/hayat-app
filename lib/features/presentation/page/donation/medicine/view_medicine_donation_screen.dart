@@ -429,7 +429,8 @@ class _MedicineDonationItemScreenState
                               const Text(
                                 'Communication Method: ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.normal, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(

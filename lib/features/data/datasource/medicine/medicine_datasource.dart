@@ -18,8 +18,7 @@ class MedicineDataSource {
   }
 
   Future<List<Medicine>> listMedicines() async {
-    var response =
-    await client.get(Uri.parse('$baseUrl/api/v1/medicines'));
+    var response = await client.get(Uri.parse('$baseUrl/api/v1/medicines'));
     List<dynamic> data = decodeJson(response.body);
     return List<Medicine>.from(data.map((e) => Medicine.fromJson(e)));
   }

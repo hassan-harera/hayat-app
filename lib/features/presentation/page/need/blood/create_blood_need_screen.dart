@@ -548,7 +548,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
               message: "Your Request has been sent successfully");
         },
       );
-      if (value is BloodNeedResponse){
+      if (value is BloodNeedResponse) {
         _uploadImage(value.id!);
       }
     });

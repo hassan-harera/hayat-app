@@ -17,10 +17,10 @@ class BookDonationDataSource {
 
   BookDonationDataSource(this.client);
 
-  Future<BookDonationResponse?> create(
-      BookDonationRequest request) async {
+  Future<BookDonationResponse?> create(BookDonationRequest request) async {
     String token = Cash_helper.getData(key: 'token');
-    final response = await client.post(Uri.parse('$baseUrl/api/v1/donations/book'),
+    final response = await client.post(
+        Uri.parse('$baseUrl/api/v1/donations/book'),
         body: jsonEncode(request.toJson()),
         headers: {
           'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ class BookDonationDataSource {
 
   Future<List<BookDonationResponse>?> search(String query) async {
     final response =
-    await client.get(Uri.parse("$baseUrl/api/v1/donations/book"));
+        await client.get(Uri.parse("$baseUrl/api/v1/donations/book"));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return List<BookDonationResponse>.from(decodeJson(response.body)
@@ -50,7 +50,7 @@ class BookDonationDataSource {
 
   Future<BookDonationResponse?> get(int id) async {
     final response =
-    await client.get(Uri.parse('$baseUrl/api/v1/donations/book/$id'));
+        await client.get(Uri.parse('$baseUrl/api/v1/donations/book/$id'));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return BookDonationResponse.fromJson(decodeJson(response.body));
@@ -61,12 +61,11 @@ class BookDonationDataSource {
   }
 
   Future<BookDonationResponse?> upvote(int id) async {
-    final response = await client.put(
-        Uri.parse('$baseUrl/api/v1/donations/book/$id/upvote'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${Cash_helper.getData(key: 'token')}'
-        });
+    final response = await client
+        .put(Uri.parse('$baseUrl/api/v1/donations/book/$id/upvote'), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${Cash_helper.getData(key: 'token')}'
+    });
 
     if (response.statusCode == 400) {
       throw BadRequestException(

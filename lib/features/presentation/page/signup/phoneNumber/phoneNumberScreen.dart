@@ -10,7 +10,9 @@ import '../phoneVerification/phoneVervicationScreen.dart';
 
 class PhoneScreen extends StatelessWidget {
   PhoneScreen(
-      {super.key, required this.firstNameController, required this.lastNameController});
+      {super.key,
+      required this.firstNameController,
+      required this.lastNameController});
 
   var formKey = GlobalKey<FormState>();
   final String firstNameController;
@@ -33,16 +35,25 @@ class PhoneScreen extends StatelessWidget {
                   lastNameController: lastNameController,
                   firstNameController: firstNameController,
                 ));
-            showDialog(context: context, builder: (context) => const AlertDialog(
-              content: Text('Success',style: TextStyle(color: Colors.white),),
-              backgroundColor: Colors.green,
-            ));
-          }
-          else if (state is PhoneNumberErrorState){
-            showDialog(context: context, builder: (context) => AlertDialog(
-              content: Text(state.errorMessage,style: const TextStyle(color: Colors.white),),
-              backgroundColor: Colors.red,
-            ));
+            showDialog(
+                context: context,
+                builder: (context) => const AlertDialog(
+                      content: Text(
+                        'Success',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.green,
+                    ));
+          } else if (state is PhoneNumberErrorState) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      content: Text(
+                        state.errorMessage,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.red,
+                    ));
           }
         },
         builder: (context, state) {
@@ -140,12 +151,12 @@ class PhoneScreen extends StatelessWidget {
       ),
     );
   }
+
   void onSubmitted(PhoneNumberCubit phoneNumberCubit) {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       phoneNumberCubit.phoneVerificationInRegister(
-          mobile: phoneController.text
-      );
+          mobile: phoneController.text);
     } else {
       autoValidateMode = AutovalidateMode.always;
     }

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/datasource/medicine/medicine_datasource.dart';
 
 import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
-import 'package:hayat_eg/features/data/model/medicineModel.dart';
 
 import '../../styles/colors.dart';
 
@@ -52,24 +51,24 @@ class SearchScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            FutureBuilder<List<MedicineModel>>(
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<MedicineModel> listOfMedicine = snapshot.data!;
-
-                  return Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => ListTile(
-                        title: Text('${listOfMedicine[index].englishName}'),
-                      ),
-                      itemCount: listOfMedicine.length,
-                    ),
-                  );
-                } else {
-                  return const Center(child: Text('..............'));
-                }
-              },
-            ),
+            // FutureBuilder<List<MedicineModel>>(
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasData) {
+            //       List<MedicineModel> listOfMedicine = snapshot.data!;
+            //
+            //       return Expanded(
+            //         child: ListView.builder(
+            //           itemBuilder: (context, index) => ListTile(
+            //             title: Text('${listOfMedicine[index].englishName}'),
+            //           ),
+            //           itemCount: listOfMedicine.length,
+            //         ),
+            //       );
+            //     } else {
+            //       return const Center(child: Text('..............'));
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),

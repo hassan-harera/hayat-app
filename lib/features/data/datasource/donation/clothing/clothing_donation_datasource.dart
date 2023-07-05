@@ -20,7 +20,8 @@ class ClothingDonationDataSource {
   Future<ClothingDonationResponse?> create(
       ClothingDonationRequest request) async {
     String token = Cash_helper.getData(key: 'token');
-    final response = await client.post(Uri.parse('$baseUrl/api/v1/donations/clothing'),
+    final response = await client.post(
+        Uri.parse('$baseUrl/api/v1/donations/clothing'),
         body: jsonEncode(request.toJson()),
         headers: {
           'Content-Type': 'application/json',
@@ -37,7 +38,7 @@ class ClothingDonationDataSource {
 
   Future<List<ClothingDonationResponse>?> search(String query) async {
     final response =
-    await client.get(Uri.parse("$baseUrl/api/v1/donations/clothing"));
+        await client.get(Uri.parse("$baseUrl/api/v1/donations/clothing"));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return List<ClothingDonationResponse>.from(decodeJson(response.body)
@@ -50,7 +51,7 @@ class ClothingDonationDataSource {
 
   Future<ClothingDonationResponse?> get(int id) async {
     final response =
-    await client.get(Uri.parse('$baseUrl/api/v1/donations/clothing/$id'));
+        await client.get(Uri.parse('$baseUrl/api/v1/donations/clothing/$id'));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return ClothingDonationResponse.fromJson(decodeJson(response.body));

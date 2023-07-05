@@ -9,17 +9,16 @@ class PhoneNumberCubit extends Cubit<PhoneNumberStates> {
 
   static PhoneNumberCubit get(context) => BlocProvider.of(context);
 
-
   void phoneVerificationInRegister({
     required String mobile,
   }) async {
     emit(PhoneNumberLoadingState());
     http.Response response =
-    await http.post(Uri.parse('$baseUrl/api/v1/otp/request?mobile=$mobile'),
-        body: jsonEncode({
-          "mobile": mobile,
-        }),
-        headers: {
+        await http.post(Uri.parse('$baseUrl/api/v1/otp/request?mobile=$mobile'),
+            body: jsonEncode({
+              "mobile": mobile,
+            }),
+            headers: {
           'Content-Type': 'application/json',
         });
     if (response.body.isNotEmpty) {
@@ -27,6 +26,4 @@ class PhoneNumberCubit extends Cubit<PhoneNumberStates> {
     }
     emit(PhoneNumberSuccessState());
   }
-
-
 }
