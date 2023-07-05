@@ -17,6 +17,7 @@ import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/page/donation/clothing/view_clothing_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
@@ -26,7 +27,6 @@ import '../../../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
 import '../../../../../shared/component/component.dart';
 import '../../../../../shared/component/constants.dart';
-import 'view_clothing_donation_screen.dart';
 
 class CreateClothingDonationScreen extends StatefulWidget {
   const CreateClothingDonationScreen({super.key});
@@ -908,9 +908,7 @@ class _CreateClothingDonationScreen
               message: 'Your Donation Request has been sent successfully',
             );
           });
-      print(value);
-      value as ClothingDonationResponse;
-      uploadImage(value.id as int);
+      uploadImage(value?.id as int);
     });
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
@@ -955,9 +953,7 @@ class _CreateClothingDonationScreen
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return const SuccessDialog(
-            message: 'Your Donation Request has been sent successfully',
-          );
+          return ClothesDonationItemScreen(id: id);
         }),
       );
     }

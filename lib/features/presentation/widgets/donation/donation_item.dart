@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
-import 'package:hayat_eg/features/presentation/page/donation/clothing/ClothesDonationItemScreen.dart';
+import 'package:hayat_eg/features/presentation/page/donation/clothing/view_clothing_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/food/view_food_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/medicine/view_medicine_donation_screen.dart';
 import 'package:hayat_eg/shared/component/constants.dart';

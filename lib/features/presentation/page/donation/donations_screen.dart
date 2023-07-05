@@ -3,7 +3,6 @@ import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
-import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
 import 'package:hayat_eg/features/presentation/widgets/donation/donation_item.dart';
 import 'package:hayat_eg/features/data/repository/donation/food/food_donation_repository.dart';
@@ -95,7 +94,7 @@ class _DonationsScreenState extends State<DonationsScreen> {
                         size: 30,
                       ),
                       onPressed: () {
-                        myNavigator(context, notificationScreen());
+                        navigate(context, notificationScreen());
                       },
                     ),
                   ],
