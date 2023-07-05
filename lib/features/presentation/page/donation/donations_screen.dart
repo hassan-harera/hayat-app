@@ -3,6 +3,8 @@ import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
 import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/donation/food_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
 import 'package:hayat_eg/features/presentation/widgets/donation/donation_item.dart';
 import 'package:hayat_eg/features/data/repository/donation/food/food_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
@@ -19,7 +21,7 @@ class DonationsScreen extends StatefulWidget {
 class _DonationsScreenState extends State<DonationsScreen> {
   final query = TextEditingController();
 
-  bool sColor1 = false;
+  bool sColor1 = true;
   bool sColor2 = false;
   bool sColor3 = false;
   bool sColor4 = false;
@@ -43,96 +45,6 @@ class _DonationsScreenState extends State<DonationsScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    //    return Scaffold(
-    //       appBar: AppBar(
-    //         title: Padding(
-    //           padding: const EdgeInsets.all(16.0),
-    //           child: Row(
-    //             children: [
-    //               Expanded(
-    //                 child: TextField(
-    //                   controller: query,
-    //                   decoration: InputDecoration(
-    //                     hintText: 'Search',
-    //                     prefixIcon: const Icon(Icons.search),
-    //                     border: OutlineInputBorder(
-    //                       borderRadius: BorderRadius.circular(10.0),
-    //                     ),
-    //                   ),
-    //                   onChanged: (value) {
-    //                     _getDonations();
-    //                   },
-    //                 ),
-    //               ),
-    //               const SizedBox(width: 16.0),
-    //               const Icon(Icons.photo_filter),
-    //               const SizedBox(width: 8.0),
-    //               const Icon(Icons.sort),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //       body: Column(
-    //         children: [
-    //           SizedBox(
-    //             height: 50.0,
-    //             child: ListView(
-    //               scrollDirection: Axis.horizontal,
-    //               children: [
-    //                 TabItem(
-    //                   text: 'All',
-    //                   onPressed: () {
-    //                     category = 'ALL';
-    //                     _getDonations();
-    //                   },
-    //                 ),
-    //                 TabItem(
-    //                     text: 'Medicines',
-    //                     onPressed: () {
-    //                       category = 'MEDICINE';
-    //                       _getDonations();
-    //                     }),
-    //                 TabItem(
-    //                   text: 'Books',
-    //                   onPressed: () {
-    //                     category = 'BOOK';
-    //                     _getDonations();
-    //                   },
-    //                 ),
-    //                 TabItem(
-    //                   text: 'Food',
-    //                   onPressed: () {
-    //                     category = 'FOOD';
-    //                     _getDonations();
-    //                   },
-    //                 ),
-    //                 TabItem(
-    //                   text: 'Clothes',
-    //                   onPressed: () {
-    //                     category = 'CLOTHING';
-    //                     _getDonations();
-    //                   },
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //           Expanded(
-    //             child: Container(
-    //               padding: const EdgeInsets.all(16.0),
-    //               child: ListView.builder(
-    //                 padding: const EdgeInsets.all(10.0),
-    //                 itemCount: _donations.length,
-    //                 itemBuilder: (context, index) {
-    //                   return DonationItem(
-    //                     _donations[index],
-    //                   );
-    //                 },
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     );
     return Scaffold(
       body: SafeArea(
         child: GestureDetector(
@@ -153,7 +65,7 @@ class _DonationsScreenState extends State<DonationsScreen> {
                         controller: query,
                         decoration: InputDecoration(
                           hintText: 'Search',
-                          fillColor: Colors.white,
+                          fillColor: const Color(0xffCED9E9).withOpacity(.5),
                           filled: true,
                           constraints: const BoxConstraints(
                               minHeight: 30, maxHeight: 50),
@@ -161,8 +73,13 @@ class _DonationsScreenState extends State<DonationsScreen> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(40.0),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color(0xff20ADDC), width: 2),
+                              borderRadius: BorderRadius.circular(40.0)),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.white),
+                            borderSide: BorderSide(
+                                color: const Color(0xffCED9E9).withOpacity(.5)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                         ),
@@ -172,12 +89,14 @@ class _DonationsScreenState extends State<DonationsScreen> {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.photo_filter),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.sort),
-                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.notifications,
+                        color: Color(0xff20ADDC),
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        myNavigator(context, notificationScreen());
+                      },
                     ),
                   ],
                 ),
@@ -189,14 +108,22 @@ class _DonationsScreenState extends State<DonationsScreen> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
+                      CircleAvatar(
+                        backgroundColor:
+                            const Color(0xffCED9E9).withOpacity(.5),
+                        minRadius: 20,
+                        child: const Icon(Icons.filter_list_alt,
+                            color: Color(0xff20ADDC)),
+                      ),
                       const SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       defaultTextBottom(
-                        color: sColor1 ? const Color(0xff20ADDC) : Colors.white,
-                        borderColor:
-                            sColor1 ? const Color(0xff20ADDC) : Colors.white,
-                        textColor: sColor1 ? Colors.white : Colors.black54,
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor1
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
+                        textColor: sColor1 ? Colors.black : Colors.black54,
                         text: 'All',
                         onPressed: () {
                           setState(() {});
@@ -210,11 +137,12 @@ class _DonationsScreenState extends State<DonationsScreen> {
                         width: 5,
                       ),
                       defaultTextBottom(
-                        color: sColor2 ? const Color(0xff20ADDC) : Colors.white,
-                        borderColor:
-                            sColor2 ? const Color(0xff20ADDC) : Colors.white,
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor2
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
                         text: 'Medicines',
-                        textColor: sColor2 ? Colors.white : Colors.black54,
+                        textColor: sColor2 ? Colors.black : Colors.black54,
                         onPressed: () {
                           setState(() {});
                           category = 'MEDICINE';
@@ -226,11 +154,12 @@ class _DonationsScreenState extends State<DonationsScreen> {
                         width: 5,
                       ),
                       defaultTextBottom(
-                        color: sColor3 ? const Color(0xff20ADDC) : Colors.white,
-                        borderColor:
-                            sColor3 ? const Color(0xff20ADDC) : Colors.white,
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor3
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
                         text: 'Books',
-                        textColor: sColor3 ? Colors.white : Colors.black54,
+                        textColor: sColor3 ? Colors.black : Colors.black54,
                         onPressed: () {
                           setState(() {});
                           category = 'BOOK';
@@ -242,11 +171,12 @@ class _DonationsScreenState extends State<DonationsScreen> {
                         width: 5,
                       ),
                       defaultTextBottom(
-                        color: sColor4 ? const Color(0xff20ADDC) : Colors.white,
-                        borderColor:
-                            sColor4 ? const Color(0xff20ADDC) : Colors.white,
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor4
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
                         text: 'Food',
-                        textColor: sColor4 ? Colors.white : Colors.black54,
+                        textColor: sColor4 ? Colors.black : Colors.black54,
                         onPressed: () {
                           setState(() {});
                           category = 'FOOD';
@@ -258,11 +188,12 @@ class _DonationsScreenState extends State<DonationsScreen> {
                         width: 5,
                       ),
                       defaultTextBottom(
-                        color: sColor5 ? const Color(0xff20ADDC) : Colors.white,
-                        borderColor:
-                            sColor5 ? const Color(0xff20ADDC) : Colors.white,
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor5
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
                         text: 'Clothes',
-                        textColor: sColor5 ? Colors.white : Colors.black54,
+                        textColor: sColor5 ? Colors.black : Colors.black54,
                         onPressed: () {
                           setState(() {});
                           category = 'CLOTHING';
@@ -280,6 +211,7 @@ class _DonationsScreenState extends State<DonationsScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
                       itemCount: _donations.length,
                       itemBuilder: (context, index) {
                         return DonationItem(

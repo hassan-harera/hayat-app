@@ -78,6 +78,28 @@ Widget defaultTextBottom(
           isUppercase: false),
     );
 
+Widget myEvalutedBottom(
+        {required VoidCallback onPressed,
+        Color color = Colors.white,
+        Color textColor = Colors.black,
+        Color borderColor = Colors.amber,
+        required Widget child}) =>
+    Container(
+        width: 120,
+        height: 40,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(
+            color: borderColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(
+            40,
+          ),
+        ),
+        child: child);
+
 void showToast({
   required String message,
   required ToastState state,
