@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/presentation/page/need/medicine/ask_medicine_need_screen.dart';
 import 'package:hayat_eg/features/presentation/page/need/book/create_book_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -230,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         text: 'Share'),
                     myCard(
                         onPressed: () {
-                          myNavigator(context, notificationScreen());
+                          navigate(context, notificationScreen());
                         },
                         icon: Icons.notifications,
                         text: 'Notifications'),

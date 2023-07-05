@@ -38,7 +38,7 @@ class HayatLayoutScreen extends StatelessWidget {
                   weight: 555,
                 ),
                 onPressed: () {
-                  myNavigator(context, QRScanner());
+                  navigate(context, QRScanner());
                 },
               ),
             ),
