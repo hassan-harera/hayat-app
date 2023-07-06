@@ -11,6 +11,7 @@ import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation
 import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_response.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
+import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_request.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
@@ -664,20 +665,19 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
   }
 
   void onSubmit() async {
-    final request = MedicineDonationRequest(
+    final request = MedicineNeedRequest(
       title: titleController.text,
       description: descriptionController.text,
       cityId: _cities?[0].id,
       communicationMethod: 'CHAT',
-      quantity: double.parse(quantityController.text),
       telegramLink: "https://t.me/${telegramController.text}",
-      whatsappLink: "https://wa.me/${watsAppController.text}",
+      // whatsappLink: "https://wa.me/${watsAppController.text}",
       medicineId: _medicines?[0].id,
       medicineUnitId: _medicineUnits?[0].id,
-      medicineExpirationDate: _medicineExpirationDateController.text,
+      // medicineExpirationDate: _medicineExpirationDateController.text,
     );
 
-    final response = _medicineDonationRepository.create(request);
+    final response = _medicineNeed.create(request);
     response.then((value) {
       showDialog(
           context: context,
