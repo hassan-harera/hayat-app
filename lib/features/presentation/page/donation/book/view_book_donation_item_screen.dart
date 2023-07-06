@@ -1,20 +1,15 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
-import 'package:hayat_eg/core/loading.dart';
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
-import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
 import 'package:hayat_eg/injection_container.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class BookDonationDetailsScreen extends StatefulWidget {
   final int id;
@@ -53,11 +48,12 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: 'data for make QR ',
+                            data: _bookDonation?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
                             height: 250,
+                            drawText: true,
                           ),
                           backgroundColor: Colors.grey[50],
                         ));
@@ -123,7 +119,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                downvote();
+                                downVote();
                               });
                             },
                             icon: const Icon(
@@ -156,7 +152,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Row(
@@ -169,14 +165,14 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
@@ -193,9 +189,12 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Text(
@@ -203,7 +202,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                   ('${_bookDonation?.user?.firstName!} ${_bookDonation?.user?.lastName!}'),
                                   style: const TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -213,7 +212,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                 width: 100,
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
@@ -254,9 +253,12 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                           "Description",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                             // overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Text(
                           _bookDonation?.description ?? '',
@@ -264,6 +266,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
+                              fontSize: 16,
                               fontWeight: FontWeight.w400),
                         ),
                       ]),
@@ -287,7 +290,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Donation Details',
+                            'Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
@@ -296,139 +299,155 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                           ),
                           Row(
                             children: [
-                              const Text(
-                                'Book Title: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16),
-                              ),
                               Expanded(
-                                child: Text(
-                                  _bookDonation?.bookTitle ?? 'N/A',
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Book Name:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 78,
+                                        ),
+                                        Text(
+                                          _bookDonation?.bookSubTitle ??
+                                              'Book !!!',
+                                          maxLines: 2,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'book Publisher:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 55,
+                                        ),
+                                        Text(
+                                          _bookDonation?.bookPublisher ?? '!!!',
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'book Author:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 74,
+                                        ),
+                                        Text(
+                                          _bookDonation?.bookAuthor ?? '!!!',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Book Quantity: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 49,
+                                        ),
+                                        Text(
+                                          '  ${_bookDonation?.quantity}' ?? '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Book Language: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 40,
+                                        ),
+                                        Text(
+                                          '  ${_bookDonation?.bookLanguage}' ??
+                                              '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'book Publication Year:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        Text(
+                                          '  ${_bookDonation?.bookPublicationYear}' ??
+                                              '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Book Sub Title: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _bookDonation?.bookSubTitle ?? 'N/A',
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                              const SizedBox(
+                                width: 20,
                               ),
                             ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Book Language: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _bookDonation?.bookLanguage ?? 'N/A',
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Book Author: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _bookDonation?.bookAuthor ?? 'N/A',
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Publisher: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _bookDonation?.bookPublisher ?? 'N/A',
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Publication Year: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _bookDonation?.bookPublicationYear ?? 'N/A',
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -460,7 +479,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                           Row(
                             children: [
                               const Text(
-                                'Communication Method : ',
+                                'Communication Method:    ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 16),
@@ -472,6 +491,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.black,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -486,7 +506,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                             height: 10,
                           ),
                           TelegramDetails(
-                            telegramLink: _bookDonation?.telegramLink ?? '',
+                            telegramLink: _bookDonation?.telegramLink,
                           ),
                         ],
                       ),
@@ -504,14 +524,14 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
     );
   }
 
-  void downvote() {
+  void downVote() {
     final response = _bookDonationRepository.downvote(id);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: 'Your have up voted this donation, Thank you!',
             );
           });
 
@@ -549,7 +569,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: 'Your have up voted this donation, Thank you!',
             );
           });
 

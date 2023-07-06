@@ -18,6 +18,14 @@ class BookNeedRepository {
     return await bookNeedDataSource.updateImage(id, image);
   }
 
+  Future<BookNeedResponse?> upvote(int id) async {
+    return await bookNeedDataSource.upvote(id);
+  }
+
+  Future<BookNeedResponse?> downVote(int id) async {
+    return await bookNeedDataSource.downvote(id);
+  }
+
   Future<List<BookNeedResponse>?> search(String query) async {
     return await bookNeedDataSource.search(query);
   }

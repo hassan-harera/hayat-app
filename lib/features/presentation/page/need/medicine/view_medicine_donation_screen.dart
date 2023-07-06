@@ -1,14 +1,14 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
-import 'package:hayat_eg/core/loading.dart';
 import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_response.dart';
 import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
 import 'package:hayat_eg/injection_container.dart';
 
 class MedicineNeedItemScreen extends StatefulWidget {
@@ -49,12 +49,13 @@ class _MedicineNeedItemScreenState
                     context: context,
                     builder: (context) => AlertDialog(
                       content: BarcodeWidget(
-                        data: 'data for make QR ',
-                        barcode: Barcode.qrCode(),
-                        color: Colors.black,
-                        width: 250,
-                        height: 250,
-                      ),
+                        data: _medicineNeed?.qrCode ?? 'QR',
+                            barcode: Barcode.qrCode(),
+                            color: Colors.black,
+                            width: 250,
+                            height: 250,
+                            drawText: true,
+                          ),
                       backgroundColor: Colors.grey[50],
                     ));
               },
@@ -82,14 +83,13 @@ class _MedicineNeedItemScreenState
                     height: size.height / 3.8,
                     width: size.width / 1.3,
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(4, 108, 109, 1),
+                        color: Colors.black12,
                         border: Border.all(
                           color: const Color(0xffE3EAF2),
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    child: Image.network(
-                      _medicineNeed?.imageUrl ??
-                          'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
+                    child: DownloadedImage(
+                      imageUrl: _medicineNeed?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -120,7 +120,7 @@ class _MedicineNeedItemScreenState
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                downvote();
+                                downVote();
                               });
                             },
                             icon: const Icon(
@@ -153,7 +153,7 @@ class _MedicineNeedItemScreenState
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Row(
@@ -166,14 +166,14 @@ class _MedicineNeedItemScreenState
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
@@ -190,9 +190,12 @@ class _MedicineNeedItemScreenState
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Text(
@@ -200,31 +203,28 @@ class _MedicineNeedItemScreenState
                                   ('${_medicineNeed?.user?.firstName!} ${_medicineNeed?.user?.lastName!}'),
                                   style: const TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 100,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      ('${_medicineNeed?.city?.arabicName}'),
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Icon(Icons.location_on_outlined),
-                                  ],
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    ('${_medicineNeed?.city?.arabicName}'),
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  const Icon(Icons.location_on_outlined),
+                                ],
                               ),
                             ],
                           ),
@@ -251,9 +251,12 @@ class _MedicineNeedItemScreenState
                           "Description",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                             // overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Text(
                           _medicineNeed?.description ?? '',
@@ -261,6 +264,7 @@ class _MedicineNeedItemScreenState
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
+                              fontSize: 16,
                               fontWeight: FontWeight.w400),
                         ),
                       ]),
@@ -283,89 +287,110 @@ class _MedicineNeedItemScreenState
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Need Details',
+                          const Text(
+                            'Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Medicine Name : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
                               Expanded(
-                                child: Text(
-                                  'سينا لاكس 20',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Medicine Name:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 48,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineNeed?.medicine?.arabicName}' ??
+                                                'Medicine !!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Medicine  Unit:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 59,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineNeed?.medicineUnit}' ??
+                                                '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Medicine Amount:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 34,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineNeed?.quantity}' ??
+                                                '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Medicine Unit : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  ' bottle',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
+                              const SizedBox(
+                                width: 20,
                               ),
                             ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Medicine Amount : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '${_medicineNeed?.quantity?.toString()} ${_medicineNeed?.medicineUnit?.englishName} Available',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Medicine Expiration Date: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                            ],
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -397,68 +422,34 @@ class _MedicineNeedItemScreenState
                           Row(
                             children: [
                               const Text(
-                                'Communication Method : ',
+                                'Communication Method:    ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  _medicineNeed?.communicationMethod ??
-                                      'Chat',
+                                  _medicineNeed?.communicationMethod ?? 'Chat',
                                   maxLines: 1,
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Whatsapp Link: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Linkify(
-                                  maxLines: 1,
-                                  text:
-                                  _medicineNeed?.whatsappLink ?? 'N/A',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                          WhatsappDetails(
+                              whatsappLink: _medicineNeed?.whatsappLink),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              const Text(
-                                'Telegram Link: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Linkify(
-                                  maxLines: 1,
-                                  text:
-                                  _medicineNeed?.telegramLink ?? 'N/A',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          TelegramDetails(
+                            telegramLink: _medicineNeed?.telegramLink,
                           ),
                         ],
                       ),
@@ -476,7 +467,7 @@ class _MedicineNeedItemScreenState
     );
   }
 
-  void downvote() {
+  void downVote() {
     final response = _medicineNeedRepository.downvote(id);
     response.then((value) {
       showDialog(

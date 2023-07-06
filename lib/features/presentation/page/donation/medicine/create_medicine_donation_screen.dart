@@ -670,7 +670,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
       communicationMethod: 'CHAT',
       quantity: double.parse(quantityController.text),
       telegramLink: "https://t.me/${telegramController.text}",
-      whatsappLink: "https://wa.me/+2${watsAppController.text}",
+      whatsappLink: "https://wa.me/${watsAppController.text}",
       medicineId: _medicines?[0].id,
       medicineUnitId: _medicineUnits?[0].id,
       medicineExpirationDate: _medicineExpirationDateController.text,

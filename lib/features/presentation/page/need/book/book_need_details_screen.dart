@@ -1,15 +1,38 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
+import 'package:hayat_eg/core/datetime/datetime_utils.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
+import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
+import 'package:hayat_eg/injection_container.dart';
 
 class BookNeedDetailsScreen extends StatefulWidget {
-  const BookNeedDetailsScreen({super.key});
+  final int id;
+
+  const BookNeedDetailsScreen({super.key, required this.id});
 
   @override
-  State<BookNeedDetailsScreen> createState() => _BookNeedDetailsScreenState();
+  State<BookNeedDetailsScreen> createState() => _BookNeedDetailsScreenState(id);
 }
 
 class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
-  int ratingNumber = 1;
+  BookNeedResponse? _bookNeed;
+  final int id;
+
+  _BookNeedDetailsScreenState(this.id);
+
+  final BookNeedRepository _bookNeedRepository = sl();
+
+  @override
+  initState() {
+    super.initState();
+    getBookNeed();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +47,12 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: 'data for make QR ',
+                            data: _bookNeed?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
                             height: 250,
+                            drawText: true,
                           ),
                           backgroundColor: Colors.grey[50],
                         ));
@@ -57,15 +81,13 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                     height: size.height / 3.8,
                     width: size.width / 1.3,
                     decoration: BoxDecoration(
-                        color: Colors.grey[50],
+                        color: Colors.black12,
                         border: Border.all(
-                          color: Colors.grey.shade50,
+                          color: const Color(0xffE3EAF2),
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    child: const Icon(
-                      Icons.image,
-                      color: Colors.blue,
-                      size: 80,
+                    child: DownloadedImage(
+                      imageUrl: _bookNeed?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -74,7 +96,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                ratingNumber++;
+                                upvote();
                               });
                             },
                             icon: const Icon(
@@ -85,7 +107,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           height: 10,
                         ),
                         Text(
-                          '$ratingNumber',
+                          '${_bookNeed?.reputation ?? 0}',
                           maxLines: 1,
                           style:
                               const TextStyle(overflow: TextOverflow.ellipsis),
@@ -96,7 +118,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                ratingNumber--;
+                                downVote();
                               });
                             },
                             icon: const Icon(
@@ -127,9 +149,9 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Row(
@@ -138,11 +160,11 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                             children: [
                               Expanded(
                                 child: Text(
+                                  _bookNeed?.title ?? '',
                                   maxLines: 3,
-                                  'Book Title  ',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -153,57 +175,57 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    '12 May',
+                                    timeAgo(_bookNeed?.needDate!),
                                     maxLines: 1,
-                                    style: TextStyle(
-                                        fontSize: 14,
+                                    style: const TextStyle(
+                                        fontSize: 16,
                                         overflow: TextOverflow.ellipsis,
                                         color: Colors.grey,
-                                        fontWeight: FontWeight.w500),
+                                        fontWeight: FontWeight.w400),
                                   ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  Icon(Icons.date_range),
+                                  const Icon(Icons.date_range),
                                 ],
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  'Mohamed ahmed',
-                                  style: TextStyle(
+                                  ('${_bookNeed?.user?.firstName!} ${_bookNeed?.user?.lastName!}'),
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w400,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Bani-Suef',
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        overflow: TextOverflow.ellipsis,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  Icon(Icons.location_on_outlined),
-                                ],
+                              SizedBox(
+                                width: 100,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      ('${_bookNeed?.city?.arabicName}'),
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          overflow: TextOverflow.ellipsis,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    const Icon(Icons.location_on_outlined),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -214,6 +236,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                       height: 10,
                     ),
                     Container(
+                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -224,27 +247,26 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           ),
                         ),
                       ),
-                      child: ListView(shrinkWrap: true, children: const [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Description ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                // overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Text(
-                              'String ',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
+                      child: ListView(shrinkWrap: true, children: [
+                        const Text(
+                          "Description",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            // overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          _bookNeed?.description ?? '',
+                          maxLines: 1,
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
                         ),
                       ]),
                     ),
@@ -252,6 +274,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                       height: 10,
                     ),
                     Container(
+                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -262,124 +285,166 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Donation Details',
+                          const Text(
+                            'Details',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                                fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Book Sub Title: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
-                              ),
                               Expanded(
-                                child: Text(
-                                  'rich dad poor Dad',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Book Name:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 78,
+                                        ),
+                                        Text(
+                                          _bookNeed?.bookSubTitle ?? 'Book !!!',
+                                          maxLines: 2,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'book Publisher:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 55,
+                                        ),
+                                        Text(
+                                          _bookNeed?.bookPublisher ?? '!!!',
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'book Author:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 74,
+                                        ),
+                                        Text(
+                                          _bookNeed?.bookAuthor ?? '!!!',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Book Quantity: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 49,
+                                        ),
+                                        Text(
+                                          '  ${_bookNeed?.category}' ?? '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Book Language: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 40,
+                                        ),
+                                        Text(
+                                          '  ${_bookNeed?.bookLanguage}' ?? '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'book Publication Year:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        Text(
+                                          '  ${_bookNeed?.bookPublicationYear}' ??
+                                              '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Book publisher : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Robert Kiyosaki',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500),
-                                ),
+                              const SizedBox(
+                                width: 20,
                               ),
                             ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Book Author : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Robert Kiyosaki',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Book Quantity : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '2 books }',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Book Language : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'arabic}',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ],
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -397,82 +462,55 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Social Media',
                             style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 18),
+                                fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Communication Method : ',
+                              const Text(
+                                'Communication Method:    ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Chat ',
+                                  _bookNeed?.communicationMethod ?? 'Chat',
                                   maxLines: 1,
-                                  style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'watsapp Number : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'wa.me/01288156326 ',
-                                  maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500),
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 5,
+                          const SizedBox(
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                'Telegram : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  't.me/mboraie',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ],
+                          WhatsappDetails(
+                              whatsappLink: _bookNeed?.whatsappLink),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TelegramDetails(
+                            telegramLink: _bookNeed?.telegramLink,
                           ),
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ),
@@ -481,5 +519,90 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
         ]),
       ),
     );
+  }
+
+  void downVote() {
+    final response = _bookNeedRepository.downVote(id);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your have up voted this donation, Thank you!',
+            );
+          });
+
+      getBookNeed();
+    });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unable to upvote donation'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  void upvote() async {
+    final response = _bookNeedRepository.upvote(id);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your have up voted this donation, Thank you!',
+            );
+          });
+
+      getBookNeed();
+    });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unable to upvote donation'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  void getBookNeed() {
+    _bookNeedRepository.get(id as String).then((value) {
+      setState(() {
+        print(_bookNeed?.reputation);
+        _bookNeed = value;
+      });
+    });
   }
 }

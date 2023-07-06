@@ -518,7 +518,9 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BookNeedDetailsScreen(),
+            builder: (context) => BookNeedDetailsScreen(
+              id: id,
+            ),
           ),
         );
       });
@@ -526,7 +528,82 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BookNeedDetailsScreen(),
+          builder: (context) => BookNeedDetailsScreen(
+            id: id,
+          ),
+        ),
+      );
+    }
+  }
+
+  void onSubmit() {
+    final request = BookNeedRequest(
+      title: titleController.text,
+      description: descriptionController.text,
+      bookTitle: bookTitleController.text,
+      bookSubTitle: bookSubTitleController.text,
+      communicationMethod: communicationMethod,
+      telegramLink: 'https://t.me/${telegramController.text}',
+      whatsappLink: 'https://wa.me/${watsAppController.text}',
+      cityId: cityId,
+    );
+
+    final response = _bookNeedRepository.create(request);
+    response.then((value) => {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const SuccessDialog(
+                  message: 'Your Need Request has been sent successfully',
+                );
+              }),
+          value as BookNeedResponse,
+          uploadImage(value.id as int),
+        });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Something Went Wrong'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  uploadImage(int id) {
+    if (_file != null) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      _bookNeedRepository.updateImage(id, _file as Uint8List).then((value) => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BookNeedDetailsScreen(id: id),
+              ),
+            )
+          });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookNeedDetailsScreen(id: id),
         ),
       );
     }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hayat_eg/features/presentation/page/need/medicine/ask_medicine_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/login/Login.dart';
 import 'package:hayat_eg/features/presentation/page/need/book/create_book_need_screen.dart';
 import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
@@ -219,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         text: 'Create Blood Need'),
                     myCard(
                         onPressed: () {
-                          navigate(context, const AskMedicineNeedScreen());
+                          navigate(context, CreateBloodNeedScreen());
                         },
                         icon: Icons.medical_information,
                         text: 'Create Medicine Need'),
@@ -237,7 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         text: 'Notifications'),
                     myCard(
                         onPressed: () {
-                          print('object');
+                          navigate(context, LoginScreen());
                         },
                         icon: Icons.logout,
                         iconColor: Colors.red,

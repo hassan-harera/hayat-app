@@ -120,7 +120,7 @@ class _MedicineDonationItemScreenState
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                downvote();
+                                downVote();
                               });
                             },
                             icon: const Icon(
@@ -153,7 +153,7 @@ class _MedicineDonationItemScreenState
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Row(
@@ -166,14 +166,14 @@ class _MedicineDonationItemScreenState
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 24,
+                                    fontSize: 18,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
@@ -195,7 +195,7 @@ class _MedicineDonationItemScreenState
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Text(
@@ -203,31 +203,28 @@ class _MedicineDonationItemScreenState
                                   ('${_medicineDonation?.user?.firstName!} ${_medicineDonation?.user?.lastName!}'),
                                   style: const TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 100,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      ('${_medicineDonation?.city?.arabicName}'),
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    const Icon(Icons.location_on_outlined),
-                                  ],
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    ('${_medicineDonation?.city?.arabicName}'),
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  const Icon(Icons.location_on_outlined),
+                                ],
                               ),
                             ],
                           ),
@@ -254,7 +251,7 @@ class _MedicineDonationItemScreenState
                           "Description",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                             // overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -267,6 +264,7 @@ class _MedicineDonationItemScreenState
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
+                              fontSize: 16,
                               fontWeight: FontWeight.w400),
                         ),
                       ]),
@@ -299,45 +297,113 @@ class _MedicineDonationItemScreenState
                           ),
                           Row(
                             children: [
-                              const Expanded(
+                              Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Medicine Name:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Medicine Name:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 48,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineDonation?.medicine?.arabicName}' ??
+                                                'Medicine !!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      'Medicine Unit:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      'Medicine Amount : ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16),
-                                    ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
                                       children: [
-                                        Text(
+                                        const Text(
+                                          'Medicine  Unit:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 59,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineDonation?.medicineUnit}' ??
+                                                '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Medicine Amount:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 34,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineDonation?.quantity}' ??
+                                                '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
                                           'Expiration Date: ',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 43,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '  ${_medicineDonation?.medicineExpirationDate}' ??
+                                                '',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -346,55 +412,6 @@ class _MedicineDonationItemScreenState
                               ),
                               const SizedBox(
                                 width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 100,
-                                    child: Text(
-                                      _medicineDonation?.medicine?.arabicName ??
-                                          '',
-                                      maxLines: 2,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    '${_medicineDonation?.quantity ?? ''}',
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 16),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    '${_medicineDonation?.quantity ?? ''}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    _medicineDonation?.donationExpirationDate!
-                                            .substring(0, 10) ??
-                                        '',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                ],
                               ),
                             ],
                           )
@@ -429,7 +446,7 @@ class _MedicineDonationItemScreenState
                           Row(
                             children: [
                               const Text(
-                                'Communication Method: ',
+                                'Communication Method:    ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 16),
@@ -442,6 +459,7 @@ class _MedicineDonationItemScreenState
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: Colors.black,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -474,14 +492,14 @@ class _MedicineDonationItemScreenState
     );
   }
 
-  void downvote() {
+  void downVote() {
     final response = _medicineDonationRepository.downvote(id);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: 'Your have up voted this donation, Thank you!',
             );
           });
 

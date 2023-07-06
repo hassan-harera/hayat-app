@@ -9,6 +9,8 @@ class BookNeedRequest {
   String? bookPublisher;
   String? bookPublicationYear;
   String? bookLanguage;
+  String? whatsappLink;
+  String? telegramLink;
 
   BookNeedRequest(
       {this.title,
@@ -20,7 +22,9 @@ class BookNeedRequest {
       this.bookAuthor,
       this.bookPublisher,
       this.bookPublicationYear,
-      this.bookLanguage});
+      this.bookLanguage,
+      this.whatsappLink,
+      this.telegramLink});
 
   BookNeedRequest.fromJson(Map<String, dynamic> json) {
     title = json['title'];

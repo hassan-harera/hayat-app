@@ -670,7 +670,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
         quantity: double.parse(quantityController.text),
         foodCategoryId: categoryId,
         foodUnitId: int.parse(_foodUnit.text),
-        telegramLink: "https://t.me/+2${telegramController.text}",
+        telegramLink: "https://t.me/${telegramController.text}",
         whatsappLink: "https://wa.me/${watsAppController.text}",
         foodExpirationDate: _foodExpirationDateController.text);
     print(request.toJson());

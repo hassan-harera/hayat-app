@@ -8,6 +8,7 @@ import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_don
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
 import 'package:hayat_eg/injection_container.dart';
 
 class ClothesDonationItemScreen extends StatefulWidget {
@@ -47,11 +48,12 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: 'data for make QR ',
+                            data: _clothingDonation?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
                             height: 250,
+                            drawText: true,
                           ),
                           backgroundColor: Colors.grey[50],
                         ));
@@ -61,7 +63,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                 color: Colors.black,
               )),
         ],
-        title: const Text('Clothing Donation'),
+        title: const Text('Clothes Donation'),
       ),
       body: Padding(
         padding: EdgeInsets.only(
@@ -85,17 +87,8 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                           color: const Color(0xffE3EAF2),
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    child: Image.network(
-                      _clothingDonation?.imageUrl ??
-                          'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
-                      fit: BoxFit.contain,
-                      // on error set default image
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Image(
-                          image: AssetImage('assets/image.svg'),
-                          fit: BoxFit.contain,
-                        );
-                      },
+                    child: DownloadedImage(
+                      imageUrl: _clothingDonation?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -126,7 +119,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                downvote();
+                                downVote();
                               });
                             },
                             icon: const Icon(
@@ -159,7 +152,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Row(
@@ -172,14 +165,14 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
@@ -196,9 +189,12 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Text(
@@ -206,31 +202,28 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                   ('${_clothingDonation?.user?.firstName!} ${_clothingDonation?.user?.lastName!}'),
                                   style: const TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 100,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      ('${_clothingDonation?.city?.arabicName}'),
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Icon(Icons.location_on_outlined),
-                                  ],
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    ('${_clothingDonation?.city?.arabicName}'),
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  const Icon(Icons.location_on_outlined),
+                                ],
                               ),
                             ],
                           ),
@@ -257,9 +250,12 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                           "Description",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                             // overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Text(
                           _clothingDonation?.description ?? '',
@@ -267,6 +263,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
+                              fontSize: 16,
                               fontWeight: FontWeight.w400),
                         ),
                       ]),
@@ -286,140 +283,192 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Donation Details',
+                          const Text(
+                            'Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Clothes Type : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
                               Expanded(
-                                child: Text(
-                                  'shorts',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Clothes Type:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 50,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_clothingDonation?.clothingType}' ??
+                                                'Clothes !!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Clothes  Gender:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 29,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_clothingDonation?.clothingCategory}' ??
+                                                '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Clothes Quantity:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 25,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_clothingDonation?.quantity}' ??
+                                                '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Clothes Size: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 43,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '  ${_clothingDonation?.clothingSize}' ??
+                                                '',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Clothes Condition:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '  ${_clothingDonation?.clothingCondition}' ??
+                                                '',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Clothes Season: ',
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '  ${_clothingDonation?.clothingSeason}' ??
+                                                '',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Clothes Gender : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Men',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
+                              const SizedBox(
+                                width: 20,
                               ),
                             ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Clothes Quantity : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '2 pieces}',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Clothes Size : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Small',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Clothes Condition : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'good',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Clothes Season : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Summer',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -451,9 +500,10 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                           Row(
                             children: [
                               const Text(
-                                'Communication Method : ',
+                                'Communication Method:    ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
@@ -462,8 +512,9 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                   maxLines: 1,
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
@@ -495,7 +546,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
     );
   }
 
-  void downvote() {
+  void downVote() {
     final response = _clothingDonationRepository.downvote(id);
     response.then((value) {
       showDialog(

@@ -492,7 +492,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       communicationMethod: communicationMethod,
       quantity: int.parse(bookQuantityController.text),
       telegramLink: 'https://t.me/${telegramController.text}',
-      whatsappLink: 'https://wa.me/+2${watsAppController.text}',
+      whatsappLink: 'https://wa.me/${watsAppController.text}',
       cityId: cityId,
     );
 

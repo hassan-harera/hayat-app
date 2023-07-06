@@ -892,7 +892,7 @@ class _CreateClothingDonationScreen
       quantity: int.parse(_quantityController.text, radix: null),
       communicationMethod: communicationMethod.text,
       telegramLink: 'https://t.me/${telegramController.text}',
-      whatsappLink: 'https://wa.me/+2${whatsappController.text}',
+      whatsappLink: 'https://wa.me/${whatsappController.text}',
       cityId: cityId,
     );
 

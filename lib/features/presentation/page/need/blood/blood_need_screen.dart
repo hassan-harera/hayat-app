@@ -1,15 +1,38 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hayat_eg/core/datetime/datetime_utils.dart';
+import 'package:hayat_eg/core/error/exceptions.dart';
+import 'package:hayat_eg/features/data/model/need/blood/blood_need_response.dart';
+import 'package:hayat_eg/features/data/repository/need/blood/blood_need_repository.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
+import 'package:hayat_eg/injection_container.dart';
 
-class BloodNeedDetailsScreen extends StatefulWidget {
-  const BloodNeedDetailsScreen({super.key});
+class BloodNeedItemScreen extends StatefulWidget {
+  final int id;
+
+  const BloodNeedItemScreen({super.key, required this.id});
 
   @override
-  State<BloodNeedDetailsScreen> createState() => _BloodNeedDetailsScreenState();
+  State<BloodNeedItemScreen> createState() => _BloodNeedItemScreenState(id);
 }
 
-class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
-  int ratingNumber = 1;
+class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
+  BloodNeedResponse? _medicineNeed;
+  final int id;
+
+  _BloodNeedItemScreenState(this.id);
+
+  final BloodNeedRepository _medicineNeedRepository = sl();
+
+  @override
+  initState() {
+    super.initState();
+    getBloodNeed();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +47,12 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: 'data for make QR ',
+                            data: _medicineNeed?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
                             height: 250,
+                            drawText: true,
                           ),
                           backgroundColor: Colors.grey[50],
                         ));
@@ -57,15 +81,13 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                     height: size.height / 3.8,
                     width: size.width / 1.3,
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(4, 108, 109, 1),
+                        color: Colors.black12,
                         border: Border.all(
                           color: const Color(0xffE3EAF2),
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    child: const Icon(
-                      Icons.image_outlined,
-                      color: Colors.black,
-                      size: 40,
+                    child: DownloadedImage(
+                      imageUrl: _medicineNeed?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -74,7 +96,7 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                ratingNumber++;
+                                upvote();
                               });
                             },
                             icon: const Icon(
@@ -85,7 +107,7 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                           height: 10,
                         ),
                         Text(
-                          '$ratingNumber',
+                          '${_medicineNeed?.reputation ?? 0}',
                           maxLines: 1,
                           style:
                               const TextStyle(overflow: TextOverflow.ellipsis),
@@ -96,7 +118,7 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                ratingNumber--;
+                                downVote();
                               });
                             },
                             icon: const Icon(
@@ -127,9 +149,9 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Row(
@@ -138,45 +160,48 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                             children: [
                               Expanded(
                                 child: Text(
+                                  _medicineNeed?.title ?? '',
                                   maxLines: 3,
-                                  'Blood Title  ',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    '12 May',
+                                    timeAgo(_medicineNeed?.needDate!),
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         overflow: TextOverflow.ellipsis,
                                         color: Colors.grey,
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Icon(Icons.date_range),
+                                  const Icon(Icons.date_range),
                                 ],
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  'Mohamed ahmed',
-                                  style: TextStyle(
+                                  ('${_medicineNeed?.user?.firstName!} ${_medicineNeed?.user?.lastName!}'),
+                                  style: const TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -184,19 +209,19 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Bani-Suef',
+                                    ('${_medicineNeed?.city?.arabicName}'),
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         overflow: TextOverflow.ellipsis,
                                         color: Colors.grey,
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Icon(Icons.location_on_outlined),
+                                  const Icon(Icons.location_on_outlined),
                                 ],
                               ),
                             ],
@@ -208,6 +233,7 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                       height: 10,
                     ),
                     Container(
+                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -218,14 +244,26 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                           ),
                         ),
                       ),
-                      child: ListView(shrinkWrap: true, children: const [
-                        Text(
-                          'Description ',
+                      child: ListView(shrinkWrap: true, children: [
+                        const Text(
+                          "Description",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                             // overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          _medicineNeed?.description ?? '',
+                          maxLines: 1,
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
                         ),
                       ]),
                     ),
@@ -233,6 +271,7 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                       height: 10,
                     ),
                     Container(
+                      width: double.infinity,
                       padding: const EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -243,102 +282,188 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Need Details',
+                          const Text(
+                            'Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Blood Sub Title : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
                               Expanded(
-                                child: Text(
-                                  'rich dad poor Dad',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Blood Type:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 48,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineNeed?.bloodType}' ??
+                                                'Blood !!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Title :',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 59,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineNeed?.title}' ?? '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Title :',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 59,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineNeed?.title}' ?? '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Bleeder Age',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 34,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineNeed?.age}' ?? '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Bleed Type',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 34,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_medicineNeed?.bloodType}' ??
+                                                '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Hospital: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 43,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '  ${_medicineNeed?.hospital}' ??
+                                                '',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Blood publisher : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Robert Kiyosaki',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
+                              const SizedBox(
+                                width: 20,
                               ),
                             ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Blood Quantity : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '2 bloods }',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Blood Language : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'arabic}',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -356,83 +481,55 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
                           ),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Social Media',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Communication Method : ',
+                              const Text(
+                                'Communication Method:    ',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16),
                               ),
                               Expanded(
                                 child: Text(
-                                  'Chat ',
+                                  _medicineNeed?.communicationMethod ?? 'Chat',
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 5,
+                          const SizedBox(
+                            height: 10,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                'watsapp Number : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '01288166326 ',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
+                          WhatsappDetails(
+                              whatsappLink: _medicineNeed?.whatsappLink),
+                          const SizedBox(
+                            height: 10,
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Telegram : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'https://t.me/ }',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
+                          TelegramDetails(
+                            telegramLink: _medicineNeed?.telegramLink,
                           ),
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ),
@@ -441,5 +538,90 @@ class _BloodNeedDetailsScreenState extends State<BloodNeedDetailsScreen> {
         ]),
       ),
     );
+  }
+
+  void downVote() {
+    final response = _medicineNeedRepository.downvote(id);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your have up voted this need, Thank you!',
+            );
+          });
+
+      getBloodNeed();
+    });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unable to upvote need'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  void upvote() async {
+    final response = _medicineNeedRepository.upvote(id);
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your have upvoted this need, Thank you!',
+            );
+          });
+
+      getBloodNeed();
+    });
+
+    response.onError((error, stackTrace) {
+      if (error is BadRequestException) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unable to upvote need'),
+              content: Text(error.apiError.displayMessage.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Dismiss'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      stackTrace.printError();
+    });
+  }
+
+  void getBloodNeed() {
+    _medicineNeedRepository.get(id).then((value) {
+      setState(() {
+        print(_medicineNeed?.reputation);
+        _medicineNeed = value;
+      });
+    });
   }
 }

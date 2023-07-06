@@ -18,6 +18,14 @@ class BloodNeedRepository {
     return await bloodNeedDataSource.updateImage(id, image);
   }
 
+  Future<BloodNeedResponse?> upvote(int id) async {
+    return await bloodNeedDataSource.upvote(id);
+  }
+
+  Future<BloodNeedResponse?> downVote(int id) async {
+    return await bloodNeedDataSource.downvote(id);
+  }
+
   Future<List<BloodNeedResponse>?> search(String query) async {
     return await bloodNeedDataSource.search(query);
   }
