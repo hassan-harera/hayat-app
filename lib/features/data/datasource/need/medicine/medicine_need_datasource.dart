@@ -49,7 +49,7 @@ class MedicineNeedDataSource {
     }
   }
 
-  Future<MedicineNeedResponse?> get(int id) async {
+  Future<MedicineNeedResponse?> get(String id) async {
     final response =
         await client.get(Uri.parse('$baseUrl/api/v1/needs/medicine/$id'));
 
@@ -61,7 +61,7 @@ class MedicineNeedDataSource {
     }
   }
 
-  Future<MedicineNeedResponse?> upvote(int id) async {
+  Future<MedicineNeedResponse?> upvote(String id) async {
     final response = await client
         .put(Uri.parse('$baseUrl/api/v1/needs/medicine/$id/upvote'), headers: {
       'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ class MedicineNeedDataSource {
     }
   }
 
-  Future<MedicineNeedResponse?> downvote(int id) async {
+  Future<MedicineNeedResponse?> downvote(String id) async {
     final response = await client.put(
         Uri.parse('$baseUrl/api/v1/needs/medicine/$id/down-vote'),
         headers: {
@@ -88,7 +88,7 @@ class MedicineNeedDataSource {
     }
   }
 
-  Future<MedicineNeedResponse?> updateImage(int id, Uint8List file) async {
+  Future<MedicineNeedResponse?> updateImage(String id, Uint8List file) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('$baseUrl/api/v1/needs/book/$id/images'));
 

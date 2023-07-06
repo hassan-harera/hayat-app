@@ -8,6 +8,7 @@ class MedicineNeedRequest {
   int? medicineUnitId;
   String? telegramLink;
   int? medicineId;
+  String? whatsappLink;
 
   MedicineNeedRequest({
     this.quantity,
@@ -19,6 +20,7 @@ class MedicineNeedRequest {
     this.medicineUnitId,
     this.telegramLink,
     this.medicineId,
+    this.whatsappLink,
   });
 
   MedicineNeedRequest.fromJson(Map<String, dynamic> json) {

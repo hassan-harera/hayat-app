@@ -21,19 +21,19 @@ class MedicineNeedRepository {
     return await medicineNeedDataSource.search(query);
   }
 
-  Future<MedicineNeedResponse?> get(int id) async {
+  Future<MedicineNeedResponse?> get(String id) async {
     return await medicineNeedDataSource.get(id);
   }
 
-  Future<MedicineNeedResponse?> upvote(int id) async {
+  Future<MedicineNeedResponse?> upvote(String id) async {
     return await medicineNeedDataSource.upvote(id);
   }
 
-  Future<MedicineNeedResponse?> downvote(int id) async {
+  Future<MedicineNeedResponse?> downvote(String id) async {
     return await medicineNeedDataSource.downvote(id);
   }
 
-  Future<MedicineNeedResponse?> updateImage(int id, Uint8List image) async {
+  Future<MedicineNeedResponse?> updateImage(String id, Uint8List image) async {
     return await medicineNeedDataSource.updateImage(id, image);
   }
 }

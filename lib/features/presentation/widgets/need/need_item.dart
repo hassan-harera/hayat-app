@@ -238,7 +238,7 @@ class NeedItem extends StatelessWidget {
     } else if (needResponse.category == 'BOOKS') {
       navigate(context, BookNeedDetailsScreen());
     } else if (needResponse.category == 'MEDICINE') {
-      navigate(context, MedicineNeedItemScreen());
+      navigate(context, MedicineNeedItemScreen(needResponse.id!));
     }
   }
 }

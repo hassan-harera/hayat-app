@@ -21,6 +21,8 @@ class NeedResponse {
   String? bloodType;
   String? hospital;
   String? illness;
+  String? whatsappLink;
+  String? telegramLink;
 
   NeedResponse(
       {this.id,

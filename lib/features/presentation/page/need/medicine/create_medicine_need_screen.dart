@@ -7,14 +7,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_request.dart';
-import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_response.dart';
+import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_request.dart';
+import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_response.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
 import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_request.dart';
+import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
-import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
+import 'package:hayat_eg/features/presentation/page/need/medicine/MedicineNeedItemScreen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
@@ -23,8 +26,6 @@ import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 import 'package:image_picker/image_picker.dart';
-
-import 'view_medicine_donation_screen.dart';
 
 class MedicineCategoryScreen extends StatefulWidget {
   const MedicineCategoryScreen({super.key});
@@ -51,7 +52,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
   Uint8List? _file;
   final CityRepository _cityRepository = sl();
   final MedicineRepository _medicineRepository = sl();
-  final MedicineDonationRepository _medicineDonationRepository = sl();
+  final MedicineNeedRepository _medicineNeedRepository = sl();
 
   List<City>? _cities = [];
   List<Medicine>? _medicines = [];
@@ -677,18 +678,18 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
       // medicineExpirationDate: _medicineExpirationDateController.text,
     );
 
-    final response = _medicineNeed.create(request);
+    final response = _medicineNeedRepository.create(request);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your Donation Request has been sent successfully',
+              message: 'Your Need Request has been sent successfully',
             );
           });
-      print(value);
-      value as MedicineDonationResponse;
-      uploadImage(value.id as int);
+      if (value is MedicineNeedResponse) {
+        uploadImage(value.id!);
+      }
     });
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
@@ -714,15 +715,15 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
     });
   }
 
-  uploadImage(int id) {
+  uploadImage(String id) {
     if (_file != null) {
-      _medicineDonationRepository
+      _medicineNeedRepository
           .updateImage(id, _file as Uint8List)
           .then((value) => {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MedicineDonationItemScreen(id: id),
+                    builder: (context) => MedicineNeedItemScreen(id),
                   ),
                 )
               });
@@ -730,7 +731,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MedicineDonationItemScreen(id: id),
+          builder: (context) => MedicineNeedItemScreen(id),
         ),
       );
     }

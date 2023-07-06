@@ -2,7 +2,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
 class MedicineNeedItemScreen extends StatefulWidget {
-  const MedicineNeedItemScreen({super.key});
+  const MedicineNeedItemScreen(String id, {super.key});
 
   @override
   State<MedicineNeedItemScreen> createState() => _MedicineNeedItemScreenState();
@@ -252,7 +252,7 @@ class _MedicineNeedItemScreenState extends State<MedicineNeedItemScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Donation Details',
+                            'Need Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),

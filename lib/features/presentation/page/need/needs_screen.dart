@@ -196,7 +196,6 @@ class _NeedsScreen extends State<NeedsScreen> {
                       itemCount: _list.length,
                       itemBuilder: (context, index) {
                         return NeedItem(
-                          context,
                           _list[index],
                         );
                       },

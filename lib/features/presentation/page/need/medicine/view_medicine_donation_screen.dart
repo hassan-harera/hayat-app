@@ -6,34 +6,34 @@ import 'package:get/get.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/core/loading.dart';
-import 'package:hayat_eg/features/data/model/donation/medicine/medicine_donation_response.dart';
-import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
+import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_response.dart';
+import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 
-class MedicineDonationItemScreen extends StatefulWidget {
-  final int id;
+class MedicineNeedItemScreen extends StatefulWidget {
+  final String id;
 
-  const MedicineDonationItemScreen({super.key, required this.id});
+  const MedicineNeedItemScreen.Need({super.key, required this.id});
 
   @override
-  State<MedicineDonationItemScreen> createState() =>
-      _MedicineDonationItemScreenState(id);
+  State<MedicineNeedItemScreen> createState() =>
+      _MedicineNeedItemScreenState(id);
 }
 
-class _MedicineDonationItemScreenState
-    extends State<MedicineDonationItemScreen> {
-  MedicineDonationResponse? _medicineDonation;
-  final int id;
+class _MedicineNeedItemScreenState
+    extends State<MedicineNeedItemScreen> {
+  MedicineNeedResponse? _medicineNeed;
+  final String id;
 
-  _MedicineDonationItemScreenState(this.id);
+  _MedicineNeedItemScreenState(this.id);
 
-  final MedicineDonationRepository _medicineDonationRepository = sl();
+  final MedicineNeedRepository _medicineNeedRepository = sl();
 
   @override
   initState() {
     super.initState();
-    getMedicineDonation();
+    getMedicineNeed();
   }
 
   @override
@@ -63,7 +63,7 @@ class _MedicineDonationItemScreenState
                 color: Colors.black,
               )),
         ],
-        title: const Text('Medicine Donation'),
+        title: const Text('Medicine Need'),
       ),
       body: Padding(
         padding: EdgeInsets.only(
@@ -88,7 +88,7 @@ class _MedicineDonationItemScreenState
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: Image.network(
-                      _medicineDonation?.imageUrl ??
+                      _medicineNeed?.imageUrl ??
                           'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
                     ),
                   ),
@@ -109,7 +109,7 @@ class _MedicineDonationItemScreenState
                           height: 10,
                         ),
                         Text(
-                          '${_medicineDonation?.reputation ?? 0}',
+                          '${_medicineNeed?.reputation ?? 0}',
                           maxLines: 1,
                           style:
                           const TextStyle(overflow: TextOverflow.ellipsis),
@@ -162,7 +162,7 @@ class _MedicineDonationItemScreenState
                             children: [
                               Expanded(
                                 child: Text(
-                                  _medicineDonation?.title ?? '',
+                                  _medicineNeed?.title ?? '',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -177,7 +177,7 @@ class _MedicineDonationItemScreenState
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    timeAgo(_medicineDonation?.donationDate!),
+                                    timeAgo(_medicineNeed?.needDate!),
                                     maxLines: 1,
                                     style: const TextStyle(
                                         fontSize: 16,
@@ -197,7 +197,7 @@ class _MedicineDonationItemScreenState
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  ('${_medicineDonation?.user?.firstName!} ${_medicineDonation?.user?.lastName!}'),
+                                  ('${_medicineNeed?.user?.firstName!} ${_medicineNeed?.user?.lastName!}'),
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18,
@@ -214,7 +214,7 @@ class _MedicineDonationItemScreenState
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      ('${_medicineDonation?.city?.arabicName}'),
+                                      ('${_medicineNeed?.city?.arabicName}'),
                                       maxLines: 1,
                                       style: const TextStyle(
                                           fontSize: 16,
@@ -256,7 +256,7 @@ class _MedicineDonationItemScreenState
                           ),
                         ),
                         Text(
-                          _medicineDonation?.description ?? '',
+                          _medicineNeed?.description ?? '',
                           maxLines: 1,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -284,7 +284,7 @@ class _MedicineDonationItemScreenState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Donation Details',
+                            'Need Details',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
@@ -344,7 +344,7 @@ class _MedicineDonationItemScreenState
                               ),
                               Expanded(
                                 child: Text(
-                                  '${_medicineDonation?.quantity?.toString()} ${_medicineDonation?.medicineUnit?.englishName} Available',
+                                  '${_medicineNeed?.quantity?.toString()} ${_medicineNeed?.medicineUnit?.englishName} Available',
                                   maxLines: 1,
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -363,17 +363,6 @@ class _MedicineDonationItemScreenState
                                 'Medicine Expiration Date: ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _medicineDonation?.medicineExpirationDate ??
-                                      '',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
                               ),
                             ],
                           ),
@@ -414,7 +403,7 @@ class _MedicineDonationItemScreenState
                               ),
                               Expanded(
                                 child: Text(
-                                  _medicineDonation?.communicationMethod ??
+                                  _medicineNeed?.communicationMethod ??
                                       'Chat',
                                   maxLines: 1,
                                   style: const TextStyle(
@@ -439,7 +428,7 @@ class _MedicineDonationItemScreenState
                                 child: Linkify(
                                   maxLines: 1,
                                   text:
-                                  _medicineDonation?.whatsappLink ?? 'N/A',
+                                  _medicineNeed?.whatsappLink ?? 'N/A',
                                   style: const TextStyle(
                                     color: Colors.blue,
                                     decoration: TextDecoration.underline,
@@ -462,7 +451,7 @@ class _MedicineDonationItemScreenState
                                 child: Linkify(
                                   maxLines: 1,
                                   text:
-                                  _medicineDonation?.telegramLink ?? 'N/A',
+                                  _medicineNeed?.telegramLink ?? 'N/A',
                                   style: const TextStyle(
                                     color: Colors.blue,
                                     decoration: TextDecoration.underline,
@@ -488,17 +477,17 @@ class _MedicineDonationItemScreenState
   }
 
   void downvote() {
-    final response = _medicineDonationRepository.downvote(id);
+    final response = _medicineNeedRepository.downvote(id);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: 'Your have upvoted this need, Thank you!',
             );
           });
 
-      getMedicineDonation();
+      getMedicineNeed();
     });
 
     response.onError((error, stackTrace) {
@@ -507,7 +496,7 @@ class _MedicineDonationItemScreenState
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unable to upvote donation'),
+              title: const Text('Unable to upvote need'),
               content: Text(error.apiError.displayMessage.toString()),
               actions: <Widget>[
                 TextButton(
@@ -526,17 +515,17 @@ class _MedicineDonationItemScreenState
   }
 
   void upvote() async {
-    final response = _medicineDonationRepository.upvote(id);
+    final response = _medicineNeedRepository.upvote(id);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: 'Your have upvoted this need, Thank you!',
             );
           });
 
-      getMedicineDonation();
+      getMedicineNeed();
     });
 
     response.onError((error, stackTrace) {
@@ -545,7 +534,7 @@ class _MedicineDonationItemScreenState
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unable to upvote donation'),
+              title: const Text('Unable to upvote need'),
               content: Text(error.apiError.displayMessage.toString()),
               actions: <Widget>[
                 TextButton(
@@ -563,11 +552,11 @@ class _MedicineDonationItemScreenState
     });
   }
 
-  void getMedicineDonation() {
-    _medicineDonationRepository.get(id).then((value) {
+  void getMedicineNeed() {
+    _medicineNeedRepository.get(id).then((value) {
       setState(() {
-        print(_medicineDonation?.reputation);
-        _medicineDonation = value;
+        print(_medicineNeed?.reputation);
+        _medicineNeed = value;
       });
     });
   }

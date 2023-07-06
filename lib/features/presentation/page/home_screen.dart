@@ -239,8 +239,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                 padding: EdgeInsets.only(
                                                   bottom: size.height / 30,
                                                 ),
-                                                child: NeedItem(
-                                                    context, _list[index]),
+                                                child: NeedItem(_list[index]),
                                               ),
                                           itemCount: _list.length)),
                                 ],
