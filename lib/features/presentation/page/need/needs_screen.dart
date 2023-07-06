@@ -5,6 +5,7 @@ import 'package:hayat_eg/features/data/repository/need/book/book_need_repository
 import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
+import 'package:hayat_eg/features/presentation/widgets/need/need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
@@ -194,7 +195,7 @@ class _NeedsScreen extends State<NeedsScreen> {
                     child: ListView.builder(
                       itemCount: _list.length,
                       itemBuilder: (context, index) {
-                        return needItem(
+                        return NeedItem(
                           context,
                           _list[index],
                         );
