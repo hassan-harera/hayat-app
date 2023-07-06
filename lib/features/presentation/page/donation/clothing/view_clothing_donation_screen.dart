@@ -1,11 +1,8 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
-import 'package:hayat_eg/core/loading.dart';
 import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';

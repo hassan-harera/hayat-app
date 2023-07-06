@@ -467,6 +467,7 @@ class ExprirationDate extends StatelessWidget {
               .then((value) {
             DateFormat formatter = DateFormat('yyyy-MM-dd');
             controller.text = formatter.format(value!);
+            print(value);
           });
         },
         decoration: InputDecoration(

@@ -516,8 +516,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                   decoration: InputDecoration(
                                       prefixIcon: Image.asset(
                                         'assets/watsAppImage.png',
-                                        scale: 18,
-                                        color: Colors.amber,
+                                        scale: 25,
                                       ),
                                       hintText: 'Whatsapp',
                                       filled: true,
@@ -532,7 +531,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                              color: Colors.white))),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -545,10 +544,9 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.telegram_outlined,
-                                        color: Colors.amber,
-                                        size: 35,
+                                      prefixIcon: Image.asset(
+                                        'assets/telegram.png',
+                                        scale: 28,
                                       ),
                                       hintText: 'Telegram',
                                       filled: true,
@@ -563,7 +561,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                              color: Colors.white))),
                                 ),
                               ],
                             ),

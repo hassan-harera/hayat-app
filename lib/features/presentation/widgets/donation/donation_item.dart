@@ -18,6 +18,7 @@ class DonationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return GestureDetector(
       onTap: () {
         viewDonationItemScreen(context, _donationResponse);
@@ -25,13 +26,13 @@ class DonationItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: SizedBox(
-          height: size.height / 5.5,
+          height: 155,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: size.height / 5.5,
+                height: 155,
                 width: size.width / 3,
                 decoration: BoxDecoration(
                     color: Colors.grey.shade50,
@@ -53,7 +54,7 @@ class DonationItem extends StatelessWidget {
               ),
               Expanded(
                 child: SizedBox(
-                  height: size.height / 5.5,
+                  height: 155,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
@@ -83,15 +84,6 @@ class DonationItem extends StatelessWidget {
                       SizedBox(
                         width: size.height / 25,
                       ),
-                      Text(
-                        '${_donationResponse.city!.englishName}',
-                        maxLines: 1,
-                        style: const TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
                       SizedBox(
                         width: size.height / 25,
                       ),
@@ -114,46 +106,120 @@ class DonationItem extends StatelessWidget {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                              mainAxisSize: MainAxisSize.max,
                               children: [
-                                SizedBox(
-                                    width: 26,
-                                    height: 26,
-                                    child:
-                                        _donationResponse.communicationMethod ==
-                                                'Phone'
-                                            ? const Icon(
-                                                Icons.phone,
-                                                color: Colors.black,
-                                              )
-                                            : const Icon(
+                                _donationResponse.communicationMethod == 'PHONE'
+                                    ? const Icon(
+                                        Icons.phone,
+                                        color: Color(0xff20ADDC),
+                                      )
+                                    : _donationResponse.communicationMethod ==
+                                            'CHAT'
+                                        ? const Icon(
+                                            Icons.chat,
+                                            size: 18,
+                                            color: Color(0xff20ADDC),
+                                          )
+                                        : const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
                                                 Icons.chat,
-                                                color: Colors.black,
-                                              )),
+                                                size: 18,
+                                                color: Color(0xff20ADDC),
+                                              ),
+                                              Icon(
+                                                Icons.phone,
+                                                color: Color(0xff20ADDC),
+                                              ),
+                                            ],
+                                          ),
                                 const SizedBox(width: 4),
-                                Text(
-                                  _donationResponse.communicationMethod ==
-                                          'Phone'
-                                      ? 'Phone'
-                                      : 'Chat',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                  ),
-                                ),
+                                _donationResponse.telegramLink != null
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 3.0),
+                                        child: Image.asset(
+                                          'assets/telegram.png',
+                                          scale: 28,
+                                          color: Color(0xff20ADDC),
+                                        ),
+                                      )
+                                    : const SizedBox(
+                                        width: .1,
+                                      ),
+                                _donationResponse.whatsappLink != null
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 3.0),
+                                        child: Image.asset(
+                                          'assets/watsAppImage.png',
+                                          scale: 28,
+                                          color: Color(0xff20ADDC),
+                                        ),
+                                      )
+                                    : const SizedBox(
+                                        width: .1,
+                                      )
                               ],
                             ),
                             onPressed: () {},
                           ),
                           const Spacer(),
-                          Text(
-                            timeAgo(
-                              _donationResponse.donationDate,
-                            ),
-                            style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                      child: Text(
+                                        '${_donationResponse.city!.englishName}',
+                                        maxLines: 1,
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 16,
+                                            color: Colors.grey),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    const Icon(
+                                      Icons.location_on_outlined,
+                                      size: 18,
+                                      color: Color(0xff20ADDC),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 100,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      timeAgo(
+                                        _donationResponse.donationDate,
+                                      ),
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    const Spacer(),
+                                    const Icon(
+                                      Icons.date_range,
+                                      size: 18,
+                                      color: Color(0xff20ADDC),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

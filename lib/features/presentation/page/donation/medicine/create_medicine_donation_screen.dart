@@ -58,6 +58,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
 
   @override
   void initState() {
+    print(_medicineExpirationDateController.text);
     super.initState();
     _medicineRepository.listUnits().then((value) {
       setState(() {
@@ -579,8 +580,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                   decoration: InputDecoration(
                                       prefixIcon: Image.asset(
                                         'assets/watsAppImage.png',
-                                        scale: 18,
-                                        color: Colors.amber,
+                                        scale: 25,
                                       ),
                                       hintText: 'Whatsapp',
                                       filled: true,
@@ -608,10 +608,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.telegram_outlined,
-                                        color: Colors.amber,
-                                        size: 35,
+                                      prefixIcon: Image.asset(
+                                        'assets/telegram.png',
+                                        scale: 28,
                                       ),
                                       hintText: 'Telegram',
                                       filled: true,
@@ -671,7 +670,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
       communicationMethod: 'CHAT',
       quantity: double.parse(quantityController.text),
       telegramLink: "https://t.me/${telegramController.text}",
-      whatsappLink: "https://wa.me/${watsAppController.text}",
+      whatsappLink: "https://wa.me/+2${watsAppController.text}",
       medicineId: _medicines?[0].id,
       medicineUnitId: _medicineUnits?[0].id,
       medicineExpirationDate: _medicineExpirationDateController.text,

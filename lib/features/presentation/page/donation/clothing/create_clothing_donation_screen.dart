@@ -13,7 +13,6 @@ import 'package:hayat_eg/features/data/model/clothing/clothing_seasson.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_size.dart';
 import 'package:hayat_eg/features/data/model/clothing/clothing_type.dart';
 import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_request.dart';
-import 'package:hayat_eg/features/data/model/donation/clothing/clothing_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
@@ -790,8 +789,7 @@ class _CreateClothingDonationScreen
                                   decoration: InputDecoration(
                                     prefixIcon: Image.asset(
                                       'assets/watsAppImage.png',
-                                      scale: 18,
-                                      color: Colors.amber,
+                                      scale: 25,
                                     ),
                                     hintText: 'Whatsapp',
                                     filled: true,
@@ -827,10 +825,9 @@ class _CreateClothingDonationScreen
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(
-                                      Icons.telegram_outlined,
-                                      color: Colors.amber,
-                                      size: 35,
+                                    prefixIcon: Image.asset(
+                                      'assets/telegram.png',
+                                      scale: 28,
                                     ),
                                     hintText: 'Telegram',
                                     filled: true,
@@ -895,7 +892,7 @@ class _CreateClothingDonationScreen
       quantity: int.parse(_quantityController.text, radix: null),
       communicationMethod: communicationMethod.text,
       telegramLink: 'https://t.me/${telegramController.text}',
-      whatsappLink: 'https://wa.me/${whatsappController.text}',
+      whatsappLink: 'https://wa.me/+2${whatsappController.text}',
       cityId: cityId,
     );
 

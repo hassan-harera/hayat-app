@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
-import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
-import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
-import 'package:hayat_eg/features/presentation/widgets/donation/donation_item.dart';
+import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/food/food_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
+import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
+import 'package:hayat_eg/features/presentation/widgets/donation/donation_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
@@ -44,183 +44,191 @@ class _DonationsScreenState extends State<DonationsScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: query,
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          fillColor: const Color(0xffCED9E9).withOpacity(.5),
-                          filled: true,
-                          constraints: const BoxConstraints(
-                              minHeight: 30, maxHeight: 50),
-                          prefixIcon: const Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xff20ADDC), width: 2),
-                              borderRadius: BorderRadius.circular(40.0)),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: const Color(0xffCED9E9).withOpacity(.5)),
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          _getDonations();
-                        },
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.notifications,
-                        color: Color(0xff20ADDC),
-                        size: 30,
-                      ),
-                      onPressed: () {
-                        navigate(context, notificationScreen());
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 40,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
                     children: [
-                      CircleAvatar(
-                        backgroundColor:
-                            const Color(0xffCED9E9).withOpacity(.5),
-                        minRadius: 20,
-                        child: const Icon(Icons.filter_list_alt,
-                            color: Color(0xff20ADDC)),
+                      Expanded(
+                        child: TextFormField(
+                          controller: query,
+                          decoration: InputDecoration(
+                            hintText: 'Search',
+                            fillColor: const Color(0xffCED9E9).withOpacity(.5),
+                            filled: true,
+                            constraints: const BoxConstraints(
+                                minHeight: 30, maxHeight: 50),
+                            prefixIcon: const Icon(Icons.search),
+                            prefixIconColor: const Color(0xff20ADDC),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Color(0xff20ADDC), width: 2),
+                                borderRadius: BorderRadius.circular(40.0)),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color:
+                                      const Color(0xffCED9E9).withOpacity(.5)),
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            _getDonations();
+                          },
+                        ),
                       ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      defaultTextBottom(
-                        color: const Color(0xffCED9E9).withOpacity(.5),
-                        borderColor: sColor1
-                            ? const Color(0xff20ADDC)
-                            : const Color(0xffCED9E9).withOpacity(.5),
-                        textColor: sColor1 ? Colors.black : Colors.black54,
-                        text: 'All',
+                      IconButton(
+                        icon: const Icon(
+                          Icons.notifications,
+                          color: Color(0xff20ADDC),
+                          size: 30,
+                        ),
                         onPressed: () {
-                          setState(() {});
-
-                          category = 'ALL';
-                          _colorController(category);
-                          _getDonations();
-                        },
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      defaultTextBottom(
-                        color: const Color(0xffCED9E9).withOpacity(.5),
-                        borderColor: sColor2
-                            ? const Color(0xff20ADDC)
-                            : const Color(0xffCED9E9).withOpacity(.5),
-                        text: 'Medicines',
-                        textColor: sColor2 ? Colors.black : Colors.black54,
-                        onPressed: () {
-                          setState(() {});
-                          category = 'MEDICINE';
-                          _colorController(category);
-                          _getDonations();
-                        },
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      defaultTextBottom(
-                        color: const Color(0xffCED9E9).withOpacity(.5),
-                        borderColor: sColor3
-                            ? const Color(0xff20ADDC)
-                            : const Color(0xffCED9E9).withOpacity(.5),
-                        text: 'Books',
-                        textColor: sColor3 ? Colors.black : Colors.black54,
-                        onPressed: () {
-                          setState(() {});
-                          category = 'BOOK';
-                          _getDonations();
-                          _colorController(category);
-                        },
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      defaultTextBottom(
-                        color: const Color(0xffCED9E9).withOpacity(.5),
-                        borderColor: sColor4
-                            ? const Color(0xff20ADDC)
-                            : const Color(0xffCED9E9).withOpacity(.5),
-                        text: 'Food',
-                        textColor: sColor4 ? Colors.black : Colors.black54,
-                        onPressed: () {
-                          setState(() {});
-                          category = 'FOOD';
-                          _colorController(category);
-                          _getDonations();
-                        },
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      defaultTextBottom(
-                        color: const Color(0xffCED9E9).withOpacity(.5),
-                        borderColor: sColor5
-                            ? const Color(0xff20ADDC)
-                            : const Color(0xffCED9E9).withOpacity(.5),
-                        text: 'Clothes',
-                        textColor: sColor5 ? Colors.black : Colors.black54,
-                        onPressed: () {
-                          setState(() {});
-                          category = 'CLOTHING';
-                          _getDonations();
-                          _colorController('CLOTHING');
+                          navigate(context, notificationScreen());
                         },
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _donations.length,
-                      itemBuilder: (context, index) {
-                        return DonationItem(
-                          _donations[index],
-                        );
-                      },
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor:
+                              const Color(0xffCED9E9).withOpacity(.5),
+                          minRadius: 20,
+                          child: const Icon(Icons.filter_list_alt,
+                              color: Color(0xff20ADDC)),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        defaultTextBottom(
+                          color: const Color(0xffCED9E9).withOpacity(.5),
+                          borderColor: sColor1
+                              ? const Color(0xff20ADDC)
+                              : const Color(0xffCED9E9).withOpacity(.5),
+                          textColor: sColor1 ? Colors.black : Colors.black54,
+                          text: 'All',
+                          onPressed: () {
+                            setState(() {});
+
+                            category = 'ALL';
+                            _colorController(category);
+                            _getDonations();
+                          },
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        defaultTextBottom(
+                          color: const Color(0xffCED9E9).withOpacity(.5),
+                          borderColor: sColor2
+                              ? const Color(0xff20ADDC)
+                              : const Color(0xffCED9E9).withOpacity(.5),
+                          text: 'Medicines',
+                          textColor: sColor2 ? Colors.black : Colors.black54,
+                          onPressed: () {
+                            setState(() {});
+                            category = 'MEDICINE';
+                            _colorController(category);
+                            _getDonations();
+                          },
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        defaultTextBottom(
+                          color: const Color(0xffCED9E9).withOpacity(.5),
+                          borderColor: sColor3
+                              ? const Color(0xff20ADDC)
+                              : const Color(0xffCED9E9).withOpacity(.5),
+                          text: 'Books',
+                          textColor: sColor3 ? Colors.black : Colors.black54,
+                          onPressed: () {
+                            setState(() {});
+                            category = 'BOOK';
+                            _getDonations();
+                            _colorController(category);
+                          },
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        defaultTextBottom(
+                          color: const Color(0xffCED9E9).withOpacity(.5),
+                          borderColor: sColor4
+                              ? const Color(0xff20ADDC)
+                              : const Color(0xffCED9E9).withOpacity(.5),
+                          text: 'Food',
+                          textColor: sColor4 ? Colors.black : Colors.black54,
+                          onPressed: () {
+                            setState(() {});
+                            category = 'FOOD';
+                            _colorController(category);
+                            _getDonations();
+                          },
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        defaultTextBottom(
+                          color: const Color(0xffCED9E9).withOpacity(.5),
+                          borderColor: sColor5
+                              ? const Color(0xff20ADDC)
+                              : const Color(0xffCED9E9).withOpacity(.5),
+                          text: 'Clothes',
+                          textColor: sColor5 ? Colors.black : Colors.black54,
+                          onPressed: () {
+                            setState(() {});
+                            category = 'CLOTHING';
+                            _getDonations();
+                            _colorController('CLOTHING');
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: _donations.length,
+                        itemBuilder: (context, index) {
+                          return DonationItem(
+                            _donations[index],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
