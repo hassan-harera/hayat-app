@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -588,8 +587,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   decoration: InputDecoration(
                                     prefixIcon: Image.asset(
                                       'assets/watsAppImage.png',
-                                      scale: 18,
-                                      color: Colors.amber,
+                                      scale: 25,
                                     ),
                                     hintText: 'Whatsapp',
                                     filled: true,
@@ -619,10 +617,9 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(
-                                      Icons.telegram_outlined,
-                                      color: Colors.amber,
-                                      size: 35,
+                                    prefixIcon: Image.asset(
+                                      'assets/telegram.png',
+                                      scale: 28,
                                     ),
                                     hintText: 'Telegram',
                                     filled: true,
@@ -673,7 +670,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
         quantity: double.parse(quantityController.text),
         foodCategoryId: categoryId,
         foodUnitId: int.parse(_foodUnit.text),
-        telegramLink: "https://t.me/${telegramController.text}",
+        telegramLink: "https://t.me/+2${telegramController.text}",
         whatsappLink: "https://wa.me/${watsAppController.text}",
         foodExpirationDate: _foodExpirationDateController.text);
     print(request.toJson());

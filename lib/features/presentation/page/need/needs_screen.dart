@@ -4,6 +4,7 @@ import 'package:hayat_eg/features/data/repository/need/blood/blood_need_reposito
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
+import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
@@ -20,7 +21,7 @@ class _NeedsScreen extends State<NeedsScreen> {
 
   final query = TextEditingController();
   String category = 'ALL';
-  bool sColor1 = false;
+  bool sColor1 = true;
   bool sColor2 = false;
   bool sColor3 = false;
   bool sColor4 = false;
@@ -42,143 +43,168 @@ class _NeedsScreen extends State<NeedsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: query,
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        fillColor: Colors.white,
-                        filled: true,
-                        constraints:
-                            const BoxConstraints(minHeight: 30, maxHeight: 50),
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        _getNeeds();
-                      },
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.photo_filter),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.sort),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 40.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
+      resizeToAvoidBottomInset: false,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
                   children: [
-                    const SizedBox(
-                      width: 10,
+                    Expanded(
+                      child: TextFormField(
+                        controller: query,
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          fillColor: const Color(0xffCED9E9).withOpacity(.5),
+                          filled: true,
+                          constraints: const BoxConstraints(
+                              minHeight: 30, maxHeight: 50),
+                          prefixIcon: const Icon(Icons.search),
+                          prefixIconColor: const Color(0xff20ADDC),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color(0xff20ADDC), width: 2),
+                              borderRadius: BorderRadius.circular(40.0)),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: const Color(0xffCED9E9).withOpacity(.5)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          _getNeeds();
+                        },
+                      ),
                     ),
-                    defaultTextBottom(
-                      color: sColor1 ? const Color(0xff20ADDC) : Colors.white,
-                      borderColor:
-                          sColor1 ? const Color(0xff20ADDC) : Colors.white,
-                      textColor: sColor1 ? Colors.white : Colors.black54,
-                      text: 'All',
+                    IconButton(
+                      icon: const Icon(
+                        Icons.notifications,
+                        color: Color(0xff20ADDC),
+                        size: 30,
+                      ),
                       onPressed: () {
-                        setState(() {});
-
-                        category = 'ALL';
-                        _colorController(category);
-                        _getNeeds();
-                      },
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    defaultTextBottom(
-                      color: sColor2 ? const Color(0xff20ADDC) : Colors.white,
-                      borderColor:
-                          sColor2 ? const Color(0xff20ADDC) : Colors.white,
-                      textColor: sColor2 ? Colors.white : Colors.black54,
-                      text: 'Medicines',
-                      onPressed: () {
-                        setState(() {});
-
-                        category = 'MEDICINE';
-                        _colorController(category);
-                        _getNeeds();
-                      },
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    defaultTextBottom(
-                      color: sColor3 ? const Color(0xff20ADDC) : Colors.white,
-                      borderColor:
-                          sColor3 ? const Color(0xff20ADDC) : Colors.white,
-                      textColor: sColor3 ? Colors.white : Colors.black54,
-                      text: 'Books',
-                      onPressed: () {
-                        setState(() {});
-
-                        category = 'BOOK';
-                        _colorController(category);
-                        _getNeeds();
-                      },
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    defaultTextBottom(
-                      color: sColor4 ? const Color(0xff20ADDC) : Colors.white,
-                      borderColor:
-                          sColor4 ? const Color(0xff20ADDC) : Colors.white,
-                      textColor: sColor4 ? Colors.white : Colors.black54,
-                      text: 'Blood',
-                      onPressed: () {
-                        setState(() {});
-
-                        category = 'BLOOD';
-                        _colorController(category);
-                        _getNeeds();
+                        navigate(context, notificationScreen());
                       },
                     ),
                   ],
                 ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ListView.builder(
-                    itemCount: _list.length,
-                    itemBuilder: (context, index) {
-                      return needItem(
-                        context,
-                        _list[index],
-                      );
-                    },
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 40.0,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor:
+                            const Color(0xffCED9E9).withOpacity(.5),
+                        minRadius: 20,
+                        child: const Icon(Icons.filter_list_alt,
+                            color: Color(0xff20ADDC)),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      defaultTextBottom(
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor1
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
+                        textColor: sColor1 ? Colors.black : Colors.black54,
+                        text: 'All',
+                        onPressed: () {
+                          setState(() {});
+
+                          category = 'ALL';
+                          _colorController(category);
+                          _getNeeds();
+                        },
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      defaultTextBottom(
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor2
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
+                        text: 'Medicines',
+                        textColor: sColor2 ? Colors.black : Colors.black54,
+                        onPressed: () {
+                          setState(() {});
+                          category = 'MEDICINE';
+                          _colorController(category);
+                          _getNeeds();
+                        },
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      defaultTextBottom(
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor3
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
+                        text: 'Books',
+                        textColor: sColor3 ? Colors.black : Colors.black54,
+                        onPressed: () {
+                          setState(() {});
+                          category = 'BOOK';
+                          _getNeeds();
+                          _colorController(category);
+                        },
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      defaultTextBottom(
+                        color: const Color(0xffCED9E9).withOpacity(.5),
+                        borderColor: sColor4
+                            ? const Color(0xff20ADDC)
+                            : const Color(0xffCED9E9).withOpacity(.5),
+                        text: 'BLOOD',
+                        textColor: sColor4 ? Colors.black : Colors.black54,
+                        onPressed: () {
+                          setState(() {});
+                          category = 'BLOOD';
+                          _colorController(category);
+                          _getNeeds();
+                        },
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListView.builder(
+                      itemCount: _list.length,
+                      itemBuilder: (context, index) {
+                        return NeedItem(
+                          context,
+                          _list[index],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,11 +8,9 @@ import 'package:hayat_eg/features/data/model/donation/book/book_donation_request
 import 'package:hayat_eg/features/data/model/donation/book/book_donation_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
-import 'package:hayat_eg/features/presentation/page/city/city_search.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/view_book_donation_item_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
-import 'package:hayat_eg/features/presentation/widgets/need/book_need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
@@ -412,8 +409,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                   decoration: InputDecoration(
                                     prefixIcon: Image.asset(
                                       'assets/watsAppImage.png',
-                                      scale: 18,
-                                      color: Colors.amber,
+                                      scale: 25,
                                     ),
                                     hintText: 'Whatsapp',
                                     filled: true,
@@ -443,10 +439,9 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                    prefixIcon: const Icon(
-                                      Icons.telegram_outlined,
-                                      color: Colors.amber,
-                                      size: 35,
+                                    prefixIcon: Image.asset(
+                                      'assets/telegram.png',
+                                      scale: 28,
                                     ),
                                     hintText: 'Telegram',
                                     filled: true,
@@ -497,7 +492,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
       communicationMethod: communicationMethod,
       quantity: int.parse(bookQuantityController.text),
       telegramLink: 'https://t.me/${telegramController.text}',
-      whatsappLink: 'https://wa.me/${watsAppController.text}',
+      whatsappLink: 'https://wa.me/+2${watsAppController.text}',
       cityId: cityId,
     );
 

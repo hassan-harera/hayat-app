@@ -85,7 +85,6 @@ Widget myEvalutedBottom(
         Color borderColor = Colors.amber,
         required Widget child}) =>
     Container(
-        width: 120,
         height: 40,
         padding: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
