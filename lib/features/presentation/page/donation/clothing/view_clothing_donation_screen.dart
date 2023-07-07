@@ -161,7 +161,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  _clothingDonation?.title ?? '',
+                                  _clothingDonation?.title ?? 'N/A',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -258,7 +258,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          _clothingDonation?.description ?? '',
+                          _clothingDonation?.description ?? 'N/A',
                           maxLines: 1,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -314,8 +314,9 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_clothingDonation?.clothingType}' ??
-                                                'Clothes !!!',
+                                            _clothingDonation?.clothingType
+                                                    ?.arabicName ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -341,8 +342,9 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_clothingDonation?.clothingCategory}' ??
-                                                '!!!',
+                                            _clothingDonation?.clothingCategory
+                                                    ?.arabicName ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -368,8 +370,8 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_clothingDonation?.quantity}' ??
-                                                '!!!',
+                                            ' ${_clothingDonation?.quantity}' ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
@@ -391,12 +393,13 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 43,
+                                          width: 55,
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '  ${_clothingDonation?.clothingSize}' ??
-                                                '',
+                                            _clothingDonation?.clothingSize
+                                                    ?.arabicName ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
@@ -418,12 +421,13 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 8,
+                                          width: 20,
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '  ${_clothingDonation?.clothingCondition}' ??
-                                                '',
+                                            _clothingDonation?.clothingCondition
+                                                    ?.arabicName ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -445,13 +449,14 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
-                                        SizedBox(
-                                          width: 20,
+                                        const SizedBox(
+                                          width: 32,
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '  ${_clothingDonation?.clothingSeason}' ??
-                                                '',
+                                            _clothingDonation?.clothingSeason
+                                                    ?.arabicName ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -553,7 +558,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: 'Your have down voted this donation,Thanks!',
             );
           });
 
@@ -591,7 +596,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: ' Your have up voted this donation,Thanks! ',
             );
           });
 

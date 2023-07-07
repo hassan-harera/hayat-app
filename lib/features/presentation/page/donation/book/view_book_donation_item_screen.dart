@@ -88,7 +88,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: DownloadedImage(
-                      imageUrl: _bookDonation?.imageUrl ?? '',
+                      imageUrl: _bookDonation?.imageUrl ?? 'N/A',
                     ),
                   ),
                   Expanded(
@@ -161,7 +161,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  _bookDonation?.title ?? '',
+                                  _bookDonation?.title ?? 'N/A',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -208,25 +208,22 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 100,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      ('${_bookDonation?.city?.arabicName}'),
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    const Icon(Icons.location_on_outlined),
-                                  ],
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    ('${_bookDonation?.city?.arabicName}'),
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  const Icon(Icons.location_on_outlined),
+                                ],
                               ),
                             ],
                           ),
@@ -261,7 +258,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                           height: 10,
                         ),
                         Text(
-                          _bookDonation?.description ?? '',
+                          _bookDonation?.description ?? 'N/A',
                           maxLines: 1,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -307,17 +304,16 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Book Name:',
+                                          'Book Sub Title:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 78,
+                                          width: 58,
                                         ),
                                         Text(
-                                          _bookDonation?.bookSubTitle ??
-                                              'Book !!!',
+                                          _bookDonation?.bookSubTitle ?? 'N/A',
                                           maxLines: 2,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -341,7 +337,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                           width: 55,
                                         ),
                                         Text(
-                                          _bookDonation?.bookPublisher ?? '!!!',
+                                          _bookDonation?.bookPublisher ?? 'N/A',
                                           maxLines: 1,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -365,7 +361,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                           width: 74,
                                         ),
                                         Text(
-                                          _bookDonation?.bookAuthor ?? '!!!',
+                                          _bookDonation?.bookAuthor ?? 'N/A',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
@@ -387,7 +383,8 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                           width: 49,
                                         ),
                                         Text(
-                                          '  ${_bookDonation?.quantity}' ?? '',
+                                          '  ${_bookDonation?.quantity}' ??
+                                              'N/A',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
@@ -406,11 +403,10 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 40,
+                                          width: 49,
                                         ),
                                         Text(
-                                          '  ${_bookDonation?.bookLanguage}' ??
-                                              '',
+                                          _bookDonation?.bookLanguage ?? 'N/A',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
@@ -423,22 +419,22 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'book Publication Year:',
+                                          'Publication Date:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
+                                        SizedBox(
+                                          width: 47,
+                                        ),
                                         Text(
-                                          '  ${_bookDonation?.bookPublicationYear}' ??
-                                              '',
+                                          _bookDonation?.bookPublicationYear ??
+                                              'N/A',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
                                         ),
                                       ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
                                     ),
                                   ],
                                 ),
@@ -531,7 +527,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this donation, Thank you!',
+              message: 'Your have down voted this donation, Thanks! ',
             );
           });
 
@@ -569,7 +565,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this donation, Thank you!',
+              message: ' Your have up voted this donation, Thanks! ',
             );
           });
 

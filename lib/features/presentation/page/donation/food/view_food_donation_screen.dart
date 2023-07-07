@@ -88,7 +88,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: DownloadedImage(
-                      imageUrl: _foodDonation?.imageUrl ?? '',
+                      imageUrl: _foodDonation?.imageUrl ?? 'N/A',
                     ),
                   ),
                   Expanded(
@@ -161,7 +161,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  _foodDonation?.title ?? '',
+                                  _foodDonation?.title ?? 'N/A',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -214,7 +214,8 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    ('${_foodDonation?.city?.arabicName}'),
+                                    ('${_foodDonation?.city?.arabicName}' ??
+                                        'N/A'),
                                     maxLines: 1,
                                     style: const TextStyle(
                                         fontSize: 16,
@@ -258,7 +259,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          _foodDonation?.description ?? '',
+                          _foodDonation?.description ?? 'N/A',
                           maxLines: 1,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -304,16 +305,16 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Food Name:',
+                                          'Food Category:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 78,
+                                          width: 58,
                                         ),
                                         Text(
-                                          _foodDonation?.category ?? 'Food !!!',
+                                          _foodDonation?.category ?? 'N/A',
                                           maxLines: 2,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -338,8 +339,8 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_foodDonation?.foodUnit}' ??
-                                                '!!!',
+                                            '${_foodDonation?.foodUnit?.arabicName}' ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -364,7 +365,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                           width: 60,
                                         ),
                                         Text(
-                                          '${_foodDonation?.quantity}' ?? '!!!',
+                                          '${_foodDonation?.quantity}' ?? 'N/A',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14),
@@ -377,36 +378,17 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Food Language: ',
+                                          'Food Expiration Date:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
-                                        const SizedBox(
-                                          width: 40,
-                                        ),
-                                        Text(
-                                          '  ${_foodDonation?.status}' ?? '',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          'Food Publication Year:',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 16),
+                                        SizedBox(
+                                          width: 6,
                                         ),
                                         Text(
                                           '  ${_foodDonation?.foodExpirationDate}' ??
-                                              '',
+                                              'N/A',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14),
@@ -462,7 +444,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _foodDonation?.communicationMethod ?? 'Chat',
+                                  _foodDonation?.communicationMethod ?? 'N/A',
                                   maxLines: 1,
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -507,7 +489,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this donation, Thank you!',
+              message: 'Your have Down voted this donation,Thanks!',
             );
           });
 
@@ -545,7 +527,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: 'Your have up voted this donation,Thanks!',
             );
           });
 

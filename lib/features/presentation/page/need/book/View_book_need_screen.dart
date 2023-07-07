@@ -1,37 +1,37 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
-import 'package:hayat_eg/features/data/model/need/blood/blood_need_response.dart';
-import 'package:hayat_eg/features/data/repository/need/blood/blood_need_repository.dart';
+import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
+import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
 import 'package:hayat_eg/injection_container.dart';
 
-class BloodNeedItemScreen extends StatefulWidget {
+class BookNeedDetailsScreen extends StatefulWidget {
   final String id;
 
-  const BloodNeedItemScreen({super.key, required this.id});
+  const BookNeedDetailsScreen({super.key, required this.id});
 
   @override
-  State<BloodNeedItemScreen> createState() => _BloodNeedItemScreenState(id);
+  State<BookNeedDetailsScreen> createState() => _BookNeedDetailsScreenState(id);
 }
 
-class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
-  BloodNeedResponse? _bloodNeed;
+class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
+  BookNeedResponse? _bookNeed;
   final String id;
 
-  _BloodNeedItemScreenState(this.id);
+  _BookNeedDetailsScreenState(this.id);
 
-  final BloodNeedRepository _bloodNeedRepository = sl();
+  final BookNeedRepository _bookNeedRepository = sl();
 
   @override
   initState() {
     super.initState();
-    getBloodNeed();
+    getBookNeed();
   }
 
   @override
@@ -47,7 +47,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: _bloodNeed?.qrCode ?? 'QR',
+                            data: _bookNeed?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
@@ -62,7 +62,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                 color: Colors.black,
               )),
         ],
-        title: const Text('Blood Need'),
+        title: const Text('Book Need'),
       ),
       body: Padding(
         padding: EdgeInsets.only(
@@ -87,7 +87,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: DownloadedImage(
-                      imageUrl: _bloodNeed?.imageUrl ?? '',
+                      imageUrl: _bookNeed?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -107,7 +107,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          '${_bloodNeed?.reputation ?? 0}',
+                          '${_bookNeed?.reputation ?? 0}',
                           maxLines: 1,
                           style:
                               const TextStyle(overflow: TextOverflow.ellipsis),
@@ -160,7 +160,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  _bloodNeed?.title ?? '',
+                                  _bookNeed?.title ?? '',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -175,7 +175,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    timeAgo(_bloodNeed?.needDate!),
+                                    timeAgo(_bookNeed?.needDate!),
                                     maxLines: 1,
                                     style: const TextStyle(
                                         fontSize: 16,
@@ -198,7 +198,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  ('${_bloodNeed?.user?.firstName!} ${_bloodNeed?.user?.lastName!}'),
+                                  ('${_bookNeed?.user?.firstName!} ${_bookNeed?.user?.lastName!}'),
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 16,
@@ -213,7 +213,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    ('${_bloodNeed?.city?.arabicName}'),
+                                    ('${_bookNeed?.city?.arabicName}'),
                                     maxLines: 1,
                                     style: const TextStyle(
                                         fontSize: 16,
@@ -257,10 +257,8 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          _bloodNeed?.description ?? '',
-                          maxLines: 1,
+                          _bookNeed?.description ?? '',
                           style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
@@ -303,24 +301,21 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Blood Type:',
+                                          'Book Name:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 48,
+                                          width: 78,
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            '${_bloodNeed?.bloodType}' ??
-                                                'Blood !!!',
-                                            maxLines: 1,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                overflow: TextOverflow.ellipsis,
-                                                fontSize: 14),
-                                          ),
+                                        Text(
+                                          _bookNeed?.bookSubTitle ?? 'N/A',
+                                          maxLines: 2,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16),
                                         ),
                                       ],
                                     ),
@@ -330,23 +325,21 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Title :',
+                                          'book Publisher:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 59,
+                                          width: 55,
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            '${_bloodNeed?.title}' ?? '!!!',
-                                            maxLines: 1,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                overflow: TextOverflow.ellipsis,
-                                                fontSize: 14),
-                                          ),
+                                        Text(
+                                          _bookNeed?.bookPublisher ?? 'N/A',
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16),
                                         ),
                                       ],
                                     ),
@@ -356,23 +349,19 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Title :',
+                                          'book Author:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 59,
+                                          width: 74,
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            '${_bloodNeed?.title}' ?? '!!!',
-                                            maxLines: 1,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                overflow: TextOverflow.ellipsis,
-                                                fontSize: 14),
-                                          ),
+                                        Text(
+                                          _bookNeed?.bookAuthor ?? 'N/A',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
                                         ),
                                       ],
                                     ),
@@ -382,23 +371,19 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Bleeder Age',
+                                          'Book Quantity: ',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 34,
+                                          width: 49,
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            '${_bloodNeed?.age}' ?? '!!!',
-                                            maxLines: 1,
-                                            style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14),
-                                          ),
+                                        Text(
+                                          '  ${_bookNeed?.category}' ?? '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
                                         ),
                                       ],
                                     ),
@@ -408,24 +393,19 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Bleed Type',
+                                          'Book Language: ',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 34,
+                                          width: 40,
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            '${_bloodNeed?.bloodType}' ??
-                                                '!!!',
-                                            maxLines: 1,
-                                            style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14),
-                                          ),
+                                        Text(
+                                          '  ${_bookNeed?.bookLanguage}' ?? '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
                                         ),
                                       ],
                                     ),
@@ -435,26 +415,22 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Hospital: ',
+                                          'book Publication Year:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
-                                        const SizedBox(
-                                          width: 43,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '  ${_bloodNeed?.hospital}' ??
-                                                '',
-                                            maxLines: 1,
-                                            style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14),
-                                          ),
+                                        Text(
+                                          '  ${_bookNeed?.bookPublicationYear}' ??
+                                              '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
                                         ),
                                       ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
                                     ),
                                   ],
                                 ),
@@ -502,7 +478,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _bloodNeed?.communicationMethod ?? 'Chat',
+                                  _bookNeed?.communicationMethod ?? 'Chat',
                                   maxLines: 1,
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -517,12 +493,12 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _bloodNeed?.whatsappLink),
+                              whatsappLink: _bookNeed?.whatsappLink),
                           const SizedBox(
                             height: 10,
                           ),
                           TelegramDetails(
-                            telegramLink: _bloodNeed?.telegramLink,
+                            telegramLink: _bookNeed?.telegramLink,
                           ),
                         ],
                       ),
@@ -541,17 +517,17 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
   }
 
   void downVote() {
-    final response = _bloodNeedRepository.downVote(id);
+    final response = _bookNeedRepository.downVote(id);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this need, Thank you!',
+              message: 'Your have up voted this donation, Thank you!',
             );
           });
 
-      getBloodNeed();
+      getBookNeed();
     });
 
     response.onError((error, stackTrace) {
@@ -560,7 +536,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unable to upvote need'),
+              title: const Text('Unable to upvote donation'),
               content: Text(error.apiError.displayMessage.toString()),
               actions: <Widget>[
                 TextButton(
@@ -579,17 +555,17 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
   }
 
   void upvote() async {
-    final response = _bloodNeedRepository.upvote(id);
+    final response = _bookNeedRepository.upvote(id);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this need, Thank you!',
+              message: 'Your have up voted this donation, Thank you!',
             );
           });
 
-      getBloodNeed();
+      getBookNeed();
     });
 
     response.onError((error, stackTrace) {
@@ -598,7 +574,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unable to upvote need'),
+              title: const Text('Unable to upvote donation'),
               content: Text(error.apiError.displayMessage.toString()),
               actions: <Widget>[
                 TextButton(
@@ -616,11 +592,11 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
     });
   }
 
-  void getBloodNeed() {
-    _bloodNeedRepository.get(id).then((value) {
+  void getBookNeed() {
+    _bookNeedRepository.get(id as String).then((value) {
       setState(() {
-        print(_bloodNeed?.reputation);
-        _bloodNeed = value;
+        print(_bookNeed?.reputation);
+        _bookNeed = value;
       });
     });
   }

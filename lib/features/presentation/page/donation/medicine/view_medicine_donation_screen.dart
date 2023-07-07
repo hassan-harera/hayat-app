@@ -162,7 +162,7 @@ class _MedicineDonationItemScreenState
                             children: [
                               Expanded(
                                 child: Text(
-                                  _medicineDonation?.title ?? '',
+                                  _medicineDonation?.title ?? 'N/A',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -200,7 +200,8 @@ class _MedicineDonationItemScreenState
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  ('${_medicineDonation?.user?.firstName!} ${_medicineDonation?.user?.lastName!}'),
+                                  ('${_medicineDonation?.user?.firstName!} ${_medicineDonation?.user?.lastName!}') ??
+                                      'N/A',
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 16,
@@ -259,7 +260,7 @@ class _MedicineDonationItemScreenState
                           height: 10,
                         ),
                         Text(
-                          _medicineDonation?.description ?? '',
+                          _medicineDonation?.description ?? 'N/A',
                           maxLines: 1,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -305,18 +306,19 @@ class _MedicineDonationItemScreenState
                                     Row(
                                       children: [
                                         const Text(
-                                          'Medicine Name:',
+                                          'Medicine :',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 48,
+                                          width: 92,
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_medicineDonation?.medicine?.arabicName}' ??
-                                                'Medicine !!!',
+                                            _medicineDonation
+                                                    ?.medicine?.arabicName ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -342,8 +344,9 @@ class _MedicineDonationItemScreenState
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_medicineDonation?.medicineUnit}' ??
-                                                '!!!',
+                                            _medicineDonation?.medicineUnit
+                                                    ?.arabicName ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -370,7 +373,7 @@ class _MedicineDonationItemScreenState
                                         Expanded(
                                           child: Text(
                                             '${_medicineDonation?.quantity}' ??
-                                                '!!!',
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
@@ -392,12 +395,13 @@ class _MedicineDonationItemScreenState
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 43,
+                                          width: 50,
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '  ${_medicineDonation?.medicineExpirationDate}' ??
-                                                '',
+                                            _medicineDonation
+                                                    ?.medicineExpirationDate ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
@@ -499,7 +503,7 @@ class _MedicineDonationItemScreenState
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this donation, Thank you!',
+              message: 'Your have Down voted this donation,Thanks',
             );
           });
 
@@ -537,7 +541,7 @@ class _MedicineDonationItemScreenState
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this donation, Thank you!',
+              message: 'Your have up voted this donation,Thanks!',
             );
           });
 

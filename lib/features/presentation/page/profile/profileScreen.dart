@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/features/presentation/page/login/Login.dart';
 import 'package:hayat_eg/features/presentation/page/need/book/create_book_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/medicine/Create_medicine_need_screen.dart';
 import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
@@ -219,7 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         text: 'Create Blood Need'),
                     myCard(
                         onPressed: () {
-                          navigate(context, CreateBloodNeedScreen());
+                          navigate(context, AskMedicineNeedScreen());
                         },
                         icon: Icons.medical_information,
                         text: 'Create Medicine Need'),

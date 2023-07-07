@@ -135,9 +135,10 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
+                  elevation: 1.0,
+                  backgroundColor: Colors.white,
                   title: const Text(
                     'Book Donation',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
                 body: SafeArea(

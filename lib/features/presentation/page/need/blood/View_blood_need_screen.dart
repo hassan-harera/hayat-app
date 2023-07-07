@@ -1,37 +1,37 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_utils/get_utils.dart';
+import 'package:get/get.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
-import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
-import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
+import 'package:hayat_eg/features/data/model/need/blood/blood_need_response.dart';
+import 'package:hayat_eg/features/data/repository/need/blood/blood_need_repository.dart';
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/telegram_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/communicatiion/whatsapp_details.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_utils.dart';
 import 'package:hayat_eg/injection_container.dart';
 
-class BookNeedDetailsScreen extends StatefulWidget {
+class BloodNeedItemScreen extends StatefulWidget {
   final String id;
 
-  const BookNeedDetailsScreen({super.key, required this.id});
+  const BloodNeedItemScreen({super.key, required this.id});
 
   @override
-  State<BookNeedDetailsScreen> createState() => _BookNeedDetailsScreenState(id);
+  State<BloodNeedItemScreen> createState() => _BloodNeedItemScreenState(id);
 }
 
-class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
-  BookNeedResponse? _bookNeed;
+class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
+  BloodNeedResponse? _bloodNeed;
   final String id;
 
-  _BookNeedDetailsScreenState(this.id);
+  _BloodNeedItemScreenState(this.id);
 
-  final BookNeedRepository _bookNeedRepository = sl();
+  final BloodNeedRepository _bloodNeedRepository = sl();
 
   @override
   initState() {
     super.initState();
-    getBookNeed();
+    getBloodNeed();
   }
 
   @override
@@ -47,7 +47,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: _bookNeed?.qrCode ?? 'QR',
+                            data: _bloodNeed?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
@@ -62,7 +62,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                 color: Colors.black,
               )),
         ],
-        title: const Text('Book Need'),
+        title: const Text('Blood Need'),
       ),
       body: Padding(
         padding: EdgeInsets.only(
@@ -87,7 +87,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: DownloadedImage(
-                      imageUrl: _bookNeed?.imageUrl ?? '',
+                      imageUrl: _bloodNeed?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -107,7 +107,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           height: 10,
                         ),
                         Text(
-                          '${_bookNeed?.reputation ?? 0}',
+                          '${_bloodNeed?.reputation ?? 0}',
                           maxLines: 1,
                           style:
                               const TextStyle(overflow: TextOverflow.ellipsis),
@@ -160,7 +160,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  _bookNeed?.title ?? '',
+                                  _bloodNeed?.title ?? '',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -175,7 +175,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    timeAgo(_bookNeed?.needDate!),
+                                    timeAgo(_bloodNeed?.needDate!),
                                     maxLines: 1,
                                     style: const TextStyle(
                                         fontSize: 16,
@@ -198,7 +198,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  ('${_bookNeed?.user?.firstName!} ${_bookNeed?.user?.lastName!}'),
+                                  ('${_bloodNeed?.user?.firstName!} ${_bloodNeed?.user?.lastName!}'),
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 16,
@@ -207,25 +207,22 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 100,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      ('${_bookNeed?.city?.arabicName}'),
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    const Icon(Icons.location_on_outlined),
-                                  ],
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    ('${_bloodNeed?.city?.arabicName}'),
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  const Icon(Icons.location_on_outlined),
+                                ],
                               ),
                             ],
                           ),
@@ -260,10 +257,8 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                           height: 10,
                         ),
                         Text(
-                          _bookNeed?.description ?? '',
-                          maxLines: 1,
+                          _bloodNeed?.description ?? '',
                           style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
@@ -306,21 +301,23 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'Book Name:',
+                                          'Blood Title :',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 78,
+                                          width: 39,
                                         ),
-                                        Text(
-                                          _bookNeed?.bookSubTitle ?? 'Book !!!',
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            '${_bloodNeed?.title}' ?? '!!!',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -330,75 +327,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'book Publisher:',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 16),
-                                        ),
-                                        const SizedBox(
-                                          width: 55,
-                                        ),
-                                        Text(
-                                          _bookNeed?.bookPublisher ?? '!!!',
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          'book Author:',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 16),
-                                        ),
-                                        const SizedBox(
-                                          width: 74,
-                                        ),
-                                        Text(
-                                          _bookNeed?.bookAuthor ?? '!!!',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          'Book Quantity: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 16),
-                                        ),
-                                        const SizedBox(
-                                          width: 49,
-                                        ),
-                                        Text(
-                                          '  ${_bookNeed?.category}' ?? '',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          'Book Language: ',
+                                          'Blood Type:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
@@ -406,11 +335,15 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                         const SizedBox(
                                           width: 40,
                                         ),
-                                        Text(
-                                          '  ${_bookNeed?.bookLanguage}' ?? '',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bloodNeed?.bloodType ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -420,28 +353,81 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                     Row(
                                       children: [
                                         const Text(
-                                          'book Publication Year:',
+                                          'Illness :',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
-                                        Text(
-                                          '  ${_bookNeed?.bookPublicationYear}' ??
-                                              '',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        const SizedBox(
+                                          width: 68,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            _bloodNeed?.illness ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Bleeder Age:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 34,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${_bloodNeed?.age}' ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Hospital: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 49,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '  ${_bloodNeed?.hospital}' ??
+                                                '',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 20,
                               ),
                             ],
                           )
@@ -483,7 +469,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _bookNeed?.communicationMethod ?? 'Chat',
+                                  _bloodNeed?.communicationMethod ?? 'Chat',
                                   maxLines: 1,
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -498,12 +484,12 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _bookNeed?.whatsappLink),
+                              whatsappLink: _bloodNeed?.whatsappLink),
                           const SizedBox(
                             height: 10,
                           ),
                           TelegramDetails(
-                            telegramLink: _bookNeed?.telegramLink,
+                            telegramLink: _bloodNeed?.telegramLink,
                           ),
                         ],
                       ),
@@ -522,17 +508,17 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
   }
 
   void downVote() {
-    final response = _bookNeedRepository.downVote(id);
+    final response = _bloodNeedRepository.downVote(id);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this donation, Thank you!',
+              message: 'Your have up voted this need, Thank you!',
             );
           });
 
-      getBookNeed();
+      getBloodNeed();
     });
 
     response.onError((error, stackTrace) {
@@ -541,7 +527,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unable to upvote donation'),
+              title: const Text('Unable to upvote need'),
               content: Text(error.apiError.displayMessage.toString()),
               actions: <Widget>[
                 TextButton(
@@ -560,17 +546,17 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
   }
 
   void upvote() async {
-    final response = _bookNeedRepository.upvote(id);
+    final response = _bloodNeedRepository.upvote(id);
     response.then((value) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this donation, Thank you!',
+              message: 'Your have upvoted this need, Thank you!',
             );
           });
 
-      getBookNeed();
+      getBloodNeed();
     });
 
     response.onError((error, stackTrace) {
@@ -579,7 +565,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unable to upvote donation'),
+              title: const Text('Unable to upvote need'),
               content: Text(error.apiError.displayMessage.toString()),
               actions: <Widget>[
                 TextButton(
@@ -597,11 +583,11 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
     });
   }
 
-  void getBookNeed() {
-    _bookNeedRepository.get(id as String).then((value) {
+  void getBloodNeed() {
+    _bloodNeedRepository.get(id).then((value) {
       setState(() {
-        print(_bookNeed?.reputation);
-        _bookNeed = value;
+        print(_bloodNeed?.reputation);
+        _bloodNeed = value;
       });
     });
   }

@@ -8,7 +8,7 @@ import 'package:hayat_eg/features/data/model/need/book/book_need_request.dart';
 import 'package:hayat_eg/features/data/model/need/book/book_need_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/need/book/book_need_repository.dart';
-import 'package:hayat_eg/features/presentation/page/need/book/book_need_details_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/book/View_book_need_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
 import 'package:hayat_eg/injection_container.dart';
@@ -137,9 +137,10 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
+                  elevation: 1.0,
+                  backgroundColor: Colors.white,
                   title: const Text(
                     'Book Need',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
                 body: SafeArea(
@@ -195,7 +196,7 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                                 // const Spacer(),
                                 Expanded(
                                   child: requiredTextField(
-                                    hint: 'Title*',
+                                    hint: 'Title',
                                     controller: titleController,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -416,7 +417,7 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                                       'assets/telegram.png',
                                       scale: 28,
                                     ),
-                                    hintText: 'Telegram',
+                                    hintText: 'Telegram User Name',
                                     filled: true,
                                     fillColor: Colors.white,
                                     enabledBorder: OutlineInputBorder(

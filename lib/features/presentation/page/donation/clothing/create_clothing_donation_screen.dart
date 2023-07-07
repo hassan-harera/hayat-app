@@ -177,12 +177,10 @@ class _CreateClothingDonationScreen
             child: Scaffold(
                 appBar: AppBar(
                   centerTitle: false,
-                  title: Transform(
-                    transform:
-                        Matrix4.translationValues(size.width - 250, 0.0, 0.0),
-                    child: const Text(
-                      'Clothes Category',
-                    ),
+                  elevation: 1.0,
+                  backgroundColor: Colors.white,
+                  title: const Text(
+                    'Clothes Category',
                   ),
                 ),
                 body: SafeArea(

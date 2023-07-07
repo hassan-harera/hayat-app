@@ -3,9 +3,9 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/features/data/model/need/need_response.dart';
-import 'package:hayat_eg/features/presentation/page/need/blood/blood_need_screen.dart';
-import 'package:hayat_eg/features/presentation/page/need/book/book_need_details_screen.dart';
-import 'package:hayat_eg/features/presentation/page/need/medicine/MedicineNeedItemScreen.dart';
+import 'package:hayat_eg/features/presentation/page/need/blood/View_blood_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/book/View_book_need_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/medicine/view_medicine_need_screen.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
 
 class NeedItem extends StatelessWidget {
@@ -57,7 +57,7 @@ class NeedItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        _needResponse.title ?? 'Donation',
+                        _needResponse.title ?? 'N/A',
                         maxLines: 1,
                         textDirection: TextDirection.rtl,
                         style: const TextStyle(
@@ -85,7 +85,7 @@ class NeedItem extends StatelessWidget {
                         width: size.height / 25,
                       ),
                       Text(
-                        '${_needResponse.description}',
+                        '${_needResponse.description}' ?? '',
                         maxLines: 3,
                         style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
@@ -238,7 +238,11 @@ class NeedItem extends StatelessWidget {
     } else if (needResponse.category == 'BOOKS') {
       navigate(context, BookNeedDetailsScreen(id: needResponse.id!));
     } else if (needResponse.category == 'MEDICINE') {
-      navigate(context, MedicineNeedItemScreen(needResponse.id!));
+      navigate(
+          context,
+          MedicineNeedItemScreen(
+            id: needResponse.id!,
+          ));
     }
   }
 }

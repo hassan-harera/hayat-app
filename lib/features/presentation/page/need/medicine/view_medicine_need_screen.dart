@@ -14,7 +14,7 @@ import 'package:hayat_eg/injection_container.dart';
 class MedicineNeedItemScreen extends StatefulWidget {
   final String id;
 
-  const MedicineNeedItemScreen.Need({super.key, required this.id});
+  const MedicineNeedItemScreen({super.key, required this.id});
 
   @override
   State<MedicineNeedItemScreen> createState() =>
@@ -89,7 +89,7 @@ class _MedicineNeedItemScreenState
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: DownloadedImage(
-                      imageUrl: _medicineNeed?.imageUrl ?? '',
+                      imageUrl: _medicineNeed?.imageUrl ?? 'N/A',
                     ),
                   ),
                   Expanded(
@@ -162,7 +162,7 @@ class _MedicineNeedItemScreenState
                             children: [
                               Expanded(
                                 child: Text(
-                                  _medicineNeed?.title ?? '',
+                                  _medicineNeed?.title ?? 'N/A',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -259,7 +259,7 @@ class _MedicineNeedItemScreenState
                           height: 10,
                         ),
                         Text(
-                          _medicineNeed?.description ?? '',
+                          _medicineNeed?.description ?? 'N/A',
                           maxLines: 1,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -342,8 +342,8 @@ class _MedicineNeedItemScreenState
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_medicineNeed?.medicineUnit}' ??
-                                                '!!!',
+                                            '${_medicineNeed?.medicineUnit?.arabicName}' ??
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -370,7 +370,7 @@ class _MedicineNeedItemScreenState
                                         Expanded(
                                           child: Text(
                                             '${_medicineNeed?.quantity}' ??
-                                                '!!!',
+                                                'N/A',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
@@ -487,7 +487,7 @@ class _MedicineNeedItemScreenState
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unable to upvote need'),
+              title: const Text('Unable to down vote need'),
               content: Text(error.apiError.displayMessage.toString()),
               actions: <Widget>[
                 TextButton(
@@ -512,7 +512,7 @@ class _MedicineNeedItemScreenState
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this need, Thank you!',
+              message: 'Your have up voted this need, Thanks!',
             );
           });
 

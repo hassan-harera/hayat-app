@@ -151,9 +151,10 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
+                  elevation: 1.0,
+                  backgroundColor: Colors.white,
                   title: const Text(
                     'Medicine Category',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
                 body: SafeArea(

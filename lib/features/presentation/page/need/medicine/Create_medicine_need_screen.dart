@@ -7,12 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
 import 'package:hayat_eg/features/data/model/city/city.dart';
-import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_request.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
+import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_request.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
-import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
+import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -147,13 +147,9 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
             child: Scaffold(
                 appBar: AppBar(
                   centerTitle: false,
-                  title: Transform(
-                    transform:
-                        Matrix4.translationValues(size.width - 220, 0.0, 0.0),
-                    child: const Text(
-                      'Medicine Need',
-                    ),
-                  ),
+                  elevation: 1.0,
+                  backgroundColor: Colors.white,
+                  title: Text('Medicine Need'),
                 ),
                 body: SafeArea(
                   child: SingleChildScrollView(

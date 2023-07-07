@@ -12,12 +12,14 @@ class SuccessDialog extends StatelessWidget {
     return SimpleDialog(
         elevation: 16.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         insetPadding: const EdgeInsets.all(16.0),
         children: [
           Column(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const Icon(
                 Icons.check_circle,
@@ -29,9 +31,12 @@ class SuccessDialog extends StatelessWidget {
                 'Success',
                 style: TextStyle(color: Colors.green),
               ),
-              Text(
-                message,
-                style: const TextStyle(color: Colors.black45),
+              Center(
+                child: Text(
+                  message,
+                  style: const TextStyle(
+                      color: Colors.black45, fontWeight: FontWeight.w500),
+                ),
               ),
               const SizedBox(height: 20.0),
               ElevatedButton(
