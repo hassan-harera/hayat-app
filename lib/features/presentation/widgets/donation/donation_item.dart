@@ -89,7 +89,7 @@ class DonationItem extends StatelessWidget {
                       ),
                       Text(
                         '${_donationResponse.description}',
-                        maxLines: 3,
+                        maxLines: 2,
                         style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.w400,

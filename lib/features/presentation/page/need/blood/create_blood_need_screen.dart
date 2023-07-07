@@ -226,7 +226,11 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                             ),
                             requiredTextField(
                               controller: _hospitalNameController,
-                              validator: (value) {},
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Hospital is Required';
+                                }
+                              },
                               hint: 'Hospital Name',
                             ),
                             const SizedBox(
@@ -251,6 +255,11 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                       return DropdownButtonFormField(
                                         hint: const Text('Blood Type'),
                                         iconEnabledColor: Colors.amber,
+                                        validator: (sGenderItem) {
+                                          if (sGenderItem == null) {
+                                            return 'please Add Blood Type';
+                                          }
+                                        },
                                         icon: const Icon(
                                           Icons.keyboard_arrow_down,
                                           size: 30,
@@ -267,8 +276,6 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled: true,
-                                            constraints: const BoxConstraints(
-                                                maxHeight: 60),
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -314,9 +321,14 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                       children: [
                                         SizedBox(
                                             width: 190,
-                                            child: optionalTextField(
+                                            child: requiredTextField(
                                               controller: illnessController,
                                               hint: 'Illness',
+                                              validator: (value) {
+                                                if (value!.isEmpty) {
+                                                  return 'Illness is Required';
+                                                }
+                                              },
                                             )),
                                       ],
                                     ),
@@ -456,6 +468,12 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
                                         color: Colors.amber,
@@ -494,6 +512,12 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -507,6 +531,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                                   if (_formKey.currentState!.validate()) {
                                     _onSubmit();
                                   } else {
+                                    setState(() {});
                                     autoValidateMode = AutovalidateMode.always;
                                   }
                                 },

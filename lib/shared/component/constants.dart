@@ -25,6 +25,7 @@ myButton(
         required Function onTap,
         bool isUppercase = true,
         Color color = Colors.amber,
+        double fontSize = 18,
         Color textColor = Colors.white,
         double radius = 0}) =>
     Container(
@@ -45,7 +46,7 @@ myButton(
               letterSpacing: 3,
               color: textColor,
               fontWeight: FontWeight.bold,
-              fontSize: 18),
+              fontSize: fontSize),
         ),
       ),
     );

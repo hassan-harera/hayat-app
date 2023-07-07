@@ -238,35 +238,60 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                             const SizedBox(
                               height: 15,
                             ),
-                            optionalTextField(
+                            requiredTextField(
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'sub title is required';
+                                }
+                              },
                               hint: 'Book Sub Title',
                               controller: bookSubTitleController,
                             ),
                             const SizedBox(
                               height: 20,
                             ),
-                            optionalTextField(
+                            requiredTextField(
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'Book Author is required';
+                                }
+                              },
                               controller: bookAuthorController,
                               hint: 'Book Author',
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            optionalTextField(
+                            requiredTextField(
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'Book Language is required';
+                                }
+                              },
                               controller: bookLanguageController,
                               hint: 'Book Language',
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            optionalTextField(
+                            requiredTextField(
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'Book Publisher is required';
+                                }
+                              },
                               controller: bookPublisherController,
                               hint: 'Book Publisher',
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            optionalTextField(
+                            requiredTextField(
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'Book Publication is required';
+                                }
+                              },
                               hint: 'Book Publication Year',
                               controller: bookPublicationYearController,
                             ),
@@ -394,6 +419,12 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
                                         color: Colors.amber,
@@ -432,6 +463,12 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 )
                               ],
@@ -442,7 +479,15 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                             myButton(
                                 text: 'Submit',
                                 onTap: () async {
-                                  _onSubmit();
+                                  if (formKey.currentState!.validate()) {
+                                    formKey.currentState!.save();
+                                    onSubmit();
+                                    setState(() {});
+                                    autoValidateMode =
+                                        AutovalidateMode.onUserInteraction;
+                                  } else {
+                                    autoValidateMode = AutovalidateMode.always;
+                                  }
                                 },
                                 radius: 10),
                           ],

@@ -39,7 +39,8 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        elevation: 1.0,
+        backgroundColor: Colors.white,
         actions: [
           IconButton(
               onPressed: () {
@@ -552,7 +553,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this need, Thank you!',
+              message: 'Your have up voted this need, Thank you!',
             );
           });
 

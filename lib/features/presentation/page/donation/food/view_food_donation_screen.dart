@@ -40,6 +40,8 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        elevation: 1.0,
+        backgroundColor: Colors.white,
         centerTitle: true,
         actions: [
           IconButton(

@@ -156,6 +156,11 @@ Widget descriptionTextField({required TextEditingController? controller}) =>
     TextFormField(
       controller: controller,
       maxLines: 7,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Description is required';
+        }
+      },
       decoration: const InputDecoration(
         border: OutlineInputBorder(
             borderSide: BorderSide(

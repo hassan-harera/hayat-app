@@ -40,6 +40,8 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        elevation: 1.0,
+        backgroundColor: Colors.white,
         actions: [
           IconButton(
               onPressed: () {

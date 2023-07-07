@@ -41,6 +41,8 @@ class _MedicineNeedItemScreenState
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        elevation: 1.0,
+        backgroundColor: Colors.white,
         centerTitle: true,
         actions: [
           IconButton(
@@ -48,16 +50,16 @@ class _MedicineNeedItemScreenState
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      content: BarcodeWidget(
-                        data: _medicineNeed?.qrCode ?? 'QR',
+                          content: BarcodeWidget(
+                            data: _medicineNeed?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
                             height: 250,
                             drawText: true,
                           ),
-                      backgroundColor: Colors.grey[50],
-                    ));
+                          backgroundColor: Colors.grey[50],
+                        ));
               },
               icon: const Icon(
                 Icons.qr_code,

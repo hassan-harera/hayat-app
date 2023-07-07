@@ -86,7 +86,7 @@ class NeedItem extends StatelessWidget {
                       ),
                       Text(
                         '${_needResponse.description}' ?? '',
-                        maxLines: 3,
+                        maxLines: 2,
                         style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.w400,
