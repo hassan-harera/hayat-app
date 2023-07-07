@@ -582,7 +582,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BloodNeedDetailsScreen(),
+            builder: (context) => BloodNeedItemScreen(id: id),
           ),
         );
       });
@@ -590,7 +590,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BloodNeedDetailsScreen(),
+          builder: (context) => BloodNeedItemScreen(id: id),
         ),
       );
     }

@@ -59,7 +59,7 @@ class BloodNeedDataSource {
     }
   }
 
-  Future<BloodNeedResponse?> upvote(int id) async {
+  Future<BloodNeedResponse?> upvote(String id) async {
     final response = await client
         .put(Uri.parse('$baseUrl/api/v1/needs/blood/$id/upvote'), headers: {
       'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ class BloodNeedDataSource {
     }
   }
 
-  Future<BloodNeedResponse?> downvote(int id) async {
+  Future<BloodNeedResponse?> downvote(String id) async {
     final response = await client
         .put(Uri.parse('$baseUrl/api/v1/needs/blood/$id/down-vote'), headers: {
       'Content-Type': 'application/json',

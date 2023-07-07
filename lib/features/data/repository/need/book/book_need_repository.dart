@@ -18,11 +18,11 @@ class BookNeedRepository {
     return await bookNeedDataSource.updateImage(id, image);
   }
 
-  Future<BookNeedResponse?> upvote(int id) async {
+  Future<BookNeedResponse?> upvote(String id) async {
     return await bookNeedDataSource.upvote(id);
   }
 
-  Future<BookNeedResponse?> downVote(int id) async {
+  Future<BookNeedResponse?> downVote(String id) async {
     return await bookNeedDataSource.downvote(id);
   }
 

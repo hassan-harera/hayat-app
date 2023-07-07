@@ -549,17 +549,18 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
     );
 
     final response = _bookNeedRepository.create(request);
-    response.then((value) => {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const SuccessDialog(
-                  message: 'Your Need Request has been sent successfully',
-                );
-              }),
-          value as BookNeedResponse,
-          uploadImage(value.id as int),
-        });
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your Need Request has been sent successfully',
+            );
+          });
+      if (value is BookNeedResponse) {
+        uploadImage(value.id!);
+      }
+    });
 
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
@@ -585,7 +586,7 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
     });
   }
 
-  uploadImage(int id) {
+  uploadImage(String id) {
     if (_file != null) {
       setState(() {
         _isLoading = true;

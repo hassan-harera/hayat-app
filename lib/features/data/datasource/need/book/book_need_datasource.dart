@@ -58,7 +58,7 @@ class BookNeedDataSource {
     }
   }
 
-  Future<BookNeedResponse?> upvote(int id) async {
+  Future<BookNeedResponse?> upvote(String id) async {
     final response = await client
         .put(Uri.parse('$baseUrl/api/v1/needs/book/$id/upvote'), headers: {
       'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ class BookNeedDataSource {
     }
   }
 
-  Future<BookNeedResponse?> downvote(int id) async {
+  Future<BookNeedResponse?> downvote(String id) async {
     final response = await client
         .put(Uri.parse('$baseUrl/api/v1/needs/book/$id/down-vote'), headers: {
       'Content-Type': 'application/json',

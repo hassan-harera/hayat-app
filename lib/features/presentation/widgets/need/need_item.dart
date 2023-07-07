@@ -234,9 +234,9 @@ class NeedItem extends StatelessWidget {
   void navigateToNeedDetails(BuildContext context, NeedResponse needResponse) {
     print(needResponse.category);
     if (needResponse.category == 'BLOOD') {
-      navigate(context, BloodNeedDetailsScreen());
+      navigate(context, BloodNeedItemScreen(id: needResponse.id!));
     } else if (needResponse.category == 'BOOKS') {
-      navigate(context, BookNeedDetailsScreen());
+      navigate(context, BookNeedDetailsScreen(id: needResponse.id!));
     } else if (needResponse.category == 'MEDICINE') {
       navigate(context, MedicineNeedItemScreen(needResponse.id!));
     }

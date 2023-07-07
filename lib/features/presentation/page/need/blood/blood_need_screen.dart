@@ -12,7 +12,7 @@ import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_u
 import 'package:hayat_eg/injection_container.dart';
 
 class BloodNeedItemScreen extends StatefulWidget {
-  final int id;
+  final String id;
 
   const BloodNeedItemScreen({super.key, required this.id});
 
@@ -21,12 +21,12 @@ class BloodNeedItemScreen extends StatefulWidget {
 }
 
 class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
-  BloodNeedResponse? _medicineNeed;
-  final int id;
+  BloodNeedResponse? _bloodNeed;
+  final String id;
 
   _BloodNeedItemScreenState(this.id);
 
-  final BloodNeedRepository _medicineNeedRepository = sl();
+  final BloodNeedRepository _bloodNeedRepository = sl();
 
   @override
   initState() {
@@ -47,7 +47,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                     context: context,
                     builder: (context) => AlertDialog(
                           content: BarcodeWidget(
-                            data: _medicineNeed?.qrCode ?? 'QR',
+                            data: _bloodNeed?.qrCode ?? 'QR',
                             barcode: Barcode.qrCode(),
                             color: Colors.black,
                             width: 250,
@@ -87,7 +87,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: DownloadedImage(
-                      imageUrl: _medicineNeed?.imageUrl ?? '',
+                      imageUrl: _bloodNeed?.imageUrl ?? '',
                     ),
                   ),
                   Expanded(
@@ -107,7 +107,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          '${_medicineNeed?.reputation ?? 0}',
+                          '${_bloodNeed?.reputation ?? 0}',
                           maxLines: 1,
                           style:
                               const TextStyle(overflow: TextOverflow.ellipsis),
@@ -160,7 +160,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  _medicineNeed?.title ?? '',
+                                  _bloodNeed?.title ?? '',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -175,7 +175,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    timeAgo(_medicineNeed?.needDate!),
+                                    timeAgo(_bloodNeed?.needDate!),
                                     maxLines: 1,
                                     style: const TextStyle(
                                         fontSize: 16,
@@ -198,7 +198,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                               Expanded(
                                 child: Text(
                                   maxLines: 3,
-                                  ('${_medicineNeed?.user?.firstName!} ${_medicineNeed?.user?.lastName!}'),
+                                  ('${_bloodNeed?.user?.firstName!} ${_bloodNeed?.user?.lastName!}'),
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 16,
@@ -213,7 +213,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    ('${_medicineNeed?.city?.arabicName}'),
+                                    ('${_bloodNeed?.city?.arabicName}'),
                                     maxLines: 1,
                                     style: const TextStyle(
                                         fontSize: 16,
@@ -257,7 +257,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          _medicineNeed?.description ?? '',
+                          _bloodNeed?.description ?? '',
                           maxLines: 1,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -313,7 +313,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_medicineNeed?.bloodType}' ??
+                                            '${_bloodNeed?.bloodType}' ??
                                                 'Blood !!!',
                                             maxLines: 1,
                                             style: const TextStyle(
@@ -340,7 +340,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_medicineNeed?.title}' ?? '!!!',
+                                            '${_bloodNeed?.title}' ?? '!!!',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -366,7 +366,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_medicineNeed?.title}' ?? '!!!',
+                                            '${_bloodNeed?.title}' ?? '!!!',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -392,7 +392,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_medicineNeed?.age}' ?? '!!!',
+                                            '${_bloodNeed?.age}' ?? '!!!',
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
@@ -418,7 +418,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${_medicineNeed?.bloodType}' ??
+                                            '${_bloodNeed?.bloodType}' ??
                                                 '!!!',
                                             maxLines: 1,
                                             style: const TextStyle(
@@ -445,7 +445,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '  ${_medicineNeed?.hospital}' ??
+                                            '  ${_bloodNeed?.hospital}' ??
                                                 '',
                                             maxLines: 1,
                                             style: const TextStyle(
@@ -502,7 +502,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _medicineNeed?.communicationMethod ?? 'Chat',
+                                  _bloodNeed?.communicationMethod ?? 'Chat',
                                   maxLines: 1,
                                   style: const TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -517,12 +517,12 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _medicineNeed?.whatsappLink),
+                              whatsappLink: _bloodNeed?.whatsappLink),
                           const SizedBox(
                             height: 10,
                           ),
                           TelegramDetails(
-                            telegramLink: _medicineNeed?.telegramLink,
+                            telegramLink: _bloodNeed?.telegramLink,
                           ),
                         ],
                       ),
@@ -541,7 +541,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
   }
 
   void downVote() {
-    final response = _medicineNeedRepository.downvote(id);
+    final response = _bloodNeedRepository.downVote(id);
     response.then((value) {
       showDialog(
           context: context,
@@ -579,7 +579,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
   }
 
   void upvote() async {
-    final response = _medicineNeedRepository.upvote(id);
+    final response = _bloodNeedRepository.upvote(id);
     response.then((value) {
       showDialog(
           context: context,
@@ -617,10 +617,10 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
   }
 
   void getBloodNeed() {
-    _medicineNeedRepository.get(id).then((value) {
+    _bloodNeedRepository.get(id).then((value) {
       setState(() {
-        print(_medicineNeed?.reputation);
-        _medicineNeed = value;
+        print(_bloodNeed?.reputation);
+        _bloodNeed = value;
       });
     });
   }

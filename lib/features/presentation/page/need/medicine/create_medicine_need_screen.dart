@@ -14,7 +14,7 @@ import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_respons
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
-import 'package:hayat_eg/features/presentation/page/need/medicine/view_medicine_donation_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/medicine/MedicineNeedItemScreen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';

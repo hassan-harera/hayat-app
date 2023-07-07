@@ -12,7 +12,7 @@ import 'package:hayat_eg/features/presentation/widgets/images/downloaded_image_u
 import 'package:hayat_eg/injection_container.dart';
 
 class BookNeedDetailsScreen extends StatefulWidget {
-  final int id;
+  final String id;
 
   const BookNeedDetailsScreen({super.key, required this.id});
 
@@ -22,7 +22,7 @@ class BookNeedDetailsScreen extends StatefulWidget {
 
 class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
   BookNeedResponse? _bookNeed;
-  final int id;
+  final String id;
 
   _BookNeedDetailsScreenState(this.id);
 
