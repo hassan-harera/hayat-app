@@ -515,7 +515,7 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this need, Thank you!',
+              message: 'Your have down voted this need, Thank you!',
             );
           });
 

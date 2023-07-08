@@ -15,11 +15,11 @@ class LoginCubit extends Cubit<LoginStates> {
   IconData suffixIcon = Icons.visibility_outlined;
   bool obscure = true;
 
-  void changeObscure() {
+  void changePasswordObscure() {
     obscure = !obscure;
     suffixIcon =
         obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined;
-    emit(LoginChangeObscureState());
+    emit(LoginObscureState());
   }
 
   void loginWithApi({

@@ -316,8 +316,10 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                           width: 58,
                                         ),
                                         Text(
-                                          _foodDonation?.category ?? 'N/A',
-                                          maxLines: 2,
+                                          _foodDonation
+                                                  ?.foodCategory?.arabicName ??
+                                              'N/A',
+                                          maxLines: 1,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               overflow: TextOverflow.ellipsis,

@@ -67,6 +67,8 @@ dependencies:
   url_launcher: ^6.0.0
   flutter_linkify: ^6.0.0
   qr_code_scanner: ^1.0.1
+  flutter_share: ^2.0.0
+  share_plus: ^7.0.2
 
 
 

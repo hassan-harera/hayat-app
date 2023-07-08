@@ -105,6 +105,7 @@ class _NeedsScreen extends State<NeedsScreen> {
                 SizedBox(
                   height: 40.0,
                   child: ListView(
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     children: [
                       CircleAvatar(
@@ -193,6 +194,7 @@ class _NeedsScreen extends State<NeedsScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       itemCount: _list.length,
                       itemBuilder: (context, index) {
                         return NeedItem(

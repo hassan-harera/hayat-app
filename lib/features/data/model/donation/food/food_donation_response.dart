@@ -1,5 +1,6 @@
 import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/donation/DonationResponse.dart';
+import 'package:hayat_eg/features/data/model/food/food_category.dart';
 import 'package:hayat_eg/features/data/model/food/food_unit.dart';
 import 'package:hayat_eg/features/data/model/user/user.dart';
 
@@ -22,9 +23,11 @@ class FoodDonationResponse extends DonationResponse {
   FoodUnit? foodUnit;
   double? quantity;
   String? foodExpirationDate;
+  FoodCategory? foodCategory;
 
   FoodDonationResponse(
       {this.id,
+      this.foodCategory,
       this.active,
       this.title,
       this.description,
@@ -48,6 +51,9 @@ class FoodDonationResponse extends DonationResponse {
     id = json['id'];
     active = json['active'];
     title = json['title'];
+    foodCategory = json['food_category'] != null
+        ? new FoodCategory.fromJson(json['food_category'])
+        : null;
     description = json['description'];
     donationDate = json['donation_date'];
     donationExpirationDate = json['donation_expiration_date'];
@@ -85,6 +91,7 @@ class FoodDonationResponse extends DonationResponse {
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
+    data['food_category'] = this.foodCategory;
     data['image_url'] = this.imageUrl;
     data['telegram_link'] = this.telegramLink;
     data['whatsapp_link'] = this.whatsappLink;

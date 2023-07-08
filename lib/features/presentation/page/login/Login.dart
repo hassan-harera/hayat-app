@@ -156,14 +156,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                           TextInputType.visiblePassword,
                                       controller: passwordController,
                                       suffixIcon: loginCubit.obscure
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
+                                          ? Icons.visibility_outlined
+                                          : Icons.visibility_off_outlined,
                                       suffixColor: loginCubit.obscure
                                           ? Colors.grey
                                           : Colors.amber,
                                       obscure: loginCubit.obscure,
                                       suffixFunction: () {
-                                        loginCubit.changeObscure();
+                                        loginCubit.changePasswordObscure();
                                       },
                                       validator: (value) {
                                         if (value!.isEmpty) {

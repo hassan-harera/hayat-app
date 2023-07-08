@@ -112,6 +112,7 @@ class _DonationsScreenState extends State<DonationsScreen> {
                   SizedBox(
                     height: 40,
                     child: ListView(
+                      physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       children: [
                         CircleAvatar(

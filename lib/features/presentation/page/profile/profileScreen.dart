@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:hayat_eg/features/presentation/page/login/Login.dart';
 import 'package:hayat_eg/features/presentation/page/need/book/create_book_need_screen.dart';
 import 'package:hayat_eg/features/presentation/page/need/medicine/Create_medicine_need_screen.dart';
@@ -18,6 +19,17 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Uint8List? _file;
+
+  Future<void> shareApp() async {
+    // Set the app link and the message to be shared
+    final String appLink =
+        'https://play.google.com/store/apps/details?id=com.hayat.hayat';
+    final String message = 'Check Out Hayat-Eg  App: $appLink';
+
+    // Share the app link and message using the share dialog
+    await FlutterShare.share(
+        title: 'Share App', text: message, linkUrl: appLink);
+  }
 
   _selectImage(BuildContext context) async {
     final size = MediaQuery.of(context).size;
@@ -225,11 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         icon: Icons.medical_information,
                         text: 'Create Medicine Need'),
                     myCard(
-                        onPressed: () {
-                          print('object');
-                        },
-                        icon: Icons.share,
-                        text: 'Share'),
+                        onPressed: shareApp, icon: Icons.share, text: 'Share'),
                     myCard(
                         onPressed: () {
                           navigate(context, notificationScreen());
