@@ -30,4 +30,21 @@ class DonationDataSource {
           apiError: ApiError.fromJson(jsonDecode(response.body)));
     }
   }
+
+  Future<bool> scanDonation(String code) async {
+    String token = Cash_helper.getData(key: 'token');
+    final response = await client.put(
+        Uri.parse("$baseUrl/api/v1/donations/receive?qr_code=$code"),
+        headers: {'Authorization': 'Bearer $token'});
+
+    print(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else if (response.statusCode == 400) {
+      throw BadRequestException(
+          apiError: ApiError.fromJson(jsonDecode(response.body)));
+    } else {
+      return false;
+    }
+  }
 }

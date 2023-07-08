@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hayat_eg/features/data/repository/donation/donation_repository.dart';
+import 'package:hayat_eg/injection_container.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRScanner extends StatefulWidget {
@@ -15,6 +17,8 @@ class _QRScannerState extends State<QRScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? barcode;
   QRViewController? controller;
+
+  final DonationRepository _donationsRepository = sl<DonationRepository>();
 
   @override
   void dispose() {
@@ -61,9 +65,10 @@ class _QRScannerState extends State<QRScanner> {
 
   void onQRViewCreated(QRViewController controller) {
     setState(() => this.controller = controller);
-    controller.scannedDataStream.listen((barcode) => setState(() {
-          this.barcode = barcode;
-        }));
+    controller.scannedDataStream.listen((barcode) {
+      controller.pauseCamera();
+      _submit(barcode.code!);
+    });
   }
 
   buildResult() => Container(
@@ -76,10 +81,10 @@ class _QRScannerState extends State<QRScanner> {
           borderRadius: BorderRadius.circular(8),
           color: Colors.white54.withOpacity(.1),
         ),
-        child: Center(
+        child: const Center(
           child: SelectableText(
-            barcode != null ? 'Result : ${barcode!.code}' : 'Scan ! a barcode ',
-            style: const TextStyle(
+            'Scan qr code ',
+            style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w400,
                 overflow: TextOverflow.ellipsis),
@@ -174,4 +179,32 @@ class _QRScannerState extends State<QRScanner> {
           ],
         ),
       );
+
+  void _submit(String code) async {
+    print(code);
+    var scanDonation = _donationsRepository.scanDonation(code);
+    // scanDonation.then((value) {
+    //   if (value) {
+    //     Navigator.pop(context);
+    //   }
+    // });
+
+    scanDonation.then((value) {
+      print(value);
+      if (value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('تم تسجيل الاستلام بنجاح'),
+          ),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('حدث خطأ ما'),
+          ),
+        );
+      }
+    });
+  }
 }

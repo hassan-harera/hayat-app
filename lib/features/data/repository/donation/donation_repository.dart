@@ -14,4 +14,8 @@ class DonationRepository {
   Future<List<DonationResponse>?> search(String query) async {
     return await donationDataSource.search(query);
   }
+
+  Future<bool> scanDonation(String code) {
+    return donationDataSource.scanDonation(code);
+  }
 }
