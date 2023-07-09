@@ -2,10 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:hayat_eg/features/data/datasource/profile/profile_datasource.dart';
+import 'package:hayat_eg/features/data/model/user/user.dart';
 import 'package:hayat_eg/features/presentation/page/login/Login.dart';
 import 'package:hayat_eg/features/presentation/page/need/book/create_book_need_screen.dart';
 import 'package:hayat_eg/features/presentation/page/need/medicine/Create_medicine_need_screen.dart';
 import 'package:hayat_eg/features/presentation/page/notification/notificationScreen.dart';
+import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/shared/Utils/Utils.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -20,12 +23,26 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   Uint8List? _file;
   int reputationNumber = 1000;
+  ProfileDataSource _profileDataSource = sl();
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _profileDataSource.getProfile().then((value) {
+      setState(() {
+        if (value != null) {
+          _user = value;
+          reputationNumber = value.reputation!;
+        }
+      });
+    });
+  }
 
   Future<void> shareApp() async {
-    // Set the app link and the message to be shared
-    final String appLink =
+    const String appLink =
         'https://play.google.com/store/apps/details?id=com.hayat.hayat';
-    final String message = 'Check Out Hayat-Eg  App: $appLink';
+    const String message = 'Check out Hayat-EG  app: $appLink';
 
     // Share the app link and message using the share dialog
     await FlutterShare.share(
@@ -91,21 +108,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.edit,
-                  color: Colors.amber,
-                ))
-          ],
-        ),
+        appBar: AppBar(backgroundColor: Colors.white, actions: []),
         body: ListView(
           children: [
             Container(
@@ -127,17 +133,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               fit: BoxFit.contain,
                               height: 100,
                               width: 100,
-                              imageUrl:
-                                  "https://findepartament.com/static/transit/t118/img/text-photo-1.png",
+                              imageUrl: _user?.imageUrl ?? '',
                               placeholder: (context, url) => const Icon(
                                 Icons.person,
                                 size: 80,
                                 color: Colors.amber,
                               ),
                               errorWidget: (context, url, error) => const Icon(
-                                Icons.error,
+                                Icons.person,
                                 size: 80,
-                                color: Colors.red,
+                                color: Colors.grey,
                               ),
                               imageBuilder: (context, imageProvider) =>
                                   Container(
@@ -176,24 +181,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(
                       width: 10,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Mohamed Ahmed ',
-                            style: TextStyle(
+                            '${_user?.firstName ?? ''} ${_user?.lastName ?? ''}',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 18,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
-                            '01288226326 ',
-                            style: TextStyle(
+                            _user?.mobile ?? '',
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400),
@@ -224,14 +229,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 70,
                           width: 90,
                           decoration: BoxDecoration(
-                              color: Color(0xff20ADDC),
-                              border: Border.all(color: Color(0xff20ADDC)),
+                              color: const Color(0xff20ADDC),
+                              border:
+                                  Border.all(color: const Color(0xff20ADDC)),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                                  const BorderRadius.all(Radius.circular(10))),
                           child: Center(
                               child: Text(
                             '$reputationNumber',
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           )),
                         ),
                       ),

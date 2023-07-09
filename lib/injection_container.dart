@@ -10,6 +10,7 @@ import 'package:hayat_eg/features/data/datasource/medicine/medicine_datasource.d
 import 'package:hayat_eg/features/data/datasource/need/blood/book_need_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/need/book/book_need_datasource.dart';
 import 'package:hayat_eg/features/data/datasource/need/need_datasource.dart';
+import 'package:hayat_eg/features/data/datasource/profile/profile_datasource.dart';
 import 'package:hayat_eg/features/data/repository/clothing/clothing_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/book/book_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/donation/clothing/clothing_donation_repository.dart';
@@ -121,6 +122,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<MedicineDataSource>(
     () => MedicineDataSource(sl()),
+  );
+  sl.registerLazySingleton<ProfileDataSource>(
+    () => ProfileDataSource(client: sl()),
   );
 
   /**

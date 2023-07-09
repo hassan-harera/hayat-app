@@ -7,6 +7,8 @@ class User {
   String? password;
   String? username;
   String? deviceToken;
+  int? reputation;
+  String? imageUrl;
 
   User(
       {this.id,
@@ -16,7 +18,9 @@ class User {
       this.email,
       this.password,
       this.username,
-      this.deviceToken});
+      this.deviceToken,
+      this.reputation,
+      this.imageUrl});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -27,6 +31,8 @@ class User {
     password = json['password'];
     username = json['username'];
     deviceToken = json['deviceToken'];
+    reputation = json['reputation'];
+    imageUrl = json['image_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +45,8 @@ class User {
     data['password'] = this.password;
     data['username'] = this.username;
     data['deviceToken'] = this.deviceToken;
+    data['reputation'] = this.reputation;
+    data['image_url'] = this.imageUrl;
     return data;
   }
 }

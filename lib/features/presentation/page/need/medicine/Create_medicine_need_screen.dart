@@ -10,9 +10,12 @@ import 'package:hayat_eg/features/data/model/city/city.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine.dart';
 import 'package:hayat_eg/features/data/model/medicine/medicine_unit.dart';
 import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_request.dart';
+import 'package:hayat_eg/features/data/model/need/medicine/medicine_need_response.dart';
 import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
 import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
+import 'package:hayat_eg/features/presentation/page/need/medicine/view_medicine_need_screen.dart';
+import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -604,11 +607,21 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
       medicineId: _medicines?[0].id,
       medicineUnitId: _medicineUnits?[0].id,
     );
-    print(request.toJson());
+
     final response = _medicineNeedRepository.create(request);
-    response.then((value) => {
-          print(value),
-        });
+    response.then((value) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const SuccessDialog(
+              message: 'Your Need Request has been sent successfully',
+            );
+          });
+      if (value is MedicineNeedResponse) {
+        uploadImage(value.id!);
+      }
+    });
+
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
@@ -631,5 +644,27 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
       }
       stackTrace.printError();
     });
+  }
+
+  uploadImage(String id) {
+    if (_file != null) {
+      _medicineNeedRepository
+          .updateImage(id, _file as Uint8List)
+          .then((value) => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MedicineNeedItemScreen(id: id),
+          ),
+        )
+      });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MedicineNeedItemScreen(id: id),
+        ),
+      );
+    }
   }
 }

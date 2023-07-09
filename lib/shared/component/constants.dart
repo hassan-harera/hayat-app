@@ -192,7 +192,14 @@ Widget myCard({
           height: 80,
           child: Card(
             color: Colors.white,
-            elevation: 2,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+              side: const BorderSide(
+                color: Colors.blue,
+                width: 0.3,
+              ),
+            ),
             child: MaterialButton(
               height: 80,
               onPressed: onPressed,
