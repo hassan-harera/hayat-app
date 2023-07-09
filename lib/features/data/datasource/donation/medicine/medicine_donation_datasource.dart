@@ -38,8 +38,8 @@ class MedicineDonationDataSource {
   }
 
   Future<List<MedicineDonationResponse>?> search(String query) async {
-    final response =
-        await client.get(Uri.parse("$baseUrl/api/v1/donations/medicine"));
+    final response = await client
+        .get(Uri.parse("$baseUrl/api/v1/donations/medicine/results?q=$query"));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return List<MedicineDonationResponse>.from(decodeJson(response.body)

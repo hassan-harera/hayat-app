@@ -36,8 +36,8 @@ class BookDonationDataSource {
   }
 
   Future<List<BookDonationResponse>?> search(String query) async {
-    final response =
-        await client.get(Uri.parse("$baseUrl/api/v1/donations/book"));
+    final response = await client
+        .get(Uri.parse("$baseUrl/api/v1/donations/book/results?q=$query"));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return List<BookDonationResponse>.from(decodeJson(response.body)

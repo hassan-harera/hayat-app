@@ -2,17 +2,19 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hayat_eg/features/data/datasource/profile/profile_datasource.dart';
 import 'package:hayat_eg/features/data/model/need/need_response.dart';
+import 'package:hayat_eg/features/data/model/user/user.dart';
 import 'package:hayat_eg/features/data/repository/need/need_repository.dart';
 import 'package:hayat_eg/features/presentation/page/donation/book/create_book_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/page/donation/medicine/create_medicine_donation_screen.dart';
+import 'package:hayat_eg/features/presentation/page/need/needs_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/homeBuilder.dart';
 import 'package:hayat_eg/features/presentation/widgets/need/need_item.dart';
 import 'package:hayat_eg/injection_container.dart';
 
 import '../../../layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import '../../../layout/HayatLayout/LayOutCubit/LayoutState.dart';
-import '../../../layout/Search/SearchScreen.dart';
 import '../../../shared/component/constants.dart';
 import 'donation/clothing/create_clothing_donation_screen.dart';
 import 'donation/donations_screen.dart';
@@ -30,10 +32,20 @@ class _HomeScreen extends State<HomeScreen> {
   final NeedRepository _needRepository = sl();
   List<NeedResponse> _list = [];
 
+  ProfileDataSource _profileDataSource = sl();
+  User? _user;
+
   @override
   void initState() {
     super.initState();
-    getNeeds();
+    _profileDataSource.getProfile().then((value) {
+      setState(() {
+        if (value != null) {
+          _user = value;
+          getNeeds();
+        }
+      });
+    });
   }
 
   getNeeds() async {
@@ -60,9 +72,9 @@ class _HomeScreen extends State<HomeScreen> {
                   color: Color(0xff20ADDC),
                 ),
               ),
-              title: const Text(
-                'Mohamed Boraie',
-                style: TextStyle(
+              title: Text(
+                'Marhba ${_user?.firstName ?? ''} 👋',
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
@@ -78,19 +90,6 @@ class _HomeScreen extends State<HomeScreen> {
                     },
                     icon: const Icon(
                       Icons.notifications,
-                      size: 26,
-                    ),
-                    color: const Color(0xff20ADDC),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 10),
-                  child: IconButton(
-                    onPressed: () {
-                      navigate(context, SearchScreen());
-                    },
-                    icon: const Icon(
-                      Icons.search,
                       size: 26,
                     ),
                     color: const Color(0xff20ADDC),
@@ -133,7 +132,7 @@ class _HomeScreen extends State<HomeScreen> {
                                           navigate(context, DonationsScreen());
                                         },
                                         child: const Text(
-                                          'Sea All ',
+                                          'See All ',
                                           style: TextStyle(color: Colors.amber),
                                         ),
                                       ),
@@ -220,10 +219,10 @@ class _HomeScreen extends State<HomeScreen> {
                                       const Spacer(),
                                       TextButton(
                                         onPressed: () {
-                                          // NavegateTo(context, catigoriesScreen());
+                                          navigate(context, const NeedsScreen());
                                         },
                                         child: const Text(
-                                          'Sea All ',
+                                          'See All ',
                                           style: TextStyle(color: Colors.amber),
                                         ),
                                       ),
