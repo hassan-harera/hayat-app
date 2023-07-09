@@ -458,6 +458,7 @@ class ExprirationDate extends StatelessWidget {
           color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: TextFormField(
         controller: controller,
+        keyboardType: TextInputType.none,
         validator: (value) {
           if (value!.isEmpty) {
             return 'Please Inter Date';

@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       keyboardType:
                                           TextInputType.visiblePassword,
                                       controller: passwordController,
-                                      suffixIcon: loginCubit.obscure
+                                      suffixIcon: !loginCubit.obscure
                                           ? Icons.visibility_outlined
                                           : Icons.visibility_off_outlined,
                                       suffixColor: loginCubit.obscure

@@ -145,6 +145,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
           return GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
+              FocusManager.instance.primaryFocus?.unfocus();
             },
             child: Scaffold(
                 appBar: AppBar(
@@ -579,8 +580,8 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                 TextFormField(
                                   controller: watsAppController,
                                   keyboardType: TextInputType.phone,
-                                  validator: (v) {
-                                    if (v!.isEmpty) {
+                                  validator: (watsAppValidator) {
+                                    if (watsAppValidator!.isEmpty) {
                                       return 'Whatsapp is Required';
                                     }
                                   },
@@ -604,14 +605,20 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
                                   height: 20,
                                 ),
                                 TextFormField(
-                                  validator: (v) {
-                                    if (v!.isEmpty) {
+                                  validator: (telegramValidator) {
+                                    if (telegramValidator!.isEmpty) {
                                       return 'please add your telegram number';
                                     }
                                   },
@@ -636,6 +643,12 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -646,7 +659,18 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                             myButton(
                                 text: 'Submit',
                                 onTap: () async {
-                                  onSubmit(layoutCubit);
+                                  if (telegramController.text != null ||
+                                      watsAppController.text != null) {
+                                    if (formKey.currentState!.validate()) {
+                                      formKey.currentState!.save();
+                                      onSubmit(layoutCubit);
+                                      setState(() {});
+                                      autoValidateMode =
+                                          AutovalidateMode.onUserInteraction;
+                                    }
+                                  } else {
+                                    autoValidateMode = AutovalidateMode.always;
+                                  }
                                 },
                                 radius: 10),
                           ],

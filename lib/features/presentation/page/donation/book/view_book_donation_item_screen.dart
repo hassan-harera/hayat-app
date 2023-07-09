@@ -1,5 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
@@ -80,17 +81,20 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    height: size.height / 3.8,
-                    width: size.width / 1.3,
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        border: Border.all(
-                          color: const Color(0xffE3EAF2),
-                        ),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: DownloadedImage(
-                      imageUrl: _bookDonation?.imageUrl ?? 'N/A',
+                  FullScreenWidget(
+                    disposeLevel: DisposeLevel.Medium,
+                    child: Container(
+                      height: size.height / 3.8,
+                      width: size.width / 1.3,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.white30,
+                          ),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DownloadedImage(
+                        imageUrl: _bookDonation?.imageUrl ?? 'N/A',
+                      ),
                     ),
                   ),
                   Expanded(
@@ -306,6 +310,30 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                     Row(
                                       children: [
                                         const Text(
+                                          'Book Title:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 88,
+                                        ),
+                                        Text(
+                                          _bookDonation?.bookTitle ?? 'N/A',
+                                          maxLines: 2,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
                                           'Book Sub Title:',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
@@ -405,7 +433,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                               fontSize: 16),
                                         ),
                                         const SizedBox(
-                                          width: 49,
+                                          width: 47,
                                         ),
                                         Text(
                                           _bookDonation?.bookLanguage ?? 'N/A',
@@ -426,8 +454,8 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
-                                        SizedBox(
-                                          width: 47,
+                                        const SizedBox(
+                                          width: 45,
                                         ),
                                         Text(
                                           _bookDonation?.bookPublicationYear ??

@@ -2,9 +2,11 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hayat_eg/layout/HayatLayout/hayat_layout.dart';
+import 'package:hayat_eg/features/presentation/page/login/Login.dart';
+import 'package:hayat_eg/features/presentation/page/signup/Register/register.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
+
 import '../RegisterCubit/registerState.dart';
 import '../RegisterCubit/register_cubit.dart';
 
@@ -33,7 +35,14 @@ class setPasswordScreen extends StatelessWidget {
       child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state is RegisterSuccessState) {
-            myNavigateAndFinish(context, const HayatLayoutScreen());
+            myNavigateAndFinish(context, LoginScreen());
+            const AlertDialog(
+              content: Text(
+                'Success',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+            );
           } else if (state is RegisterErrorState) {
             showDialog(
                 context: context,
@@ -56,7 +65,25 @@ class setPasswordScreen extends StatelessWidget {
               },
               child: Scaffold(
                 appBar: AppBar(
-                  leading: backIcon(context),
+                  leading: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.only(start: 10, top: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                      ),
+                      child: IconButton(
+                        style: const ButtonStyle(),
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new_outlined,
+                        ),
+                        onPressed: () {
+                          myNavigateAndReplacement(context, RegisterScreen());
+                        },
+                      ),
+                    ),
+                  ),
                 ),
                 body: Center(
                   child: SingleChildScrollView(
@@ -136,10 +163,10 @@ class setPasswordScreen extends StatelessWidget {
                                     prefixIcon: CupertinoIcons.lock_open,
                                     controller: set1PasswordController,
                                     obscure: registerCubit.obscure1,
-                                    suffixColor: registerCubit.obscure2
+                                    suffixColor: !registerCubit.obscure1
                                         ? Colors.amber
                                         : Colors.grey,
-                                    suffixIcon: registerCubit.obscure1
+                                    suffixIcon: !registerCubit.obscure1
                                         ? Icons.visibility
                                         : Icons.visibility_off,
                                     suffixFunction: () {
@@ -169,10 +196,10 @@ class setPasswordScreen extends StatelessWidget {
                                     prefixIcon: CupertinoIcons.lock,
                                     controller: set2PasswordController,
                                     obscure: registerCubit.obscure2,
-                                    suffixColor: registerCubit.obscure2
+                                    suffixColor: !registerCubit.obscure2
                                         ? Colors.amber
                                         : Colors.grey,
-                                    suffixIcon: registerCubit.obscure2
+                                    suffixIcon: !registerCubit.obscure2
                                         ? Icons.visibility
                                         : Icons.visibility_off,
                                     suffixFunction: () {

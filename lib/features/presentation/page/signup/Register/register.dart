@@ -203,7 +203,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           myNavigateAndReplacement(
                                               context, LoginScreen());
                                         },
-                                        child: Text('Sign in')),
+                                        child: const Text('Sign in')),
                                     SizedBox(
                                       height: size.height / 30,
                                     ),

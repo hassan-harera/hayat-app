@@ -46,7 +46,7 @@ class PhoneVerificationScreen extends StatelessWidget {
                         'Success',
                         style: TextStyle(color: Colors.white),
                       ),
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.green,
                     ));
           } else if (state is OTPVerificationRegisterErrorState) {
             showDialog(

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hayat_eg/features/presentation/page/signup/RegisterCubit/registerState.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super((RegisterInitialState()));
@@ -72,7 +72,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   void phoneVerification({
     required String mobile,
   }) async {
-    // emit(SetPhoneLoadingState());
+    emit(PhoneVerificationRegisterLoadingState());
     http.Response response =
         await http.post(Uri.parse('$baseUrl/api/v1/otp/request?mobile=$mobile'),
             body: jsonEncode({

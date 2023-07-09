@@ -42,7 +42,7 @@ class NeedItem extends StatelessWidget {
                   child: Image.network(
                     _needResponse.imageUrl ??
                         'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png',
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),

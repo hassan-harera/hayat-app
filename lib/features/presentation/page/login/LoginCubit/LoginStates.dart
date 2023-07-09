@@ -3,7 +3,6 @@ abstract class LoginStates {}
 class LoginInitialState extends LoginStates {}
 
 class LoginChangeObscureState extends LoginStates {}
-
 class LoginObscureState extends LoginStates {}
 
 class LoginToRegisterState extends LoginStates {}

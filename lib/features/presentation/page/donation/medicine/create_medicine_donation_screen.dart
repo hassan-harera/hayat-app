@@ -596,7 +596,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                              color: Colors.white))),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -616,17 +616,17 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                       hintText: 'Telegram',
                                       filled: true,
                                       fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: Colors.amber,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber))),
+                                    border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Colors.amber,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            color: Colors.white)),
+                                  ),
                                 ),
                               ],
                             ),

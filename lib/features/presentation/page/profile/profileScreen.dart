@@ -19,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Uint8List? _file;
+  int reputationNumber = 1000;
 
   Future<void> shareApp() async {
     // Set the app link and the message to be shared
@@ -114,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bottomRight: Radius.circular(20),
                       bottomLeft: Radius.circular(20))),
               child: Padding(
-                padding: const EdgeInsets.only(left: 20.0, bottom: 30),
+                padding: const EdgeInsets.only(left: 10.0, bottom: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -173,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: 10,
                     ),
                     const Expanded(
                       child: Column(
@@ -198,6 +199,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontWeight: FontWeight.w400),
                           ),
                         ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              useSafeArea: true,
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    alignment: Alignment.center,
+                                    content: Text(
+                                      '$reputationNumber',
+                                      style: const TextStyle(
+                                          color: Colors.amber,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 25),
+                                    ),
+                                    backgroundColor: Colors.white,
+                                  ));
+                        },
+                        child: Container(
+                          height: 70,
+                          width: 90,
+                          decoration: BoxDecoration(
+                              color: Color(0xff20ADDC),
+                              border: Border.all(color: Color(0xff20ADDC)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: Center(
+                              child: Text(
+                            '$reputationNumber',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ),
                       ),
                     )
                   ],

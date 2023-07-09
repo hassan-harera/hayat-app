@@ -44,6 +44,13 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
                 IdentityVerificationScreen(
                   phoneNumber: phoneController.text,
                 ));
+            const AlertDialog(
+              content: Text(
+                'Success',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+            );
           } else if (state is SetPhoneErrorState) {
             showDialog(
                 context: context,
@@ -157,22 +164,8 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
                                 height: 50,
                               ),
                               ConditionalBuilder(
-                                condition: true,
-                                builder: (context) => myButton(
-                                    text: 'Next',
-                                    onTap: () {
-                                      if (formKey.currentState!.validate()) {
-                                        forgetPasswordCubit.sendMobileNumber(
-                                            mobile: phoneController.text);
-                                        formKey.currentState!.save();
-                                      } else {
-                                        setState(() {});
-                                        autoValidateMode =
-                                            AutovalidateMode.always;
-                                      }
-                                    },
-                                    radius: 30),
-                                fallback: (context) => Center(
+                                condition: state is SetPhoneLoadingState,
+                                builder: (context) => Center(
                                   child: CircularPercentIndicator(
                                     animation: true,
                                     animationDuration: 1000,
@@ -190,6 +183,20 @@ class _forgetPasswordScreenState extends State<forgetPasswordScreen> {
                                     lineWidth: 5,
                                   ),
                                 ),
+                                fallback: (context) => myButton(
+                                    text: 'Next',
+                                    onTap: () {
+                                      if (formKey.currentState!.validate()) {
+                                        forgetPasswordCubit.phoneVerification(
+                                            mobile: phoneController.text);
+                                        formKey.currentState!.save();
+                                      } else {
+                                        setState(() {});
+                                        autoValidateMode =
+                                            AutovalidateMode.always;
+                                      }
+                                    },
+                                    radius: 30),
                               ),
                             ],
                           ),

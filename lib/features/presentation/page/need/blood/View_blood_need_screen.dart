@@ -1,5 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:get/get.dart';
 import 'package:hayat_eg/core/datetime/datetime_utils.dart';
 import 'package:hayat_eg/core/error/exceptions.dart';
@@ -78,17 +79,20 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    height: size.height / 3.8,
-                    width: size.width / 1.3,
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        border: Border.all(
-                          color: const Color(0xffE3EAF2),
-                        ),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: DownloadedImage(
-                      imageUrl: _bloodNeed?.imageUrl ?? '',
+                  FullScreenWidget(
+                    disposeLevel: DisposeLevel.Medium,
+                    child: Container(
+                      height: size.height / 3.8,
+                      width: size.width / 1.3,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.white30,
+                          ),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DownloadedImage(
+                        imageUrl: _bloodNeed?.imageUrl ?? '',
+                      ),
                     ),
                   ),
                   Expanded(

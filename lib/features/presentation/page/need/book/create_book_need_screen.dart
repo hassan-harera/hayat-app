@@ -286,13 +286,8 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            requiredTextField(
-                              validator: (v) {
-                                if (v!.isEmpty) {
-                                  return 'Book Publication is required';
-                                }
-                              },
-                              hint: 'Book Publication Year',
+                            ExprirationDate(
+                              hint: 'Book Publication Date',
                               controller: bookPublicationYearController,
                             ),
                             const SizedBox(

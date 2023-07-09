@@ -5,6 +5,7 @@ import 'package:hayat_eg/features/presentation/page/signup/forgetPasswordFolder/
 import 'package:hayat_eg/features/presentation/page/signup/forgetPasswordFolder/ForgetPasswordCubit/forgetPasswordState.dart';
 import 'package:hayat_eg/shared/component/component.dart';
 import 'package:hayat_eg/shared/component/constants.dart';
+
 import '../RestPassword/RestPassword.dart';
 
 class IdentityVerificationScreen extends StatefulWidget {
@@ -47,6 +48,13 @@ class _IdentityVerificationScreenState
                   phoneNum: widget.phoneNumber,
                   otp: verificationController.text,
                 ));
+            const AlertDialog(
+              content: Text(
+                'Success',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+            );
           } else if (state is OtpVerificationErrorState) {
             showDialog(
                 context: context,
@@ -151,8 +159,10 @@ class _IdentityVerificationScreenState
                           height: 50,
                         ),
                         ConditionalBuilder(
-                          condition: state is! OtpVerificationLoadingState,
-                          builder: (context) => myButton(
+                          condition: state is OtpVerificationLoadingState,
+                          builder: (context) =>
+                              const Center(child: CircularProgressIndicator()),
+                          fallback: (context) => myButton(
                               text: 'Verify',
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
@@ -167,8 +177,6 @@ class _IdentityVerificationScreenState
                                 }
                               },
                               radius: 30),
-                          fallback: (context) =>
-                              const Center(child: CircularProgressIndicator()),
                         ),
                       ],
                     ),
