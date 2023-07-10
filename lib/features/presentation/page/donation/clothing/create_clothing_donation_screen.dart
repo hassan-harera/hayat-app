@@ -886,6 +886,7 @@ class _CreateClothingDonationScreen
       clothingCategoryId: int.tryParse(clothingCategory.text, radix: null),
       clothingConditionId: int.tryParse(clothingCondition.text, radix: null),
       clothingSeasonId: int.tryParse(clothingSeason.text, radix: null),
+      clothingSize: int.tryParse(clothingSize.text, radix: null),
       clothingTypeId: int.tryParse(clothingType.text, radix: null),
       quantity: int.parse(_quantityController.text, radix: null),
       communicationMethod: communicationMethod.text,

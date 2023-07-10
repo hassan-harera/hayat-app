@@ -12,6 +12,7 @@ class ClothingDonationRequest {
   int? clothingSeasonId;
   int? clothingTypeId;
   int? clothingCategoryId;
+  int? clothingSize;
 
   ClothingDonationRequest(
       {this.title,
@@ -25,6 +26,7 @@ class ClothingDonationRequest {
       this.quantity,
       this.clothingConditionId,
       this.clothingSeasonId,
+      this.clothingSize,
       this.clothingTypeId,
       this.clothingCategoryId});
 
@@ -42,6 +44,7 @@ class ClothingDonationRequest {
     clothingSeasonId = json['clothing_season_id'];
     clothingTypeId = json['clothing_type_id'];
     clothingCategoryId = json['clothing_category_id'];
+    clothingSize = json['clothing_size'];
   }
 
   Map<String, dynamic> toJson() {
@@ -59,6 +62,7 @@ class ClothingDonationRequest {
     data['clothing_season_id'] = this.clothingSeasonId;
     data['clothing_type_id'] = this.clothingTypeId;
     data['clothing_category_id'] = this.clothingCategoryId;
+    data['clothing_size'] = this.clothingSize;
     return data;
   }
 }
