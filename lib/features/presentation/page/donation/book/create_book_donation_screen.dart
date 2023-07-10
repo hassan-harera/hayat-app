@@ -208,12 +208,29 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             requiredTextField(
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'please add Book Category';
+                                  return 'please Add Book  Title';
                                 }
                               },
                               hint: 'Book Title',
                               controller: bookTitleController,
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            requiredTextField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'please Add Book Sub Title';
+                                }
+                              },
+                              hint: 'Book Sub Title',
+                              controller: bookSubTitleController,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            descriptionTextField(
+                                controller: descriptionController),
                             const SizedBox(
                               height: 10,
                             ),
@@ -225,23 +242,6 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                               element.arabicName == value)
                                           .id;
                                     })),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            requiredTextField(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'please add Book Category';
-                                }
-                              },
-                              hint: 'Book Sub Title',
-                              controller: bookSubTitleController,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            descriptionTextField(
-                                controller: descriptionController),
                             const SizedBox(
                               height: 10,
                             ),
@@ -258,6 +258,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                               height: 10,
                             ),
                             requiredTextField(
+                              keyboardType: TextInputType.number,
                               controller: bookQuantityController,
                               hint: 'Quantity',
                               validator: (value) {
@@ -427,6 +428,12 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
@@ -447,6 +454,12 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                                     hintText: 'Telegram',
                                     filled: true,
                                     fillColor: Colors.white,
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
                                         color: Colors.white,
@@ -469,7 +482,15 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
                             myButton(
                                 text: 'Submit',
                                 onTap: () async {
-                                  onSubmit();
+                                  if (formKey.currentState!.validate()) {
+                                    formKey.currentState!.save();
+                                    onSubmit();
+                                    setState(() {});
+                                    autoValidateMode =
+                                        AutovalidateMode.onUserInteraction;
+                                  } else {
+                                    autoValidateMode = AutovalidateMode.always;
+                                  }
                                 },
                                 radius: 10),
                           ],
@@ -507,7 +528,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
               context: context,
               builder: (BuildContext context) {
                 return const SuccessDialog(
-                  message: 'Your Donation Request has been sent successfully',
+                  message: 'Donation Request has been sent successfully',
                 );
               }),
           value as BookDonationResponse,

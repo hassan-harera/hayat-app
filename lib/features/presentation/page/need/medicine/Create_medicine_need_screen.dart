@@ -383,6 +383,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                             SizedBox(
                               child: requiredTextField(
                                 keyboardType: TextInputType.number,
+                                controller: quantityController,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'please inter amount';
@@ -600,13 +601,13 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
     final request = MedicineNeedRequest(
       title: titleController.text,
       description: descriptionController.text,
+      quantity: int.parse(quantityController.text),
       cityId: _cities?[0].id,
       communicationMethod: 'CHAT',
       telegramLink: "https://t.me/${telegramController.text}",
       whatsappLink: 'https://wa.me/${watsAppController.text}',
       medicineId: _medicines?[0].id,
       medicineUnitId: _medicineUnits?[0].id,
-      quantity: int.parse(quantityController.text),
     );
 
     final response = _medicineNeedRepository.create(request);
@@ -646,19 +647,20 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
       stackTrace.printError();
     });
   }
-
   uploadImage(String id) {
     if (_file != null) {
+      setState(() {});
+
       _medicineNeedRepository
           .updateImage(id, _file as Uint8List)
           .then((value) => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MedicineNeedItemScreen(id: id),
-          ),
-        )
-      });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MedicineNeedItemScreen(id: id),
+                  ),
+                )
+              });
     } else {
       Navigator.push(
         context,

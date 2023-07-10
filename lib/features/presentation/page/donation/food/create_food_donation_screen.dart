@@ -291,6 +291,11 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                       return DropdownButtonFormField(
                                         hint: const Text('Food Category'),
                                         iconEnabledColor: Colors.amber,
+                                        validator: (sGenderItem) {
+                                          if (sGenderItem == null) {
+                                            return 'please Add Food Category';
+                                          }
+                                        },
                                         icon: const Icon(
                                           Icons.keyboard_arrow_down,
                                           size: 30,
@@ -311,8 +316,6 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled: true,
-                                            constraints: const BoxConstraints(
-                                                maxHeight: 60),
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -346,6 +349,11 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                     return DropdownButtonFormField(
                                       hint: const Text('Food Unit'),
                                       iconEnabledColor: Colors.amber,
+                                      validator: (sGenderItem) {
+                                        if (sGenderItem == null) {
+                                          return 'please Add Food Unit';
+                                        }
+                                      },
                                       icon: const Icon(
                                         Icons.keyboard_arrow_down,
                                         size: 30,
@@ -375,8 +383,6 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                                           fillColor: Colors.white,
                                           focusColor: Colors.amber,
                                           filled: true,
-                                          constraints: const BoxConstraints(
-                                              maxHeight: 60),
                                           border: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -659,15 +665,12 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                             myButton(
                                 text: 'Submit',
                                 onTap: () async {
-                                  if (telegramController.text != null ||
-                                      watsAppController.text != null) {
-                                    if (formKey.currentState!.validate()) {
-                                      formKey.currentState!.save();
-                                      onSubmit(layoutCubit);
-                                      setState(() {});
-                                      autoValidateMode =
-                                          AutovalidateMode.onUserInteraction;
-                                    }
+                                  if (formKey.currentState!.validate()) {
+                                    formKey.currentState!.save();
+                                    onSubmit(layoutCubit);
+                                    setState(() {});
+                                    autoValidateMode =
+                                        AutovalidateMode.onUserInteraction;
                                   } else {
                                     autoValidateMode = AutovalidateMode.always;
                                   }
@@ -705,7 +708,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your Donation Request has been sent successfully',
+              message: 'Donation Request has been sent successfully',
             );
           });
       print(value);

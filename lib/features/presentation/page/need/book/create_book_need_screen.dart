@@ -210,22 +210,6 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            descriptionTextField(
-                                controller: descriptionController),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CitiesDropMenu(
-                                cities: _cities ?? [],
-                                onSelectedCity: (value) => setState(() {
-                                      cityId = _cities!
-                                          .firstWhere((element) =>
-                                              element.arabicName == value)
-                                          .id;
-                                    })),
-                            const SizedBox(
-                              height: 10,
-                            ),
                             requiredTextField(
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -248,7 +232,26 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
                               controller: bookSubTitleController,
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 10,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            descriptionTextField(
+                                controller: descriptionController),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CitiesDropMenu(
+                                cities: _cities ?? [],
+                                onSelectedCity: (value) => setState(() {
+                                      cityId = _cities!
+                                          .firstWhere((element) =>
+                                              element.arabicName == value)
+                                          .id;
+                                    })),
+                            const SizedBox(
+                              height: 10,
                             ),
                             requiredTextField(
                               validator: (v) {
@@ -517,7 +520,7 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your Need Request has been sent successfully',
+              message: 'Your Request has been sent successfully',
             );
           });
       if (value is BookNeedResponse) {
@@ -595,7 +598,7 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your Need Request has been sent successfully',
+              message: 'Your Request has been sent successfully',
             );
           });
       if (value is BookNeedResponse) {

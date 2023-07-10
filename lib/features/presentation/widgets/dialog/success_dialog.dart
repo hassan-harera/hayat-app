@@ -35,7 +35,9 @@ class SuccessDialog extends StatelessWidget {
                 child: Text(
                   message,
                   style: const TextStyle(
-                      color: Colors.black45, fontWeight: FontWeight.w500),
+                      color: Colors.black45,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15),
                 ),
               ),
               const SizedBox(height: 20.0),

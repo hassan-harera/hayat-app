@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -135,14 +136,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               width: 100,
                               imageUrl: _user?.imageUrl ?? '',
                               placeholder: (context, url) => const Icon(
-                                Icons.person,
+                                CupertinoIcons.profile_circled,
                                 size: 80,
-                                color: Colors.amber,
+                                color: Color(0xff20ADDC),
                               ),
                               errorWidget: (context, url, error) => const Icon(
-                                Icons.person,
+                                CupertinoIcons.profile_circled,
                                 size: 80,
-                                color: Colors.grey,
+                                color: Color(0xff20ADDC),
                               ),
                               imageBuilder: (context, imageProvider) =>
                                   Container(

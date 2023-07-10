@@ -265,9 +265,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                         ),
                         Text(
                           _clothingDonation?.description ?? '',
-                          maxLines: 1,
                           style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
@@ -534,7 +532,8 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _clothingDonation?.whatsappLink),
+                              whatsappLink: _clothingDonation?.whatsappLink
+                                  ?.replaceFirst('me/', 'me/+2')),
                           const SizedBox(
                             height: 10,
                           ),

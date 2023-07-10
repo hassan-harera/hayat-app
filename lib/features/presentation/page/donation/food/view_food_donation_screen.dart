@@ -266,9 +266,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                         ),
                         Text(
                           _foodDonation?.description ?? 'N/A',
-                          maxLines: 1,
                           style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
@@ -319,15 +317,17 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                         const SizedBox(
                                           width: 58,
                                         ),
-                                        Text(
-                                          _foodDonation
-                                                  ?.foodCategory?.arabicName ??
-                                              'N/A',
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 14),
+                                        Expanded(
+                                          child: Text(
+                                            _foodDonation?.foodCategory
+                                                    ?.arabicName ??
+                                                'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -391,7 +391,7 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 6,
                                         ),
                                         Text(
@@ -402,9 +402,6 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                                               fontSize: 14),
                                         ),
                                       ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
                                     ),
                                   ],
                                 ),
@@ -467,7 +464,8 @@ class _FoodDonationItemScreenState extends State<FoodDonationItemScreen> {
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _foodDonation?.whatsappLink),
+                              whatsappLink: _foodDonation?.whatsappLink
+                                  ?.replaceFirst('me/', 'me/+2')),
                           const SizedBox(
                             height: 10,
                           ),

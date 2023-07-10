@@ -267,9 +267,7 @@ class _MedicineDonationItemScreenState
                         ),
                         Text(
                           _medicineDonation?.description ?? 'N/A',
-                          maxLines: 1,
                           style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
@@ -479,7 +477,8 @@ class _MedicineDonationItemScreenState
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _medicineDonation?.whatsappLink),
+                              whatsappLink: _medicineDonation?.whatsappLink
+                                  ?.replaceFirst('me/', 'me/+2')),
                           const SizedBox(
                             height: 10,
                           ),

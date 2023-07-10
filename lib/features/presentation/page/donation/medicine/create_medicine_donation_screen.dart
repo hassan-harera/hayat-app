@@ -154,7 +154,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                   elevation: 1.0,
                   backgroundColor: Colors.white,
                   title: const Text(
-                    'Medicine Category',
+                    'Medicine Donation',
                   ),
                 ),
                 body: SafeArea(
@@ -683,7 +683,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your Donation Request has been sent successfully',
+              message: 'your Request has been sent successfully',
             );
           });
       print(value);

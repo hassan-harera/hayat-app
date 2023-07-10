@@ -180,7 +180,7 @@ class _CreateClothingDonationScreen
                   elevation: 1.0,
                   backgroundColor: Colors.white,
                   title: const Text(
-                    'Clothes Category',
+                    'Clothes Donation',
                   ),
                 ),
                 body: SafeArea(

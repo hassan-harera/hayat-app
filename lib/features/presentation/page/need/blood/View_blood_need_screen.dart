@@ -489,7 +489,8 @@ class _BloodNeedItemScreenState extends State<BloodNeedItemScreen> {
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _bloodNeed?.whatsappLink),
+                              whatsappLink: _bloodNeed?.whatsappLink
+                                  ?.replaceFirst('me/', 'me/+2')),
                           const SizedBox(
                             height: 10,
                           ),

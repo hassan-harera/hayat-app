@@ -266,9 +266,7 @@ class _MedicineNeedItemScreenState
                         ),
                         Text(
                           _medicineNeed?.description ?? 'N/A',
-                          maxLines: 1,
                           style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
@@ -450,7 +448,8 @@ class _MedicineNeedItemScreenState
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _medicineNeed?.whatsappLink),
+                              whatsappLink: _medicineNeed?.whatsappLink
+                                  ?.replaceFirst('me/', 'me/+2')),
                           const SizedBox(
                             height: 10,
                           ),
@@ -480,7 +479,7 @@ class _MedicineNeedItemScreenState
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have upvoted this need, Thank you!',
+              message: 'Your have down voted this need, Thank you!',
             );
           });
 

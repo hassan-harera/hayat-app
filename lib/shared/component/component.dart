@@ -468,7 +468,7 @@ class ExprirationDate extends StatelessWidget {
           showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
+                  firstDate: DateTime.parse('1500-01-01'),
                   lastDate: DateTime.parse('2400-05-07'))
               .then((value) {
             DateFormat formatter = DateFormat('yyyy-MM-dd');

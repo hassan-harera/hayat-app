@@ -265,9 +265,7 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                         ),
                         Text(
                           _bookDonation?.description ?? 'N/A',
-                          maxLines: 1,
                           style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
                               color: Colors.grey,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
@@ -318,13 +316,15 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                         const SizedBox(
                                           width: 88,
                                         ),
-                                        Text(
-                                          _bookDonation?.bookTitle ?? 'N/A',
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookDonation?.bookTitle ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -342,13 +342,16 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                         const SizedBox(
                                           width: 58,
                                         ),
-                                        Text(
-                                          _bookDonation?.bookSubTitle ?? 'N/A',
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookDonation?.bookSubTitle ??
+                                                'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -390,11 +393,15 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                         const SizedBox(
                                           width: 74,
                                         ),
-                                        Text(
-                                          _bookDonation?.bookAuthor ?? 'N/A',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookDonation?.bookAuthor ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -412,12 +419,15 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                                         const SizedBox(
                                           width: 49,
                                         ),
-                                        Text(
-                                          '  ${_bookDonation?.quantity}' ??
-                                              'N/A',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookDonation?.quantity
+                                                    .toString() ??
+                                                'N/A',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -527,7 +537,8 @@ class _BookDonationDetailsScreenState extends State<BookDonationDetailsScreen> {
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _bookDonation?.whatsappLink),
+                              whatsappLink: _bookDonation?.whatsappLink
+                                  ?.replaceFirst('me/', 'me/+2')),
                           const SizedBox(
                             height: 10,
                           ),

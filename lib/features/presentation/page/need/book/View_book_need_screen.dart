@@ -315,13 +315,15 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                         const SizedBox(
                                           width: 95,
                                         ),
-                                        Text(
-                                          _bookNeed?.bookTitle ?? 'N/A',
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookNeed?.bookTitle ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -339,13 +341,15 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                         const SizedBox(
                                           width: 63,
                                         ),
-                                        Text(
-                                          _bookNeed?.bookSubTitle ?? 'N/A',
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookNeed?.bookSubTitle ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -363,13 +367,15 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                         const SizedBox(
                                           width: 62,
                                         ),
-                                        Text(
-                                          _bookNeed?.bookPublisher ?? 'N/A',
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookNeed?.bookPublisher ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -387,33 +393,15 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                         const SizedBox(
                                           width: 80,
                                         ),
-                                        Text(
-                                          _bookNeed?.bookAuthor ?? 'N/A',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          'Book Quantity: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 16),
-                                        ),
-                                        const SizedBox(
-                                          width: 54,
-                                        ),
-                                        Text(
-                                          '  ${_bookNeed?.category}' ?? '',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookNeed?.bookAuthor ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -431,11 +419,15 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                         const SizedBox(
                                           width: 42,
                                         ),
-                                        Text(
-                                          '  ${_bookNeed?.bookLanguage}' ?? '',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        Expanded(
+                                          child: Text(
+                                            _bookNeed?.bookLanguage ?? 'N/A',
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -451,16 +443,13 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                                               fontSize: 16),
                                         ),
                                         Text(
-                                          '  ${_bookNeed?.bookPublicationYear}' ??
-                                              '',
+                                          _bookNeed?.bookPublicationYear ??
+                                              'N/A',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
                                         ),
                                       ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
                                     ),
                                   ],
                                 ),
@@ -523,7 +512,8 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
                             height: 10,
                           ),
                           WhatsappDetails(
-                              whatsappLink: _bookNeed?.whatsappLink),
+                              whatsappLink: _bookNeed?.whatsappLink
+                                  ?.replaceFirst('me/', 'me/+2')),
                           const SizedBox(
                             height: 10,
                           ),
@@ -553,7 +543,7 @@ class _BookNeedDetailsScreenState extends State<BookNeedDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return const SuccessDialog(
-              message: 'Your have up voted this donation, Thank you!',
+              message: 'Your have down voted this donation,Thanks!',
             );
           });
 
