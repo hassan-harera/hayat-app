@@ -40,6 +40,7 @@ class _BookDonationFormScreenState extends State<BookDonationFormScreen> {
   var bookSubTitleController = TextEditingController();
   var telegramController = TextEditingController();
   var watsAppController = TextEditingController();
+  final _city = TextEditingController();
   late String communicationMethod;
   late int cityId;
   bool _isLoading = false;

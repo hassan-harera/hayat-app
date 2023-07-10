@@ -16,6 +16,7 @@ import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.d
 import 'package:hayat_eg/features/data/repository/need/medicine/medicine_need_repository.dart';
 import 'package:hayat_eg/features/presentation/page/need/medicine/view_medicine_need_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -44,6 +45,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
   final medicineUnitController = TextEditingController();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   String? medicineName;
+  int? cityId;
 
   var formKey = GlobalKey<FormState>();
   Uint8List? _file;
@@ -273,55 +275,14 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items:
-                                  _medicines!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Chose Medicine ",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                medicineController.text = _medicines!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id
-                                    .toString();
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
+                            CitiesDropMenu(
+                                cities: _cities ?? [],
+                                onSelectedCity: (value) => setState(() {
+                                      cityId = _cities!
+                                          .firstWhere((element) =>
+                                              element.arabicName == value)
+                                          .id;
+                                    })),
                             const SizedBox(
                               height: 10,
                             ),
@@ -602,7 +563,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
       title: titleController.text,
       description: descriptionController.text,
       quantity: int.parse(quantityController.text),
-      cityId: _cities?[0].id,
+      cityId: cityId,
       communicationMethod: 'CHAT',
       telegramLink: "https://t.me/${telegramController.text}",
       whatsappLink: 'https://wa.me/${watsAppController.text}',

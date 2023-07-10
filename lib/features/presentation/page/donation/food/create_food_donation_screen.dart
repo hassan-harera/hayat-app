@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -16,6 +15,7 @@ import 'package:hayat_eg/features/data/repository/donation/food/food_donation_re
 import 'package:hayat_eg/features/data/repository/food/food_repository.dart';
 import 'package:hayat_eg/features/presentation/page/donation/food/view_food_donation_screen.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -35,6 +35,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
   var formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   int? categoryId;
+  int? cityId;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -229,54 +230,14 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
                             const SizedBox(
                               height: 15,
                             ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items: _cities!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Select city",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                _city.text = _cities!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id
-                                    .toString();
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is Required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
+                            CitiesDropMenu(
+                                cities: _cities ?? [],
+                                onSelectedCity: (value) => setState(() {
+                                      cityId = _cities!
+                                          .firstWhere((element) =>
+                                              element.arabicName == value)
+                                          .id;
+                                    })),
                             const SizedBox(
                               height: 10,
                             ),
@@ -692,7 +653,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
     final request = FoodDonationRequest(
         title: titleController.text,
         description: descriptionController.text,
-        cityId: int.parse(_city.text),
+        cityId: cityId,
         communicationMethod: communicationMethod.text,
         quantity: double.parse(quantityController.text),
         foodCategoryId: categoryId,

@@ -15,6 +15,7 @@ import 'package:hayat_eg/features/data/repository/CityRepository.dart';
 import 'package:hayat_eg/features/data/repository/donation/medicine/medicine_donation_repository.dart';
 import 'package:hayat_eg/features/data/repository/medicine/medicine_repository.dart';
 import 'package:hayat_eg/features/presentation/widgets/dialog/success_dialog.dart';
+import 'package:hayat_eg/features/presentation/widgets/donation/city_dropmenu.dart';
 import 'package:hayat_eg/injection_container.dart';
 import 'package:hayat_eg/layout/HayatLayout/LayOutCubit/HayatLayoutCubit.dart';
 import 'package:hayat_eg/layout/HayatLayout/LayOutCubit/LayoutState.dart';
@@ -33,6 +34,7 @@ class MedicineCategoryScreen extends StatefulWidget {
 }
 
 class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
+  int? medicineId;
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final _city = TextEditingController();
@@ -45,6 +47,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
   final medicineUnitController = TextEditingController();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   String? medicineName;
+  int? cityId;
+  int? unitId;
+  String? sItem;
 
   var formKey = GlobalKey<FormState>();
   Uint8List? _file;
@@ -176,45 +181,45 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                   onTap: () => _selectImage(context),
                                   child: _file == null
                                       ? Image.asset(
-                                          'assets/add-image.png',
-                                          width: 100,
-                                          height: 100,
-                                        )
+                                    'assets/add-image.png',
+                                    width: 100,
+                                    height: 100,
+                                  )
                                       : Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: 100,
-                                            height: 100,
-                                            child: AspectRatio(
-                                              aspectRatio: 478 / 451,
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    image: DecorationImage(
-                                                      image:
-                                                          MemoryImage(_file!),
-                                                      fit: BoxFit.fill,
-                                                      alignment:
-                                                          FractionalOffset
-                                                              .topCenter,
-                                                    )),
-                                              ),
-                                            ),
-                                          ),
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      width: 100,
+                                      height: 100,
+                                      child: AspectRatio(
+                                        aspectRatio: 478 / 451,
+                                        child: Container(
+                                          padding:
+                                          const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  10),
+                                              image: DecorationImage(
+                                                image:
+                                                MemoryImage(_file!),
+                                                fit: BoxFit.fill,
+                                                alignment:
+                                                FractionalOffset
+                                                    .topCenter,
+                                              )),
                                         ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 // const Spacer(),
                                 Expanded(
                                     child: requiredTextField(
-                                  controller: titleController,
-                                  hint: 'Title',
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'please inter title';
+                                      controller: titleController,
+                                      hint: 'Title',
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'please inter title';
                                     }
                                   },
                                 )),
@@ -225,54 +230,14 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                isFilterOnline: true,
-                                fit: FlexFit.loose,
-                                showSelectedItems: true,
-                                showSearchBox: true,
-                                menuProps: MenuProps(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0,
-                                ),
-                                favoriteItemProps: FavoriteItemProps(
-                                  showFavoriteItems: true,
-                                ),
-                              ),
-                              items: _cities!.map((e) => e.arabicName).toList(),
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  border: OutlineInputBorder(
-                                    gapPadding: 10,
-                                  ),
-                                  hintText: "Select city",
-                                ),
-                              ),
-                              onChanged: (value) => setState(() {
-                                _city.text = _cities!
-                                    .firstWhere((element) =>
-                                        element.arabicName == value)
-                                    .id
-                                    .toString();
-                              }),
-                              selectedItem: null,
-                              validator: (String? item) {
-                                if (item == null) {
-                                  return "City is required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
+                            CitiesDropMenu(
+                                cities: _cities ?? [],
+                                onSelectedCity: (value) => setState(() {
+                                      cityId = _cities!
+                                          .firstWhere((element) =>
+                                              element.arabicName == value)
+                                          .id;
+                                    })),
                             const SizedBox(
                               height: 10,
                             ),
@@ -291,15 +256,15 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                 ),
                               ),
                               items:
-                                  _medicines!.map((e) => e.arabicName).toList(),
+                              _medicines!.map((e) => e.arabicName).toList(),
                               dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
+                              const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
+                                      BorderRadius.all(Radius.circular(10)),
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       )),
@@ -312,7 +277,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                               onChanged: (value) => setState(() {
                                 medicineController.text = _medicines!
                                     .firstWhere((element) =>
-                                        element.arabicName == value)
+                                element.arabicName == value)
                                     .id
                                     .toString();
                               }),
@@ -330,10 +295,12 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                             ),
                             SizedBox(
                                 child: FutureBuilder<List<MedicineUnit>>(
-                              future: _medicineRepository.listUnits(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  List<MedicineUnit> units = snapshot.data!;
+                                  future: _medicineRepository.listUnits(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      List<MedicineUnit> units = snapshot.data!;
+
+                                  sItem = null;
                                   var selectedMedicineItem;
                                   return DropdownButtonFormField(
                                     hint: const Text('Medicine Unit'),
@@ -347,7 +314,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                       Icons.keyboard_arrow_down,
                                       size: 30,
                                     ),
-                                    value: selectedMedicineItem,
+                                    value: sItem,
                                     items: units
                                         .map((item) => DropdownMenuItem(
                                             value: jsonEncode(
@@ -357,29 +324,30 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                             )))
                                         .toList(),
                                     onChanged: (item) {
-                                      selectedMedicineItem = item;
+                                      sItem = item;
+                                      unitId = units[0].id;
                                     },
-                                    decoration: InputDecoration(
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
+                                        decoration: InputDecoration(
+                                            fillColor: Colors.white,
+                                            filled: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
                                               BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                              color: Colors.amber),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.white),
-                                            borderRadius:
+                                              borderSide: const BorderSide(
+                                                  color: Colors.amber),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    color: Colors.white),
+                                                borderRadius:
                                                 BorderRadius.circular(10))),
-                                  );
-                                } else {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                }
-                              },
-                            )),
+                                      );
+                                    } else {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                  },
+                                )),
                             const SizedBox(
                               height: 10,
                             ),
@@ -390,11 +358,11 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                   children: [
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       children: [
                                         Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               const Text(
                                                 'Medicine Amount',
@@ -410,9 +378,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                 width: size.width - 237,
                                                 child: requiredTextField(
                                                   controller:
-                                                      quantityController,
+                                                  quantityController,
                                                   keyboardType:
-                                                      TextInputType.number,
+                                                  TextInputType.number,
                                                   validator: (value) {
                                                     if (value!.isEmpty) {
                                                       return 'please inter amount';
@@ -427,11 +395,11 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                     const Spacer(),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             const Text(
                                               'Expiration Date',
@@ -448,7 +416,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                                 child: ExprirationDate(
                                                   hint: 'Please Inter Date',
                                                   controller:
-                                                      _medicineExpirationDateController,
+                                                  _medicineExpirationDateController,
                                                 )),
                                           ],
                                         ),
@@ -476,7 +444,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                               decoration: const BoxDecoration(
                                   color: Colors.white,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
+                                  BorderRadius.all(Radius.circular(10))),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -491,9 +459,9 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                               color: Colors.black45),
                                         ),
                                         controlAffinity:
-                                            ListTileControlAffinity.trailing,
+                                        ListTileControlAffinity.trailing,
                                         groupValue:
-                                            layoutCubit.communicationTool,
+                                        layoutCubit.communicationTool,
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
@@ -510,7 +478,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                         selectedTileColor: Colors.white,
                                         selected: true,
                                         controlAffinity:
-                                            ListTileControlAffinity.trailing,
+                                        ListTileControlAffinity.trailing,
                                         title: const Text(
                                           'Phone',
                                           style: TextStyle(
@@ -518,7 +486,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                               color: Colors.black45),
                                         ),
                                         groupValue:
-                                            layoutCubit.communicationTool,
+                                        layoutCubit.communicationTool,
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
@@ -535,7 +503,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                         value: 'Phone & Chat',
                                         activeColor: Colors.amber,
                                         controlAffinity:
-                                            ListTileControlAffinity.trailing,
+                                        ListTileControlAffinity.trailing,
                                         hoverColor: Colors.amber,
                                         title: const Text(
                                           'Phone & Chat',
@@ -544,7 +512,7 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                               color: Colors.black45),
                                         ),
                                         groupValue:
-                                            layoutCubit.communicationTool,
+                                        layoutCubit.communicationTool,
                                         onChanged: (value) {
                                           layoutCubit.communicationTool = value;
                                           layoutCubit.changRadioValue();
@@ -591,10 +559,10 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                             color: Colors.amber,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(10)),
+                                          BorderRadius.circular(10)),
                                       enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           borderSide: const BorderSide(
                                               color: Colors.white))),
                                 ),
@@ -609,19 +577,19 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
                                   },
                                   controller: telegramController,
                                   decoration: InputDecoration(
-                                      prefixIcon: Image.asset(
-                                        'assets/telegram.png',
-                                        scale: 28,
-                                      ),
-                                      hintText: 'Telegram',
-                                      filled: true,
-                                      fillColor: Colors.white,
+                                    prefixIcon: Image.asset(
+                                      'assets/telegram.png',
+                                      scale: 28,
+                                    ),
+                                    hintText: 'Telegram',
+                                    filled: true,
+                                    fillColor: Colors.white,
                                     border: OutlineInputBorder(
                                         borderSide: const BorderSide(
                                           color: Colors.amber,
                                         ),
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                        BorderRadius.circular(10)),
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: const BorderSide(
@@ -667,13 +635,13 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
     final request = MedicineDonationRequest(
       title: titleController.text,
       description: descriptionController.text,
-      cityId: _cities?[0].id,
+      cityId: cityId,
       communicationMethod: 'CHAT',
       quantity: double.parse(quantityController.text),
       telegramLink: "https://t.me/${telegramController.text}",
       whatsappLink: "https://wa.me/${watsAppController.text}",
       medicineId: _medicines?[0].id,
-      medicineUnitId: _medicineUnits?[0].id,
+      medicineUnitId: unitId,
       medicineExpirationDate: _medicineExpirationDateController.text,
     );
 
@@ -719,13 +687,13 @@ class _MedicineCategoryScreenState extends State<MedicineCategoryScreen> {
       _medicineDonationRepository
           .updateImage(id, _file as Uint8List)
           .then((value) => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MedicineDonationItemScreen(id: id),
-                  ),
-                )
-              });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MedicineDonationItemScreen(id: id),
+          ),
+        )
+      });
     } else {
       Navigator.push(
         context,

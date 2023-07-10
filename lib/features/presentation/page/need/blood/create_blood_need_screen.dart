@@ -33,6 +33,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final _city = TextEditingController();
+  int? cityId;
 
   var bloodTypeController = TextEditingController();
   var illnessController = TextEditingController();
@@ -213,13 +214,12 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
                               height: 10,
                             ),
                             CitiesDropMenu(
-                                cities: _cities!,
+                                cities: _cities ?? [],
                                 onSelectedCity: (value) => setState(() {
-                                      _city.text = _cities!
+                                      cityId = _cities!
                                           .firstWhere((element) =>
                                               element.arabicName == value)
-                                          .id
-                                          .toString();
+                                          .id;
                                     })),
                             const SizedBox(
                               height: 10,
@@ -552,7 +552,7 @@ class _CreateBloodNeedScreenState extends State<CreateBloodNeedScreen> {
     final request = BloodNeedRequest(
       title: titleController.text,
       description: descriptionController.text,
-      cityId: int.parse(_city.text),
+      cityId: cityId,
       communicationMethod: communicationMethod,
       age: int.parse(_ageController.text),
       bloodType: bloodTypeController.text,

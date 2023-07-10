@@ -172,7 +172,10 @@ Widget categoryProvider({
             padding: const EdgeInsetsDirectional.only(bottom: 8),
             child: Text(
               text.toUpperCase(),
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.white),
             ),
           ),
         ],
