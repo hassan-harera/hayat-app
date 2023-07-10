@@ -92,7 +92,7 @@ class MedicineDonationDataSource {
 
   Future<MedicineDonationResponse?> updateImage(int id, Uint8List file) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('$baseUrl/api/v1/donations/book/$id/images'));
+        'POST', Uri.parse('$baseUrl/api/v1/donations/medicine/$id/images'));
 
     request.files.add(http.MultipartFile.fromBytes('file', file,
         filename: 'image.jpg', contentType: MediaType('image', 'jpg')));
@@ -103,7 +103,6 @@ class MedicineDonationDataSource {
     final body = decodeJson(await response.stream.bytesToString());
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return MedicineDonationResponse.fromJson(jsonDecode(body));
     } else if (response.statusCode == 400) {
       throw BadRequestException(apiError: ApiError.fromJson(jsonDecode(body)));
     }

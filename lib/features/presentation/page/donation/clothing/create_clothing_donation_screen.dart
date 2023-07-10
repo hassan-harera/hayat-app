@@ -933,17 +933,18 @@ class _CreateClothingDonationScreen
     if (_file != null) {
       _clothingDonationRepository
           .updateImage(id, _file as Uint8List)
-          .then((value) => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return const SuccessDialog(
-                      message:
-                          'Your Donation Request has been sent successfully',
-                    );
-                  }),
-                )
-              });
+          .then((value) {
+        return {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const SuccessDialog(
+                message: 'Your Donation Request has been sent successfully',
+              );
+            }),
+          )
+        };
+      });
     } else {
       Navigator.push(
         context,

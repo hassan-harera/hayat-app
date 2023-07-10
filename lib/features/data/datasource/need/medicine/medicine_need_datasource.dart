@@ -90,7 +90,7 @@ class MedicineNeedDataSource {
 
   Future<MedicineNeedResponse?> updateImage(String id, Uint8List file) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('$baseUrl/api/v1/needs/book/$id/images'));
+        'POST', Uri.parse('$baseUrl/api/v1/needs/medicine/$id/images'));
 
     request.files.add(http.MultipartFile.fromBytes('file', file,
         filename: 'image.jpg', contentType: MediaType('image', 'jpg')));

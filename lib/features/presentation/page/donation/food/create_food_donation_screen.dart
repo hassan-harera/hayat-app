@@ -712,6 +712,7 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
       value as FoodDonationResponse;
       uploadImage(value.id as int);
     });
+
     response.onError((error, stackTrace) {
       if (error is BadRequestException) {
         showDialog(
@@ -736,18 +737,18 @@ class _CreateFoodDonationScreenState extends State<CreateFoodDonationScreen> {
     });
   }
 
-  uploadImage(int id) {
+  uploadImage(int id) async {
     if (_file != null) {
-      _foodDonationRepository
-          .updateImage(id, _file as Uint8List)
-          .then((value) => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FoodDonationItemScreen(id: id),
-                  ),
-                )
-              });
+      _foodDonationRepository.updateImage(id, _file as Uint8List).then((value) {
+        return {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FoodDonationItemScreen(id: id),
+            ),
+          )
+        };
+      });
     } else {
       Navigator.push(
         context,

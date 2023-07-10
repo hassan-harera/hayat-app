@@ -167,7 +167,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  _clothingDonation?.title ?? 'N/A',
+                                  _clothingDonation?.title ?? '',
                                   maxLines: 3,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -264,7 +264,7 @@ class _ClothesDonationItemScreenState extends State<ClothesDonationItemScreen> {
                           height: 10,
                         ),
                         Text(
-                          _clothingDonation?.description ?? 'N/A',
+                          _clothingDonation?.description ?? '',
                           maxLines: 1,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,

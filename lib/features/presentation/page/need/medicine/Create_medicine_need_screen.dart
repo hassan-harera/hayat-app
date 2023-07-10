@@ -606,6 +606,7 @@ class _AskMedicineNeedScreenState extends State<AskMedicineNeedScreen> {
       whatsappLink: 'https://wa.me/${watsAppController.text}',
       medicineId: _medicines?[0].id,
       medicineUnitId: _medicineUnits?[0].id,
+      quantity: int.parse(quantityController.text),
     );
 
     final response = _medicineNeedRepository.create(request);

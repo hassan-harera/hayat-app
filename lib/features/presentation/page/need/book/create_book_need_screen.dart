@@ -634,12 +634,10 @@ class _BookNeedFormScreenState extends State<BookNeedFormScreen> {
       });
 
       _bookNeedRepository.updateImage(id, _file as Uint8List).then((value) => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BookNeedDetailsScreen(id: id),
-              ),
-            )
+            Navigator.replace(context,
+                oldRoute: ModalRoute.of(context)!,
+                newRoute: MaterialPageRoute(
+                    builder: (context) => BookNeedDetailsScreen(id: id)))
           });
     } else {
       Navigator.push(

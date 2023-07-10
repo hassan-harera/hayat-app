@@ -91,7 +91,7 @@ class ClothingDonationDataSource {
 
   Future<ClothingDonationResponse?> updateImage(int id, Uint8List file) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('$baseUrl/api/v1/donations/book/$id/images'));
+        'POST', Uri.parse('$baseUrl/api/v1/donations/clothing/$id/images'));
 
     request.files.add(http.MultipartFile.fromBytes('file', file,
         filename: 'image.jpg', contentType: MediaType('image', 'jpg')));
@@ -102,7 +102,6 @@ class ClothingDonationDataSource {
     final body = (await response.stream.bytesToString());
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return ClothingDonationResponse.fromJson(decodeJson(body));
     } else if (response.statusCode == 400) {
       throw BadRequestException(apiError: ApiError.fromJson(jsonDecode(body)));
     }
