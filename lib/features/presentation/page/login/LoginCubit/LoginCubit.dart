@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hayat_eg/core/json/json_encoder.dart';
+import 'package:hayat_eg/features/data/model/user/user.dart';
 import 'package:hayat_eg/shared/network/endPoints/endPint.dart';
 import 'package:http/http.dart' as http;
 
@@ -72,7 +74,7 @@ class LoginCubit extends Cubit<LoginStates> {
     }
   }
 
-  void loginWithGoogle({
+  Future<void> loginWithGoogle({
     required String firebaseToken,
     required String? deviceToken,
   }) async {
@@ -82,14 +84,10 @@ class LoginCubit extends Cubit<LoginStates> {
         body: jsonEncode(
             {"firebase_token": firebaseToken, "device_token": deviceToken}),
         headers: {'Content-Type': 'application/json'});
-    var responseBode = jsonDecode(response.body);
+    var responseBody = jsonDecode(response.body);
 
-    if (responseBode['status'] == 'UNAUTHORIZED' ||
-        responseBode['status'] == 'BAD_REQUEST' ||
-        responseBode['status'] == 'UNSUPPORTED_MEDIA_TYPE') {
-      emit(GoogleLoginErrorState(responseBode['message']));
-    } else {
-      emit(GoogleLoginSuccessState(responseBode['token']));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      emit(GoogleLoginSuccessState(responseBody['token']));
     }
   }
 }

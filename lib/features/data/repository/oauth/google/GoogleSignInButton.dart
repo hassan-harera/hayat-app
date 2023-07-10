@@ -63,89 +63,62 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
         LoginCubit loginCubit = LoginCubit.get(context);
         return Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
-          child: _isSigningIn
-              ? Padding(
-                  padding: EdgeInsetsDirectional.only(
-                      start: size.width / 8, end: size.width / 8),
-                  child: CircularPercentIndicator(
-                    animation: true,
-                    animationDuration: 1000,
-                    radius: 25,
-                    backgroundColor: Colors.amber.shade200,
-                    percent: .99,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    center: Text(
-                      '${progressNumber()}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.amber),
-                    ),
-                    progressColor: Colors.amber,
-                    lineWidth: 5,
-                  ),
-                )
-              : OutlinedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                      ),
+          child: OutlinedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+              ),
+            ),
+            onPressed: () async {
+              User? user =
+                  await AuthenticationTest.signInWithGoogle(context: context);
+
+              print(user?.uid);
+              if (user != null) {
+                await loginCubit.loginWithGoogle(
+                    firebaseToken: await user.getIdToken(),
+                    deviceToken: deviceToken);
+
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => UserInfoScreen(
+                      user: user,
                     ),
                   ),
-                  onPressed: () async {
-                    setState(() {
-                      _isSigningIn = true;
-                    });
-
-                    User? user = await AuthenticationTest.signInWithGoogle(
-                        context: context);
-
-                    setState(() {
-                      _isSigningIn = false;
-                    });
-
-                    if (user != null) {
-                      loginCubit.loginWithGoogle(
-                          firebaseToken: await user.getIdToken(),
-                          deviceToken: deviceToken);
-
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => UserInfoScreen(
-                            user: user,
+                );
+              }
+            },
+            child: const Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: SizedBox(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image(
+                      image: AssetImage("assets/google.png"),
+                      height: 30.0,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Text(
+                          'Google Sign in ',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black54,
                           ),
                         ),
-                      );
-                    }
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    child: SizedBox(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image(
-                            image: AssetImage("assets/google.png"),
-                            height: 30.0,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5),
-                              child: Text(
-                                'Google Sign in ',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
                       ),
-                    ),
-                  ),
+                    )
+                  ],
                 ),
+              ),
+            ),
+          ),
         );
       },
     );
