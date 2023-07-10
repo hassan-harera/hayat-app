@@ -30,3 +30,17 @@ class LoginSearchErrorState extends LoginStates {
 
   LoginSearchErrorState(this.error);
 }
+
+class GoogleLoginLoadingState extends LoginStates {}
+
+class GoogleLoginSuccessState extends LoginStates {
+  final String token;
+
+  GoogleLoginSuccessState(this.token);
+}
+
+class GoogleLoginErrorState extends LoginStates {
+  final String error;
+
+  GoogleLoginErrorState(this.error);
+}

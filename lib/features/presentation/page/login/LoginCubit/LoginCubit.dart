@@ -71,4 +71,25 @@ class LoginCubit extends Cubit<LoginStates> {
       emit(LoginSuccessState(responseBode['token']));
     }
   }
+
+  void loginWithGoogle({
+    required String firebaseToken,
+    required String? deviceToken,
+  }) async {
+    emit(GoogleLoginLoadingState());
+    http.Response response = await http.post(
+        Uri.parse('$baseUrl/api/v1/oauth/login'),
+        body: jsonEncode(
+            {"firebase_token": firebaseToken, "device_token": deviceToken}),
+        headers: {'Content-Type': 'application/json'});
+    var responseBode = jsonDecode(response.body);
+
+    if (responseBode['status'] == 'UNAUTHORIZED' ||
+        responseBode['status'] == 'BAD_REQUEST' ||
+        responseBode['status'] == 'UNSUPPORTED_MEDIA_TYPE') {
+      emit(GoogleLoginErrorState(responseBode['message']));
+    } else {
+      emit(GoogleLoginSuccessState(responseBode['token']));
+    }
+  }
 }
